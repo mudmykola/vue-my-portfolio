@@ -1,3 +1,16 @@
+<script setup>
+import { temperature, weatherDescription, weatherIconUrl, city, fetchWeatherData, chooseLocation } from './weatherData.js';
+import { ref, onMounted } from 'vue';
+
+const loading = ref(true);
+
+onMounted(() => {
+  fetchWeatherData().then(() => {
+    loading.value = false;
+  });
+});
+</script>
+
 <template>
   <div class="weather flex items-center p-[10px] rounded-[10px]" v-if="!loading && weatherIconUrl">
 
@@ -20,18 +33,7 @@
   </div>
 </template>
 
-<script setup>
-import { temperature, weatherDescription, weatherIconUrl, city, fetchWeatherData, chooseLocation } from './weatherData.js';
-import { ref, onMounted } from 'vue';
 
-const loading = ref(true);
-
-onMounted(() => {
-  fetchWeatherData().then(() => {
-    loading.value = false;
-  });
-});
-</script>
 
 <style scoped>
 button {

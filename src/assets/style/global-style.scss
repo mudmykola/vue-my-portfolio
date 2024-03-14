@@ -1,0 +1,12 @@
+.container-centered {
+  width: 80%;
+  height: 85%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 70, 120, 0.85);
+  border: 1px solid rgba(1, 47, 81, 0.75);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+}

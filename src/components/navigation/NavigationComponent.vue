@@ -1,6 +1,10 @@
 <script setup>
-import { avatarUrl, firstName, lastName, menuItems, isCurrentRoute } from './navigationData.js';
+import { avatarUrl, firstName, lastName, menuItems, isCurrentRoute, playClickSound } from './navigationData.js';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+const handleItemClick = (item) => {
+  playClickSound();
+};
 </script>
 
 <template>
@@ -14,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     </div>
     <nav>
       <ul class="space-y-1">
-        <li v-for="item in menuItems" :key="item.id">
+        <li v-for="item in menuItems" :key="item.id" @click="handleItemClick(item)">
           <router-link :to="item.link" class="block w-full py-2 px-4 rounded-lg transition-all duration-300 ease-in-out"
                        :class="{ 'bg-gray-700': isCurrentRoute(item.link) }">
             <div class="flex items-center space-x-2">
