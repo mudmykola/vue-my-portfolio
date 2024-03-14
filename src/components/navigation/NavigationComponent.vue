@@ -1,3 +1,8 @@
+<script setup>
+import { avatarUrl, firstName, lastName, menuItems, isCurrentRoute } from './navigationData.js';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+</script>
+
 <template>
   <div class="navigation-panel flex flex-col items-center py-8 px-2 bg-gray-900 text-white">
     <div class="mb-8">
@@ -22,11 +27,6 @@
     </nav>
   </div>
 </template>
-
-<script setup>
-import { avatarUrl, firstName, lastName, menuItems, isCurrentRoute } from './navigationData.js';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-</script>
 
 <style scoped>
 @import "style.css";

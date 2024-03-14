@@ -1,0 +1,27 @@
+.clock{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &-widget{
+    font-family: 'Helvetica Neue', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  &-time{
+    font-size: 72px;
+    line-height: 72px;
+    font-weight: bold;
+    color: #ffff;
+  }
+  &-date{
+    font-size: 30px;
+    color: #ca0de1;
+    padding-right: 10px;
+  }
+  &-widget__icon {
+    font-size: 24px;
+    color: #ca0de1;
+  }
+}
