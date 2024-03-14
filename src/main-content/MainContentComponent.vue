@@ -4,6 +4,7 @@ import HomeComponent from "@/components/home-content/HomeComponent.vue";
 
 <template>
   <div class="main-bg">
+
     <HomeComponent/>
   </div>
 </template>

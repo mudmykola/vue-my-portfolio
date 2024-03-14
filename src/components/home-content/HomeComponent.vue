@@ -1,3 +1,7 @@
+<script setup>
+import { fullName, title, transitioning } from './homeData.js';
+</script>
+
 <template>
   <div class="home flex justify-center items-center h-screen bg-gray-100">
     <div class="home-box relative rounded-lg p-8 shadow-md w-96 animate__animated animate__backInRight">
@@ -9,10 +13,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { fullName, title, transitioning } from './homeData.js';
-</script>
 
 <style>
 @import "style.css";

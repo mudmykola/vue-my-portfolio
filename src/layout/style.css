@@ -1,0 +1,17 @@
+.wrapper {
+    min-height: 100vh;
+}
+
+.navigation {
+    flex-shrink: 0;
+}
+.main {
+    overflow-y: auto;
+    background-image: url("../assets/images/bg.webp");
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 100vh;
+}
