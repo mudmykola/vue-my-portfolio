@@ -11,7 +11,7 @@ import WeatherWidget from "@/widget/weather/WeatherWidget.vue";
         <NavigationComponent/>
       </div>
       <main class="main flex-grow overflow-hidden">
-        <div class="main-widget absolute right-0 px-4 py-4">
+        <div class="main-widget flex flex-col items-center absolute right-0 px-4 py-4">
           <ClockWidget/>
           <WeatherWidget/>
         </div>
