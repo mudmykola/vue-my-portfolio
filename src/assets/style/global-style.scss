@@ -1,5 +1,5 @@
 .container-centered {
-  width: 80%;
+  width: 86%;
   height: 85%;
   position: fixed;
   transform: translate(-50%, -50%);
@@ -9,4 +9,21 @@
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
+  scrollbar-color: rgb(202, 13, 225) rgb(110, 2, 121);
+}
+.container-centered::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container-centered::-webkit-scrollbar-thumb {
+  background-color: rgb(202, 13, 225);
+  border-radius: 4px;
+}
+
+.container-centered::-webkit-scrollbar-track {
+  background-color: rgb(110, 2, 121);
+}
+
+.container-centered {
+  scrollbar-width: thin;
 }
