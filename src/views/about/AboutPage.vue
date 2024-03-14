@@ -1,13 +1,14 @@
 <script setup>
 import MainLayoutComponent from "@/layout/MainLayoutComponent.vue";
+import AboutComponent from "@/components/about/AboutComponent.vue";
 </script>
 
 <template>
-<div>
-  <MainLayoutComponent>
-
-  </MainLayoutComponent>
-</div>
+  <div>
+    <MainLayoutComponent>
+      <AboutComponent/>
+    </MainLayoutComponent>
+  </div>
 </template>
 
 <style scoped>

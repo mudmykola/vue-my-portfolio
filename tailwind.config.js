@@ -5,6 +5,7 @@ export default {
     './src/**/*.{vue,js,ts,jsx,tsx}'
   ],
   theme: {
+
     colors: {
       'c100': '#004577',
       'c101': '#C98660',
@@ -23,8 +24,10 @@ export default {
       fontWeight: {
         normal: 400,
         bold: 600
-      }
+      },
+
     }
   },
-  plugins: []
+  plugins: [],
+
 }

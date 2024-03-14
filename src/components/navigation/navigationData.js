@@ -18,3 +18,8 @@ export const isCurrentRoute = (route) => {
     const currentRoute = useRoute();
     return currentRoute.path === route;
 };
+
+export const playClickSound = () => {
+    const audio = new Audio('src/assets/audio/rclick.mp3');
+    audio.play();
+};
