@@ -9,8 +9,6 @@ const aboutSubTitleItem = ref([
   {id: 2, text: 'Manager,'},
   {id: 3, text: 'Creative Person'},
 ])
-
-
 </script>
 
 <template>

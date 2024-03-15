@@ -9,8 +9,8 @@ const handleItemClick = (item) => {
 
 <template>
   <div class="navigation-panel flex flex-col items-center py-8 px-2 bg-gray-900 text-white">
-    <div class="mb-8">
-      <img :src="avatarUrl" alt="Avatar" class="w-16 h-16 rounded-full mb-2">
+    <div class="navigation-panel__avatar mb-8">
+      <img  :src="avatarUrl" alt="avatar" class=" rounded w-20 h-20 mb-2">
       <div class="text-center">
         <p class="text-lg font-bold">{{ firstName }}</p>
         <p class="text-lg font-bold">{{ lastName }}</p>
@@ -32,6 +32,6 @@ const handleItemClick = (item) => {
   </div>
 </template>
 
-<style scoped>
-@import "style.css";
+<style lang="scss">
+@import "style.scss";
 </style>
