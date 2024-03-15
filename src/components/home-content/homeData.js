@@ -4,7 +4,7 @@ import { useIntervalFn } from '@vueuse/core';
 export const fullName = ref('Mykola Mud');
 
 export const titles = [
-    'Front End Engineer',
+    'Software Engineer',
     'Vue | Nuxt Engineer',
     'Shopify E-Commerce Developer'
 ];

@@ -11,7 +11,7 @@ const rotateImage = (event) => {
   const rotationY = `${x * -10}deg`
   image.style.transform = `rotateX(${rotationX}) rotateY(${rotationY})`
 }
-const aboutInfoTitle = ref('I am Front End Engineer @ Ecom-X')
+const aboutInfoTitle = ref('I am Software Engineer @ Ecom-X')
 
 const aboutInfoDesc = ref([
   {id: 1, text: "I specialize in creating high-quality and intuitive interfaces. I have experience working with clients in various industries, as well as experience in Agile/Scrum methodology."},
