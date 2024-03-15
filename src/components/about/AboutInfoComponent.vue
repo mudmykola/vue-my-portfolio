@@ -25,9 +25,9 @@ const aboutInfoDesc = ref([
     <div class="about-info__avatar" @mousemove="rotateImage">
       <img width="300" height="300" class="rounded" :src="aboutAvatar" alt="">
     </div>
-    <div class="about-info__text ml-10 w-[450px]" >
+    <div class="about-info__text ml-10 w-[500px]" >
       <h1 class="text-2xl font-medium mb-2">{{ aboutInfoTitle }}</h1>
-      <p class="font-light leading-[17px] mb-3 opacity-80" v-for="item in aboutInfoDesc" :key="item.id">{{ item.text}}</p>
+      <p class="font-light leading-[18px] mb-3 opacity-80" v-for="item in aboutInfoDesc" :key="item.id">{{ item.text}}</p>
     </div>
   </div>
 </template>

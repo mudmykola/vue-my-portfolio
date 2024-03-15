@@ -1,0 +1,97 @@
+.about-contact {
+  &__box{
+    margin: 0 auto;
+  }
+  &__features{
+    li{
+      margin-bottom: 10px;
+      strong{
+        position: relative;
+        margin-right: 10px;
+        padding-bottom: 3px;
+
+      }
+    }
+  }
+  &__age--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  &__residence--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  &__address--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  &__phone--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  &__skype--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  &__email--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+    a{
+      color: #ca0de1;
+      text-decoration: none;
+    }
+  }
+  &__freelance--info{
+    strong:after{
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 3px !important;
+      background: #ca0de1;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}

@@ -21,6 +21,6 @@ import WeatherWidget from "@/widget/weather/WeatherWidget.vue";
   </div>
 </template>
 
-<style scoped>
-@import "style.css";
+<style lang="scss">
+@import "style.scss";
 </style>

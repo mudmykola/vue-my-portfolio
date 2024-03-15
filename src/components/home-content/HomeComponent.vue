@@ -14,7 +14,7 @@ import { fullName, title, transitioning } from './homeData.js';
   </div>
 </template>
 
-<style>
-@import "style.css";
+<style lang="scss">
+@import "style.scss";
 @import "animate.css";
 </style>
