@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import AboutInfoComponent from "@/components/about/AboutInfoComponent.vue";
 import AboutContactComponent from "@/components/about/AboutContactComponent.vue";
+import AboutServiceComponent from "@/components/about/AboutServiceComponent.vue";
 
 const aboutTitle = ref('About Me')
 const aboutSubTitleItem = ref([
@@ -25,6 +26,9 @@ const aboutSubTitleItem = ref([
       <div class="about-info flex justify-between mt-7">
         <AboutInfoComponent/>
         <AboutContactComponent/>
+      </div>
+      <div class="about-service">
+        <AboutServiceComponent/>
       </div>
     </div>
   </div>
