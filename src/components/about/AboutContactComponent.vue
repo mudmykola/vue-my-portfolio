@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
 const contactInfo = [
   { label: 'Age', value: calculateAge(new Date('1988-04-18')), class: 'about-contact__age--info' },
   { label: 'Residence', value: 'Ukraine', class: 'about-contact__residence--info' },
