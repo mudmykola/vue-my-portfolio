@@ -5,7 +5,7 @@ const serviceTitle = ref('Services')
 const servicesItem = ref([
   {
     image: 'service-1.png',
-    title: 'Web application development',
+    title: 'Web site development',
     desc: 'Developing the client side of a web application, which is responsible for the visual interface and user experience. '
   },
   {
@@ -31,12 +31,12 @@ const servicesItem = ref([
 <div class="services-title text-2xl font-bold">
   <h2>{{ serviceTitle }}</h2>
 </div>
-  <div class="services-inner mt-8">
-    <ul class="flex items-center gap-5">
+  <div class="services-inner mt-5">
+    <ul class="flex items-baseline gap-5 justify-center">
       <li class="text-center w-[300px] flex flex-col items-center" v-for="(service, index) in servicesItem" :key="index">
-        <img width="150" height="1500" :src="`src/assets/images/${service.image}`" :alt="service.title" loading="lazy">
+        <img width="150" height="150" :src="`src/assets/images/${service.image}`" :alt="service.title" loading="lazy">
         <h3 class="text-[20px] font-bold leading-5 capitalize mt-2" >{{ service.title}}</h3>
-        <p class="text-[16px] leading-5 font-light mt-2 opacity-80">{{ service.desc }}</p>
+        <p class="text-[16px]  leading-5 font-light mt-2 opacity-80">{{ service.desc }}</p>
       </li>
     </ul>
   </div>
@@ -44,22 +44,5 @@ const servicesItem = ref([
 </template>
 
 <style scoped lang="scss">
-.services{
-  &-title{
-    h2{
-      position: relative;
-      padding-left: 10px;
-    }
-    h2:after{
-      position: absolute;
-      content: '';
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 2px;
-      background: #ca0de1;
-
-    }
-  }
-}
+@import "style";
 </style>
