@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import AboutInfoComponent from "@/components/about/AboutInfoComponent.vue";
 import AboutContactComponent from "@/components/about/AboutContactComponent.vue";
 import AboutServiceComponent from "@/components/about/AboutServiceComponent.vue";
+import AboutClientComponent from "@/components/about/AboutClientComponent.vue";
 
 const aboutTitle = ref('About Me')
 const aboutSubTitleItem = ref([
@@ -29,6 +30,9 @@ const aboutSubTitleItem = ref([
       </div>
       <div class="about-service">
         <AboutServiceComponent/>
+      </div>
+      <div class="about-client">
+        <AboutClientComponent/>
       </div>
     </div>
   </div>

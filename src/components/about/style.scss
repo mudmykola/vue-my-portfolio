@@ -95,3 +95,36 @@
     }
   }
 }
+.services{
+  &-title{
+    h2{
+      position: relative;
+      padding-left: 10px;
+    }
+    h2:after{
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: #ca0de1;
+
+    }
+  }
+}
+.clients{
+  &-logo{
+    li{
+      background: #ffff;
+      opacity: .4;
+      padding: 0xp 10px;
+      border-radius: 5px;
+      transition: all .5s ease;
+      &:hover{
+        opacity: 1;
+        transition: all .3s ease;
+      }
+    }
+  }
+}
