@@ -3,17 +3,17 @@ import { ref } from 'vue'
 const clientTitle = ref('Clients')
 
 const clientItem = ref([
-  {image: 'Frame 141.png'},
-  {image: 'Frame 142.png'},
-  {image: 'Frame 143.png'},
-  {image: 'Frame 144.png'},
-  {image: 'Frame 145.png'},
-  {image: 'Frame 146.png'}
+  {image: 'Frame 147.png'},
+  {image: 'Frame 148.png'},
+  {image: 'Frame 149.png'},
+  {image: 'Frame 150.png'},
+  {image: 'Frame 153.png'},
+  {image: 'Frame 152.png'}
 ])
 </script>
 
 <template>
-<div class="services clients mt-5">
+<div class="services clients mt-10">
   <div class="services-title clients-title text-2xl font-bold">
     <h2>{{ clientTitle }}</h2>
   </div>

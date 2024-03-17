@@ -4,6 +4,7 @@ import AboutInfoComponent from "@/components/about/AboutInfoComponent.vue";
 import AboutContactComponent from "@/components/about/AboutContactComponent.vue";
 import AboutServiceComponent from "@/components/about/AboutServiceComponent.vue";
 import AboutClientComponent from "@/components/about/AboutClientComponent.vue";
+import AboutTestimonialsComponent from "@/components/about/AboutTestimonialsComponent.vue";
 
 const aboutTitle = ref('About Me')
 const aboutSubTitleItem = ref([
@@ -33,6 +34,9 @@ const aboutSubTitleItem = ref([
       </div>
       <div class="about-client">
         <AboutClientComponent/>
+      </div>
+      <div class="about-testimonials">
+        <AboutTestimonialsComponent/>
       </div>
     </div>
   </div>
