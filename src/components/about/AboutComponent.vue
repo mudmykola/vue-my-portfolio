@@ -5,6 +5,7 @@ import AboutContactComponent from "@/components/about/AboutContactComponent.vue"
 import AboutServiceComponent from "@/components/about/AboutServiceComponent.vue";
 import AboutClientComponent from "@/components/about/AboutClientComponent.vue";
 import AboutTestimonialsComponent from "@/components/about/AboutTestimonialsComponent.vue";
+import AboutFunComponent from "@/components/about/AboutFunComponent.vue";
 
 const aboutTitle = ref('About Me')
 const aboutSubTitleItem = ref([
@@ -37,6 +38,9 @@ const aboutSubTitleItem = ref([
       </div>
       <div class="about-testimonials">
         <AboutTestimonialsComponent/>
+      </div>
+      <div class="about-fun">
+        <AboutFunComponent/>
       </div>
     </div>
   </div>
