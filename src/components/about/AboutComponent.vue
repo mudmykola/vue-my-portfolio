@@ -8,6 +8,11 @@ import AboutTestimonialsComponent from "@/components/about/AboutTestimonialsComp
 import AboutFunComponent from "@/components/about/AboutFunComponent.vue";
 
 const aboutTitle = ref('About Me')
+const clientsTitle = ref('Clients')
+const funTitle = ref ('Fun Facts')
+const servicesTitle = ref ('Services')
+const testimonialsTitle = ref ('Testimonials')
+
 const aboutSubTitleItem = ref([
   {id: 1, text: 'Developer,'},
   {id: 2, text: 'Manager,'},
@@ -31,16 +36,16 @@ const aboutSubTitleItem = ref([
         <AboutContactComponent/>
       </div>
       <div class="about-service">
-        <AboutServiceComponent/>
+        <AboutServiceComponent :title="servicesTitle"/>
       </div>
       <div class="about-client">
-        <AboutClientComponent/>
+        <AboutClientComponent :title="clientsTitle"/>
       </div>
       <div class="about-testimonials">
-        <AboutTestimonialsComponent/>
+        <AboutTestimonialsComponent :title="testimonialsTitle"/>
       </div>
       <div class="about-fun">
-        <AboutFunComponent/>
+        <AboutFunComponent :title="funTitle"/>
       </div>
     </div>
   </div>
@@ -48,23 +53,5 @@ const aboutSubTitleItem = ref([
 
 <style lang="scss" scoped>
 @import "animate.css";
-
-.about {
-  &-title {
-    h1 {
-      color: #bcbcbc;
-    }
-  }
-  &-subtitle {
-    padding: 2px 4px;
-    border-radius: 1px;
-    background: rgba(202, 13, 225, 0.75);
-
-    p{
-      color: #efeeee;
-      font-weight: 400;
-
-    }
-  }
-}
+@import "style";
 </style>

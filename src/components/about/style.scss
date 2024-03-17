@@ -96,6 +96,24 @@
     }
   }
 }
+.about {
+  &-title {
+    h1 {
+      color: #bcbcbc;
+    }
+  }
+  &-subtitle {
+    padding: 2px 4px;
+    border-radius: 1px;
+    background: rgba(202, 13, 225, 0.75);
+
+    p{
+      color: #efeeee;
+      font-weight: 400;
+
+    }
+  }
+}
 .services{
   &-title{
     h2{

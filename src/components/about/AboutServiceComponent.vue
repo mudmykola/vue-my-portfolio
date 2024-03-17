@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-const serviceTitle = ref('Services')
 
+const props = defineProps( ({
+  title: String
+}))
 const servicesItem = ref([
   {
     image: 'service-1.png',
@@ -29,7 +31,7 @@ const servicesItem = ref([
 <template>
 <div class="services mt-5">
 <div class="services-title text-2xl font-bold">
-  <h2>{{ serviceTitle }}</h2>
+  <h2>{{ title }}</h2>
 </div>
   <div class="services-inner mt-5">
     <ul class="flex items-baseline gap-5 justify-center">

@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-const clientTitle = ref('Clients')
+const props = defineProps( ({
+  title: String
+}))
 
 const clientItem = ref([
   {image: 'Frame 147.png'},
@@ -15,7 +17,7 @@ const clientItem = ref([
 <template>
 <div class="services clients mt-10">
   <div class="services-title clients-title text-2xl font-bold">
-    <h2>{{ clientTitle }}</h2>
+    <h2>{{ title }}</h2>
   </div>
   <div class="clients-logo mt-5">
     <ul class="flex items-center justify-between">
