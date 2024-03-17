@@ -6,15 +6,15 @@ import { useTestimonialsStore } from '@/stores/testimonial.js';
 
 const store = useTestimonialsStore();
 
-const testimonialsTitle = ref('Testimonials');
-
-
+const props = defineProps( ({
+  title: String
+}))
 </script>
 
 <template>
   <div class="services mt-10 testimonial">
     <div class="services-title testimonial-title text-2xl font-bold">
-      <h2>{{ testimonialsTitle }}</h2>
+      <h2>{{ title }}</h2>
     </div>
     <div class="testimonial-inner mt-5">
       <Swiper>

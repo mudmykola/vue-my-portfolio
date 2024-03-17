@@ -1,7 +1,9 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 
-const funTitle = ref('Fun Facts');
+const props = defineProps( ({
+  title: String
+}))
 
 const facts = ref([
   { title: 'Happy Clients', value: 1024, image: 'src/assets/images/heppy-customer.png' },
@@ -33,7 +35,7 @@ watchEffect(() => {
 <template>
   <div class="fun services mt-10">
     <div class="services-title fun-title text-2xl font-bold">
-      <h2>{{ funTitle }}</h2>
+      <h2>{{ title }}</h2>
     </div>
     <div class="fun-inner mt-5">
       <ul class="flex items-center justify-between">
