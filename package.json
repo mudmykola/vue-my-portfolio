@@ -19,6 +19,7 @@
     "animate.css": "^4.1.1",
     "axios": "^1.6.7",
     "pinia": "^2.1.7",
+    "swiper": "^11.0.7",
     "vue": "^3.4.21",
     "vue-icons": "^2.0.0",
     "vue-router": "^4.3.0",

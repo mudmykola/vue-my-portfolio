@@ -5,6 +5,7 @@
   &__features{
     li{
       margin-bottom: 10px;
+
       strong{
         position: relative;
         margin-right: 10px;
@@ -116,15 +117,43 @@
 .clients{
   &-logo{
     li{
-      background: #ffff;
-      opacity: .4;
-      padding: 0xp 10px;
+      cursor: pointer;
+      opacity: 1;
+      background: rgba(225, 189, 4, 0.6);
       border-radius: 5px;
       transition: all .5s ease;
+      border: 1px solid transparent;
+
+      img{
+        padding: 5px 10px;
+      }
       &:hover{
-        opacity: 1;
+        background: rgb(225, 189, 4);
         transition: all .3s ease;
+     border: 1px solid #ca0de1;
+        box-shadow: 10px 10px 54px -18px rgba(255,117,255,1);
       }
     }
+  }
+}
+.testimonial{
+&-item{
+  cursor: pointer;
+  width: 400px;
+  border: 1px solid rgba(239, 238, 238, 0.73);
+  background: #00345a;
+  height:185px;
+  transition: all .5s linear;
+  &:hover{
+    transition: all .3s linear;
+    box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
+  }
+}
+  &-company{
+    background: rgba(202, 13, 225, 0.6);
+    padding: 2px 5px;
+    font-size: 13px;
+    width: max-content;
+
   }
 }
