@@ -157,3 +157,23 @@
 
   }
 }
+
+.fun{
+  &-inner{
+    li{
+      cursor: pointer;
+      border: 1px solid rgba(239, 238, 238, 0.73);
+      background: #00345a;
+      transition: all 0.5s ease;
+      &:hover{
+        transition: all 0.3s ease;
+        background: #6e0279;
+       padding-top: 2px;
+        transform: rotate(-1deg);
+      }
+      p{
+        box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
+      }
+    }
+  }
+}
