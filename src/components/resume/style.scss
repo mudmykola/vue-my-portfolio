@@ -11,6 +11,21 @@
     p{
       color: #efeeee;
       font-weight: 400;
+
     }
+  }
+}
+.education{
+  &-inner{
+    ul{
+      border-left: 1px solid rgba(99, 99, 99, 0.75);
+    }
+  }
+  &-year{
+    position: relative;
+    background: #6e0279;
+    width: max-content;
+    padding: 1px 5px;
+    border: 1px solid rgba(99, 99, 99, 0.75);
   }
 }
