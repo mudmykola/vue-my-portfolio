@@ -27,3 +27,22 @@
 .container-centered {
   scrollbar-width: thin;
 }
+.global{
+  &-title{
+    h2{
+      position: relative;
+      padding-left: 10px;
+      color: #fff;
+    }
+    h2:after{
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: #ca0de1;
+
+    }
+  }
+}
