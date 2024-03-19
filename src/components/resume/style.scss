@@ -43,3 +43,36 @@
     border: 1px solid rgba(99, 99, 99, 0.75);
   }
 }
+.frontend{
+  &-inner{
+    li{
+      h3{
+        background: #ca0de1;
+        padding: 1px 3px;
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.tools{
+  &-inner{
+    li{
+      h3{
+        background: #ca0de1;
+        padding: 1px 3px;
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.backend{
+  &-inner{
+    li{
+      h3{
+        background: #ca0de1;
+        padding: 1px 3px;
+        border-radius: 3px;
+      }
+    }
+  }
+}

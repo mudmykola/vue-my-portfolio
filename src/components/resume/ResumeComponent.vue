@@ -2,6 +2,7 @@
 import {ref} from "vue";
 import ResumeEducationComponent from "@/components/resume/ResumeEducationComponent.vue";
 import ResumeExperienceComponent from "@/components/resume/ResumeExperienceComponent.vue";
+import ResumeSkillComponent from "@/components/resume/ResumeSkillComponent.vue";
 
 const resumeTitle = ref('Resume')
 const educationTitle = ref('Education')
@@ -36,6 +37,7 @@ const experienceItems = ref([
       <div class="resume-list flex items-baseline gap-5">
         <ResumeEducationComponent :educationTitle="educationTitle" :items="educationItems"/>
         <ResumeExperienceComponent :experienceTitle="experienceTitle" :items="experienceItems"/>
+        <ResumeSkillComponent/>
       </div>
     </div>
   </div>
