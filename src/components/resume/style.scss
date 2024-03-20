@@ -65,14 +65,24 @@
     }
   }
 }
-.backend{
-  &-inner{
-    li{
-      h3{
-        background: #ca0de1;
-        padding: 1px 3px;
-        border-radius: 3px;
-      }
+
+.tools-download__cv {
+  width: max-content;
+  transition:  all .5s ease;
+  border-radius: 3px;
+  background: #000;
+  button{
+    padding: 10px 15px;
+    margin: 0;
+    transition:  all .5s ease;
+  }
+  &:hover{
+    background: #E1BD04;
+
+transition:  all .3s ease;
+    button{
+      color: #000;
+      transition:  all .3s ease;
     }
   }
 }

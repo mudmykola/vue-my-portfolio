@@ -17,7 +17,7 @@ const educationItems = ref([
 ]);
 
 const experienceItems = ref([
-  { year: "2023 - Up to now", title: "Front End Engineer Shopify E-Commerce | Vue | Nuxt", institution: "Ecom-X Company", description: "Development and implementation of user interfaces for e-commerce on the Shopify platform, using Vue.js and Nuxt.js technologies." },
+  { year: "2023 - Up to now", title: "Front End Engineer Shopify E-Commerce | Vue | Nuxt", institution: "Ecom-X Company", description: "Development and implementation of user interfaces for e-commerce on the Shopify platform, using Vue.js and Nuxt.js." },
   { year: "2023", title: "Front End Engineer Vue Composition API", institution: "Dozor Product Company", description: "Code optimization, changing the logic to the Composition API, working with GraphQL. " },
   { year: "2022 - 2023", title: "Development of a company website", institution: "Freelance project AWW Company", description: "Development and implementation of interface components such as menus, carousels, order forms, product filters, etc. " },
 ]);

@@ -4,6 +4,15 @@ const props = defineProps( ({
   skillToolsTitle: String,
   itemsTools: Array
 }))
+
+const downloadCV = () => {
+  const link = document.createElement('a');
+  link.href = props.cvPath;
+  link.download = 'src/assets/download/Mykola Mud` - Front-End (Vue.js)  Engineer - CV.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 </script>
 
 <template>
@@ -17,6 +26,9 @@ const props = defineProps( ({
           <h3 class="text-default font-bold text-[14px">{{ tech.name }}</h3>
         </li>
       </ul>
+    </div>
+    <div class="tools-download__cv mt-5" >
+      <button class="text-default  font-bold" @click="downloadCV">Download CV</button>
     </div>
   </div>
 </template>
