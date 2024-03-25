@@ -1,0 +1,146 @@
+.portfolio{
+  &-title {
+    h1 {
+      color: #bcbcbc;
+    }
+  }
+  &-subtitle {
+    padding: 2px 4px;
+    border-radius: 1px;
+    background: rgba(202, 13, 225, 0.75);
+    p{
+      color: #efeeee;
+      font-weight: 400;
+    }
+  }
+  &-inner{
+    &__filter{
+      margin: 30px 0;
+      li{
+        background: #E1BD04;
+        padding: 3px 5px;
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.project-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.details-group{
+  &__desc{
+    h2{
+      position: relative;
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+  }
+  &__tech{
+    h2{
+      position: relative;
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+  }
+&__link{
+  h2{
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+}
+.details-group{
+  &__desc{
+    h2:after{
+      position: absolute;
+      content: '';
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: #ca0de1;
+    }
+  }
+&__tech{
+  h2:after{
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #ca0de1;
+  }
+  p{
+
+    background: #ca0de1;
+    width: max-content;
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+}
+&__link{
+  h2:after{
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #ca0de1;
+  }
+  a{
+    color: #6e0279;
+  }
+}
+}
+
+.modal-content {
+  background-color: #fefefe;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #888;
+  width: 100%;
+
+
+  .modal-wrapper {
+    display: flex;
+
+    .slider {
+      flex: 1;
+    }
+
+    .project-details {
+      flex: 1;
+      padding: 0 20px;
+
+      .details-group {
+
+      }
+    }
+  }
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+
+  &:hover,
+  &:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

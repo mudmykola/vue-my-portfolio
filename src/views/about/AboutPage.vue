@@ -10,7 +10,3 @@ import AboutComponent from "@/components/about/AboutComponent.vue";
     </MainLayoutComponent>
   </div>
 </template>
-
-<style scoped>
-
-</style>
