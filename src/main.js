@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 
+
 library.add(faGithub, faInstagram, faLinkedin);
 
 import App from './App.vue'
