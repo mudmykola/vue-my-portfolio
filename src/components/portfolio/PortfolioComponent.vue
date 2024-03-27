@@ -7,7 +7,7 @@ const portfolioSubTitleItem = ref('My Best Works')
 </script>
 
 <template>
-  <div class="portfolio top-[11%] left-[12%]  container-centered  animate__animated animate__backInUp">
+  <div class="portfolio top-[11%] left-[12%]   container-centered  animate__animated animate__backInUp">
     <div class="portfolio-box">
       <div class="portfolio-title  flex flex-col  items-center">
         <div class="portfolio-title__box flex flex-col items-end">
