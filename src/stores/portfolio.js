@@ -2,7 +2,7 @@ import {defineStore} from 'pinia';
 
 export const usePortfolioStore = defineStore('portfolio', {
     state: () => ({
-        filters: ['All', 'Shopify', 'Mobile', 'Desktop'],
+        filters: ['All', 'Shopify', 'Landing', 'Vue SPA'],
         selectedFilter: 'All',
         selectedProject: null,
         projects: [
@@ -66,6 +66,36 @@ export const usePortfolioStore = defineStore('portfolio', {
                 technology: 'HTML, CSS, JS, Liquid, Shopify Cli',
                 link: 'https://vense-store.myshopify.com/'
             },
+            {
+                name: 'Vensa E-Commerce Jewelry',
+                category: 'Vue SPA',
+                image: '1uuu.png',
+                images: ['1u.png', '2u.png', '3u.png', '4u.png'],
+                description: 'We created design, development, functionality, search, filters, shopping cart, upsells, marketing, and SEO.',
+                descriptionFull: 'Developed a modern online store based on Shopify, using advanced technologies to ensure a pleasant user experience and high sales. He used HTML, CSS, JavaScript, and Liquid to create a dynamic interface with clear navigation and easy search.',
+                technology: 'HTML, CSS, JS, Liquid, Shopify Cli',
+                link: 'https://vense-store.myshopify.com/'
+            },
+            {
+                name: 'Discount Appliance Deport E-Commerce',
+                category: 'Vue SPA',
+                image: '1ttt.png',
+                images: ['1t.png', '2t.png', '3t.png', '4t.png'],
+                description: 'Design, development, functionality, marketing, and SEO were created.',
+                descriptionFull: 'He developed an online store on the Shopify platform that combines elegant design, user-friendly interface, high functionality, and efficiency.',
+                technology: 'HTML, CSS, JS, Liquid, Shopify Cli',
+                link: 'https://household-appliances-stores.myshopify.com/'
+            },
+            {
+                name: 'Bella Verde E-Commerce',
+                category: 'Vue SPA',
+                image: '1yyy.png',
+                images: ['1y.png', '2y.png', '3y.png', '4y.png'],
+                description: 'Redesigned, added new functionality, changed the look of the gallery, and developed new blocks.',
+                descriptionFull: 'Each product page contains detailed descriptions, features, and high-quality images so that customers can make an informed purchase decision. A secure checkout process with Shopify API integration ensures that transactions are reliable. In addition, the store is optimized for search engines (SEO), which ensures its visibility to potential customers.',
+                technology: 'HTML, CSS, JS, Liquid, Shopify Cli',
+                link: 'https://bellaverde.us/'
+            }
         ],
     }),
     actions: {
