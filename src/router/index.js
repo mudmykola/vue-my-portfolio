@@ -3,6 +3,8 @@ import HomePage from '../views/HomePage.vue'
 import AboutPage from "@/views/about/AboutPage.vue";
 import ResumePage from "@/views/resume/ResumePage.vue";
 import PortfolioPage from "@/views/portfolio/PortfolioPage.vue";
+import BlogPage from "@/views/blog/BlogPage.vue";
+import ContactPage from "@/views/contact/ContactPage.vue";
 
 
 const router = createRouter({
@@ -26,11 +28,24 @@ const router = createRouter({
       component: ResumePage,
       meta: {title: 'Resume'}
     },
+
     {
       path: '/portfolio',
       name: 'portfolio',
       component: PortfolioPage,
       meta: {title: 'Portfolio'}
+    },
+    {
+      path: '/blog',
+      name: 'blog',
+      component: BlogPage,
+      meta: {title: 'Blog'}
+    },
+    {
+      path: '/contact',
+      name: 'cobtact',
+      component: ContactPage,
+      meta: {title: 'Contact'}
     }
 
   ]
