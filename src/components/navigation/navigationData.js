@@ -2,7 +2,6 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { faHome, faUser, faFile, faBriefcase, faEnvelope,faRss } from '@fortawesome/free-solid-svg-icons';
 
-export const avatarUrl = ref('dist/assets/images/avatar-3.png');
 export const firstName = ref('Mykola');
 export const lastName = ref('Mud');
 
