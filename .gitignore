@@ -37,4 +37,5 @@ postcss.config.js!/.firebase/
 !/vite.config.js
 !/yarn.lock
 !/tailwind.config.js
-!/package-lock.json
+!/package-lock.json!/src/.env
+!/src/.env

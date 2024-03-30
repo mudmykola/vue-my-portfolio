@@ -1,7 +1,6 @@
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
-import { ref } from 'vue';
 import { useTestimonialsStore } from '@/stores/testimonial.js';
 
 const store = useTestimonialsStore();
