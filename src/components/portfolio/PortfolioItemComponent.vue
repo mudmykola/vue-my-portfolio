@@ -25,7 +25,7 @@ const toggleFullscreen = () => {
     <div class="portfolio-inner__content flex flex-wrap gap-3 justify-center ">
       <div v-for="project in store.filteredProjects" :key="project.name" class="project-wrapper w-[350px]">
         <div class="project-card rounded backdrop-blur" @click="store.showModal(project)">
-          <img class="m-auto" width="300" height="300" :src="`src/assets/images/${project.image}`" :alt="project.name" loading="lazy">
+          <img class="m-auto" width="300" height="300" :src="`dist/assets/images/${project.image}`" :alt="project.name" loading="lazy">
           <h3 class="text-default mt-5 font-bold">{{ project.name }}</h3>
           <p class="text-default opacity-80">{{ project.description }}</p>
           <p class="text-default rounded font-medium mt-2 bg-[#ca0de1] w-fit px-2 py-1">{{ project.technology }}</p>
@@ -41,7 +41,7 @@ const toggleFullscreen = () => {
         <swiper class="w-[50%]" :options="swiperOptions">
           <swiper-slide v-for="(image, index) in store.selectedProject.images" :key="index">
             <img
-                :src="`/src/assets/images/${image}`"
+                :src="`dist/assets/images/${image}`"
                 :alt="store.selectedProject.name"
                 @click="toggleFullscreen"
                 class="cursor-pointer"
@@ -71,8 +71,6 @@ const toggleFullscreen = () => {
     </div>
   </div>
 </template>
-
-
 
 <style lang="scss" scoped>
 @import "style";

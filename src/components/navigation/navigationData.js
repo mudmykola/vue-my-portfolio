@@ -2,7 +2,7 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import { faHome, faUser, faFile, faBriefcase, faEnvelope,faRss } from '@fortawesome/free-solid-svg-icons';
 
-export const avatarUrl = ref('src/assets/images/avatar-3.png');
+export const avatarUrl = ref('dist/assets/images/avatar-3.png');
 export const firstName = ref('Mykola');
 export const lastName = ref('Mud');
 
@@ -21,6 +21,7 @@ export const isCurrentRoute = (route) => {
 };
 
 export const playClickSound = () => {
-    const audio = new Audio('src/assets/audio/rclick.mp3');
+    const audio = new Audio('dist/assets/audio/rclick.mp3');
     audio.play();
+
 };
