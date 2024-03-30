@@ -1,20 +1,29 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {  firstName, lastName, menuItems, isCurrentRoute, playClickSound } from './navigationData.js';
+import { onMounted } from 'vue';
+import { useAudioStore } from '@/stores/switchingSound.js';
+import {  useRouter } from 'vue-router';
+import { firstName, lastName, menuItems, isCurrentRoute } from './navigationData.js';
 import { avatarUrl, avatarAlt, fetchAvatar } from './navigationAvatarLogic.js';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+const router = useRouter();
+const audioStore = useAudioStore();
+
 const handleItemClick = (item) => {
-  playClickSound();
+  audioStore.playSound();
+  router.push(item.link);
 };
 
-onMounted(fetchAvatar);
+onMounted(() => {
+  fetchAvatar();
+  audioStore.fetchSound();
+});
 </script>
 
 <template>
   <div class="navigation-panel flex flex-col items-center py-8 px-2 bg-gray-900 text-white">
     <div class="navigation-panel__avatar mb-8">
-      <img  :src="avatarUrl" :alt="avatarAlt" class=" rounded w-20 h-20 mb-2">
+      <img :src="avatarUrl" :alt="avatarAlt" class="rounded w-20 h-20 mb-2">
       <div class="text-center">
         <p class="text-lg font-bold">{{ firstName }}</p>
         <p class="text-lg font-bold">{{ lastName }}</p>

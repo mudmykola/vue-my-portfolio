@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 
 export const avatarUrl = ref('');
@@ -6,23 +6,18 @@ export const avatarAlt = ref('');
 
 export const fetchAvatar = async () => {
     try {
-        const response = await axios.get('https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json');
-        const avatarData = response.data;
+        const { data: { avatars } } = await axios.get('https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json');
 
-        if (avatarData && avatarData.length > 0) {
-            const firstAvatar = avatarData[0];
-            if (firstAvatar.image && firstAvatar.alt) {
-                avatarUrl.value = `https://test-api-mudmykola.vercel.app${firstAvatar.image}`;
-                avatarAlt.value = firstAvatar.alt;
-            } else {
-                console.error('Missing image or alt in response');
+        if (avatars && avatars.length > 0) {
+            const { image, alt } = avatars[0];
+            if (image && alt) {
+                avatarUrl.value = `https://test-api-mudmykola.vercel.app${image}`;
+                avatarAlt.value = alt;
+                return;
             }
-        } else {
-            console.error('Invalid response format or empty array');
         }
+        console.error('Invalid response format or missing image/alt data');
     } catch (error) {
         console.error('Error fetching avatar:', error);
     }
 };
-
-onMounted(fetchAvatar);
