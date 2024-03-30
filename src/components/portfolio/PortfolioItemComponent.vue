@@ -41,7 +41,7 @@ const toggleFullscreen = () => {
         <swiper class="w-[50%]" :options="swiperOptions">
           <swiper-slide v-for="(image, index) in store.selectedProject.images" :key="index">
             <img
-                :src="`src/assets/images/${image}`"
+                :src="`/src/assets/images/${image}`"
                 :alt="store.selectedProject.name"
                 @click="toggleFullscreen"
                 class="cursor-pointer"

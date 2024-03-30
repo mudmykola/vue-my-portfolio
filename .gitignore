@@ -30,4 +30,11 @@ coverage
 *.tsbuildinfo
 !/yarn.lock
 jsconfig.json
-postcss.config.js
+postcss.config.js!/.firebase/
+!/.vscode/
+!/.firebaserc
+!/firebase.json
+!/vite.config.js
+!/yarn.lock
+!/tailwind.config.js
+!/package-lock.json
