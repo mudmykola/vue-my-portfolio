@@ -1,13 +1,19 @@
 <script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import {onMounted} from "vue"
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
+
 import { useTestimonialsStore } from '@/stores/testimonial.js';
 
-const store = useTestimonialsStore();
 
+const store = useTestimonialsStore();
 const props = defineProps( ({
   title: String
 }))
+
+onMounted(() => {
+  store.fetchTestimonials();
+});
 </script>
 
 <template>
@@ -15,7 +21,7 @@ const props = defineProps( ({
     <div class="services-title testimonial-title text-2xl font-bold">
       <h2>{{ title }}</h2>
     </div>
-    <div class="testimonial-inner mt-5">
+    <div class="testimonial-inner mt-5" v-if="store.testimonials.length">
       <Swiper>
         <template v-for="(group, index) in store.groupedTestimonials" :key="index">
           <SwiperSlide>
@@ -24,7 +30,7 @@ const props = defineProps( ({
                 <p class="font-light">{{ testimonial.text }}</p>
                 <div class="testimonial-author flex items-center gap-2 pt-2">
                   <div class="testimonial-author__image">
-                    <img width="60" height="60" :src="testimonial.photo" :alt="testimonial.author"
+                    <img width="60" height="60" :src="store.getPhotoUrl(testimonial.photo)" :alt="testimonial.author"
                          class="photo rounded">
                   </div>
                   <div class="testimonial-author__text">
@@ -37,6 +43,9 @@ const props = defineProps( ({
           </SwiperSlide>
         </template>
       </Swiper>
+    </div>
+    <div v-else>
+      <p>Loading testimonials...</p>
     </div>
   </div>
 </template>
