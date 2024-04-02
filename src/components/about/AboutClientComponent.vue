@@ -1,14 +1,19 @@
 <script setup>
-import {  onMounted } from 'vue'
-import { useClientImagesStore } from '@/stores/clientImage.js';
+import { ref, onMounted } from 'vue';
+import { fetchClientImages } from './clientImageService.js';
 
 const props = defineProps({
   title: String
 });
 
-const { clientImages, fetchClientImages } = useClientImagesStore();
+const clientImages = ref([]);
+const loading = ref(false);
 
-onMounted(fetchClientImages);
+onMounted(async () => {
+  loading.value = true;
+  clientImages.value = await fetchClientImages();
+  loading.value = false;
+});
 </script>
 
 <template>
