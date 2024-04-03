@@ -5,7 +5,6 @@ import 'swiper/swiper-bundle.css';
 
 import {useTestimonialsStore} from '@/stores/testimonial.js';
 
-
 const store = useTestimonialsStore();
 const props = defineProps( ({
   title: String
