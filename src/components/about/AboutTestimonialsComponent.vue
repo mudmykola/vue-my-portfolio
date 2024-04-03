@@ -2,7 +2,9 @@
 import {onMounted} from "vue"
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/swiper-bundle.css';
+
 import {useTestimonialsStore} from '@/stores/testimonial.js';
+
 
 const store = useTestimonialsStore();
 const props = defineProps( ({
