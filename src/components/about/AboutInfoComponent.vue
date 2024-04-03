@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from 'vue'
-const aboutAvatar = ref('dist/assets/images/avatar-3.png')
+const aboutAvatar = ref('src/assets/images/avatar-3.png')
 
 const rotateImage = (event) => {
   const image = event.target
