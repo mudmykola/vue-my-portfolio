@@ -25,7 +25,7 @@ onMounted(serviceStore.fetchServices);
         </li>
       </ul>
     </div>
-    <div></div>
+
   </div>
 </template>
 
