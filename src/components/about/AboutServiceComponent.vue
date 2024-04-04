@@ -1,17 +1,35 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useServiceStore } from '@/stores/servicesCardLogic.js';
+import { ref } from 'vue'
 
-const props = defineProps({
+const props = defineProps( ({
   title: String
-});
-
-const serviceStore = useServiceStore();
-
-onMounted(serviceStore.fetchServices);
+}))
+const servicesItem = ref([
+  {
+    image: 'service-1.png',
+    title: 'Web site development',
+    desc: 'Developing the client side of a web application, which is responsible for the visual interface and user experience. '
+  },
+  {
+    image: 'service-2.png',
+    title: 'SPA development',
+    desc: 'SPA development is usually used to create modern interactive web applications that provide a fast and smooth user experience. '
+  },
+  {
+    image: 'service-3.png',
+    title: 'Testing and optimization',
+    desc: 'This includes various types of testing such as unit testing, integration testing, end-to-end testing, and usability testing. '
+  },
+  {
+    image: 'service-4.png',
+    title: 'Integration with Backend',
+    desc: 'During integration, developers establish connections between the SPA and backend APIs or services, allowing data exchange. '
+  }
+])
 </script>
 
 <template>
+
   <div class="services mt-5">
     <div class="services-title text-2xl font-bold">
       <h2>{{ title }}</h2>
@@ -26,7 +44,9 @@ onMounted(serviceStore.fetchServices);
       </ul>
     </div>
 
+
   </div>
+</div>
 </template>
 
 <style scoped lang="scss">
