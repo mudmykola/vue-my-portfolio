@@ -1,34 +1,15 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import {onMounted} from "vue"
+import { useFactsStore } from '@/stores/funCardLogic.js';
 
-const props = defineProps( ({
+const props = defineProps({
   title: String
-}))
+});
 
-const facts = ref([
-  { title: 'Happy Clients', value: 1024, image: 'src/assets/images/heppy-customer.png' },
-  { title: 'Working Hours', value: 7400, image: 'src/assets/images/hours.png' },
-  { title: 'Awards Won', value: 10, image: 'src/assets/images/award.png' },
-  { title: 'Coffee Consumed', value: 52400, image: 'src/assets/images/cofee.png' }
-]);
+const factsStore = useFactsStore();
 
-const updateFacts = () => {
-  facts.value.forEach(fact => {
-    fact.value += 1;
-  });
-};
-
-const scaleUp = (fact) => {
-  fact.scale = 1.1;
-};
-
-const scaleDown = (fact) => {
-  fact.scale = 1;
-};
-
-watchEffect(() => {
-  const intervalId = setInterval(updateFacts, 5000);
-  return () => clearInterval(intervalId);
+onMounted(() => {
+  factsStore.fetchFacts();
 });
 </script>
 
@@ -39,7 +20,7 @@ watchEffect(() => {
     </div>
     <div class="fun-inner mt-5">
       <ul class="flex items-center justify-between">
-        <li class="rounded px-4 py-4 text-center w-[285px]"  v-for="(fact, index) in facts" :key="index">
+        <li class="rounded px-4 py-4 text-center w-[285px]"  v-for="(fact, index) in factsStore.facts" :key="index">
           <img class="mx-auto" width="100" height="100" :src="fact.image" :alt="fact.title">
           <h2 class="text-2xl font-medium">{{ fact.title }}</h2>
           <p class="text-[20px] font-light">{{ fact.value.toLocaleString() }}</p>
