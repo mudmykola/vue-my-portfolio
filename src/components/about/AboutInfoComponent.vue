@@ -23,7 +23,7 @@ const aboutInfoDesc = ref([
 
 const fetchAvatar = async () => {
   try {
-    const response = await axios.get('https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json');
+    const response = await axios.get('https://mudmykola.github.io/test-api/api-my-portfolio-avatar.json');
     const data = response.data;
     if (data.aboutAvatar && Array.isArray(data.aboutAvatar) && data.aboutAvatar.length > 0) {
       const baseURL = 'https://test-api-mudmykola.vercel.app';
