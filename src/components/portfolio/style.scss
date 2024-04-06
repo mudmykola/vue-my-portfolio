@@ -160,3 +160,8 @@
   object-fit: contain;
   cursor: pointer;
 }
+.portfolio-inner__filter .active {
+  color: white;
+  background: #6e0279;
+  border: 1px solid #ffffff;
+}

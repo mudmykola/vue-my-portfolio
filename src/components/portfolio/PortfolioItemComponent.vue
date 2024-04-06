@@ -35,7 +35,7 @@ let data = {};
 
 onMounted(async () => {
   try {
-    const response = await fetch('https://test-9aagcy5d5-mudmykolas-projects.vercel.app/api-my-portfolio-project.json');
+    const response = await fetch('https://mudmykola.github.io/test-api/api-my-portfolio-project.json');
     data = await response.json();
     filters.value = ['All', ...new Set(data.portfolioCard.map(project => project.category))];
     filteredProjects.value = data.portfolioCard;
@@ -105,9 +105,4 @@ onMounted(async () => {
 </template>
 <style lang="scss" scoped>
 @import "style";
-.portfolio-inner__filter .active {
-  color: white;
-  background: #6e0279;
-  border: 1px solid #ffffff;
-}
 </style>
