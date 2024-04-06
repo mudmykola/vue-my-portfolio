@@ -41,8 +41,8 @@ fetchCVPath();
         </li>
       </ul>
     </div>
-    <div class="tools-download__cv mt-5">
-      <button class="text-default font-bold" @click="downloadCV">Download CV</button>
+    <div class="tools-download__cv mt-5 btn-flip">
+      <button class="btn-flip" @click="downloadCV" data-front="Download CV" data-back="Click to Download"></button>
     </div>
   </div>
 </template>

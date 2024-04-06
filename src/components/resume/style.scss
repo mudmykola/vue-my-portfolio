@@ -65,24 +65,61 @@
     }
   }
 }
+.btn-flip {
+  opacity: 1;
+  outline: 0;
+  color: #fff;
+  line-height: 40px;
+  position: relative;
+  text-align: center;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border-radius: 15px;
 
-.tools-download__cv {
-  width: max-content;
-  transition:  all .5s ease;
-  border-radius: 3px;
-  background: #000;
-  button{
-    padding: 10px 15px;
-    margin: 0;
-    transition:  all .5s ease;
-  }
-  &:hover{
-    background: #E1BD04;
-
-transition:  all .3s ease;
-    button{
-      color: #000;
-      transition:  all .3s ease;
+  &:hover {
+    &:after {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
     }
+
+    &:before {
+      opacity: 0;
+      transform: translateY(50%) rotateX(90deg);
+    }
+  }
+
+  &:after {
+    border-radius: 3px;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    color: #000000;
+    display: block;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    background: #E1BD04;
+    content: attr(data-back);
+    transform: translateY(-50%) rotateX(90deg);
+    width: max-content;
+    padding: 0px 5px;
+  }
+
+  &:before {
+    border-radius: 3px;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    color: #adadaf;
+    display: block;
+    padding: 0 30px;
+    line-height: 40px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative;
+    background: #000000;
+    content: attr(data-front);
+    transform: translateY(0) rotateX(0);
   }
 }
