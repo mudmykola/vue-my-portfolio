@@ -24,8 +24,8 @@
     <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center ">
       <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
       <div class="bg-[#fff] p-6 rounded shadow-md z-10">
-        <h2 class="text-xl font-bold mb-4 text-[#000]">Success!</h2>
-        <p class="text-[#000]">Your form has been submitted successfully.</p>
+        <h2 class="text-xl font-bold mb-4 text-[#000]">{{ succesTitle }}</h2>
+        <p class="text-[#000]">{{ succesDesc }}</p>
         <button @click="closePopup" class="text-[#fff] bg-[#000]  mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
           Close
         </button>
@@ -34,10 +34,8 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
-
 const fullName = ref('');
 const email = ref('');
 const message = ref('');
@@ -46,6 +44,8 @@ const fullNameError = ref(false);
 const emailError = ref(false);
 const messageError = ref(false);
 const sending = ref(false);
+const succesTitle = ref('Success!')
+const succesDesc = ref('Your form has been submitted successfully.');
 
 const submitForm = () => {
   fullNameError.value = !fullName.value;
