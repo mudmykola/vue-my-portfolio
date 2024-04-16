@@ -1,0 +1,26 @@
+.blog{
+  &-title {
+    h1 {
+      color: #bcbcbc;
+    }
+  }
+  &-subtitle {
+    padding: 2px 4px;
+    border-radius: 1px;
+    background: rgba(202, 13, 225, 0.75);
+    p{
+      color: #efeeee;
+      font-weight: 400;
+    }
+  }
+  &-inner{
+    &__filter{
+      margin: 30px 0;
+      li{
+        background: #E1BD04;
+        padding: 3px 5px;
+        border-radius: 3px;
+      }
+    }
+  }
+}
