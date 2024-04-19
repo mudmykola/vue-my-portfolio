@@ -6,7 +6,6 @@ import PortfolioPage from "@/views/portfolio/PortfolioPage.vue";
 import BlogPage from "@/views/blog/BlogPage.vue";
 import ContactPage from "@/views/contact/ContactPage.vue";
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -43,10 +42,11 @@ const router = createRouter({
     },
     {
       path: '/contact',
-      name: 'cobtact',
+      name: 'contact',
       component: ContactPage,
       meta: {title: 'Contact'}
     }
+
 
   ]
 })
