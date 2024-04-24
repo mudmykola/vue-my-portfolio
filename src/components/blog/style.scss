@@ -25,3 +25,18 @@ height: max-content;
     }
   }
 }
+.modal {
+  max-height: 80vh;
+}
+.post-btn__readme{
+  position: relative;
+}
+.post-btn__readme:after{
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: rgba(202, 13, 225, 0.75);
+}
