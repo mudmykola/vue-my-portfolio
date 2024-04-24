@@ -16,6 +16,7 @@ export default {
       'c105': '#121010',
       'c106': '#0A0909',
       'c107': '#E1BD04',
+      "c108": "#ca0de1",
       'default': '#ffffff'
     },
     extend: {
