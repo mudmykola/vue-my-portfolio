@@ -1,0 +1,42 @@
+@media only screen and (max-width: 430px) {
+  .navigation{
+    display: none;
+  }
+  .mobile-navigation{
+    display: block;
+  }
+  .main-widget{
+    left: 0;
+  }
+  .weather{
+    padding: 0;
+  }
+  .container-centered{
+    width: 100%;
+    left: 0;
+  }
+  .about-info{
+    flex-direction: column;
+    &__box{
+      flex-direction: column;
+    }
+    &__avatar{
+margin: 0 auto;
+    }
+    &__text{
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+  .about-contact{
+    &__box{
+      width: 100%;
+    }
+  }
+  .services-inner{
+    ul{
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

@@ -22,6 +22,7 @@ onMounted(() => {
 
 <template>
   <div class="navigation-panel flex flex-col items-center py-8 px-2 bg-gray-900 text-white">
+
     <div class="navigation-panel__avatar mb-8">
       <img :src="avatarUrl" :alt="avatarAlt" class="rounded w-20 h-20 mb-2">
       <div class="text-center">
