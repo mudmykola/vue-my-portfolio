@@ -38,10 +38,10 @@ const aboutSubTitleItem = ref([
       <div class="about-service">
         <AboutServiceComponent :title="servicesTitle"/>
       </div>
-      <div class="about-client">
+      <div id="about-testimonials" class="about-client">
         <AboutClientComponent :title="clientsTitle"/>
       </div>
-      <div class="about-testimonials">
+      <div  class="about-testimonials">
         <AboutTestimonialsComponent :title="testimonialsTitle"/>
       </div>
       <div class="about-fun">
