@@ -39,4 +39,28 @@ margin: 0 auto;
       align-items: center;
     }
   }
+  .clients-logo{
+    ul{
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+    }
+    li{
+      img{
+        margin: 0 auto;
+      }
+    }
+  }
+  .swiper-slide{
+    width: auto !important;
+  }
+  .testimonial-item{
+    width: 340px !important;
+  }
+  .fun-inner{
+    ul{
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
 }
