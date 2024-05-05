@@ -26,9 +26,11 @@ const router = useRouter();
 
 const menuItems = [
   { id: 1, name: 'Home', link: '/' },
-  { id: 2, name: 'About', link: '/about' },
-  { id: 3, name: 'Services', link: '/services' },
-  { id: 4, name: 'Contact', link: '/contact' }
+  { id: 2, name: 'About Me', link: '/about' },
+  { id: 3, name: 'Resume', link: '/resume' },
+  { id: 4, name: 'Portfolio', link: '/portfolio' },
+  { id: 5, name: 'Blog', link: '/blog' },
+  { id: 6, name: 'Contact', link: '/contact' },
 ];
 
 const isOpen = ref(false);
