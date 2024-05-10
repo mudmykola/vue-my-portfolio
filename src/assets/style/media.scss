@@ -51,8 +51,16 @@ margin: 0 auto;
       }
     }
   }
+
+  .swiper{
+margin: 0 auto !important;
+  }
   .swiper-slide{
     width: auto !important;
+    img{
+      width: 400px;
+      height: 200px;
+    }
   }
   .testimonial-item{
     width: 340px !important;
@@ -62,5 +70,11 @@ margin: 0 auto;
       flex-direction: column;
       gap: 10px;
     }
+  }
+  .resume-list{
+    flex-direction: column;
+  }
+  .modal-wrapper{
+    flex-direction: column;
   }
 }
