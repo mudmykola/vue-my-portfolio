@@ -5,6 +5,7 @@ import ResumePage from "@/views/resume/ResumePage.vue";
 import PortfolioPage from "@/views/portfolio/PortfolioPage.vue";
 import BlogPage from "@/views/blog/BlogPage.vue";
 import ContactPage from "@/views/contact/ContactPage.vue";
+import GamePage from "@/views/game/GamePage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,9 +46,13 @@ const router = createRouter({
       name: 'contact',
       component: ContactPage,
       meta: {title: 'Contact'}
+    },
+    {
+      path: '/game',
+      name: 'game',
+      component: GamePage,
+      meta: {title: 'Game'}
     }
-
-
   ]
 })
 

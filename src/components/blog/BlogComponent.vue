@@ -20,7 +20,6 @@ const blogSubTitleItem = ref('Latest News')
       <div class="blog-item">
         <BlogItemComponent/>
       </div>
-
     </div>
   </div>
 </template>
