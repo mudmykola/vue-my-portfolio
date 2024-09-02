@@ -1,9 +1,9 @@
 <script setup>
-import { defineProps } from "vue"
-const props = defineProps( ({
+import { defineProps } from 'vue';
+const props = defineProps({
   experienceTitle: String,
-  items: Array
-}))
+  items: Array,
+});
 </script>
 
 <template>
@@ -15,10 +15,18 @@ const props = defineProps( ({
       <ul class="gap-5 flex flex-col">
         <li v-for="(item, index) in items" :key="index">
           <div class="experience-item">
-            <div class="experience-year text-default text-[13px] font-bold">{{ item.year }}</div>
-            <div class="title font-bold text-[20px] text-[#E1BD04] pl-2 mt-1">{{ item.title }}</div>
-            <div class="institution text-default opacity-40 text-[15px] pl-2">{{ item.institution }}</div>
-            <div class="description text-[13px] text-default opacity-80 pl-2">{{ item.description }}</div>
+            <div class="experience-year text-default text-[13px] font-bold">
+              {{ item.year }}
+            </div>
+            <div class="title font-bold text-[20px] text-[#E1BD04] pl-2 mt-1">
+              {{ item.title }}
+            </div>
+            <div class="institution text-default opacity-40 text-[15px] pl-2">
+              {{ item.institution }}
+            </div>
+            <div class="description text-[13px] text-default opacity-80 pl-2">
+              {{ item.description }}
+            </div>
           </div>
         </li>
       </ul>
@@ -27,6 +35,6 @@ const props = defineProps( ({
 </template>
 
 <style scoped lang="scss">
-@import "style";
-@import "src/assets/style/global-style";
+@import 'style';
+@import 'src/assets/style/global-style';
 </style>

@@ -10,7 +10,10 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-watch(() => route.meta.title, (newTitle) => {
-  document.title = newTitle || 'Your Default Title';
-});
+watch(
+  () => route.meta.title,
+  (newTitle) => {
+    document.title = newTitle || 'Your Default Title';
+  }
+);
 </script>

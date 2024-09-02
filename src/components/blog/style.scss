@@ -1,5 +1,5 @@
-.blog{
-height: max-content;
+.blog {
+  height: max-content;
   &-title {
     h1 {
       color: #bcbcbc;
@@ -9,16 +9,16 @@ height: max-content;
     padding: 2px 4px;
     border-radius: 1px;
     background: rgba(202, 13, 225, 0.75);
-    p{
+    p {
       color: #efeeee;
       font-weight: 400;
     }
   }
-  &-inner{
-    &__filter{
+  &-inner {
+    &__filter {
       margin: 30px 0;
-      li{
-        background: #E1BD04;
+      li {
+        background: #e1bd04;
         padding: 3px 5px;
         border-radius: 3px;
       }
@@ -28,10 +28,10 @@ height: max-content;
 .modal {
   max-height: 80vh;
 }
-.post-btn__readme{
+.post-btn__readme {
   position: relative;
 }
-.post-btn__readme:after{
+.post-btn__readme:after {
   position: absolute;
   bottom: 3px;
   left: 0;

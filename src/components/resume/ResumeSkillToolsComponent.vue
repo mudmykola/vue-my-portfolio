@@ -1,13 +1,17 @@
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref } from 'vue';
 
-const { skillToolsTitle, itemsTools } = defineProps(["skillToolsTitle", "itemsTools"]);
+const { skillToolsTitle, itemsTools } = defineProps([
+  'skillToolsTitle',
+  'itemsTools',
+]);
 
 const cvPath = ref('');
 
 const fetchCVPath = async () => {
   try {
-    const cvUrl = 'https://raw.githubusercontent.com/mudmykola/test-api/185f4c9d6cb171945d316bbe36f00c703d8929c5/download/Mykola Mud` - Front-End (Vue.js)  Engineer - CV.pdf';
+    const cvUrl =
+      'https://raw.githubusercontent.com/mudmykola/test-api/185f4c9d6cb171945d316bbe36f00c703d8929c5/download/Mykola Mud` - Front-End (Vue.js)  Engineer - CV.pdf';
 
     if (cvUrl) {
       cvPath.value = cvUrl;
@@ -24,7 +28,7 @@ const downloadCV = () => {
   if (path) {
     window.open(path, '_blank');
   } else {
-    console.error("Шлях до резюме не знайдено");
+    console.error('Шлях до резюме не знайдено');
   }
 };
 fetchCVPath();
@@ -42,12 +46,17 @@ fetchCVPath();
       </ul>
     </div>
     <div class="tools-download__cv mt-5 btn-flip">
-      <button class="btn-flip" @click="downloadCV" data-front="Download CV" data-back="Click to Download"></button>
+      <button
+        class="btn-flip"
+        @click="downloadCV"
+        data-front="Download CV"
+        data-back="Click to Download"
+      ></button>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import "style";
-@import "src/assets/style/global-style";
+@import 'style';
+@import 'src/assets/style/global-style';
 </style>

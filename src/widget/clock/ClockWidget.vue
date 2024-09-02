@@ -11,10 +11,15 @@
 </template>
 
 <script setup>
-import { currentTime, currentDate, dayNightIcon, updateClock } from './clockData.js';
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {
+  currentTime,
+  currentDate,
+  dayNightIcon,
+  updateClock,
+} from './clockData.js';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 </script>
 
 <style lang="scss" scoped>
-@import "style.scss";
+@import 'style.scss';
 </style>

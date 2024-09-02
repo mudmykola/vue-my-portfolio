@@ -1,9 +1,9 @@
 <script setup>
-import HomeComponent from "@/components/home-content/HomeComponent.vue";
+import HomeComponent from '@/components/home-content/HomeComponent.vue';
 </script>
 
 <template>
   <div class="main-bg">
-    <HomeComponent/>
+    <HomeComponent />
   </div>
 </template>

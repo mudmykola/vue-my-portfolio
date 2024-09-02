@@ -1,21 +1,21 @@
-.clock{
+.clock {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &-widget{
+  &-widget {
     font-family: 'Helvetica Neue', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
   }
-  &-time{
+  &-time {
     font-size: 72px;
     line-height: 72px;
     font-weight: bold;
     color: #ffff;
   }
-  &-date{
+  &-date {
     font-size: 30px;
     color: #ca0de1;
     padding-right: 10px;

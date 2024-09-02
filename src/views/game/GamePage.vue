@@ -1,15 +1,12 @@
 <script setup>
-
-import MainLayoutComponent from "@/layout/MainLayoutComponent.vue";
-import GameComponent from "@/components/game/GameComponent.vue";
+import MainLayoutComponent from '@/layout/MainLayoutComponent.vue';
+import GameComponent from '@/components/game/GameComponent.vue';
 </script>
 
 <template>
-<MainLayoutComponent>
-<GameComponent/>
-</MainLayoutComponent>
+  <MainLayoutComponent>
+    <GameComponent />
+  </MainLayoutComponent>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

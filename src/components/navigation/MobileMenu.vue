@@ -1,6 +1,10 @@
 <template>
   <div class="mobile-navigation">
-    <button @click="toggleMenu" :class="{ 'close-icon': isOpen }" class="burger-icon">
+    <button
+      @click="toggleMenu"
+      :class="{ 'close-icon': isOpen }"
+      class="burger-icon"
+    >
       <span></span>
       <span></span>
       <span></span>
@@ -9,7 +13,11 @@
     <transition name="fade">
       <div v-if="isOpen" class="menu-panel">
         <ul class="menu-items">
-          <li v-for="item in menuItems" :key="item.id" @click="handleItemClick(item)">
+          <li
+            v-for="item in menuItems"
+            :key="item.id"
+            @click="handleItemClick(item)"
+          >
             {{ item.name }}
           </li>
         </ul>
@@ -108,16 +116,17 @@ const handleItemClick = (item) => {
   text-decoration: underline;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 @media only screen and (max-width: 430px) {
-
-  .mobile-navigation{
+  .mobile-navigation {
     display: block;
   }
 }

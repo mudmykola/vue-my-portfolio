@@ -1,4 +1,4 @@
-.resume{
+.resume {
   &-title {
     h1 {
       color: #bcbcbc;
@@ -8,20 +8,19 @@
     padding: 2px 4px;
     border-radius: 1px;
     background: rgba(202, 13, 225, 0.75);
-    p{
+    p {
       color: #efeeee;
       font-weight: 400;
-
     }
   }
 }
-.education{
-  &-inner{
-    ul{
+.education {
+  &-inner {
+    ul {
       border-left: 1px solid rgba(99, 99, 99, 0.75);
     }
   }
-  &-year{
+  &-year {
     position: relative;
     background: #6e0279;
     width: max-content;
@@ -29,13 +28,13 @@
     border: 1px solid rgba(99, 99, 99, 0.75);
   }
 }
-.experience{
-  &-inner{
-    ul{
+.experience {
+  &-inner {
+    ul {
       border-left: 1px solid rgba(99, 99, 99, 0.75);
     }
   }
-  &-year{
+  &-year {
     position: relative;
     background: #6e0279;
     width: max-content;
@@ -43,10 +42,10 @@
     border: 1px solid rgba(99, 99, 99, 0.75);
   }
 }
-.frontend{
-  &-inner{
-    li{
-      h3{
+.frontend {
+  &-inner {
+    li {
+      h3 {
         background: #ca0de1;
         padding: 1px 3px;
         border-radius: 3px;
@@ -54,10 +53,10 @@
     }
   }
 }
-.tools{
-  &-inner{
-    li{
-      h3{
+.tools {
+  &-inner {
+    li {
+      h3 {
         background: #ca0de1;
         padding: 1px 3px;
         border-radius: 3px;
@@ -98,9 +97,11 @@
     opacity: 0;
     color: #000000;
     display: block;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     position: absolute;
-    background: #E1BD04;
+    background: #e1bd04;
     content: attr(data-back);
     transform: translateY(-50%) rotateX(90deg);
     width: max-content;
@@ -116,7 +117,9 @@
     display: block;
     padding: 0 30px;
     line-height: 40px;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
     position: relative;
     background: #000000;
     content: attr(data-front);
