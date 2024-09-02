@@ -1,15 +1,12 @@
 <script setup>
-
-import MainLayoutComponent from "@/layout/MainLayoutComponent.vue";
-import ResumeComponent from "@/components/resume/ResumeComponent.vue";
+import MainLayoutComponent from '@/layout/MainLayoutComponent.vue';
+import ResumeComponent from '@/components/resume/ResumeComponent.vue';
 </script>
 
 <template>
-<MainLayoutComponent>
-  <ResumeComponent/>
-</MainLayoutComponent>
+  <MainLayoutComponent>
+    <ResumeComponent />
+  </MainLayoutComponent>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,15 +1,43 @@
 <script setup>
 import { ref } from 'vue';
-import { faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {
+  faGithub,
+  faInstagram,
+  faLinkedin,
+} from '@fortawesome/free-brands-svg-icons';
 
 const contactInfo = [
-  { label: 'Age', value: calculateAge(new Date('1988-04-18')), class: 'about-contact__age--info' },
-  { label: 'Residence', value: 'Ukraine', class: 'about-contact__residence--info' },
-  { label: 'Address', value: '102/2 Myru Avenue, Khmelnytskyi', class: 'about-contact__address--info' },
-  { label: 'Email', value: 'mykola.mud@gmail.com', class: 'about-contact__email--info' },
-  { label: 'Phone', value: '+380 97 802 7062', class: 'about-contact__phone--info' },
+  {
+    label: 'Age',
+    value: calculateAge(new Date('1988-04-18')),
+    class: 'about-contact__age--info',
+  },
+  {
+    label: 'Residence',
+    value: 'Ukraine',
+    class: 'about-contact__residence--info',
+  },
+  {
+    label: 'Address',
+    value: '102/2 Myru Avenue, Khmelnytskyi',
+    class: 'about-contact__address--info',
+  },
+  {
+    label: 'Email',
+    value: 'mykola.mud@gmail.com',
+    class: 'about-contact__email--info',
+  },
+  {
+    label: 'Phone',
+    value: '+380 97 802 7062',
+    class: 'about-contact__phone--info',
+  },
   { label: 'Skype', value: 'koliakass', class: 'about-contact__skype--info' },
-  { label: 'Freelance', value: 'Available', class: 'about-contact__freelance--info' }
+  {
+    label: 'Freelance',
+    value: 'Available',
+    class: 'about-contact__freelance--info',
+  },
 ];
 
 const currentYear = new Date().getFullYear();
@@ -32,7 +60,7 @@ const getHref = (label, value) => {
 const socialLinks = ref({
   github: 'https://github.com/mudmykola',
   instagram: 'https://www.instagram.com/mud.software.engineer/',
-  linkedin: 'https://www.linkedin.com/in/mud-developer/'
+  linkedin: 'https://www.linkedin.com/in/mud-developer/',
 });
 
 const socialIcons = {
@@ -50,10 +78,17 @@ const socialIcons = {
           <li v-for="info in contactInfo" :key="info.label" :class="info.class">
             <strong class="text-1xl">{{ info.label }}:</strong>
             <span v-if="info.label === 'Email'">
-              <a :href="`mailto:${info.value}`" class="cursor-pointer">{{ info.value }}</a>
+              <a :href="`mailto:${info.value}`" class="cursor-pointer">{{
+                info.value
+              }}</a>
             </span>
             <span v-else>
-              <a :href="getHref(info.label, info.value)" target="_blank" class="cursor-pointer">{{ info.value }}</a>
+              <a
+                :href="getHref(info.label, info.value)"
+                target="_blank"
+                class="cursor-pointer"
+                >{{ info.value }}</a
+              >
             </span>
           </li>
         </ul>
@@ -62,7 +97,10 @@ const socialIcons = {
         <ul class="flex items-center gap-3">
           <li v-for="(link, icon) in socialLinks" :key="icon">
             <a :href="link" target="_blank">
-              <font-awesome-icon class="text-2xl hover:text-[#ca0de1]  transition-[.5s] hover:transition-all" :icon="socialIcons[icon]" />
+              <font-awesome-icon
+                class="text-2xl hover:text-[#ca0de1] transition-[.5s] hover:transition-all"
+                :icon="socialIcons[icon]"
+              />
             </a>
           </li>
         </ul>
@@ -72,5 +110,5 @@ const socialIcons = {
 </template>
 
 <style lang="scss">
-@import "style";
+@import 'style';
 </style>

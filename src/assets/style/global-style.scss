@@ -3,7 +3,7 @@
   height: 85%;
   position: fixed;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 70, 120, 0.90);
+  background-color: rgba(0, 70, 120, 0.9);
   border: 1px solid rgba(1, 47, 81, 0.75);
   padding: 20px;
   border-radius: 8px;
@@ -11,6 +11,7 @@
   overflow-y: auto;
   scrollbar-color: rgb(202, 13, 225) rgb(110, 2, 121);
 }
+
 .container-centered::-webkit-scrollbar {
   width: 8px;
 }
@@ -27,14 +28,16 @@
 .container-centered {
   scrollbar-width: thin;
 }
-.global{
-  &-title{
-    h2{
+
+.global {
+  &-title {
+    h2 {
       position: relative;
       padding-left: 10px;
       color: #fff;
     }
-    h2:after{
+
+    h2:after {
       position: absolute;
       content: '';
       left: 0;
@@ -42,7 +45,6 @@
       height: 100%;
       width: 2px;
       background: #ca0de1;
-
     }
   }
 }

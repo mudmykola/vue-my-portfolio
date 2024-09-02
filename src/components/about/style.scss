@@ -1,21 +1,20 @@
 .about-contact {
-  &__box{
+  &__box {
     margin: 0 auto;
   }
-  &__features{
-    li{
+  &__features {
+    li {
       margin-bottom: 10px;
 
-      strong{
+      strong {
         position: relative;
         margin-right: 10px;
         padding-bottom: 3px;
-
       }
     }
   }
-  &__age--info{
-    strong:after{
+  &__age--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -25,8 +24,8 @@
       left: 0;
     }
   }
-  &__residence--info{
-    strong:after{
+  &__residence--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -36,8 +35,8 @@
       left: 0;
     }
   }
-  &__address--info{
-    strong:after{
+  &__address--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -47,8 +46,8 @@
       left: 0;
     }
   }
-  &__phone--info{
-    strong:after{
+  &__phone--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -58,8 +57,8 @@
       left: 0;
     }
   }
-  &__skype--info{
-    strong:after{
+  &__skype--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -69,8 +68,8 @@
       left: 0;
     }
   }
-  &__email--info{
-    strong:after{
+  &__email--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -79,13 +78,13 @@
       bottom: 0;
       left: 0;
     }
-    a{
+    a {
       color: #ca0de1;
       text-decoration: none;
     }
   }
-  &__freelance--info{
-    strong:after{
+  &__freelance--info {
+    strong:after {
       position: absolute;
       content: '';
       width: 100%;
@@ -107,20 +106,19 @@
     border-radius: 1px;
     background: rgba(202, 13, 225, 0.75);
 
-    p{
+    p {
       color: #efeeee;
       font-weight: 400;
-
     }
   }
 }
-.services{
-  &-title{
-    h2{
+.services {
+  &-title {
+    h2 {
       position: relative;
       padding-left: 10px;
     }
-    h2:after{
+    h2:after {
       position: absolute;
       content: '';
       left: 0;
@@ -128,68 +126,66 @@
       height: 100%;
       width: 2px;
       background: #ca0de1;
-
     }
   }
 }
-.clients{
-  &-logo{
-    li{
+.clients {
+  &-logo {
+    li {
       cursor: pointer;
       opacity: 1;
       background: rgba(225, 189, 4, 0.6);
       border-radius: 5px;
-      transition: all .5s ease;
+      transition: all 0.5s ease;
       border: 1px solid transparent;
 
-      img{
+      img {
         padding: 5px 10px;
       }
-      &:hover{
+      &:hover {
         background: rgb(225, 189, 4);
-        transition: all .3s ease;
-     border: 1px solid #ca0de1;
-        box-shadow: 10px 10px 54px -18px rgba(255,117,255,1);
+        transition: all 0.3s ease;
+        border: 1px solid #ca0de1;
+        box-shadow: 10px 10px 54px -18px rgba(255, 117, 255, 1);
       }
     }
   }
 }
-.testimonial{
-&-item{
-  cursor: pointer;
-  width: 400px;
-  border: 1px solid rgba(239, 238, 238, 0.73);
-  background: #00345a;
-  height:185px;
-  transition: all .5s linear;
-  &:hover{
-    transition: all .3s linear;
-    box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
+.testimonial {
+  &-item {
+    cursor: pointer;
+    width: 400px;
+    border: 1px solid rgba(239, 238, 238, 0.73);
+    background: #00345a;
+    height: 185px;
+    transition: all 0.5s linear;
+    &:hover {
+      transition: all 0.3s linear;
+      box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
+    }
   }
-}
-  &-company{
+  &-company {
     background: rgba(202, 13, 225, 0.6);
     padding: 2px 5px;
     font-size: 13px;
     width: max-content;
-
   }
 }
 
-.fun{
-  &-inner{
-    li{
+.fun {
+  &-inner {
+    li {
       cursor: pointer;
       border: 1px solid rgba(239, 238, 238, 0.73);
       background: #00345a;
       transition: all 0.5s ease;
-      &:hover{
+      &:hover {
         transition: all 0.3s ease;
         background: #6e0279;
-       padding-top: 2px;
+        padding-top: 2px;
         transform: rotate(-1deg);
       }
-      p{
+      p {
         box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
       }
     }

@@ -11,10 +11,15 @@ export default defineConfig({
       apply: 'build',
       writeBundle() {
         const assetFolders = ['audio', 'download', 'images'];
-        assetFolders.forEach(folder => {
-          copy(resolve(__dirname, `src/assets/${folder}`), resolve(__dirname, `dist/assets/${folder}`))
-              .then(() => console.log(`Folder ${folder} copied successfully!`))
-              .catch(error => console.error(`Error copying folder ${folder}:`, error));
+        assetFolders.forEach((folder) => {
+          copy(
+            resolve(__dirname, `src/assets/${folder}`),
+            resolve(__dirname, `dist/assets/${folder}`)
+          )
+            .then(() => console.log(`Folder ${folder} copied successfully!`))
+            .catch((error) =>
+              console.error(`Error copying folder ${folder}:`, error)
+            );
         });
       },
     },

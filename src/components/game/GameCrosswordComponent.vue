@@ -3,25 +3,37 @@
     <div class="crossword-questions">
       <h3>Horizontal</h3>
       <ul>
-        <li v-for="(question, index) in horizontalQuestions" :key="index" :class="{ crossed: solvedQuestions.horizontal.includes(index) }">
+        <li
+          v-for="(question, index) in horizontalQuestions"
+          :key="index"
+          :class="{ crossed: solvedQuestions.horizontal.includes(index) }"
+        >
           {{ index + 1 }}. {{ question }}
         </li>
       </ul>
       <h3>Vertical</h3>
       <ul>
-        <li v-for="(question, index) in verticalQuestions" :key="index" :class="{ crossed: solvedQuestions.vertical.includes(index) }">
+        <li
+          v-for="(question, index) in verticalQuestions"
+          :key="index"
+          :class="{ crossed: solvedQuestions.vertical.includes(index) }"
+        >
           {{ index + 1 }}. {{ question }}
         </li>
       </ul>
     </div>
     <table class="crossword-grid">
       <tr v-for="(row, rowIndex) in crossword" :key="rowIndex">
-        <td v-for="(cell, cellIndex) in row" :key="cellIndex" class="crossword-cell">
+        <td
+          v-for="(cell, cellIndex) in row"
+          :key="cellIndex"
+          class="crossword-cell"
+        >
           <input
-              v-if="cell"
-              v-model="userInput[rowIndex][cellIndex]"
-              maxlength="1"
-              @input="handleInput($event, rowIndex, cellIndex)"
+            v-if="cell"
+            v-model="userInput[rowIndex][cellIndex]"
+            maxlength="1"
+            @input="handleInput($event, rowIndex, cellIndex)"
           />
         </td>
       </tr>
@@ -43,16 +55,18 @@ const crossword = ref([
 
 const correctWords = {
   horizontal: ['HI', 'CAT', 'DOG'],
-  vertical: ['HOT', 'ICE']
+  vertical: ['HOT', 'ICE'],
 };
 
 const horizontalQuestions = ['A greeting', 'Small pet', 'Another pet'];
 const verticalQuestions = ['High temperature', 'Frozen water'];
 
-const userInput = ref(crossword.value.map(row => row.map(cell => (cell ? '' : null))));
+const userInput = ref(
+  crossword.value.map((row) => row.map((cell) => (cell ? '' : null)))
+);
 const solvedQuestions = ref({
   horizontal: [],
-  vertical: []
+  vertical: [],
 });
 const message = ref('');
 
@@ -70,13 +84,19 @@ function handleInput(event, rowIndex, cellIndex) {
 
 function checkCorrectness(rowIndex, cellIndex) {
   const userWordHorizontal = userInput.value[rowIndex].join('');
-  const userWordVertical = userInput.value.map(row => row[cellIndex]).join('');
+  const userWordVertical = userInput.value
+    .map((row) => row[cellIndex])
+    .join('');
 
   if (correctWords.horizontal.includes(userWordHorizontal)) {
-    solvedQuestions.value.horizontal.push(horizontalQuestions.indexOf(userWordHorizontal));
+    solvedQuestions.value.horizontal.push(
+      horizontalQuestions.indexOf(userWordHorizontal)
+    );
     message.value = 'Correct horizontal word!';
   } else if (correctWords.vertical.includes(userWordVertical)) {
-    solvedQuestions.value.vertical.push(verticalQuestions.indexOf(userWordVertical));
+    solvedQuestions.value.vertical.push(
+      verticalQuestions.indexOf(userWordVertical)
+    );
     message.value = 'Correct vertical word!';
   } else {
     message.value = 'Incorrect word, try again.';

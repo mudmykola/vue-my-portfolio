@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { fetchClientImages } from './clientImageService.js';
 
 const props = defineProps({
-  title: String
+  title: String,
 });
 
 const clientImages = ref([]);
@@ -24,7 +24,13 @@ onMounted(async () => {
     <div class="clients-logo mt-5">
       <ul class="flex items-center justify-between">
         <li v-for="client in clientImages" :key="client.id">
-          <img width="150" height="150" :src="client.image" :alt="client.alt" loading="lazy">
+          <img
+            width="150"
+            height="150"
+            :src="client.image"
+            :alt="client.alt"
+            loading="lazy"
+          />
         </li>
       </ul>
     </div>
@@ -32,5 +38,5 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-@import "style";
+@import 'style';
 </style>
