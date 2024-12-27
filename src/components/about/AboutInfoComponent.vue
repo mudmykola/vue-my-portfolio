@@ -13,20 +13,20 @@ const rotateImage = (event) => {
   const rotationY = `${x * -10}deg`;
   image.style.transform = `rotateX(${rotationX}) rotateY(${rotationY})`;
 };
-const aboutInfoTitle = ref('I am Software Engineer @ Ecom-X');
+const aboutInfoTitle = ref('I am Front-End Development @ RANKBERRY');
 
 const aboutInfoDesc = ref([
   {
     id: 1,
-    text: 'I specialize in creating high-quality and intuitive interfaces. I have experience working with clients in various industries, as well as experience in Agile/Scrum methodology.',
+    text: 'I am a Software Engineer specializing in Front-End Development and E-Commerce solutions, dedicated to creating innovative, user-friendly, and performance-driven web applications. With experience across diverse industries, I deliver scalable and intuitive solutions tailored to meet complex project demands.',
   },
   {
     id: 2,
-    text: "I believe that my potential as a front-end developer lies in the fact that I can create web applications that are not only beautiful and functional, but also user-friendly. I'm always looking for new ways to improve the user experience, and I'm always up to date with the latest trends in web application development.",
+    text: 'I excel in crafting visually stunning and highly optimized user interfaces, combining technical expertise with modern frameworks such as Vue.js, Nuxt, and Shopify Plus. My workflow leverages Agile/Scrum methodologies, ensuring efficiency, collaboration, and timely delivery of projects.',
   },
   {
     id: 3,
-    text: "I am proficient in a wide range of technologies that allow me to create innovative web applications. I'm fluent in CSS, HTML, SCSS, Vue, Nuxt, Vuex, Pinia, TailwindCSS, Shopify CLI, Theme Kit, Shopify e-commerce, Axios, Node.js, JavaScript, API, Liquid. I'm also familiar with GraphQL, Git, Docker.",
+    text: 'My skill set spans Liquid development, GraphQL, Node.js, and JWT, enabling seamless API integrations, customization of e-commerce platforms, and advanced business process automation. This comprehensive knowledge equips me to handle complex challenges and deliver robust, innovative solutions for global clients.',
   },
 ]);
 
