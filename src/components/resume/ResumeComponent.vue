@@ -36,7 +36,14 @@ const educationItems = ref([
 
 const experienceItems = ref([
   {
-    year: '2023 - Up to now',
+    year: '2023 - Up To Now',
+    title: 'Front End Engineer Shopify E-Commerce | Vue | Nuxt',
+    institution: 'RANKBERRY',
+    description:
+      'Liquid Development: Development of custom templates, dynamic sections, and components based on Liquid.',
+  },
+  {
+    year: '2023 - 2024',
     title: 'Front End Engineer Shopify E-Commerce | Vue | Nuxt',
     institution: 'Ecom-X Company',
     description:
