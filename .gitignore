@@ -26,6 +26,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+*.env
 
 *.tsbuildinfo
 !/yarn.lock
@@ -38,3 +39,4 @@ postcss.config.js!/.firebase/
 !/yarn.lock
 !/tailwind.config.js
 !/package-lock.json
+.env
