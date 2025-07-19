@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchClientImages } from './clientImageService.js';
+import { fetchClientImages } from '@/services/clientImageService';
 
 const props = defineProps({
   title: String,
@@ -17,7 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="services clients mt-10">
+  <div class="client-section services clients mt-10">
     <div class="services-title clients-title text-2xl font-bold">
       <h2>{{ title }}</h2>
     </div>
