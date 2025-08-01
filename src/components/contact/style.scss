@@ -45,3 +45,24 @@
 .btn-submit:focus {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.68);
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.popup-box {
+  border: 2px solid;
+  transform: scale(0.95);
+  animation: pop-in 0.25s ease forwards;
+}
+
+@keyframes pop-in {
+  to {
+    transform: scale(1);
+  }
+}

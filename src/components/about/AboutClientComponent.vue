@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchClientImages } from '@/services/clientImageService';
+import { fetchFromSupabase } from '@/services/fetchFromSupabase';
 
 const props = defineProps({
   title: String,
@@ -11,7 +11,15 @@ const loading = ref(false);
 
 onMounted(async () => {
   loading.value = true;
-  clientImages.value = await fetchClientImages();
+  const data = await fetchFromSupabase('client_image');
+
+  clientImages.value = data.map((item) => ({
+    ...item,
+    image: item.image.startsWith('http')
+      ? item.image
+      : `${import.meta.env.VITE_SUPABASE_URL}${item.image}`,
+  }));
+
   loading.value = false;
 });
 </script>
