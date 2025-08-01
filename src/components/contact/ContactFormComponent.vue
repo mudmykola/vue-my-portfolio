@@ -1,3 +1,63 @@
+<script setup>
+import { ref } from 'vue';
+import { sendTelegramMessage } from '@/services/telegramService';
+
+const fullName = ref('');
+const email = ref('');
+const message = ref('');
+const showPopup = ref(false);
+const fullNameError = ref(false);
+const emailError = ref(false);
+const messageError = ref(false);
+const sending = ref(false);
+const successTitle = ref('Success!');
+const successDesc = ref('Your message has been sent successfully.');
+const isError = ref(false);
+
+const submitForm = async () => {
+  fullNameError.value = !fullName.value;
+  emailError.value = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+  messageError.value = !message.value;
+
+  if (
+    !fullNameError.value &&
+    !emailError.value &&
+    !messageError.value &&
+    !sending.value
+  ) {
+    sending.value = true;
+    const { success } = await sendTelegramMessage({
+      fullName: fullName.value,
+      email: email.value,
+      message: message.value,
+    });
+
+    if (success) {
+      fullName.value = '';
+      email.value = '';
+      message.value = '';
+      successTitle.value = '✅ Success!';
+      successDesc.value = 'Your message has been sent successfully.';
+      isError.value = false;
+      showPopup.value = true;
+      setTimeout(() => {
+        showPopup.value = false;
+      }, 5000);
+    } else {
+      successTitle.value = '❌ Error';
+      successDesc.value = 'Failed to send message. Please try again.';
+      isError.value = true;
+      showPopup.value = true;
+    }
+    sending.value = false;
+  }
+};
+
+const closePopup = () => {
+  showPopup.value = false;
+};
+</script>
+
 <template>
   <div
     class="m-auto w-full max-w-lg bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 relative"
@@ -8,7 +68,6 @@
           v-model="fullName"
           class="input-field w-full"
           type="text"
-          id="fullName"
           placeholder="Full Name"
         />
         <p v-if="fullNameError" class="error-text">
@@ -20,7 +79,6 @@
           v-model="email"
           class="input-field w-full"
           type="email"
-          id="email"
           placeholder="Email"
         />
         <p v-if="emailError" class="error-text">
@@ -31,7 +89,6 @@
         <textarea
           v-model="message"
           class="input-field w-full"
-          id="message"
           rows="4"
           placeholder="Message for me"
         ></textarea>
@@ -48,67 +105,46 @@
       </div>
     </form>
 
-    <div
-      v-if="showPopup"
-      class="fixed inset-0 flex items-center justify-center"
-    >
-      <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
-      <div class="bg-[#fff] p-6 rounded shadow-md z-10">
-        <h2 class="text-xl font-bold mb-4 text-[#000]">{{ succesTitle }}</h2>
-        <p class="text-[#000]">{{ succesDesc }}</p>
-        <button
-          @click="closePopup"
-          class="text-[#fff] bg-[#000] mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    <!-- Popup -->
+    <transition name="fade">
+      <div
+        v-if="showPopup"
+        class="fixed bg-white inset-0 flex items-center justify-center"
+      >
+        <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
+        <div
+          class="popup-box p-6 rounded shadow-lg z-10 text-center max-w-sm w-full"
+          :class="
+            isError
+              ? 'bg-red-100 border-red-400'
+              : 'bg-green-100 border-green-400'
+          "
         >
-          Close
-        </button>
+          <h2
+            class="text-2xl text-black font-bold mb-3"
+            :class="isError ? 'text-red-700' : 'text-green-700'"
+          >
+            {{ successTitle }}
+          </h2>
+          <p :class="isError ? 'text-red-600' : 'text-green-600'">
+            {{ successDesc }}
+          </p>
+          <button
+            @click="closePopup"
+            class="mt-5 px-6 py-2 rounded font-bold text-white shadow-md"
+            :class="
+              isError
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-green-600 hover:bg-green-700'
+            "
+          >
+            Close
+          </button>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const fullName = ref('');
-const email = ref('');
-const message = ref('');
-const showPopup = ref(false);
-const fullNameError = ref(false);
-const emailError = ref(false);
-const messageError = ref(false);
-const sending = ref(false);
-const succesTitle = ref('Success!');
-const succesDesc = ref('Your form has been submitted successfully.');
-
-const submitForm = () => {
-  fullNameError.value = !fullName.value;
-  emailError.value = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
-  messageError.value = !message.value;
-
-  if (
-    !fullNameError.value &&
-    !emailError.value &&
-    !messageError.value &&
-    !sending.value
-  ) {
-    sending.value = true;
-
-    console.log('Full Name:', fullName.value);
-    console.log('Email:', email.value);
-    console.log('Message:', message.value);
-
-    fullName.value = '';
-    email.value = '';
-    message.value = '';
-    showPopup.value = true;
-  }
-};
-
-const closePopup = () => {
-  showPopup.value = false;
-};
-</script>
 
 <style scoped>
 @import 'style.scss';
