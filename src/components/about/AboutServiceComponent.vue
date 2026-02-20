@@ -1,48 +1,66 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useServiceStore } from '@/stores/servicesCardLogic.js';
-
 const props = defineProps({
-  title: String,
+  services: {
+    type: Array,
+    default: () => [],
+  },
 });
-
-const serviceStore = useServiceStore();
-
-onMounted(serviceStore.fetchServices);
 </script>
 
 <template>
-  <div class="services mt-5">
-    <div class="services-title text-2xl font-bold">
-      <h2>{{ title }}</h2>
-    </div>
-    <div class="services-inner mt-5">
-      <ul class="flex items-baseline gap-5 justify-center">
-        <li
-          class="text-center w-[300px] flex flex-col items-center"
-          v-for="(service, index) in serviceStore.servicesItem"
-          :key="index"
-        >
-          <img
-            width="150"
-            height="150"
-            :src="service.photo"
-            :alt="service.title"
-            loading="lazy"
-          />
-          <h3 class="text-[20px] font-bold leading-5 capitalize mt-2">
-            {{ service.title }}
-          </h3>
-          <p class="text-[16px] leading-5 font-light mt-2 opacity-80">
-            {{ service.desc }}
-          </p>
-        </li>
-      </ul>
-    </div>
-    <div></div>
-  </div>
+  <ul class="about-services-grid">
+    <li v-for="service in props.services" :key="service.id" class="about-service-card">
+      <img width="76" height="76" :src="service.photo" :alt="service.title" loading="lazy" />
+      <h3>{{ service.title }}</h3>
+      <p>{{ service.desc }}</p>
+    </li>
+  </ul>
 </template>
 
 <style scoped lang="scss">
-@import 'style';
+.about-services-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.about-service-card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.9rem;
+  text-align: center;
+}
+
+.about-service-card img {
+  margin: 0 auto;
+}
+
+.about-service-card h3 {
+  margin: 0.55rem 0 0.45rem;
+  font-size: 1rem;
+}
+
+.about-service-card p {
+  margin: 0;
+  color: var(--app-text-soft);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 980px) {
+  .about-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .about-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>

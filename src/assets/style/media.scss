@@ -1,25 +1,17 @@
-@media only screen and (max-width: 430px) {
-  .navigation {
-    display: none;
-  }
-  .mobile-navigation {
-    display: block;
-  }
-  .main-widget {
-    left: 0;
-  }
-  .weather {
-    padding: 0;
-  }
+@media only screen and (max-width: 980px) {
   .container-centered {
-    width: 100%;
-    left: 0;
+    min-height: calc(100dvh - 160px);
+    border-radius: 18px;
+    padding: 0.95rem;
   }
+
   .about-info {
     flex-direction: column;
+    gap: 1rem;
 
     &__box {
       flex-direction: column;
+      gap: 1rem;
     }
 
     &__avatar {
@@ -31,17 +23,53 @@
       width: 100%;
     }
   }
-  .about-contact {
-    &__box {
-      width: 100%;
-    }
+
+  .resume-list {
+    flex-direction: column;
   }
+
+  .modal-wrapper {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .navigation {
+    display: none;
+  }
+
+  .mobile-navigation {
+    display: block;
+  }
+
+  .container-centered {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    border-radius: 14px;
+    padding: 0.75rem;
+  }
+
+  .about-box,
+  .resume,
+  .portfolio,
+  .blog,
+  .contact,
+  .game {
+    width: 100%;
+  }
+
+  .weather {
+    padding: 0;
+  }
+
   .services-inner {
     ul {
       flex-direction: column;
       align-items: center;
     }
   }
+
   .clients-logo {
     ul {
       display: grid;
@@ -56,30 +84,21 @@
     }
   }
 
-  .swiper {
-    margin: 0 auto !important;
-  }
-  .swiper-slide {
-    width: auto !important;
-
-    img {
-      width: 400px;
-      height: 200px;
-    }
-  }
-  .testimonial-item {
-    width: 340px !important;
-  }
   .fun-inner {
     ul {
       flex-direction: column;
       gap: 10px;
     }
   }
-  .resume-list {
-    flex-direction: column;
+
+  .app-btn {
+    min-height: 38px;
+    padding: 0.52rem 0.8rem;
+    font-size: 0.84rem;
   }
-  .modal-wrapper {
-    flex-direction: column;
+
+  .page-badge {
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
   }
 }

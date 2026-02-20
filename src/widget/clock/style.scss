@@ -1,27 +1,48 @@
-.clock {
+.clock-widget {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  &-widget {
-    font-family: 'Helvetica Neue', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  gap: 0.55rem;
+  min-width: 132px;
+  padding: 0.38rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f5f8ff;
+  font-family: 'Manrope', 'Inter', sans-serif;
+}
+
+.clock-time {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  min-width: 48px;
+}
+
+.clock-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(245, 248, 255, 0.84);
+}
+
+.clock-date {
+  font-size: 0.73rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-icon {
+  font-size: 0.72rem;
+  color: #f3c056;
+}
+
+@media (max-width: 640px) {
+  .clock-widget {
+    padding: 0.3rem 0.55rem;
   }
-  &-time {
-    font-size: 72px;
-    line-height: 72px;
-    font-weight: bold;
-    color: #ffff;
-  }
-  &-date {
-    font-size: 30px;
-    color: #ca0de1;
-    padding-right: 10px;
-  }
-  &-widget__icon {
-    font-size: 24px;
-    color: #ca0de1;
+
+  .clock-date {
+    display: none;
   }
 }

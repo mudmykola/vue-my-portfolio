@@ -1,11 +1,122 @@
-.router-link {
-  transform-origin: center;
+.header-nav {
+  width: min(1240px, 100%);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.7rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
 }
 
-.router-link-active {
-  background-color: #004577;
-  transform: scale(1.1);
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: #f6f8ff;
+  border-radius: 12px;
+  padding: 0.35rem;
 }
+
+.brand__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.brand__text p {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.brand__text span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: rgba(246, 248, 255, 0.74);
+  text-transform: uppercase;
+}
+
+.header-nav__menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.header-nav__meta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  min-width: 220px;
+}
+
+.header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.44rem;
+  color: rgba(246, 248, 255, 0.86);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+  white-space: nowrap;
+}
+
+.header-link:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header-link__icon {
+  font-size: 0.83rem;
+}
+
+.header-link--active {
+  color: #d8fff2;
+  border-color: rgba(73, 220, 177, 0.5);
+  background: rgba(73, 220, 177, 0.16);
+}
+
+@media (max-width: 980px) {
+  .brand__text span {
+    display: none;
+  }
+
+  .header-link span {
+    display: none;
+  }
+
+  .header-link {
+    width: 34px;
+    height: 34px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .header-nav__meta {
+    display: none;
+  }
+
+  .header-nav {
+    display: flex;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+  }
+}
+
 .mobile-navigation {
   display: none;
 }

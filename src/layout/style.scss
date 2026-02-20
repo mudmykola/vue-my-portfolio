@@ -1,18 +1,59 @@
 .wrapper {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-.navigation {
-  flex-shrink: 0;
+.app-shell {
+  background:
+    radial-gradient(circle at 8% 10%, rgba(73, 220, 177, 0.18), transparent 30%),
+    radial-gradient(circle at 90% 90%, rgba(243, 192, 86, 0.14), transparent 30%),
+    linear-gradient(140deg, #0d121f, #171f33 60%, #10172a);
 }
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 13, 25, 0.78);
+  backdrop-filter: blur(14px);
+}
+
 .main {
   position: relative;
-  overflow-y: auto;
-  background-image: url('../assets/images/bg.webp');
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  background-size: cover;
-  background-position: center center;
   width: 100%;
-  height: 100vh;
+  min-height: calc(100dvh - 78px);
+  background-image:
+    radial-gradient(circle at 20% 18%, rgba(73, 220, 177, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(243, 192, 86, 0.1), transparent 32%),
+    linear-gradient(160deg, rgba(8, 12, 25, 0.84), rgba(13, 20, 36, 0.84));
+}
+
+.app-content {
+  width: min(1240px, 100%);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  .main {
+    min-height: calc(100dvh - 72px);
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    display: none;
+  }
+
+  .main {
+    min-height: 100dvh;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .app-content {
+    padding: 0.45rem;
+  }
 }

@@ -1,117 +1,180 @@
 <template>
-  <div class="bg-gray-100 min-h-screen py-8">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex justify-end space-x-4 mb-4">
-        <select v-model="selectedCategory" class="px-4 py-2 border rounded-lg">
-          <option value="">{{ filterAllCategories }}</option>
-          <option v-for="category in categories" :key="category">
-            {{ category }}
-          </option>
-        </select>
-        <select v-model="sortBy" class="px-4 py-2 border rounded-lg">
-          <option value="date">{{ sortByDate }}</option>
-          <option value="title">{{ sortByTitle }}</option>
-          <option value="category">{{ sortByCategory }}</option>
-        </select>
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search"
-          class="px-4 py-2 border rounded-lg"
-        />
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div
-          v-for="post in paginatedPosts"
-          :key="post.id"
-          class="bg-white rounded-lg shadow-md overflow-hidden h-full"
-        >
-          <img
-            height="185"
-            width="180"
-            :src="getPostImageUrl(post.image)"
-            :alt="post.title"
-            class="h-[185px] w-full object-cover"
+  <section class="blog-shell">
+    <p v-if="loading" class="text-default">Loading posts...</p>
+    <p v-else-if="error" class="text-default">{{ error }}</p>
+
+    <template v-else>
+      <header class="blog-controls">
+        <div class="blog-controls__meta">
+          <h3>Articles</h3>
+          <p>{{ filteredCount }} posts found</p>
+        </div>
+
+        <label class="blog-search">
+          <font-awesome-icon :icon="faMagnifyingGlass" />
+          <input
+            v-model="searchQuery"
+            type="text"
+            class="blog-control"
+            placeholder="Search title, content, category"
           />
-          <div class="p-4 bg-default h-full">
-            <h2 class="text-xl font-semibold mb-2 overflow-hidden line-clamp-2">
-              {{ post.title }}
-            </h2>
-            <p class="text-gray-600 overflow-hidden line-clamp-2">
-              {{ post.excerpt }}
-            </p>
-            <div class="flex justify-between mt-4">
-              <span class="text-gray-500">{{ formatDate(post.date) }}</span>
-              <button
-                @click="openModal(post)"
-                class="text-blue-500 post-btn__readme"
-              >
-                {{ readMore }}
-              </button>
+        </label>
+
+        <label class="blog-sort">
+          <span>Sort</span>
+          <select v-model="sortBy" class="blog-control">
+            <option value="date">{{ sortByDate }}</option>
+            <option value="title">{{ sortByTitle }}</option>
+            <option value="category">{{ sortByCategory }}</option>
+          </select>
+        </label>
+      </header>
+
+      <div class="blog-categories">
+        <button
+          type="button"
+          class="app-btn app-btn--sm"
+          :class="!selectedCategory ? 'app-btn--primary' : 'app-btn--ghost'"
+          @click="setCategory('')"
+        >
+          {{ filterAllCategories }}
+        </button>
+        <button
+          v-for="category in categories"
+          :key="category"
+          type="button"
+          class="app-btn app-btn--sm"
+          :class="selectedCategory === category ? 'app-btn--primary' : 'app-btn--ghost'"
+          @click="setCategory(category)"
+        >
+          {{ category }}
+        </button>
+        <button
+          v-if="selectedCategory || searchQuery"
+          type="button"
+          class="app-btn app-btn--sm app-btn--ghost"
+          @click="resetFilters"
+        >
+          <font-awesome-icon :icon="faRotateLeft" />
+          Reset
+        </button>
+      </div>
+
+      <div v-if="featuredPost" class="blog-content">
+        <article class="blog-featured">
+          <img :src="getPostImageUrl(featuredPost.image)" :alt="featuredPost.title" loading="lazy" />
+          <div class="blog-featured__body">
+            <div class="blog-featured__top">
+              <span class="blog-chip blog-chip--accent">
+                <font-awesome-icon :icon="faTag" />
+                {{ featuredPost.category }}
+              </span>
+              <span class="blog-chip">
+                <font-awesome-icon :icon="faCalendarDays" />
+                {{ formatDate(featuredPost.date) }}
+              </span>
+              <span class="blog-chip">
+                <font-awesome-icon :icon="faClock" />
+                {{ readTime(featuredPost) }} min read
+              </span>
             </div>
+
+            <h3>{{ featuredPost.title }}</h3>
+            <p>{{ featuredPost.excerpt }}</p>
+
+            <button type="button" class="app-btn app-btn--primary app-btn--sm" @click="openModal(featuredPost)">
+              {{ readMore }}
+            </button>
           </div>
+        </article>
+
+        <div class="blog-grid">
+          <article v-for="post in gridPosts" :key="post.id" class="blog-card">
+            <img :src="getPostImageUrl(post.image)" :alt="post.title" loading="lazy" />
+            <div class="blog-card__body">
+              <span class="blog-chip blog-chip--accent">
+                <font-awesome-icon :icon="faTag" />
+                {{ post.category }}
+              </span>
+
+              <h4>{{ post.title }}</h4>
+              <p>{{ post.excerpt }}</p>
+
+              <footer>
+                <span class="blog-chip">
+                  <font-awesome-icon :icon="faCalendarDays" />
+                  {{ formatDate(post.date) }}
+                </span>
+                <button type="button" class="app-btn app-btn--sm app-btn--ghost" @click="openModal(post)">
+                  {{ readMore }}
+                </button>
+              </footer>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="flex justify-center mt-8 gap-5">
-        <button
-          @click="prevPage"
-          :disabled="currentPage === 1"
-          class="px-4 py-2 mr-2 bg-blue-500 text-white rounded-lg bg-c107"
-        >
+
+      <p v-else class="text-default">No posts found for selected filters.</p>
+
+      <footer class="blog-pagination">
+        <button type="button" class="app-btn app-btn--primary" :disabled="currentPage === 1" @click="prevPage">
+          <font-awesome-icon :icon="faArrowLeft" />
           {{ btnPrev }}
         </button>
-        <button
-          @click="nextPage"
-          :disabled="currentPage === totalPages"
-          class="px-4 py-2 bg-blue-500 text-white rounded-lg bg-c107"
-        >
+        <span>Page {{ currentPage }} / {{ totalPages }}</span>
+        <button type="button" class="app-btn app-btn--primary" :disabled="currentPage === totalPages" @click="nextPage">
           {{ btnNext }}
+          <font-awesome-icon :icon="faArrowRight" />
         </button>
-      </div>
-      <div
-        v-if="selectedPost"
-        class="fixed inset-0 z-50 flex items-center justify-center"
-      >
-        <div class="fixed inset-0 bg-black opacity-50"></div>
-        <div class="fixed inset-0 flex items-center justify-center">
-          <div
-            class="modal bg-[#fff] h-max max-w-3xl rounded-lg overflow-y-auto z-10 shadow-lg absolute top-[2%]"
-          >
-            <div class="relative">
-              <img
-                :src="getPostImageUrl(selectedPost.image)"
-                :alt="selectedPost.title"
-                class="h-auto w-full object-contain"
-              />
-              <button
-                @click="closeModal"
-                class="absolute top-4 right-4 text-c107 hover:text-red-800 focus:outline-none text-lg"
-              >
-                {{ btnClose }}
-              </button>
-            </div>
-            <div class="p-6">
-              <h2 class="text-2xl font-semibold mb-4">
-                {{ selectedPost.title }}
-              </h2>
-              <p class="text-gray-600 mb-4">{{ selectedPost.content }}</p>
-              <div class="flex justify-between">
-                <span class="text-gray-500">{{
-                  formatDate(selectedPost.date)
-                }}</span>
-                <span class="text-gray-500 bg-c108 text-default px-2 rounded">{{
-                  selectedPost.category
-                }}</span>
+      </footer>
+
+      <teleport to="body">
+        <section v-if="selectedPost" class="blog-modal" @click.self="closeModal">
+          <article class="blog-modal__dialog" role="dialog" aria-modal="true" :aria-label="selectedPost.title">
+            <button type="button" class="blog-modal__close app-btn app-btn--icon app-btn--ghost" :aria-label="btnClose" @click="closeModal">
+              <font-awesome-icon :icon="faXmark" />
+            </button>
+
+            <img :src="getPostImageUrl(selectedPost.image)" :alt="selectedPost.title" class="blog-modal__image" />
+
+            <div class="blog-modal__body">
+              <div class="blog-modal__head">
+                <span class="blog-chip blog-chip--accent">
+                  <font-awesome-icon :icon="faTag" />
+                  {{ selectedPost.category }}
+                </span>
+                <span class="blog-chip">
+                  <font-awesome-icon :icon="faCalendarDays" />
+                  {{ formatDate(selectedPost.date) }}
+                </span>
+                <span class="blog-chip">
+                  <font-awesome-icon :icon="faClock" />
+                  {{ readTime(selectedPost) }} min read
+                </span>
               </div>
+
+              <h2>{{ selectedPost.title }}</h2>
+              <p class="blog-modal__content">{{ selectedPost.content }}</p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </article>
+        </section>
+      </teleport>
+    </template>
+  </section>
 </template>
 
 <script setup>
+import { computed, onMounted, onUnmounted, watch } from 'vue';
+import {
+  faArrowLeft,
+  faArrowRight,
+  faCalendarDays,
+  faClock,
+  faMagnifyingGlass,
+  faRotateLeft,
+  faTag,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { usePosts } from './usePosts.js';
 
 const {
@@ -122,26 +185,60 @@ const {
   readMore,
   btnPrev,
   btnNext,
-  posts,
+  btnClose,
+  loading,
+  error,
   selectedPost,
   currentPage,
   searchQuery,
   sortBy,
   selectedCategory,
   totalPages,
-  filteredPosts,
-  reversedPaginatedPosts,
+  filteredCount,
   paginatedPosts,
   prevPage,
   nextPage,
-  btnClose,
   categories,
   openModal,
   closeModal,
   formatDate,
-  fetchPosts,
   getPostImageUrl,
 } = usePosts();
+
+const featuredPost = computed(() => paginatedPosts.value[0] ?? null);
+const gridPosts = computed(() => paginatedPosts.value.slice(1));
+
+const setCategory = (category) => {
+  selectedCategory.value = category;
+};
+
+const resetFilters = () => {
+  selectedCategory.value = '';
+  searchQuery.value = '';
+  sortBy.value = 'date';
+};
+
+const readTime = (post) => {
+  const words = String(post?.content || post?.excerpt || '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 180));
+};
+
+const closeOnEscape = (event) => {
+  if (event.key === 'Escape') closeModal();
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', closeOnEscape);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', closeOnEscape);
+  document.body.style.overflow = '';
+});
+
+watch(selectedPost, (post) => {
+  document.body.style.overflow = post ? 'hidden' : '';
+});
 </script>
 
 <style lang="scss">

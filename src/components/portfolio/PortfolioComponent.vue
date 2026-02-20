@@ -1,30 +1,35 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted } from 'vue';
+import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
 import PortfolioItemComponent from '@/components/portfolio/PortfolioItemComponent.vue';
+import { usePortfolioPage } from '@/components/portfolio/usePortfolioPage.js';
 
-const portfolioTitle = ref('Portfolio');
-const portfolioSubTitleItem = ref('My Best Works');
+const { projects, loading, error, imageBase, load } = usePortfolioPage();
+
+onMounted(load);
 </script>
 
 <template>
-  <div
-    class="portfolio top-[11%] left-[12%] container-centered animate__animated animate__backInUp"
-  >
-    <div class="portfolio-box">
-      <div class="portfolio-title flex flex-col items-center">
-        <div class="portfolio-title__box flex flex-col items-end">
-          <h1 class="text-6xl font-bold">{{ portfolioTitle }}</h1>
-          <div class="portfolio-subtitle flex text-center justify-center w-fit">
-            <p class="text-[15px]">{{ portfolioSubTitleItem }}</p>
-          </div>
-        </div>
-      </div>
-      <PortfolioItemComponent />
+  <section class="portfolio-page container-centered">
+    <div class="portfolio-layout">
+      <PageSectionHeader
+        badge="Case Studies"
+        :icon="faBriefcase"
+        title="Portfolio"
+        subtitle="Selected projects with architecture and implementation details"
+      />
+
+      <PortfolioItemComponent
+        :projects="projects"
+        :loading="loading"
+        :error="error"
+        :imageBase="imageBase"
+      />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
-@import 'animate.css';
 @import 'style';
 </style>

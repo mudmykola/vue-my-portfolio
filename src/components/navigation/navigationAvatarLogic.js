@@ -1,21 +1,18 @@
 import { ref } from 'vue';
-import axios from 'axios';
 
 export const avatarUrl = ref('');
 export const avatarAlt = ref('');
 
 export const fetchAvatar = async () => {
   try {
-    const {
-      data: { avatars },
-    } = await axios.get(
-      'https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json'
-    );
+    const response = await fetch('/data/site-content.json');
+    const data = await response.json();
+    const avatars = data?.avatars;
 
     if (avatars && avatars.length > 0) {
       const { image, alt } = avatars[0];
       if (image && alt) {
-        avatarUrl.value = `https://test-api-mudmykola.vercel.app${image}`;
+        avatarUrl.value = image;
         avatarAlt.value = alt;
         return;
       }

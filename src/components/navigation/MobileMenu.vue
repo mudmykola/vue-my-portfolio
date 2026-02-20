@@ -1,133 +1,106 @@
 <template>
-  <div class="mobile-navigation">
-    <button
-      @click="toggleMenu"
-      :class="{ 'close-icon': isOpen }"
-      class="burger-icon"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <transition name="fade">
-      <div v-if="isOpen" class="menu-panel">
-        <ul class="menu-items">
-          <li
-            v-for="item in menuItems"
-            :key="item.id"
-            @click="handleItemClick(item)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
-      </div>
-    </transition>
-  </div>
+  <nav class="mobile-navigation" aria-label="Mobile navigation">
+    <ul class="mobile-tabs">
+      <li v-for="item in menuItems" :key="item.id">
+        <button
+          type="button"
+          class="mobile-tab"
+          :class="{ 'mobile-tab--active': isActive(item.link) }"
+          @click="handleItemClick(item)"
+        >
+          <font-awesome-icon :icon="item.icon" class="mobile-tab__icon" />
+          <span class="mobile-tab__label">{{ item.name }}</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { menuItems } from './navigationData.js';
 
 const router = useRouter();
-
-const menuItems = [
-  { id: 1, name: 'Home', link: '/' },
-  { id: 2, name: 'About Me', link: '/about' },
-  { id: 3, name: 'Resume', link: '/resume' },
-  { id: 4, name: 'Portfolio', link: '/portfolio' },
-  { id: 5, name: 'Blog', link: '/blog' },
-  { id: 6, name: 'Contact', link: '/contact' },
-];
-
-const isOpen = ref(false);
-
-const toggleMenu = () => {
-  isOpen.value = !isOpen.value;
-};
+const route = useRoute();
 
 const handleItemClick = (item) => {
-  router.push(item.link);
+  if (route.path !== item.link) {
+    router.push(item.link);
+  }
 };
+
+const isActive = (link) => route.path === link;
 </script>
 
 <style lang="scss">
 .mobile-navigation {
   position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
-  left: 0;
+  z-index: 60;
+  padding: 0.45rem 0.55rem calc(0.45rem + env(safe-area-inset-bottom));
+  background: rgba(9, 15, 29, 0.94);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  display: none;
+}
+
+.mobile-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.mobile-tab {
   width: 100%;
-  background: #000000;
-  z-index: 9999;
-}
-
-.burger-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  transition: transform 0.3s ease;
-}
-
-.burger-icon span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background-color: #fff;
-  margin-bottom: 5px;
-  transition: transform 0.3s ease;
-}
-
-.close-icon span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.close-icon span:nth-child(2) {
-  opacity: 0;
-}
-
-.close-icon span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-.menu-panel {
-  position: absolute;
-  bottom: 50px;
-  left: 0;
-  width: 100%;
-  background-color: #333;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-.menu-items {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: rgba(246, 248, 255, 0.75);
+  padding: 0.4rem 0.2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.58rem;
+  transition: all 0.2s ease;
 }
 
-.menu-items li {
-  margin-bottom: 10px;
-  cursor: pointer;
-  color: #fff;
+.mobile-tab__icon {
+  font-size: 0.84rem;
 }
 
-.menu-items li:hover {
-  text-decoration: underline;
+.mobile-tab--active {
+  color: #49dcb1;
+  border-color: rgba(73, 220, 177, 0.45);
+  background: rgba(73, 220, 177, 0.12);
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.mobile-tab__label {
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 640px) {
   .mobile-navigation {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .mobile-tab {
+    padding: 0.35rem 0.15rem;
+  }
+
+  .mobile-tab__label {
+    font-size: 0.54rem;
   }
 }
 </style>

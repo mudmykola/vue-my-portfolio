@@ -1,0 +1,315 @@
+{
+  "avatars": [
+    {
+      "id": 1,
+      "image": "/images/avatar-3.png",
+      "alt": "my-avatar"
+    }
+  ],
+  "switching-sound": [
+    {
+      "id": 1,
+      "audio": "https://raw.githubusercontent.com/mudmykola/test-api/b371e37e6a94a52b7d7086c16f580ed30dc2d9a0/audio/rclick.mp3"
+    }
+  ],
+  "clientImage": [
+    {
+      "id": 1,
+      "image": "/images/Frame 147.png",
+      "alt": "client-image"
+    },
+    {
+      "id": 2,
+      "image": "/images/Frame 148.png",
+      "alt": "client-image"
+    },
+    {
+      "id": 3,
+      "image": "/images/Frame 149.png",
+      "alt": "client-image"
+    },
+    {
+      "id": 4,
+      "image": "/images/Frame 150.png",
+      "alt": "client-image"
+    },
+    {
+      "id": 5,
+      "image": "/images/Frame 153.png",
+      "alt": "client-image"
+    },
+    {
+      "id": 6,
+      "image": "/images/Frame 152.png",
+      "alt": "client-image"
+    }
+  ],
+  "testimonialCard": [
+    {
+      "id": 1,
+      "text": "He demonstrates in-depth knowledge of programming and is always ready to help with any technical issues.",
+      "author": "Emily Smith",
+      "company": "TechSolutions Inc",
+      "photo": "/images/user-reviews/1.jpg"
+    },
+    {
+      "id": 2,
+      "text": "He works efficiently on projects, always keeps to the schedule, and collaborates productively with his colleagues.",
+      "author": "Michael Brown",
+      "company": "CodeCrafters Ltd",
+      "photo": "/images/user-reviews/2.jpg"
+    },
+    {
+      "id": 3,
+      "text": "He quickly understood our requirements and efficiently implemented them in high-quality software.",
+      "author": "Emily Johnson",
+      "company": "WebWizards LLC",
+      "photo": "/images/user-reviews/3.jpg"
+    },
+    {
+      "id": 4,
+      "text": "This is a developer you can rely on. He always meets the deadlines and ensures high quality of his work meets.",
+      "author": "David Wilson",
+      "company": "Digital Dynamics Corp",
+      "photo": "/images/user-reviews/4.jpg"
+    },
+    {
+      "id": 5,
+      "text": "Working with Mykola has been a very positive experience. He not only solves technical problems efficiently.",
+      "author": "Sarah Thompson",
+      "company": "InnovateIT Solutions",
+      "photo": "/images/user-reviews/5.jpg"
+    },
+    {
+      "id": 6,
+      "text": "He carefully studies the requirements and tasks of the project to ensure their successful implementation.",
+      "author": "Jessica Davis",
+      "company": "CyberGenius Technologies",
+      "photo": "/images/user-reviews/6.jpg"
+    },
+    {
+      "id": 7,
+      "text": "He has extensive technical knowledge and excellent analytical skills that allow him to quickly find effective solutions.",
+      "author": "Christopher Miller",
+      "company": "ByteBuilders Group",
+      "photo": "/images/user-reviews/7.jpg"
+    },
+    {
+      "id": 8,
+      "text": "He always goes the extra mile to ensure the project is completed successfully. Impressive level of efficiency and enthusiasm.",
+      "author": "Amanda Taylor",
+      "company": "SoftwareSphere Innovations",
+      "photo": "/images/user-reviews/8.jpg"
+    }
+  ],
+  "aboutAvatar": [
+    {
+      "id": 1,
+      "image": "/images/avatar-3.png",
+      "alt": "my-avatar-about"
+    }
+  ],
+  "servicesCard": [
+    {
+      "id": 1,
+      "title": "Web site development",
+      "desc": "Developing the client side of a web application, which is responsible for the visual interface and user experience.",
+      "photo": "/images/service-1.png"
+    },
+    {
+      "id": 2,
+      "title": "SPA development",
+      "desc": "SPA development is usually used to create modern interactive web applications that provide a fast and smooth user experience.",
+      "photo": "/images/service-2.png"
+    },
+    {
+      "id": 3,
+      "title": "Testing and optimization",
+      "desc": "This includes various types of testing such as unit testing, integration testing, end-to-end testing, and usability testing.",
+      "photo": "/images/service-3.png"
+    },
+    {
+      "id": 4,
+      "title": "Integration with Backend",
+      "desc": "During integration, developers establish connections between the SPA and backend APIs or services, allowing data exchange.",
+      "photo": "/images/service-4.png"
+    }
+  ],
+  "funCard": [
+    {
+      "id": 1,
+      "title": "Happy Clients",
+      "number": "1400",
+      "photo": "/images/heppy-customer.png"
+    },
+    {
+      "id": 2,
+      "title": "Working Hours",
+      "number": "7745",
+      "photo": "/images/hours.png"
+    },
+    {
+      "id": 3,
+      "title": "Awards Won",
+      "number": "397",
+      "photo": "/images/award.png"
+    },
+    {
+      "id": 4,
+      "title": "Coffee Consumed",
+      "number": "52600",
+      "photo": "/images/cofee.png"
+    }
+  ],
+  "resumeDownload": [
+    {
+      "id": 1,
+      "cv": "/download/Mykola Mud` - Front-End (Vue.js)  Engineer - CV.pdf"
+    }
+  ],
+  "aboutPage": {
+    "title": "About Me",
+    "subtitle": ["Developer,", "Manager,", "Creative Person"],
+    "servicesTitle": "Services",
+    "clientsTitle": "Clients",
+    "testimonialsTitle": "Testimonials",
+    "funTitle": "Fun Facts",
+    "infoTitle": "I am Front-End Development @ RANKBERRY",
+    "infoDesc": [
+      "I am a Software Engineer specializing in Front-End Development and E-Commerce solutions, dedicated to creating innovative, user-friendly, and performance-driven web applications. With experience across diverse industries, I deliver scalable and intuitive solutions tailored to meet complex project demands.",
+      "I excel in crafting visually stunning and highly optimized user interfaces, combining technical expertise with modern frameworks such as Vue.js, Nuxt, and Shopify Plus. My workflow leverages Agile/Scrum methodologies, ensuring efficiency, collaboration, and timely delivery of projects.",
+      "My skill set spans Liquid development, GraphQL, Node.js, and JWT, enabling seamless API integrations, customization of e-commerce platforms, and advanced business process automation. This comprehensive knowledge equips me to handle complex challenges and deliver robust, innovative solutions for global clients."
+    ],
+    "contactInfo": [
+      {
+        "label": "Age",
+        "birthday": "1988-04-18",
+        "class": "about-contact__age--info"
+      },
+      {
+        "label": "Residence",
+        "value": "Ukraine",
+        "class": "about-contact__residence--info"
+      },
+      {
+        "label": "Address",
+        "value": "102/2 Myru Avenue, Khmelnytskyi",
+        "class": "about-contact__address--info"
+      },
+      {
+        "label": "Email",
+        "value": "mykola.mud@gmail.com",
+        "class": "about-contact__email--info"
+      },
+      {
+        "label": "Phone",
+        "value": "+380 97 802 7062",
+        "class": "about-contact__phone--info"
+      },
+      {
+        "label": "Skype",
+        "value": "koliakass",
+        "class": "about-contact__skype--info"
+      },
+      {
+        "label": "Freelance",
+        "value": "Available",
+        "class": "about-contact__freelance--info"
+      }
+    ],
+    "socialLinks": {
+      "github": "https://github.com/mudmykola",
+      "instagram": "https://www.instagram.com/mud.software.engineer/",
+      "linkedin": "https://www.linkedin.com/in/mud-developer/"
+    }
+  },
+  "resumePage": {
+    "title": "Resume",
+    "subtitle": "3 Years of Experience",
+    "educationTitle": "Education",
+    "experienceTitle": "Experience",
+    "skillFrontendTitle": "Front-end Technologies",
+    "skillToolsTitle": "Tools and Technologies",
+    "educationItems": [
+      {
+        "id": 1,
+        "year": "2022",
+        "title": "Front-end developer courses",
+        "institution": "Online Academy Ciklum",
+        "description": "Thanks to this course, I will be ready to create interactive interfaces as well as build full-fledged websites, from layout to hosting."
+      },
+      {
+        "id": 2,
+        "year": "2021",
+        "title": "Course Front-end development",
+        "institution": "Beetroot Academy",
+        "description": "I gained a deep understanding of basic technologies such as HTML, CSS, and JavaScript, which are the foundation of any web developer."
+      },
+      {
+        "id": 3,
+        "year": "2020",
+        "title": "Web developer",
+        "institution": "WAYUP Academy",
+        "description": "Through the practical assignments and projects in the course, I gained experience with real-world web projects, including working with Git and GitHub to manage code versions and collaborate with other developers."
+      }
+    ],
+    "experienceItems": [
+      {
+        "id": 1,
+        "year": "2023 - Up To Now",
+        "title": "Front End Engineer Shopify E-Commerce | Vue | Nuxt",
+        "institution": "RANKBERRY",
+        "description": "Liquid Development: Development of custom templates, dynamic sections, and components based on Liquid."
+      },
+      {
+        "id": 2,
+        "year": "2023 - 2024",
+        "title": "Front End Engineer Shopify E-Commerce | Vue | Nuxt",
+        "institution": "Ecom-X Company",
+        "description": "Development and implementation of user interfaces for e-commerce on the Shopify platform, using Vue.js and Nuxt.js."
+      },
+      {
+        "id": 3,
+        "year": "2023",
+        "title": "Front End Engineer Vue Composition API",
+        "institution": "Dozor Product Company",
+        "description": "Code optimization, changing the logic to the Composition API, working with GraphQL."
+      },
+      {
+        "id": 4,
+        "year": "2022 - 2023",
+        "title": "Development of a company website",
+        "institution": "Freelance project AWW Company",
+        "description": "Development and implementation of interface components such as menus, carousels, order forms, product filters, etc."
+      }
+    ],
+    "frontendTechnologies": [
+      { "name": "HTML", "progress": 90 },
+      { "name": "CSS", "progress": 90 },
+      { "name": "JavaScript", "progress": 85 },
+      { "name": "Vue.js", "progress": 75 },
+      { "name": "Tailwind CSS", "progress": 55 },
+      { "name": "jQuery", "progress": 95 },
+      { "name": "Vuex", "progress": 75 },
+      { "name": "Pinia", "progress": 45 },
+      { "name": "Nuxt.js", "progress": 35 },
+      { "name": "DOM", "progress": 85 },
+      { "name": "REST" },
+      { "name": "JSON", "progress": 85 },
+      { "name": "Axios", "progress": 65 },
+      { "name": "Fetch", "progress": 55 }
+    ],
+    "toolsTechnologies": [
+      { "name": "Node.js", "progress": 60 },
+      { "name": "Webpack", "progress": 90 },
+      { "name": "Gulp", "progress": 85 },
+      { "name": "Vite", "progress": 65 },
+      { "name": "NPM", "progress": 55 },
+      { "name": "Yarn", "progress": 95 },
+      { "name": "Shopify CLI", "progress": 75 },
+      { "name": "Liquid (Shopify)", "progress": 45 },
+      { "name": "Git", "progress": 35 },
+      { "name": "Figma", "progress": 85 }
+    ]
+  }
+}
