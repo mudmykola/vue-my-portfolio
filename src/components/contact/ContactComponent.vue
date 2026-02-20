@@ -1,39 +1,38 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, onMounted } from 'vue';
+import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import ContactFormComponent from '@/components/contact/ContactFormComponent.vue';
+import ContactInfoComponent from '@/components/contact/ContactInfoComponent.vue';
+import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
+import { useSiteContent } from '@/composables/useSiteContent.js';
 
-const contactTitle = ref('Contact Me');
+const { data, loading, error, load } = useSiteContent();
+const contactInfo = computed(() => data.value?.aboutPage?.contactInfo ?? []);
 
-const contactSubTitleItem = ref([{ id: 1, text: ' Get in Touch' }]);
+onMounted(load);
 </script>
 
 <template>
-  <div
-    class="contact-box top-[11%] left-[12%] container-centered animate__animated animate__backInDown"
-  >
-    <div class="contact text-default">
-      <div class="contact-title flex flex-col items-center">
-        <div class="contact-title__box flex flex-col items-end">
-          <h1 class="text-6xl font-bold">{{ contactTitle }}</h1>
-          <div class="contact-subtitle flex text-center justify-center w-fit">
-            <p
-              class="text-[15px]"
-              v-for="item in contactSubTitleItem"
-              :key="item.id"
-            >
-              {{ item.text }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="contact-form flex justify-between mt-7">
+  <section class="contact-page container-centered">
+    <div class="contact-layout">
+      <PageSectionHeader
+        badge="Contact"
+        :icon="faEnvelopeOpenText"
+        title="Contact Me"
+        subtitle="Tell me about your idea and I will get back to you shortly"
+      />
+
+      <p v-if="loading" class="text-default">Loading...</p>
+      <p v-else-if="error" class="text-default">{{ error }}</p>
+
+      <section v-else class="contact-layout__grid">
+        <ContactInfoComponent :contactInfo="contactInfo" />
         <ContactFormComponent />
-      </div>
+      </section>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
-@import 'animate.css';
 @import 'style';
 </style>

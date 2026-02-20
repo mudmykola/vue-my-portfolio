@@ -1,65 +1,96 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, onMounted } from 'vue';
+import {
+  faUser,
+  faCode,
+  faHandshake,
+  faCommentDots,
+  faBolt,
+} from '@fortawesome/free-solid-svg-icons';
 import AboutInfoComponent from '@/components/about/AboutInfoComponent.vue';
 import AboutContactComponent from '@/components/about/AboutContactComponent.vue';
 import AboutServiceComponent from '@/components/about/AboutServiceComponent.vue';
 import AboutClientComponent from '@/components/about/AboutClientComponent.vue';
 import AboutTestimonialsComponent from '@/components/about/AboutTestimonialsComponent.vue';
 import AboutFunComponent from '@/components/about/AboutFunComponent.vue';
+import AboutSectionHeader from '@/components/about/AboutSectionHeader.vue';
+import { useAboutPage } from '@/components/about/useAboutPage.js';
 
-const aboutTitle = ref('About Me');
-const clientsTitle = ref('Clients');
-const funTitle = ref('Fun Facts');
-const servicesTitle = ref('Services');
-const testimonialsTitle = ref('Testimonials');
+const { data, loading, error, load } = useAboutPage();
 
-const aboutSubTitleItem = ref([
-  { id: 1, text: 'Developer,' },
-  { id: 2, text: 'Manager,' },
-  { id: 3, text: 'Creative Person' },
-]);
+const page = computed(() => data.value?.aboutPage ?? null);
+
+onMounted(load);
 </script>
 
 <template>
-  <div
-    class="about-box top-[11%] left-[12%] container-centered animate__animated animate__backInDown"
-  >
-    <div class="about text-default">
-      <div class="about-title flex flex-col items-center">
-        <div class="about-title__box flex flex-col items-end">
-          <h1 class="text-6xl font-bold">{{ aboutTitle }}</h1>
-          <div class="about-subtitle flex text-center justify-center w-fit">
-            <p
-              class="text-[15px]"
-              v-for="item in aboutSubTitleItem"
-              :key="item.id"
-            >
-              {{ item.text }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="about-info flex justify-between mt-7">
-        <AboutInfoComponent />
-        <AboutContactComponent />
-      </div>
-      <div class="about-service">
-        <AboutServiceComponent :title="servicesTitle" />
-      </div>
-      <div id="about-testimonials" class="about-client">
-        <AboutClientComponent :title="clientsTitle" />
-      </div>
-      <div class="about-testimonials">
-        <AboutTestimonialsComponent :title="testimonialsTitle" />
-      </div>
-      <div class="about-fun">
-        <AboutFunComponent :title="funTitle" />
-      </div>
+  <section class="about-page container-centered">
+    <p v-if="loading" class="text-default">Loading...</p>
+    <p v-else-if="error" class="text-default">{{ error }}</p>
+
+    <div v-else-if="page" class="about-layout">
+      <AboutSectionHeader
+        badge="Profile"
+        :icon="faUser"
+        :title="page.title"
+        :subtitle="page.subtitle"
+      />
+
+      <section class="about-layout__intro">
+        <AboutInfoComponent
+          :avatar="data.aboutAvatar[0]"
+          :title="page.infoTitle"
+          :descriptions="page.infoDesc"
+        />
+        <AboutContactComponent
+          :contactInfo="page.contactInfo"
+          :socialLinks="page.socialLinks"
+        />
+      </section>
+
+      <section class="about-layout__block">
+        <AboutSectionHeader
+          badge="Services"
+          :icon="faCode"
+          :title="page.servicesTitle"
+          subtitle="What I can deliver for your product"
+        />
+        <AboutServiceComponent :services="data.servicesCard" />
+      </section>
+
+      <section class="about-layout__block">
+        <AboutSectionHeader
+          badge="Clients"
+          :icon="faHandshake"
+          :title="page.clientsTitle"
+          subtitle="Teams and brands I worked with"
+        />
+        <AboutClientComponent :clients="data.clientImage" />
+      </section>
+
+      <section id="about-testimonials" class="about-layout__block">
+        <AboutSectionHeader
+          badge="Reviews"
+          :icon="faCommentDots"
+          :title="page.testimonialsTitle"
+          subtitle="What people say about collaboration"
+        />
+        <AboutTestimonialsComponent :testimonials="data.testimonialCard" />
+      </section>
+
+      <section class="about-layout__block">
+        <AboutSectionHeader
+          badge="Highlights"
+          :icon="faBolt"
+          :title="page.funTitle"
+          subtitle="A quick snapshot of work impact"
+        />
+        <AboutFunComponent :facts="data.funCard" />
+      </section>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
-@import 'animate.css';
 @import 'style';
 </style>

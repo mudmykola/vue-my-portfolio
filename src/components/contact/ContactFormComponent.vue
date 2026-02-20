@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { sendTelegramMessage } from '@/services/telegramService';
 
 const fullName = ref('');
@@ -13,6 +13,7 @@ const sending = ref(false);
 const successTitle = ref('Success!');
 const successDesc = ref('Your message has been sent successfully.');
 const isError = ref(false);
+let popupTimer = null;
 
 const submitForm = async () => {
   fullNameError.value = !fullName.value;
@@ -40,7 +41,8 @@ const submitForm = async () => {
       successDesc.value = 'Your message has been sent successfully.';
       isError.value = false;
       showPopup.value = true;
-      setTimeout(() => {
+      clearTimeout(popupTimer);
+      popupTimer = setTimeout(() => {
         showPopup.value = false;
       }, 5000);
     } else {
@@ -56,94 +58,97 @@ const submitForm = async () => {
 const closePopup = () => {
   showPopup.value = false;
 };
+
+const closeOnEscape = (event) => {
+  if (event.key === 'Escape') {
+    closePopup();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', closeOnEscape);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', closeOnEscape);
+  clearTimeout(popupTimer);
+});
 </script>
 
 <template>
-  <div
-    class="m-auto w-full max-w-lg bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 relative"
-  >
-    <form @submit.prevent="submitForm">
-      <div class="mb-4 relative">
+  <section class="contact-form-card">
+    <header>
+      <span class="page-badge">Quick Message</span>
+      <h3>Send me a project request</h3>
+      <p>Describe your task and I will reply as soon as possible.</p>
+    </header>
+
+    <form class="contact-form" @submit.prevent="submitForm">
+      <label class="contact-form__field">
+        <span>Full Name</span>
         <input
           v-model="fullName"
-          class="input-field w-full"
+          class="input-field"
           type="text"
-          placeholder="Full Name"
+          placeholder="Your full name"
         />
-        <p v-if="fullNameError" class="error-text">
-          Please enter your full name.
-        </p>
-      </div>
-      <div class="mb-4 relative">
+        <p v-if="fullNameError" class="error-text">Please enter your full name.</p>
+      </label>
+
+      <label class="contact-form__field">
+        <span>Email</span>
         <input
           v-model="email"
-          class="input-field w-full"
+          class="input-field"
           type="email"
-          placeholder="Email"
+          placeholder="you@email.com"
         />
-        <p v-if="emailError" class="error-text">
-          Please enter a valid email address.
-        </p>
-      </div>
-      <div class="mb-6 relative">
+        <p v-if="emailError" class="error-text">Please enter a valid email address.</p>
+      </label>
+
+      <label class="contact-form__field">
+        <span>Message</span>
         <textarea
           v-model="message"
-          class="input-field w-full"
-          rows="4"
-          placeholder="Message for me"
+          class="input-field"
+          rows="5"
+          placeholder="Tell me about your idea..."
         ></textarea>
         <p v-if="messageError" class="error-text">Please enter a message.</p>
-      </div>
-      <div class="flex justify-center">
-        <button
-          type="submit"
-          class="btn-submit w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          <span v-if="sending">Sending...</span>
-          <span v-else>Send</span>
-        </button>
-      </div>
-    </form>
+      </label>
 
-    <!-- Popup -->
-    <transition name="fade">
-      <div
-        v-if="showPopup"
-        class="fixed bg-white inset-0 flex items-center justify-center"
+      <button
+        type="submit"
+        class="app-btn app-btn--primary contact-form__submit"
+        :disabled="sending"
       >
-        <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
+        <span v-if="sending">Sending...</span>
+        <span v-else>Send Message</span>
+      </button>
+    </form>
+  </section>
+
+  <teleport to="body">
+    <transition name="fade">
+      <div v-if="showPopup" class="contact-popup" @click.self="closePopup">
         <div
-          class="popup-box p-6 rounded shadow-lg z-10 text-center max-w-sm w-full"
-          :class="
-            isError
-              ? 'bg-red-100 border-red-400'
-              : 'bg-green-100 border-green-400'
-          "
+          class="contact-popup__box"
+          :class="{ 'contact-popup__box--error': isError }"
         >
-          <h2
-            class="text-2xl text-black font-bold mb-3"
-            :class="isError ? 'text-red-700' : 'text-green-700'"
-          >
-            {{ successTitle }}
-          </h2>
-          <p :class="isError ? 'text-red-600' : 'text-green-600'">
-            {{ successDesc }}
-          </p>
+          <h2>{{ successTitle }}</h2>
+          <p>{{ successDesc }}</p>
           <button
+            type="button"
+            class="app-btn"
+            :class="isError ? 'app-btn--ghost' : 'app-btn--primary'"
             @click="closePopup"
-            class="mt-5 px-6 py-2 rounded font-bold text-white shadow-md"
-            :class="
-              isError
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-green-600 hover:bg-green-700'
-            "
           >
             Close
           </button>
         </div>
       </div>
     </transition>
-  </div>
+  </teleport>
 </template>
 
 <style scoped>

@@ -1,58 +1,45 @@
 <script setup>
-import { ref } from 'vue';
+import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
 import ResumeSkillFrontendComponent from '@/components/resume/ResumeSkillFrontendComponent.vue';
 import ResumeSkillToolsComponent from '@/components/resume/ResumeSkillToolsComponent.vue';
 
-const skillFrontendTitle = ref('Front-end Technologies');
-const skillToolsTitle = ref('Tools and Technologies');
-
-const frontendTechnologies = [
-  { name: 'HTML', progress: 90 },
-  { name: 'CSS', progress: 90 },
-  { name: 'JavaScript', progress: 85 },
-  { name: 'Vue.js', progress: 75 },
-  { name: 'Tailwind CSS', progress: 55 },
-  { name: 'jQuery', progress: 95 },
-  { name: 'Vuex', progress: 75 },
-  { name: 'Pinia', progress: 45 },
-  { name: 'Nuxt.js', progress: 35 },
-  { name: 'DOM', progress: 85 },
-  { name: 'REST' },
-  { name: 'JSON', progress: 85 },
-  { name: 'Axios', progress: 65 },
-  { name: 'Fetch', progress: 55 },
-];
-
-const toolsTechnologies = [
-  { name: 'Node.js', progress: 60 },
-  { name: 'Webpack', progress: 90 },
-  { name: 'Gulp', progress: 85 },
-  { name: 'Vite', progress: 65 },
-  { name: 'NPM', progress: 55 },
-  { name: 'Yarn', progress: 95 },
-  { name: 'Shopify CLI', progress: 75 },
-  { name: 'Liquid (Shopify)', progress: 45 },
-  { name: 'Git', progress: 35 },
-  { name: 'Figma ', progress: 85 },
-];
+const props = defineProps({
+  frontendTitle: String,
+  toolsTitle: String,
+  frontendItems: Array,
+  toolsItems: Array,
+  icon: Object,
+});
 </script>
 
 <template>
-  <div class="skills">
-    <div class="skills-frontend">
-      <ResumeSkillFrontendComponent
-        :skillFrontendTitle="skillFrontendTitle"
-        :itemsFrontend="frontendTechnologies"
-      />
-      <ResumeSkillToolsComponent
-        :skillToolsTitle="skillToolsTitle"
-        :itemsTools="toolsTechnologies"
-      />
+  <article class="resume-card">
+    <PageSectionHeader badge="Skills" :icon="props.icon" title="Core Stack" compact />
+
+    <div class="resume-skill-grid">
+      <ResumeSkillFrontendComponent :title="props.frontendTitle" :items="props.frontendItems" />
+      <ResumeSkillToolsComponent :title="props.toolsTitle" :items="props.toolsItems" />
     </div>
-  </div>
+  </article>
 </template>
 
 <style scoped lang="scss">
-@import 'style';
-@import 'src/assets/style/global-style';
+.resume-card {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.75rem;
+}
+
+.resume-skill-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+@media (max-width: 980px) {
+  .resume-skill-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

@@ -1,193 +1,47 @@
-.about-contact {
-  &__box {
-    margin: 0 auto;
-  }
-  &__features {
-    li {
-      margin-bottom: 10px;
+.about-page {
+  padding: 1rem;
+}
 
-      strong {
-        position: relative;
-        margin-right: 10px;
-        padding-bottom: 3px;
-      }
-    }
-  }
-  &__age--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
-  &__residence--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
-  &__address--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
-  &__phone--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
-  &__skype--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
-  &__email--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-    a {
-      color: #ca0de1;
-      text-decoration: none;
-    }
-  }
-  &__freelance--info {
-    strong:after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 3px !important;
-      background: #ca0de1;
-      bottom: 0;
-      left: 0;
-    }
-  }
+.about-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
 }
-.about {
-  &-title {
-    h1 {
-      color: #bcbcbc;
-    }
-  }
-  &-subtitle {
-    padding: 2px 4px;
-    border-radius: 1px;
-    background: rgba(202, 13, 225, 0.75);
 
-    p {
-      color: #efeeee;
-      font-weight: 400;
-    }
-  }
+.about-layout__intro {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1rem;
+  min-width: 0;
 }
-.services {
-  &-title {
-    h2 {
-      position: relative;
-      padding-left: 10px;
-    }
-    h2:after {
-      position: absolute;
-      content: '';
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 2px;
-      background: #ca0de1;
-    }
-  }
-}
-.clients {
-  &-logo {
-    li {
-      cursor: pointer;
-      opacity: 1;
-      background: rgba(225, 189, 4, 0.6);
-      border-radius: 5px;
-      transition: all 0.5s ease;
-      border: 1px solid transparent;
 
-      img {
-        padding: 5px 10px;
-      }
-      &:hover {
-        background: rgb(225, 189, 4);
-        transition: all 0.3s ease;
-        border: 1px solid #ca0de1;
-        box-shadow: 10px 10px 54px -18px rgba(255, 117, 255, 1);
-      }
-    }
-  }
+.about-layout__block {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  min-width: 0;
 }
-.testimonial {
-  &-item {
-    cursor: pointer;
-    width: 400px;
-    border: 1px solid rgba(239, 238, 238, 0.73);
-    background: #00345a;
-    height: 185px;
-    transition: all 0.5s linear;
-    &:hover {
-      transition: all 0.3s linear;
-      box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
-    }
-  }
-  &-company {
-    background: rgba(202, 13, 225, 0.6);
-    padding: 2px 5px;
-    font-size: 13px;
-    width: max-content;
+
+@media (max-width: 1100px) {
+  .about-layout__intro {
+    grid-template-columns: 1fr;
   }
 }
 
-.fun {
-  &-inner {
-    li {
-      cursor: pointer;
-      border: 1px solid rgba(239, 238, 238, 0.73);
-      background: #00345a;
-      transition: all 0.5s ease;
-      &:hover {
-        transition: all 0.3s ease;
-        background: #6e0279;
-        padding-top: 2px;
-        transform: rotate(-1deg);
-      }
-      p {
-        box-shadow: 10px 10px 54px -18px rgb(253, 79, 253);
-      }
-    }
+@media (max-width: 640px) {
+  .about-page {
+    padding: 0.6rem;
+  }
+
+  .about-layout,
+  .about-layout__intro {
+    gap: 0.7rem;
+  }
+
+  .about-layout__block {
+    padding: 0.75rem;
+    border-radius: 14px;
   }
 }

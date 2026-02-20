@@ -22,22 +22,24 @@
         </li>
       </ul>
     </div>
-    <table class="crossword-grid">
-      <tr v-for="(row, rowIndex) in crossword" :key="rowIndex">
-        <td
-          v-for="(cell, cellIndex) in row"
-          :key="cellIndex"
-          class="crossword-cell"
-        >
-          <input
-            v-if="cell"
-            v-model="userInput[rowIndex][cellIndex]"
-            maxlength="1"
-            @input="handleInput($event, rowIndex, cellIndex)"
-          />
-        </td>
-      </tr>
-    </table>
+    <div class="crossword-grid-wrap">
+      <table class="crossword-grid">
+        <tr v-for="(row, rowIndex) in crossword" :key="rowIndex">
+          <td
+            v-for="(cell, cellIndex) in row"
+            :key="cellIndex"
+            class="crossword-cell"
+          >
+            <input
+              v-if="cell"
+              v-model="userInput[rowIndex][cellIndex]"
+              maxlength="1"
+              @input="handleInput($event, rowIndex, cellIndex)"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
     <div v-if="message" class="message">{{ message }}</div>
   </div>
 </template>
@@ -111,14 +113,23 @@ function checkCorrectness(rowIndex, cellIndex) {
 <style scoped>
 .crossword-game {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
+  gap: 0.85rem;
+  padding: 0.8rem;
   background-color: #f9f9f9;
+  border-radius: 12px;
 }
 
 .crossword-questions {
-  margin-right: 20px;
+  margin-right: 0;
+  max-width: 360px;
+}
+
+.crossword-grid-wrap {
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .crossword-questions .crossed {
@@ -151,5 +162,26 @@ function checkCorrectness(rowIndex, cellIndex) {
   margin-top: 20px;
   font-size: 1.2em;
   color: blue;
+}
+
+@media (max-width: 640px) {
+  .crossword-game {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.6rem;
+  }
+
+  .crossword-questions {
+    max-width: 100%;
+  }
+
+  .crossword-cell {
+    width: 34px;
+    height: 34px;
+  }
+
+  .crossword-cell input {
+    font-size: 1.1em;
+  }
 }
 </style>

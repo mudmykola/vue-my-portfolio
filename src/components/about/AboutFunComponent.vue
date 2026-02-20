@@ -1,47 +1,66 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useFactsStore } from '@/stores/funCardLogic.js';
-
 const props = defineProps({
-  title: String,
-});
-
-const factsStore = useFactsStore();
-
-onMounted(() => {
-  factsStore.fetchFacts();
+  facts: {
+    type: Array,
+    default: () => [],
+  },
 });
 </script>
 
 <template>
-  <div class="fun services mt-10">
-    <div class="services-title fun-title text-2xl font-bold">
-      <h2>{{ title }}</h2>
-    </div>
-    <div class="fun-inner mt-5">
-      <ul class="flex items-center justify-between">
-        <li
-          class="rounded px-4 py-4 text-center w-[285px]"
-          v-for="(fact, index) in factsStore.facts"
-          :key="index"
-        >
-          <img
-            class="mx-auto"
-            width="100"
-            height="100"
-            :src="fact.image"
-            :alt="fact.title"
-          />
-          <h2 class="text-2xl font-medium">{{ fact.title }}</h2>
-          <p class="text-[20px] font-light">
-            {{ fact.value.toLocaleString() }}
-          </p>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <ul class="about-fun-grid">
+    <li v-for="fact in props.facts" :key="fact.id" class="about-fun-card">
+      <img width="56" height="56" :src="fact.photo" :alt="fact.title" />
+      <h3>{{ fact.title }}</h3>
+      <p>{{ Number(fact.number).toLocaleString() }}</p>
+    </li>
+  </ul>
 </template>
 
 <style scoped lang="scss">
-@import 'style';
+.about-fun-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.about-fun-card {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.85rem;
+  text-align: center;
+}
+
+.about-fun-card img {
+  margin: 0 auto;
+}
+
+.about-fun-card h3 {
+  margin: 0.45rem 0 0.3rem;
+  font-size: 1rem;
+}
+
+.about-fun-card p {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #dcfff3;
+}
+
+@media (max-width: 980px) {
+  .about-fun-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .about-fun-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>

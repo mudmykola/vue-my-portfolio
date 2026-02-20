@@ -1,12 +1,15 @@
 <template>
   <v-app>
-    <router-view />
+    <MainLayoutComponent>
+      <router-view />
+    </MainLayoutComponent>
   </v-app>
 </template>
 
 <script setup>
 import { watch } from 'vue';
 import { useRoute } from 'vue-router';
+import MainLayoutComponent from '@/layout/MainLayoutComponent.vue';
 
 const route = useRoute();
 

@@ -1,22 +1,15 @@
 <template>
-  <div class="clock-widget">
-    <div class="clock">
-      <div class="clock-time">{{ currentTime }}</div>
-    </div>
-    <div class="clock-widget__icon flex items-center">
+  <div class="clock-widget" aria-label="Current time and date">
+    <div class="clock-time">{{ currentTime }}</div>
+    <div class="clock-meta">
       <div class="clock-date">{{ currentDate }}</div>
-      <font-awesome-icon :icon="dayNightIcon" />
+      <font-awesome-icon :icon="dayNightIcon" class="clock-icon" />
     </div>
   </div>
 </template>
 
 <script setup>
-import {
-  currentTime,
-  currentDate,
-  dayNightIcon,
-  updateClock,
-} from './clockData.js';
+import { currentTime, currentDate, dayNightIcon } from './clockData.js';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 </script>
 

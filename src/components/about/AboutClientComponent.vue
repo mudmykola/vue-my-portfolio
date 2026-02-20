@@ -1,50 +1,55 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { fetchFromSupabase } from '@/services/fetchFromSupabase';
-
 const props = defineProps({
-  title: String,
-});
-
-const clientImages = ref([]);
-const loading = ref(false);
-
-onMounted(async () => {
-  loading.value = true;
-  const data = await fetchFromSupabase('client_image');
-
-  clientImages.value = data.map((item) => ({
-    ...item,
-    image: item.image.startsWith('http')
-      ? item.image
-      : `${import.meta.env.VITE_SUPABASE_URL}${item.image}`,
-  }));
-
-  loading.value = false;
+  clients: {
+    type: Array,
+    default: () => [],
+  },
 });
 </script>
 
 <template>
-  <div class="client-section services clients mt-10">
-    <div class="services-title clients-title text-2xl font-bold">
-      <h2>{{ title }}</h2>
-    </div>
-    <div class="clients-logo mt-5">
-      <ul class="flex items-center justify-between">
-        <li v-for="client in clientImages" :key="client.id">
-          <img
-            width="150"
-            height="150"
-            :src="client.image"
-            :alt="client.alt"
-            loading="lazy"
-          />
-        </li>
-      </ul>
-    </div>
-  </div>
+  <ul class="about-clients-grid">
+    <li v-for="client in props.clients" :key="client.id" class="about-client-card">
+      <img width="140" height="68" :src="client.image" :alt="client.alt" loading="lazy" />
+    </li>
+  </ul>
 </template>
 
 <style scoped lang="scss">
-@import 'style';
+.about-clients-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.about-client-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  min-height: 76px;
+}
+
+.about-client-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 980px) {
+  .about-clients-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .about-clients-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 </style>
