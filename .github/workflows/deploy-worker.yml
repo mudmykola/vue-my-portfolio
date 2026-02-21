@@ -29,6 +29,9 @@ jobs:
         run: npm ci
 
       - name: Build frontend
+        env:
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
+          VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
         run: npm run build
 
       - name: Deploy worker with Wrangler CLI
