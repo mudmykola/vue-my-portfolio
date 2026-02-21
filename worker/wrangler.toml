@@ -6,3 +6,8 @@ workers_dev = true
 [vars]
 # Set your production website origin, e.g. "https://your-domain.com"
 ALLOWED_ORIGIN = "*"
+
+[assets]
+directory = "../dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"

@@ -33,9 +33,30 @@ const validatePayload = (payload) => {
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+    const { method } = request;
     const origin = getOrigin(request, env);
+    const isContactRoute = url.pathname === '/contact';
+    const isHealthRoute = url.pathname === '/health';
 
-    if (request.method === 'OPTIONS') {
+    if (request.method === 'GET' && isHealthRoute) {
+      return json(
+        {
+          success: true,
+          service: 'vue-my-portfolio-contact',
+          status: 'ok',
+          usage: {
+            method: 'POST',
+            endpoint: '/contact',
+            contentType: 'application/json',
+          },
+        },
+        200,
+        origin
+      );
+    }
+
+    if (isContactRoute && method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
         headers: {
@@ -46,7 +67,19 @@ export default {
       });
     }
 
-    if (request.method !== 'POST') {
+    if (method === 'GET' || method === 'HEAD') {
+      if (!env.ASSETS) {
+        return json(
+          { success: false, error: 'Static assets binding is not configured' },
+          500,
+          origin
+        );
+      }
+
+      return env.ASSETS.fetch(request);
+    }
+
+    if (!isContactRoute || method !== 'POST') {
       return json({ success: false, error: 'Method not allowed' }, 405, origin);
     }
 

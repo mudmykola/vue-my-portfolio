@@ -68,6 +68,7 @@ Create `.env` in project root:
 VITE_OPENWEATHER_API_KEY=
 VITE_SUPABASE_URL=
 VITE_SUPABASE_KEY=
+VITE_CONTACT_API_URL=/contact
 
 # Legacy (frontend Telegram, not recommended for production)
 VITE_TELEGRAM_BOT_TOKEN=
@@ -79,6 +80,7 @@ Important:
 - `VITE_*` values are embedded at build time.
 - Do not store real secrets in frontend env for production.
 - Prefer server-side secret handling via Cloudflare Worker.
+- `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
 
 ## Deployment
 
@@ -95,24 +97,25 @@ Current Firebase config:
 - SPA rewrite: `** -> /index.html`
 - Project alias from `.firebaserc`
 
-### Cloudflare Worker (recommended for Contact API)
+### Cloudflare Worker (frontend + Contact API)
 
-Use Worker as secure proxy for contact form to avoid exposing Telegram bot token in client bundle.
+Worker serves built frontend (`dist`) and handles contact submissions via `POST /contact`.
 
 High-level flow:
 
-1. Frontend sends form data to Worker endpoint (`/contact`)
-2. Worker validates payload and applies CORS policy
-3. Worker reads secrets from environment
-4. Worker sends message to Telegram API
-5. Worker returns normalized JSON response
+1. Worker serves SPA on `https://<worker>.workers.dev/`
+2. Frontend sends form data to Worker endpoint (`/contact`)
+3. Worker validates payload and applies CORS policy
+4. Worker reads secrets from environment
+5. Worker sends message to Telegram API
+6. Worker returns normalized JSON response
 
 Suggested secrets in Worker:
 
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
 
-After Worker is ready, update frontend service to call Worker URL instead of Telegram directly.
+Frontend now calls `/contact` by default.
 
 ## Content Management
 
