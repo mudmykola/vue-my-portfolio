@@ -6,7 +6,6 @@ const props = defineProps({
   },
 });
 </script>
-
 <template>
   <ul class="about-clients-grid">
     <li v-for="client in props.clients" :key="client.id" class="about-client-card">
@@ -14,7 +13,6 @@ const props = defineProps({
     </li>
   </ul>
 </template>
-
 <style scoped lang="scss">
 .about-clients-grid {
   list-style: none;
