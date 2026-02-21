@@ -143,8 +143,8 @@ const contactIcons = {
   list-style: none;
   margin: 0.85rem 0 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  justify-content: space-between;
   gap: 0.45rem;
 }
 
