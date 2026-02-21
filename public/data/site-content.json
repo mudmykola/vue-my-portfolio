@@ -2,7 +2,7 @@
   "avatars": [
     {
       "id": 1,
-      "image": "/images/avatar-3.png",
+      "image": "/images/avatar-logo.webp",
       "alt": "my-avatar"
     }
   ],
@@ -105,7 +105,7 @@
   "aboutAvatar": [
     {
       "id": 1,
-      "image": "/images/avatar-3.png",
+      "image": "/images/avatar-logo.webp",
       "alt": "my-avatar-about"
     }
   ],
@@ -193,7 +193,7 @@
       },
       {
         "label": "Address",
-        "value": "102/2 Myru Avenue, Khmelnytskyi",
+        "value": "Khmelnytskyi",
         "class": "about-contact__address--info"
       },
       {
@@ -205,16 +205,6 @@
         "label": "Phone",
         "value": "+380 97 802 7062",
         "class": "about-contact__phone--info"
-      },
-      {
-        "label": "Skype",
-        "value": "koliakass",
-        "class": "about-contact__skype--info"
-      },
-      {
-        "label": "Freelance",
-        "value": "Available",
-        "class": "about-contact__freelance--info"
       }
     ],
     "socialLinks": {
