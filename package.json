@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "node --test",
+    "test:watch": "node --test --watch"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,vue,scss,json}": [
