@@ -1,0 +1,8 @@
+name = "vue-my-portfolio-contact"
+main = "src/index.js"
+compatibility_date = "2026-02-21"
+workers_dev = true
+
+[vars]
+# Set your production website origin, e.g. "https://your-domain.com"
+ALLOWED_ORIGIN = "*"
