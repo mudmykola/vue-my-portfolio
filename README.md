@@ -84,6 +84,10 @@ Important:
 
 ## Deployment
 
+Release runbook:
+
+- `RELEASE_CHECKLIST.md`
+
 ### Firebase Hosting (frontend)
 
 ```bash
