@@ -129,7 +129,14 @@ export default {
       );
 
       if (!tgRes.ok) {
-        return json({ success: false, error: 'Telegram API request failed' }, 502, origin);
+        return json(
+          {
+            success: false,
+            error: `Telegram API request failed (status ${tgRes.status})`,
+          },
+          502,
+          origin
+        );
       }
 
       return json({ success: true }, 200, origin);
