@@ -27,7 +27,7 @@ const submitForm = async () => {
     !sending.value
   ) {
     sending.value = true;
-    const { success } = await sendTelegramMessage({
+    const { success, error } = await sendTelegramMessage({
       fullName: fullName.value,
       email: email.value,
       message: message.value,
@@ -47,7 +47,7 @@ const submitForm = async () => {
       }, 5000);
     } else {
       successTitle.value = '❌ Error';
-      successDesc.value = 'Failed to send message. Please try again.';
+      successDesc.value = error || 'Failed to send message. Please try again.';
       isError.value = true;
       showPopup.value = true;
     }
