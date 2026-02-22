@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
   faBriefcase,
   faDownload,
@@ -16,7 +16,55 @@ import { useSiteContent } from '@/composables/useSiteContent.js';
 const { data, loading, error, load } = useSiteContent();
 
 const resume = computed(() => data.value?.resumePage ?? null);
-const cvUrl = computed(() => data.value?.resumeDownload?.[0]?.cv ?? '');
+const resumeDownloadOptions = computed(() => {
+  const entries = Array.isArray(data.value?.resumeDownload)
+    ? data.value.resumeDownload
+    : [];
+
+  return entries
+    .map((entry, index) => {
+      const url = entry?.cv || entry?.url || entry?.file || '';
+
+      if (!url) {
+        return null;
+      }
+
+      const labelFromFile = url.split('/').pop()?.replace(/\.[^.]+$/, '') || '';
+      const label =
+        entry?.label ||
+        entry?.title ||
+        entry?.name ||
+        labelFromFile ||
+        `Resume ${index + 1}`;
+
+      return {
+        id: entry?.id ?? index + 1,
+        label,
+        url,
+      };
+    })
+    .filter(Boolean);
+});
+
+const selectedCvUrl = ref('');
+const hasMultipleResumes = computed(() => resumeDownloadOptions.value.length > 1);
+const canDownloadCv = computed(() => Boolean(selectedCvUrl.value));
+
+watch(
+  resumeDownloadOptions,
+  (options) => {
+    if (!options.length) {
+      selectedCvUrl.value = '';
+      return;
+    }
+
+    const hasCurrent = options.some((option) => option.url === selectedCvUrl.value);
+    if (!hasCurrent) {
+      selectedCvUrl.value = options[0].url;
+    }
+  },
+  { immediate: true }
+);
 
 const totalExperienceItems = computed(
   () => resume.value?.experienceItems?.length ?? 0
@@ -27,8 +75,8 @@ const totalEducationItems = computed(
 );
 
 const openCV = () => {
-  if (cvUrl.value) {
-    window.open(cvUrl.value, '_blank');
+  if (selectedCvUrl.value) {
+    window.open(selectedCvUrl.value, '_blank');
   }
 };
 
@@ -68,9 +116,33 @@ onMounted(load);
           </ul>
 
           <div class="resume-overview-actions">
-            <button type="button" class="app-btn app-btn--primary" @click="openCV">
+            <label
+              v-if="hasMultipleResumes"
+              class="resume-overview-actions__select-wrap"
+            >
+              <select
+                v-model="selectedCvUrl"
+                class="resume-overview-actions__select"
+                aria-label="Choose resume file"
+              >
+                <option
+                  v-for="option in resumeDownloadOptions"
+                  :key="option.id"
+                  :value="option.url"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+            </label>
+
+            <button
+              type="button"
+              class="app-btn app-btn--primary"
+              :disabled="!canDownloadCv"
+              @click="openCV"
+            >
               <font-awesome-icon :icon="faDownload" />
-              Download CV
+              {{ hasMultipleResumes ? 'Download Resume' : 'Download CV' }}
             </button>
             <router-link class="app-btn app-btn--ghost" to="/contact">
               <font-awesome-icon :icon="faEnvelopeOpenText" />
@@ -183,6 +255,26 @@ onMounted(load);
   gap: 0.55rem;
 }
 
+.resume-overview-actions__select-wrap {
+  min-width: 180px;
+  flex: 1 1 220px;
+}
+
+.resume-overview-actions__select {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--app-text);
+  padding: 0 0.75rem;
+}
+
+.resume-overview-actions__select:focus-visible {
+  outline: 2px solid rgba(221, 255, 243, 0.55);
+  outline-offset: 2px;
+}
+
 @media (max-width: 1100px) {
   .resume-top-grid,
   .resume-bottom-grid {
@@ -195,8 +287,10 @@ onMounted(load);
     padding: 0.6rem;
   }
 
+  .resume-overview-actions__select-wrap,
   .resume-overview-actions .app-btn {
     width: 100%;
+    flex-basis: 100%;
   }
 }
 

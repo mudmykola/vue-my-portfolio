@@ -112,26 +112,26 @@
   "servicesCard": [
     {
       "id": 1,
-      "title": "Web site development",
-      "desc": "Developing the client side of a web application, which is responsible for the visual interface and user experience.",
+      "title": "Front-End Engineering",
+      "desc": "Building scalable, high-performance web interfaces focused on user experience and business growth.",
       "photo": "/images/service-1.png"
     },
     {
       "id": 2,
-      "title": "SPA development",
-      "desc": "SPA development is usually used to create modern interactive web applications that provide a fast and smooth user experience.",
+      "title": "E-commerce Front-End",
+      "desc": "Developing fast, conversion-focused storefronts and web applications.",
       "photo": "/images/service-2.png"
     },
     {
       "id": 3,
-      "title": "Testing and optimization",
-      "desc": "This includes various types of testing such as unit testing, integration testing, end-to-end testing, and usability testing.",
+      "title": "UI Development",
+      "desc": "Creating modern, responsive and performance-driven digital products.",
       "photo": "/images/service-3.png"
     },
     {
       "id": 4,
-      "title": "Integration with Backend",
-      "desc": "During integration, developers establish connections between the SPA and backend APIs or services, allowing data exchange.",
+      "title": "Modern Web Architecture",
+      "desc": "Engineering scalable front-end systems with clean structure and long-term maintainability.",
       "photo": "/images/service-4.png"
     }
   ],
@@ -164,21 +164,27 @@
   "resumeDownload": [
     {
       "id": 1,
-      "cv": "/download/Mykola Mud` - Front-End (Vue.js)  Engineer - CV.pdf"
+      "label": "Front-End (Vue/Nuxt) Resume",
+      "cv": "/download/FRONT-END VUE:NUXT - MYKOLA MUDD.pdf"
+    },
+    {
+      "id": 2,
+      "label": "Shopify Frontend Resume",
+      "cv": "/download/SHOPIFY FRONTEND DEVELOPER - MYKOLA MUDD.pdf"
     }
   ],
   "aboutPage": {
     "title": "About Me",
-    "subtitle": ["Developer,", "Manager,", "Creative Person"],
+    "subtitle": ["Developer", "Manager", "Creative Person"],
     "servicesTitle": "Services",
     "clientsTitle": "Clients",
     "testimonialsTitle": "Testimonials",
     "funTitle": "Fun Facts",
-    "infoTitle": "I am Front-End Development @ RANKBERRY",
+    "infoTitle": "Headless Front-End Engineer",
     "infoDesc": [
-      "I am a Software Engineer specializing in Front-End Development and E-Commerce solutions, dedicated to creating innovative, user-friendly, and performance-driven web applications. With experience across diverse industries, I deliver scalable and intuitive solutions tailored to meet complex project demands.",
-      "I excel in crafting visually stunning and highly optimized user interfaces, combining technical expertise with modern frameworks such as Vue.js, Nuxt, and Shopify Plus. My workflow leverages Agile/Scrum methodologies, ensuring efficiency, collaboration, and timely delivery of projects.",
-      "My skill set spans Liquid development, GraphQL, Node.js, and JWT, enabling seamless API integrations, customization of e-commerce platforms, and advanced business process automation. This comprehensive knowledge equips me to handle complex challenges and deliver robust, innovative solutions for global clients."
+      "I specialize in building modern, fast, and SEO-optimized frontend solutions for eCommerce — with a strong focus on headless Shopify architecture using Nuxt 3 and Vue.",
+      "I create intuitive, component-based user interfaces with clean code and modular design. My workflow often includes Shopify Storefront API, Metafields as CMS, and Liquid theme customization. I'm passionate about performance optimization, structured data (JSON-LD), and caching strategies (Nitro).",
+      "Over the years, I’ve worked across different industries, collaborating in Agile/Scrum teams and delivering flexible, maintainable frontends tailored to real business needs."
     ],
     "contactInfo": [
       {
