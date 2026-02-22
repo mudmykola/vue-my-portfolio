@@ -221,7 +221,17 @@
   },
   "resumePage": {
     "title": "Resume",
-    "subtitle": "3 Years of Experience",
+    "subtitle": "3+ Years of Experience",
+    "overviewCard": {
+      "title": "Profile Snapshot",
+      "description": "Front-End Engineer specializing in Shopify and Vue/Nuxt, building scalable, performance-first systems.",
+      "experienceLabel": "Experience Entries",
+      "educationLabel": "Education Entries",
+      "downloadLabelSingle": "Download CV",
+      "downloadLabelMultiple": "Download Resume",
+      "contactLabel": "Contact Me",
+      "selectAriaLabel": "Choose resume file"
+    },
     "educationTitle": "Education",
     "experienceTitle": "Experience",
     "skillFrontendTitle": "Front-end Technologies",

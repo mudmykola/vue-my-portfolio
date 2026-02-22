@@ -74,6 +74,23 @@ const totalEducationItems = computed(
   () => resume.value?.educationItems?.length ?? 0
 );
 
+const overviewCardText = computed(() => {
+  const overview = resume.value?.overviewCard ?? {};
+
+  return {
+    title: overview.title || 'Profile Snapshot',
+    description:
+      overview.description ||
+      'Front-end engineer focused on modern Vue/Nuxt product interfaces, scalable component architecture, and performance-first delivery.',
+    experienceLabel: overview.experienceLabel || 'Experience Entries',
+    educationLabel: overview.educationLabel || 'Education Entries',
+    downloadLabelSingle: overview.downloadLabelSingle || 'Download CV',
+    downloadLabelMultiple: overview.downloadLabelMultiple || 'Download Resume',
+    contactLabel: overview.contactLabel || 'Contact Me',
+    selectAriaLabel: overview.selectAriaLabel || 'Choose resume file',
+  };
+});
+
 const openCV = () => {
   if (selectedCvUrl.value) {
     window.open(selectedCvUrl.value, '_blank');
@@ -98,20 +115,17 @@ onMounted(load);
 
       <section class="resume-top-grid">
         <article class="resume-overview-card">
-          <h3>Profile Snapshot</h3>
-          <p>
-            Front-end engineer focused on modern Vue/Nuxt product interfaces,
-            scalable component architecture, and performance-first delivery.
-          </p>
+          <h3>{{ overviewCardText.title }}</h3>
+          <p>{{ overviewCardText.description }}</p>
 
           <ul class="resume-overview-metrics">
             <li>
               <strong>{{ totalExperienceItems }}</strong>
-              <span>Experience Entries</span>
+              <span>{{ overviewCardText.experienceLabel }}</span>
             </li>
             <li>
               <strong>{{ totalEducationItems }}</strong>
-              <span>Education Entries</span>
+              <span>{{ overviewCardText.educationLabel }}</span>
             </li>
           </ul>
 
@@ -123,7 +137,7 @@ onMounted(load);
               <select
                 v-model="selectedCvUrl"
                 class="resume-overview-actions__select"
-                aria-label="Choose resume file"
+                :aria-label="overviewCardText.selectAriaLabel"
               >
                 <option
                   v-for="option in resumeDownloadOptions"
@@ -142,11 +156,15 @@ onMounted(load);
               @click="openCV"
             >
               <font-awesome-icon :icon="faDownload" />
-              {{ hasMultipleResumes ? 'Download Resume' : 'Download CV' }}
+              {{
+                hasMultipleResumes
+                  ? overviewCardText.downloadLabelMultiple
+                  : overviewCardText.downloadLabelSingle
+              }}
             </button>
             <router-link class="app-btn app-btn--ghost" to="/contact">
               <font-awesome-icon :icon="faEnvelopeOpenText" />
-              Contact Me
+              {{ overviewCardText.contactLabel }}
             </router-link>
           </div>
         </article>
