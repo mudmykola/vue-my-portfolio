@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 12:18:41 EET
+- Type: Feature
+- Title: Implement route-level SEO metadata manager for SPA routes
+- Summary: Added centralized route-level SEO metadata management (title, description, canonical, robots, Open Graph, Twitter tags) with immediate route-change syncing, route SEO config in router meta, and improved base SEO placeholders in `index.html`.
+- Affected module/route/tool: `src/config/seo.js`, `src/router/index.js`, `src/App.vue`, `index.html`, `README.md`
+- Issue reference: Linear `MYK-87`, GitHub `#111`
+
 ## 2026-02-25 12:02:39 EET
 - Type: Refactor
 - Title: Centralize site-content loading into single shared composable
