@@ -9,6 +9,10 @@ const SEO_DEFAULTS = {
   defaultDescription:
     'Portfolio of Mykola Mud, front-end engineer specializing in Vue, Nuxt, Shopify storefronts, performance-focused interfaces, reusable component systems, and production-ready implementation for modern digital products.',
   defaultOgImage: env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp',
+  defaultOgImageAlt:
+    env.VITE_DEFAULT_OG_IMAGE_ALT || 'Mykola Mud front-end engineer portfolio social preview image',
+  defaultOgImageWidth: Number(env.VITE_DEFAULT_OG_IMAGE_WIDTH || 1200),
+  defaultOgImageHeight: Number(env.VITE_DEFAULT_OG_IMAGE_HEIGHT || 630),
   twitterCard: 'summary_large_image',
   siteUrl: trimTrailingSlash(env.VITE_SITE_URL || ''),
 };
@@ -25,10 +29,14 @@ const HEAD_SELECTORS = {
   ogType: 'meta[property="og:type"]',
   ogUrl: 'meta[property="og:url"]',
   ogImage: 'meta[property="og:image"]',
+  ogImageAlt: 'meta[property="og:image:alt"]',
+  ogImageWidth: 'meta[property="og:image:width"]',
+  ogImageHeight: 'meta[property="og:image:height"]',
   twitterCard: 'meta[name="twitter:card"]',
   twitterTitle: 'meta[name="twitter:title"]',
   twitterDescription: 'meta[name="twitter:description"]',
   twitterImage: 'meta[name="twitter:image"]',
+  twitterImageAlt: 'meta[name="twitter:image:alt"]',
   canonical: 'link[rel="canonical"]',
 };
 
@@ -230,6 +238,9 @@ export const resolveSeoMeta = (route) => {
   const canonicalUrl = ensureAbsoluteUrl(canonicalPath);
 
   const ogImage = ensureAbsoluteUrl(routeSeo.ogImage || SEO_DEFAULTS.defaultOgImage);
+  const ogImageAlt = routeSeo.ogImageAlt || SEO_DEFAULTS.defaultOgImageAlt;
+  const ogImageWidth = String(routeSeo.ogImageWidth || SEO_DEFAULTS.defaultOgImageWidth);
+  const ogImageHeight = String(routeSeo.ogImageHeight || SEO_DEFAULTS.defaultOgImageHeight);
   const robotsContent = routeSeo.noindex ? 'noindex, nofollow' : 'index, follow';
 
   return {
@@ -239,6 +250,9 @@ export const resolveSeoMeta = (route) => {
     robotsContent,
     ogType: routeSeo.ogType || 'website',
     ogImage,
+    ogImageAlt,
+    ogImageWidth,
+    ogImageHeight,
     twitterCard: routeSeo.twitterCard || SEO_DEFAULTS.twitterCard,
     noindex: Boolean(routeSeo.noindex),
   };
@@ -294,6 +308,24 @@ export const applyRouteSeoMeta = (route) => {
     attrValue: 'og:image',
     content: seo.ogImage,
   });
+  setMetaTag({
+    selector: HEAD_SELECTORS.ogImageAlt,
+    attrName: 'property',
+    attrValue: 'og:image:alt',
+    content: seo.ogImageAlt,
+  });
+  setMetaTag({
+    selector: HEAD_SELECTORS.ogImageWidth,
+    attrName: 'property',
+    attrValue: 'og:image:width',
+    content: seo.ogImageWidth,
+  });
+  setMetaTag({
+    selector: HEAD_SELECTORS.ogImageHeight,
+    attrName: 'property',
+    attrValue: 'og:image:height',
+    content: seo.ogImageHeight,
+  });
 
   setMetaTag({
     selector: HEAD_SELECTORS.twitterCard,
@@ -319,6 +351,12 @@ export const applyRouteSeoMeta = (route) => {
     attrValue: 'twitter:image',
     content: seo.ogImage,
   });
+  setMetaTag({
+    selector: HEAD_SELECTORS.twitterImageAlt,
+    attrName: 'name',
+    attrValue: 'twitter:image:alt',
+    content: seo.ogImageAlt,
+  });
 
   setLinkTag({
     selector: HEAD_SELECTORS.canonical,
@@ -328,4 +366,3 @@ export const applyRouteSeoMeta = (route) => {
 
   applyRouteStructuredData(route, seo);
 };
-

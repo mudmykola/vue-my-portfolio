@@ -14,7 +14,7 @@ const { data, load } = useSiteContent();
 
 const avatar = computed(() => data.value?.avatars?.[0] ?? null);
 const avatarUrl = computed(() => avatar.value?.image || '');
-const avatarAlt = computed(() => avatar.value?.alt || 'avatar');
+const avatarAlt = computed(() => avatar.value?.alt || 'Mykola Mud avatar');
 
 const isCurrentRoute = (link) => route.path === link;
 
@@ -31,7 +31,15 @@ onMounted(() => {
 <template>
   <div class="header-nav">
     <router-link class="brand" to="/" @click="playNavSound">
-      <img :src="avatarUrl" :alt="avatarAlt" class="brand__avatar" />
+      <img
+        :src="avatarUrl"
+        :alt="avatarAlt"
+        class="brand__avatar"
+        width="38"
+        height="38"
+        decoding="async"
+        fetchpriority="high"
+      />
       <div class="brand__text">
         <p>{{ firstName }} {{ lastName }}</p>
         <span>Front-End Engineer</span>
