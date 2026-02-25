@@ -176,7 +176,7 @@
   "homePage": {
     "hero": {
       "displayName": "Mykola Mud",
-      "h1Title": "Mykola Mud Front-End Engineer Portfolio",
+      "h1Title": "Mykola Mud | Front-End Engineer Portfolio",
       "rotatingTitles": [
         "Multi-Platform Web Developer",
         "Vue & Nuxt Specialist",
@@ -261,7 +261,7 @@
     ]
   },
   "aboutPage": {
-    "title": "About Mykola Mud Front-End Engineer",
+    "title": " | Front-End Engineer Background and Services",
     "subtitle": ["Developer", "Manager", "Creative Person"],
     "servicesTitle": "Services",
     "clientsTitle": "Clients",
@@ -307,7 +307,7 @@
     }
   },
   "resumePage": {
-    "title": "Front-End Engineer Resume and Experience",
+    "title": " | Front-End Engineer Experience and CV",
     "subtitle": "3+ Years of Experience",
     "overviewCard": {
       "title": "Profile Snapshot",

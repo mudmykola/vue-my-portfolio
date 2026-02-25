@@ -21,6 +21,8 @@ const router = createRouter({
           description:
             'Explore Mykola Mud’s front-end engineering portfolio featuring Vue and Nuxt interfaces, Shopify storefront implementation, performance optimization, reusable component architecture, and production-focused UX delivery for real products.',
           canonicalPath: '/',
+          schemaType: 'WebPage',
+          breadcrumbLabel: 'Home',
         },
       },
     },
@@ -35,6 +37,8 @@ const router = createRouter({
           description:
             'Learn about Mykola Mud’s front-end engineering background, services, client collaborations, testimonials, and workflow strengths across Vue, Nuxt, Shopify, and performance-focused user interface development projects.',
           canonicalPath: '/about',
+          schemaType: 'AboutPage',
+          breadcrumbLabel: 'About',
         },
       },
     },
@@ -49,6 +53,8 @@ const router = createRouter({
           description:
             'Review Mykola Mud’s front-end engineer resume with professional experience, education history, core stack, tooling, and downloadable CV options covering Vue, Nuxt, Shopify, and modern interface delivery work.',
           canonicalPath: '/resume',
+          schemaType: 'ProfilePage',
+          breadcrumbLabel: 'Resume',
         },
       },
     },
@@ -64,6 +70,8 @@ const router = createRouter({
           description:
             'Browse selected front-end portfolio projects and case studies built with Vue, Nuxt, Shopify, and performance-first UI architecture, including implementation details, visual solutions, and technical stack decisions.',
           canonicalPath: '/portfolio',
+          schemaType: 'CollectionPage',
+          breadcrumbLabel: 'Portfolio',
         },
       },
     },
@@ -78,6 +86,8 @@ const router = createRouter({
           description:
             'Read front-end engineering blog notes, implementation case studies, and practical articles on Vue, Nuxt, eCommerce UI architecture, maintainability, and performance optimization for production-ready interfaces.',
           canonicalPath: '/blog',
+          schemaType: 'CollectionPage',
+          breadcrumbLabel: 'Blog',
         },
       },
     },
@@ -92,6 +102,8 @@ const router = createRouter({
           description:
             'Contact Mykola Mud to discuss Vue, Nuxt, Shopify frontend, and performance-focused front-end engineering work, request project estimates, or start collaboration on product interface improvements.',
           canonicalPath: '/contact',
+          schemaType: 'ContactPage',
+          breadcrumbLabel: 'Contact',
         },
       },
     },
@@ -106,6 +118,8 @@ const router = createRouter({
           description:
             'Interactive game demo and portfolio experiment page included in the project as a non-indexed feature example for UI interactions and front-end implementation practice.',
           canonicalPath: '/game',
+          schemaType: 'WebPage',
+          breadcrumbLabel: 'Game',
           noindex: true,
         },
       },

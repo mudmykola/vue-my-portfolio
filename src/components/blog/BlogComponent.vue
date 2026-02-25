@@ -12,7 +12,7 @@ import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
         :icon="faNewspaper"
         heading-tag="h1"
         visible-title="Blog"
-        title="Front-End Engineering Blog and Notes"
+        title=" | Front-End Engineering Notes and Articles"
         subtitle="Structured notes, case studies, and practical front-end updates"
       />
 
