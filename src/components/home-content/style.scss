@@ -157,6 +157,27 @@
   margin-bottom: 0.8rem;
 }
 
+.hero-panel__toggle {
+  margin: 0 0 0.75rem;
+  padding: 0.38rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef8ff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hero-panel__toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hero-panel__toggle:focus-visible {
+  outline: 2px solid rgba(73, 220, 177, 0.55);
+  outline-offset: 2px;
+}
+
 .hero-panel__count {
   display: inline-flex;
   align-items: center;

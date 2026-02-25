@@ -1,34 +1,49 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { fullName, title, transitioning } from './homeData.js';
+import { useHomeTitleRotation } from './homeData.js';
+import { fallbackHomeContent } from './homeFallbackContent.js';
+import HomeHeroSection from './HomeHeroSection.vue';
+import HomeValuesSection from './HomeValuesSection.vue';
+import HomeWorkflowSection from './HomeWorkflowSection.vue';
+import HomeCtaSection from './HomeCtaSection.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
 
 const { data, load } = useSiteContent();
 
-const fallbackToolkit = [
-  'HTML',
-  'CSS',
-  'JavaScript',
-  'Vue.js',
-  'Nuxt.js',
-  'Pinia',
-  'Vuex',
-  'Tailwind CSS',
-  'REST',
-  'JSON',
-  'Axios',
-  'Fetch',
-  'Node.js',
-  'Vite',
-  'Webpack',
-  'Gulp',
-  'NPM',
-  'Yarn',
-  'Shopify CLI',
-  'Liquid (Shopify)',
-  'Git',
-  'Figma',
-];
+const homeContent = computed(() => data.value?.homePage ?? {});
+
+const heroContent = computed(() => ({
+  ...fallbackHomeContent.hero,
+  ...(homeContent.value?.hero ?? {}),
+}));
+
+const heroDisplayName = computed(
+  () => heroContent.value.displayName || fallbackHomeContent.hero.displayName
+);
+
+const heroRotatingTitles = computed(() => {
+  const titles = heroContent.value.rotatingTitles;
+  return Array.isArray(titles) && titles.length
+    ? titles
+    : fallbackHomeContent.hero.rotatingTitles;
+});
+
+const valuesContent = computed(() => ({
+  ...fallbackHomeContent.values,
+  ...(homeContent.value?.values ?? {}),
+  cards: homeContent.value?.values?.cards ?? fallbackHomeContent.values.cards,
+}));
+
+const workflowContent = computed(() => ({
+  ...fallbackHomeContent.workflow,
+  ...(homeContent.value?.workflow ?? {}),
+  items: homeContent.value?.workflow?.items ?? fallbackHomeContent.workflow.items,
+}));
+
+const ctaContent = computed(() => ({
+  ...fallbackHomeContent.cta,
+  ...(homeContent.value?.cta ?? {}),
+}));
 
 const frontendToolkit = computed(() =>
   (data.value?.resumePage?.frontendTechnologies ?? [])
@@ -45,146 +60,38 @@ const toolsToolkit = computed(() =>
 const toolkit = computed(() => {
   const merged = [...frontendToolkit.value, ...toolsToolkit.value];
   const unique = [...new Set(merged)];
-  return unique.length ? unique : fallbackToolkit;
+
+  if (unique.length) {
+    return unique;
+  }
+
+  return homeContent.value?.fallbackToolkit ?? fallbackHomeContent.fallbackToolkit;
 });
 
 const primaryToolkit = computed(() => toolkit.value.slice(0, 8));
 
+const {
+  title: rotatingTitle,
+  transitioning,
+} = useHomeTitleRotation(heroRotatingTitles);
+
 onMounted(load);
-
-const valueCards = [
-  {
-    title: 'Product UX',
-    text: 'Clear user flows, visual hierarchy, and interactions designed for retention.',
-  },
-  {
-    title: 'Clean Architecture',
-    text: 'Components and data layers structured for scale, not short-term hacks.',
-  },
-  {
-    title: 'Fast Delivery',
-    text: 'Reliable implementation with transparent progress and predictable timelines.',
-  },
-];
-
-const workflow = [
-  {
-    step: '01',
-    title: 'Discovery',
-    text: 'I map business goals, user needs, and technical constraints before coding.',
-  },
-  {
-    step: '02',
-    title: 'Design & Build',
-    text: 'UI systems, component architecture, and integrations are built in parallel.',
-  },
-  {
-    step: '03',
-    title: 'Refine & Ship',
-    text: 'Final optimization, QA, and rollout with measurable performance improvements.',
-  },
-];
 </script>
 
 <template>
   <section class="home-page">
-    <section class="home-hero">
-      <div class="hero-noise"></div>
-      <div class="hero-glow hero-glow--one"></div>
-      <div class="hero-glow hero-glow--two"></div>
+    <HomeHeroSection
+      :hero="heroContent"
+      :full-name="heroDisplayName"
+      :title="rotatingTitle"
+      :transitioning="transitioning"
+      :toolkit="toolkit"
+      :primary-toolkit="primaryToolkit"
+    />
 
-      <div class="hero-shell">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="hero-kicker">AVAILABLE FOR NEW PROJECTS</p>
-            <h1 class="hero-name">{{ fullName }}</h1>
-            <h2
-              :class="{ 'fade-out': transitioning, 'fade-in': !transitioning }"
-              class="hero-title"
-            >
-              {{ title }}
-            </h2>
-            <p class="hero-description">
-              I build polished interfaces for real products with a strong focus on
-              speed, maintainability, and user experience.
-            </p>
-
-            <div class="hero-cta">
-              <router-link class="app-btn app-btn--primary" to="/portfolio">
-                See Portfolio
-              </router-link>
-              <router-link class="app-btn app-btn--ghost" to="/contact">
-                Contact Me
-              </router-link>
-            </div>
-          </div>
-
-          <div class="hero-panel">
-            <div class="hero-panel__head">
-              <p class="hero-panel__title">Core Toolkit</p>
-              <span class="hero-panel__count">{{ toolkit.length }} technologies</span>
-            </div>
-
-            <ul class="hero-pills hero-pills--primary">
-              <li v-for="pill in primaryToolkit" :key="pill">
-                {{ pill }}
-              </li>
-            </ul>
-
-            <ul class="hero-pills hero-pills--all">
-              <li v-for="pill in toolkit" :key="`all-${pill}`">
-                {{ pill }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-section section-values">
-      <div class="section-head">
-        <p class="section-eyebrow">What I Focus On</p>
-        <h3>Practical Front-End that serves real business goals</h3>
-      </div>
-      <div class="value-grid">
-        <article v-for="item in valueCards" :key="item.title" class="value-card">
-          <h4>{{ item.title }}</h4>
-          <p>{{ item.text }}</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="home-section section-workflow">
-      <div class="section-head">
-        <p class="section-eyebrow">How I Work</p>
-        <h3>Simple process, clear milestones, no chaos</h3>
-      </div>
-      <div class="workflow-grid">
-        <article v-for="item in workflow" :key="item.step" class="workflow-card">
-          <span class="workflow-step">{{ item.step }}</span>
-          <h4>{{ item.title }}</h4>
-          <p>{{ item.text }}</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="home-section section-cta">
-      <div class="cta-card">
-        <p class="section-eyebrow">Ready To Start</p>
-        <h3>Need a modern Vue/Nuxt interface for your product?</h3>
-        <p>
-          I can help you redesign, optimize, or build your next front-end feature set.
-        </p>
-        <div class="hero-cta">
-          <router-link class="app-btn app-btn--primary" to="/contact">
-            Start a Project
-          </router-link>
-          <router-link class="app-btn app-btn--ghost" to="/resume">
-            View Resume
-          </router-link>
-        </div>
-      </div>
-    </section>
+    <HomeValuesSection :values="valuesContent" />
+    <HomeWorkflowSection :workflow="workflowContent" />
+    <HomeCtaSection :cta="ctaContent" />
   </section>
 </template>
 
