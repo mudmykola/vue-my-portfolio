@@ -18,7 +18,7 @@ onMounted(load);
         :icon="faBriefcase"
         heading-tag="h1"
         visible-title="Portfolio"
-        title="Front-End Portfolio Case Studies"
+        title=" | Front-End Projects and Case Studies"
         subtitle="Selected projects with architecture and implementation details"
       />
 

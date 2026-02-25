@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import GameCrosswordComponent from '@/components/game/GameCrosswordComponent.vue';
 
-const gameSeoTitle = ref('Interactive Game Demo');
+const gameSeoTitle = ref('Game | Interactive UI Demo and Portfolio Experiment');
 const gameVisibleTitle = ref('Game');
 const gameSubTitleItem = ref('Stop and have a rest');
 const gameHiddenTitleSuffix = computed(() => {

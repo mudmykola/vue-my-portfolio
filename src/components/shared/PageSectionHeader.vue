@@ -39,12 +39,7 @@ const hiddenTitleSuffix = computed(() => {
   const visibleTitle = renderedVisibleTitle.value.trim();
 
   if (!fullTitle || !visibleTitle || fullTitle === visibleTitle) return '';
-
-  if (fullTitle.toLowerCase().startsWith(visibleTitle.toLowerCase())) {
-    return fullTitle.slice(visibleTitle.length).trim();
-  }
-
-  return '';
+  return fullTitle;
 });
 </script>
 
@@ -56,9 +51,10 @@ const hiddenTitleSuffix = computed(() => {
     </span>
 
     <component :is="props.headingTag" class="page-section-head__title">
-      {{ renderedVisibleTitle }}
+      <span v-if="hiddenTitleSuffix" aria-hidden="true">{{ renderedVisibleTitle }}</span>
+      <template v-else>{{ renderedVisibleTitle }}</template>
       <span v-if="hiddenTitleSuffix" class="page-section-head__title-seo">
-        {{ ` ${hiddenTitleSuffix}` }}
+        {{ hiddenTitleSuffix }}
       </span>
     </component>
 

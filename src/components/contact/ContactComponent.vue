@@ -20,7 +20,7 @@ onMounted(load);
         :icon="faEnvelopeOpenText"
         heading-tag="h1"
         visible-title="Contact"
-        title="Contact Mykola Mud for Front-End Projects"
+        title=" | Hire Front-End Engineer for Vue and Shopify"
         subtitle="Tell me about your idea and I will get back to you shortly"
       />
 

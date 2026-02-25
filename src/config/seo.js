@@ -13,6 +13,10 @@ const SEO_DEFAULTS = {
   siteUrl: trimTrailingSlash(env.VITE_SITE_URL || ''),
 };
 
+const STRUCTURED_DATA_SCRIPT_ID = 'app-structured-data';
+const WEBSITE_NODE_ID = '#website';
+const PERSON_NODE_ID = '#person';
+
 const HEAD_SELECTORS = {
   description: 'meta[name="description"]',
   robots: 'meta[name="robots"]',
@@ -28,15 +32,17 @@ const HEAD_SELECTORS = {
   canonical: 'link[rel="canonical"]',
 };
 
+const getSiteOrigin = () =>
+  SEO_DEFAULTS.siteUrl ||
+  (typeof window !== 'undefined' ? trimTrailingSlash(window.location.origin) : '');
+
 const ensureAbsoluteUrl = (value) => {
   if (!value) return '';
   if (/^https?:\/\//i.test(value)) return value;
 
-  const origin =
-    SEO_DEFAULTS.siteUrl ||
-    (typeof window !== 'undefined' ? trimTrailingSlash(window.location.origin) : '');
-
+  const origin = getSiteOrigin();
   if (!origin) return value;
+
   return `${origin}${String(value).startsWith('/') ? value : `/${value}`}`;
 };
 
@@ -45,6 +51,17 @@ const ensureHeadTag = ({ selector, tag, attrName, attrValue }) => {
   if (!element) {
     element = document.createElement(tag);
     element.setAttribute(attrName, attrValue);
+    document.head.appendChild(element);
+  }
+  return element;
+};
+
+const ensureJsonLdScript = () => {
+  let element = document.head.querySelector(`#${STRUCTURED_DATA_SCRIPT_ID}`);
+  if (!element) {
+    element = document.createElement('script');
+    element.id = STRUCTURED_DATA_SCRIPT_ID;
+    element.type = 'application/ld+json';
     document.head.appendChild(element);
   }
   return element;
@@ -77,6 +94,131 @@ const normalizeTitle = (rawTitle) => {
   return `${title}${SEO_DEFAULTS.titleTemplateSuffix}`;
 };
 
+const getRoutePath = (route) =>
+  route?.meta?.seo?.canonicalPath ||
+  route?.path ||
+  (typeof window !== 'undefined' ? window.location.pathname : '/');
+
+const getRouteDisplayTitle = (route, seo) =>
+  String(route?.meta?.seo?.breadcrumbLabel || route?.meta?.title || seo.title || 'Page');
+
+const buildWebsiteNode = () => {
+  const origin = getSiteOrigin();
+  if (!origin) return null;
+
+  return {
+    '@type': 'WebSite',
+    '@id': `${origin}${WEBSITE_NODE_ID}`,
+    url: `${origin}/`,
+    name: SEO_DEFAULTS.siteName,
+    inLanguage: 'en',
+  };
+};
+
+const buildPersonNode = () => {
+  const origin = getSiteOrigin();
+  if (!origin) return null;
+
+  return {
+    '@type': 'Person',
+    '@id': `${origin}${PERSON_NODE_ID}`,
+    name: 'Mykola Mud',
+    url: `${origin}/about`,
+    image: ensureAbsoluteUrl(SEO_DEFAULTS.defaultOgImage),
+    jobTitle: 'Front-End Engineer',
+    description:
+      'Front-end engineer focused on Vue, Nuxt, Shopify storefronts, scalable UI systems, and performance-oriented implementation.',
+    knowsAbout: [
+      'Vue.js',
+      'Nuxt',
+      'Shopify Frontend Development',
+      'Frontend Architecture',
+      'Web Performance',
+      'UI Development',
+    ],
+  };
+};
+
+const buildBreadcrumbNode = (route, seo) => {
+  const origin = getSiteOrigin();
+  if (!origin) return null;
+
+  const pathname = getRoutePath(route);
+  const segments = pathname.split('/').filter(Boolean);
+  const routeLabel = getRouteDisplayTitle(route, seo);
+  const itemListElement = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${origin}/`,
+    },
+  ];
+
+  if (segments.length === 0) {
+    return {
+      '@type': 'BreadcrumbList',
+      '@id': `${seo.canonicalUrl || `${origin}/`}#breadcrumb`,
+      itemListElement,
+    };
+  }
+
+  let currentPath = '';
+  segments.forEach((segment, index) => {
+    currentPath += `/${segment}`;
+    const isLast = index === segments.length - 1;
+
+    itemListElement.push({
+      '@type': 'ListItem',
+      position: itemListElement.length + 1,
+      name: isLast ? routeLabel : segment.replace(/[-_]+/g, ' '),
+      item: isLast ? seo.canonicalUrl : `${origin}${currentPath}`,
+    });
+  });
+
+  return {
+    '@type': 'BreadcrumbList',
+    '@id': `${seo.canonicalUrl || `${origin}${pathname}`}#breadcrumb`,
+    itemListElement,
+  };
+};
+
+const buildRouteNode = (route, seo) => {
+  const origin = getSiteOrigin();
+  if (!origin || !seo.canonicalUrl) return null;
+
+  const schemaType = route?.meta?.seo?.schemaType || 'WebPage';
+
+  return {
+    '@type': schemaType,
+    '@id': `${seo.canonicalUrl}#webpage`,
+    url: seo.canonicalUrl,
+    name: getRouteDisplayTitle(route, seo),
+    description: seo.description,
+    isPartOf: { '@id': `${origin}${WEBSITE_NODE_ID}` },
+    about: { '@id': `${origin}${PERSON_NODE_ID}` },
+    inLanguage: 'en',
+  };
+};
+
+const applyRouteStructuredData = (route, seo) => {
+  if (typeof document === 'undefined') return;
+
+  const websiteNode = buildWebsiteNode();
+  const personNode = buildPersonNode();
+  const routeNode = buildRouteNode(route, seo);
+  const breadcrumbNode = buildBreadcrumbNode(route, seo);
+
+  const graph = [websiteNode, personNode, routeNode, breadcrumbNode].filter(Boolean);
+  if (!graph.length) return;
+
+  const script = ensureJsonLdScript();
+  script.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  });
+};
+
 export const resolveSeoMeta = (route) => {
   const routeSeo = route?.meta?.seo ?? {};
 
@@ -98,6 +240,7 @@ export const resolveSeoMeta = (route) => {
     ogType: routeSeo.ogType || 'website',
     ogImage,
     twitterCard: routeSeo.twitterCard || SEO_DEFAULTS.twitterCard,
+    noindex: Boolean(routeSeo.noindex),
   };
 };
 
@@ -182,4 +325,7 @@ export const applyRouteSeoMeta = (route) => {
     rel: 'canonical',
     href: seo.canonicalUrl,
   });
+
+  applyRouteStructuredData(route, seo);
 };
+

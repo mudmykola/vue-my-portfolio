@@ -1,5 +1,26 @@
 # Dev Log
 
+## 2026-02-25 12:48:48 EET
+- Type: SEO
+- Title: Standardize full SEO H1 format as title plus keyword context
+- Summary: Rewrote full SEO H1 strings across primary pages to a consistent `Title | keyword context` format while preserving short visible UI labels via shared header rendering.
+- Affected module/route/tool: Home/About/Resume/Portfolio/Blog/Contact/Game headings, `site-content.json`
+- Issue reference: Linear `MYK-95`, GitHub `#120`
+
+## 2026-02-25 12:45:10 EET
+- Type: SEO
+- Title: Preserve full SEO H1 text for shared page headers with short UI labels
+- Summary: Fixed shared page header rendering so short visible labels remain in the UI while full H1 titles are preserved in hidden text for SEO and accessibility, including Resume, Portfolio, and Blog pages where prefix-based suffix splitting was dropping the full heading.
+- Affected module/route/tool: `PageSectionHeader.vue`, `AboutSectionHeader.vue`
+- Issue reference: Linear `MYK-95`, GitHub `#120`
+
+## 2026-02-25 12:41:36 EET
+- Type: SEO
+- Title: Add route-aware JSON-LD structured data baseline
+- Summary: Implemented centralized JSON-LD generation in the SEO manager with route-aware `WebPage`/`AboutPage`/`CollectionPage`/`ContactPage` nodes plus shared `WebSite`, `Person`, and `BreadcrumbList` graph output updated on route changes.
+- Affected module/route/tool: `src/config/seo.js`, router SEO metadata config
+- Issue reference: Linear `MYK-91`, GitHub `#115`
+
 ## 2026-02-25 12:36:17 EET
 - Type: Improvement
 - Title: Shorten visible page H1 labels while preserving full SEO headings
