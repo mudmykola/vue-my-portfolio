@@ -18,7 +18,9 @@ onMounted(load);
       <PageSectionHeader
         badge="Contact"
         :icon="faEnvelopeOpenText"
-        title="Contact Me"
+        heading-tag="h1"
+        visible-title="Contact"
+        title="Contact Mykola Mud for Front-End Projects"
         subtitle="Tell me about your idea and I will get back to you shortly"
       />
 

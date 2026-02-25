@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
@@ -7,6 +8,10 @@ const props = defineProps({
     default: '',
   },
   title: {
+    type: String,
+    default: '',
+  },
+  visibleTitle: {
     type: String,
     default: '',
   },
@@ -22,6 +27,24 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  headingTag: {
+    type: String,
+    default: 'h2',
+  },
+});
+
+const renderedVisibleTitle = computed(() => props.visibleTitle || props.title);
+const hiddenTitleSuffix = computed(() => {
+  const fullTitle = (props.title || '').trim();
+  const visibleTitle = renderedVisibleTitle.value.trim();
+
+  if (!fullTitle || !visibleTitle || fullTitle === visibleTitle) return '';
+
+  if (fullTitle.toLowerCase().startsWith(visibleTitle.toLowerCase())) {
+    return fullTitle.slice(visibleTitle.length).trim();
+  }
+
+  return '';
 });
 </script>
 
@@ -32,7 +55,12 @@ const props = defineProps({
       {{ props.badge }}
     </span>
 
-    <h2 class="page-section-head__title">{{ props.title }}</h2>
+    <component :is="props.headingTag" class="page-section-head__title">
+      {{ renderedVisibleTitle }}
+      <span v-if="hiddenTitleSuffix" class="page-section-head__title-seo">
+        {{ ` ${hiddenTitleSuffix}` }}
+      </span>
+    </component>
 
     <p v-if="typeof props.subtitle === 'string' && props.subtitle" class="page-section-head__subtitle">
       {{ props.subtitle }}
@@ -58,6 +86,18 @@ const props = defineProps({
   margin: 0;
   font-size: clamp(1.65rem, 4.1vw, 3rem);
   line-height: 1.05;
+}
+
+.page-section-head__title-seo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .page-section-head__subtitle {

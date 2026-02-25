@@ -7,7 +7,7 @@ const SEO_DEFAULTS = {
   titleTemplateSuffix: ' | Mykola Mud',
   defaultTitle: 'Front-End Engineer Portfolio | Mykola Mud',
   defaultDescription:
-    'Portfolio of Mykola Mud, Front-End Engineer specializing in Vue, Nuxt, Shopify storefronts, and performance-focused interfaces.',
+    'Portfolio of Mykola Mud, front-end engineer specializing in Vue, Nuxt, Shopify storefronts, performance-focused interfaces, reusable component systems, and production-ready implementation for modern digital products.',
   defaultOgImage: env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp',
   twitterCard: 'summary_large_image',
   siteUrl: trimTrailingSlash(env.VITE_SITE_URL || ''),

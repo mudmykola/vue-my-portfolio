@@ -16,7 +16,9 @@ onMounted(load);
       <PageSectionHeader
         badge="Case Studies"
         :icon="faBriefcase"
-        title="Portfolio"
+        heading-tag="h1"
+        visible-title="Portfolio"
+        title="Front-End Portfolio Case Studies"
         subtitle="Selected projects with architecture and implementation details"
       />
 

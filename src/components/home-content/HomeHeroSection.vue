@@ -17,6 +17,22 @@ const secondaryToolkit = computed(() =>
 );
 
 const hasSecondaryToolkit = computed(() => secondaryToolkit.value.length > 0);
+const heroHeading = computed(
+  () => props.hero?.h1Title || `${props.fullName} Front-End Engineer Portfolio`
+);
+const visibleHeroName = computed(() => props.fullName?.trim() || 'Mykola Mud');
+const hiddenHeroHeadingSuffix = computed(() => {
+  const fullHeading = heroHeading.value.trim();
+  const visibleName = visibleHeroName.value;
+
+  if (!fullHeading || !visibleName) return '';
+
+  if (fullHeading.toLowerCase().startsWith(visibleName.toLowerCase())) {
+    return fullHeading.slice(visibleName.length).trim();
+  }
+
+  return '';
+});
 
 const toggleToolkit = () => {
   showAllToolkit.value = !showAllToolkit.value;
@@ -33,7 +49,12 @@ const toggleToolkit = () => {
       <div class="hero-grid">
         <div class="hero-copy">
           <p class="hero-kicker">{{ hero.kicker }}</p>
-          <h1 class="hero-name">{{ fullName }}</h1>
+          <h1 class="hero-name">
+            {{ visibleHeroName }}
+            <span v-if="hiddenHeroHeadingSuffix" class="visually-hidden">
+              {{ ` ${hiddenHeroHeadingSuffix}` }}
+            </span>
+          </h1>
           <h2
             :class="{ 'fade-out': transitioning, 'fade-in': !transitioning }"
             class="hero-title"
