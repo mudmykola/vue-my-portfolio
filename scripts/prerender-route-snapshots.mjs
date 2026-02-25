@@ -6,12 +6,32 @@ const distDir = path.join(projectRoot, 'dist');
 const distIndexPath = path.join(distDir, 'index.html');
 
 const trimTrailingSlash = (value = '') => String(value).replace(/\/+$/, '');
-const siteOrigin = trimTrailingSlash(process.env.VITE_SITE_URL || '') || 'https://example.com';
+const deriveOriginFromContactApiUrl = (value = '') => {
+  try {
+    if (!value) return '';
+    const parsed = new URL(value);
+    return trimTrailingSlash(parsed.origin);
+  } catch {
+    return '';
+  }
+};
+
+const configuredSiteOrigin = trimTrailingSlash(process.env.VITE_SITE_URL || '');
+const contactApiOrigin = deriveOriginFromContactApiUrl(process.env.VITE_CONTACT_API_URL || '');
+const siteOrigin = configuredSiteOrigin || contactApiOrigin || 'https://example.com';
 const defaultOgImagePath = process.env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp';
 const defaultOgImageAlt =
   process.env.VITE_DEFAULT_OG_IMAGE_ALT || 'Mykola Mud front-end engineer portfolio social preview image';
 const defaultOgImageWidth = String(process.env.VITE_DEFAULT_OG_IMAGE_WIDTH || '1200');
 const defaultOgImageHeight = String(process.env.VITE_DEFAULT_OG_IMAGE_HEIGHT || '630');
+
+if (!configuredSiteOrigin && !contactApiOrigin) {
+  console.warn(
+    '[prerender] VITE_SITE_URL is not set and VITE_CONTACT_API_URL is not absolute. Using https://example.com fallback for route snapshots.'
+  );
+} else if (!configuredSiteOrigin && contactApiOrigin) {
+  console.warn(`[prerender] VITE_SITE_URL is not set. Using ${contactApiOrigin} derived from VITE_CONTACT_API_URL for route snapshots.`);
+}
 
 const absoluteUrl = (value) => {
   if (!value) return '';
@@ -221,4 +241,3 @@ for (const route of ROUTES) {
 }
 
 console.log(`[prerender] Generated route HTML snapshots for ${ROUTES.length} core routes`);
-

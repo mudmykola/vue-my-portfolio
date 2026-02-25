@@ -10,11 +10,26 @@ const DISALLOWED_ROUTES = ['/game'];
 const trimTrailingSlash = (value = '') => String(value).replace(/\/+$/, '');
 const ensureLeadingSlash = (value = '') => (String(value).startsWith('/') ? String(value) : `/${value}`);
 
-const siteUrl = trimTrailingSlash(import.meta.env?.VITE_SITE_URL || process.env.VITE_SITE_URL || '');
-const origin = siteUrl || 'https://example.com';
+const deriveOriginFromContactApiUrl = (value = '') => {
+  try {
+    if (!value) return '';
+    const parsed = new URL(value);
+    return trimTrailingSlash(parsed.origin);
+  } catch {
+    return '';
+  }
+};
 
-if (!siteUrl) {
-  console.warn('[seo-assets] VITE_SITE_URL is not set. Using https://example.com fallback for sitemap/robots generation.');
+const siteUrl = trimTrailingSlash(import.meta.env?.VITE_SITE_URL || process.env.VITE_SITE_URL || '');
+const contactApiOrigin = deriveOriginFromContactApiUrl(
+  import.meta.env?.VITE_CONTACT_API_URL || process.env.VITE_CONTACT_API_URL || ''
+);
+const origin = siteUrl || contactApiOrigin || 'https://example.com';
+
+if (!siteUrl && !contactApiOrigin) {
+  console.warn('[seo-assets] VITE_SITE_URL is not set and VITE_CONTACT_API_URL is not absolute. Using https://example.com fallback for sitemap/robots generation.');
+} else if (!siteUrl && contactApiOrigin) {
+  console.warn(`[seo-assets] VITE_SITE_URL is not set. Using ${contactApiOrigin} derived from VITE_CONTACT_API_URL for sitemap/robots generation.`);
 }
 
 const now = new Date().toISOString();
@@ -60,4 +75,3 @@ await fs.writeFile(path.join(distDir, 'sitemap.xml'), buildSitemapXml(), 'utf8')
 await fs.writeFile(path.join(distDir, 'robots.txt'), buildRobotsTxt(), 'utf8');
 
 console.log('[seo-assets] Generated dist/sitemap.xml and dist/robots.txt');
-

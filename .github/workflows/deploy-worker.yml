@@ -32,6 +32,11 @@ jobs:
         env:
           VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
           VITE_CONTACT_API_URL: ${{ secrets.VITE_CONTACT_API_URL }}
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL }}
+          VITE_DEFAULT_OG_IMAGE_PATH: ${{ secrets.VITE_DEFAULT_OG_IMAGE_PATH }}
+          VITE_DEFAULT_OG_IMAGE_ALT: ${{ secrets.VITE_DEFAULT_OG_IMAGE_ALT }}
+          VITE_DEFAULT_OG_IMAGE_WIDTH: ${{ secrets.VITE_DEFAULT_OG_IMAGE_WIDTH }}
+          VITE_DEFAULT_OG_IMAGE_HEIGHT: ${{ secrets.VITE_DEFAULT_OG_IMAGE_HEIGHT }}
         run: npm run build
 
       - name: Deploy worker with Wrangler CLI
