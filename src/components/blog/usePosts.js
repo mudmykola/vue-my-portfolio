@@ -1,5 +1,6 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import axios from 'axios';
+import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 
 export function usePosts() {
   const labels = {
@@ -93,9 +94,7 @@ export function usePosts() {
     error.value = '';
 
     try {
-      const response = await axios.get(
-        'https://mudmykola.github.io/test-api/api-my-portfolio-blog-post.json'
-      );
+      const response = await axios.get(remoteEndpoints.blogPostsUrl);
       posts.value = response.data.posts;
     } catch (e) {
       console.error('Failed to fetch posts:', e);
@@ -106,7 +105,7 @@ export function usePosts() {
   };
 
   const getPostImageUrl = (imagePath) =>
-    `https://mudmykola.github.io/test-api${imagePath}`;
+    remoteEndpoints.resolveGithubTestApiAsset(imagePath);
 
   onMounted(fetchPosts);
 

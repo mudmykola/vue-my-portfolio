@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { remoteEndpoints } from '../config/remoteEndpoints.js';
 
 export const useFactsStore = defineStore('facts', {
   state: () => ({
@@ -8,15 +9,13 @@ export const useFactsStore = defineStore('facts', {
   actions: {
     async fetchFacts() {
       try {
-        const response = await axios.get(
-          'https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json'
-        );
+        const response = await axios.get(remoteEndpoints.avatarDataUrl);
         const data = response.data;
         if (data.funCard && Array.isArray(data.funCard)) {
           this.facts = data.funCard.map((item) => ({
             title: item.title,
             value: item.number,
-            image: `https://test-api-mudmykola.vercel.app${item.photo}`,
+            image: remoteEndpoints.resolveContentApiAsset(item.photo),
           }));
         } else {
           console.error('Invalid or missing fun facts data');

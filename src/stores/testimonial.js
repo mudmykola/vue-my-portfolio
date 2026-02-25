@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { remoteEndpoints } from '../config/remoteEndpoints.js';
 
 export const useTestimonialsStore = defineStore({
   id: 'testimonials',
   state: () => ({
-    baseURL: 'https://test-api-mudmykola.vercel.app',
+    baseURL: remoteEndpoints.contentApiBase,
     testimonials: [],
     groupedTestimonials: [],
   }),
@@ -12,7 +13,7 @@ export const useTestimonialsStore = defineStore({
     async fetchTestimonials() {
       try {
         const response = await axios.get(
-          `${this.baseURL}/api-my-portfolio-avatar.json`
+          remoteEndpoints.avatarDataUrl
         );
         const data = response.data;
 

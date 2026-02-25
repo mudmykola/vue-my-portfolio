@@ -67,6 +67,17 @@ Create `.env` in project root:
 ```env
 VITE_OPENWEATHER_API_KEY=
 VITE_CONTACT_API_URL=/contact
+
+# Optional remote endpoint overrides (defaults are built in)
+VITE_GITHUB_TEST_API_BASE_URL=
+VITE_CONTENT_API_BASE_URL=
+VITE_GITHUB_API_BASE_URL=
+VITE_BLOG_POSTS_URL=
+VITE_PORTFOLIO_PROJECTS_URL=
+VITE_AVATAR_DATA_URL=
+VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
+VITE_OPENWEATHER_API_BASE_URL=
+VITE_OPENWEATHER_ICON_BASE_URL=
 ```
 
 Important:
@@ -75,6 +86,7 @@ Important:
 - Do not store real secrets in frontend env for production.
 - Prefer server-side secret handling via Cloudflare Worker.
 - `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
+- External content/API hosts can be overridden via optional `VITE_*` endpoint vars; sane defaults are defined in `src/config/remoteEndpoints.js`.
 
 ## Deployment
 

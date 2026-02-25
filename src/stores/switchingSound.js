@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { remoteEndpoints } from '../config/remoteEndpoints.js';
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({
@@ -8,9 +9,7 @@ export const useAudioStore = defineStore('audio', {
   actions: {
     async fetchSound() {
       try {
-        const response = await axios.get(
-          'https://api.github.com/repos/mudmykola/test-api/contents/audio/rclick.mp3'
-        );
+        const response = await axios.get(remoteEndpoints.clickSoundGithubContentUrl);
         const data = response.data;
 
         if (data.download_url) {
