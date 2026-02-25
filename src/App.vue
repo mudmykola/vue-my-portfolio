@@ -10,13 +10,15 @@
 import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import MainLayoutComponent from '@/layout/MainLayoutComponent.vue';
+import { applyRouteSeoMeta } from '@/config/seo.js';
 
 const route = useRoute();
 
 watch(
-  () => route.meta.title,
-  (newTitle) => {
-    document.title = newTitle || 'Your Default Title';
-  }
+  () => route.fullPath,
+  () => {
+    applyRouteSeoMeta(route);
+  },
+  { immediate: true }
 );
 </script>

@@ -67,6 +67,8 @@ Create `.env` in project root:
 ```env
 VITE_OPENWEATHER_API_KEY=
 VITE_CONTACT_API_URL=/contact
+VITE_SITE_URL=
+VITE_DEFAULT_OG_IMAGE_PATH=/images/avatar-logo.webp
 
 # Optional remote endpoint overrides (defaults are built in)
 VITE_GITHUB_TEST_API_BASE_URL=
@@ -86,6 +88,8 @@ Important:
 - Do not store real secrets in frontend env for production.
 - Prefer server-side secret handling via Cloudflare Worker.
 - `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
+- `VITE_SITE_URL` is used for absolute canonical/OG URLs in runtime SEO metadata.
+- `VITE_DEFAULT_OG_IMAGE_PATH` sets a default social preview image path for SEO metadata.
 - External content/API hosts can be overridden via optional `VITE_*` endpoint vars; sane defaults are defined in `src/config/remoteEndpoints.js`.
 
 ## Deployment
