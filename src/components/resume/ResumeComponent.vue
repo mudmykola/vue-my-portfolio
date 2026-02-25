@@ -109,6 +109,8 @@ onMounted(load);
       <PageSectionHeader
         badge="Career"
         :icon="faBriefcase"
+        heading-tag="h1"
+        visible-title="Resume"
         :title="resume.title"
         :subtitle="resume.subtitle"
       />

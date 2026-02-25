@@ -10,7 +10,9 @@ import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
       <PageSectionHeader
         badge="Insights"
         :icon="faNewspaper"
-        title="Blog"
+        heading-tag="h1"
+        visible-title="Blog"
+        title="Front-End Engineering Blog and Notes"
         subtitle="Structured notes, case studies, and practical front-end updates"
       />
 

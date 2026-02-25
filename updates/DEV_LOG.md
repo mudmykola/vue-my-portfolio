@@ -1,5 +1,19 @@
 # Dev Log
 
+## 2026-02-25 12:36:17 EET
+- Type: Improvement
+- Title: Shorten visible page H1 labels while preserving full SEO headings
+- Summary: Updated top-level page H1 rendering to show short labels in the UI while keeping the full SEO heading text in visually hidden spans inside the same H1 for semantic and crawler-friendly output.
+- Affected module/route/tool: Home/About/Resume/Portfolio/Blog/Contact/Game page headers, shared section header components
+- Issue reference: Linear `MYK-95`, GitHub `#120`
+
+## 2026-02-25 12:30:19 EET
+- Type: Improvement
+- Title: Align route SEO copy lengths and page H1 headings with SEMrush-friendly ranges
+- Summary: Added semantic H1 support to shared page headers, set visible H1 headings across key pages, normalized route SEO titles/descriptions to target length ranges, and updated Home/Game H1 text plus content titles for better SEO audits.
+- Affected module/route/tool: shared page headers, Home/About/Resume/Portfolio/Blog/Contact/Game headings, router SEO meta config, `site-content.json`
+- Issue reference: Linear `MYK-89`, Linear `MYK-95`, GitHub `#113`, GitHub `#120`
+
 ## 2026-02-25 12:18:41 EET
 - Type: Feature
 - Title: Implement route-level SEO metadata manager for SPA routes

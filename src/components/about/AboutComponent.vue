@@ -32,6 +32,8 @@ onMounted(load);
       <AboutSectionHeader
         badge="Profile"
         :icon="faUser"
+        heading-tag="h1"
+        visible-title="About"
         :title="page.title"
         :subtitle="page.subtitle"
       />

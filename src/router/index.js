@@ -15,11 +15,11 @@ const router = createRouter({
       name: 'home',
       component: HomePage,
       meta: {
-        title: 'Front-End Engineer Portfolio',
+        title: 'Vue and Nuxt Front-End Engineer Portfolio',
         seo: {
-          title: 'Front-End Engineer Portfolio',
+          title: 'Vue and Nuxt Front-End Engineer Portfolio',
           description:
-            'Front-end engineer portfolio focused on Vue, Nuxt, Shopify storefronts, and performance-driven UI implementation.',
+            'Explore Mykola Mud’s front-end engineering portfolio featuring Vue and Nuxt interfaces, Shopify storefront implementation, performance optimization, reusable component architecture, and production-focused UX delivery for real products.',
           canonicalPath: '/',
         },
       },
@@ -29,11 +29,11 @@ const router = createRouter({
       name: 'about',
       component: AboutPage,
       meta: {
-        title: 'About',
+        title: 'About Mykola Mud Front-End Engineer',
         seo: {
-          title: 'About',
+          title: 'About Mykola Mud Front-End Engineer',
           description:
-            'About Mykola Mud: front-end engineering experience, services, testimonials, clients, and work highlights.',
+            'Learn about Mykola Mud’s front-end engineering background, services, client collaborations, testimonials, and workflow strengths across Vue, Nuxt, Shopify, and performance-focused user interface development projects.',
           canonicalPath: '/about',
         },
       },
@@ -43,11 +43,11 @@ const router = createRouter({
       name: 'resume',
       component: ResumePage,
       meta: {
-        title: 'Resume',
+        title: 'Front-End Engineer Resume and Experience',
         seo: {
-          title: 'Resume',
+          title: 'Front-End Engineer Resume and Experience',
           description:
-            'Resume of Mykola Mud, Front-End Engineer: experience, education, core stack, tools, and downloadable CV options.',
+            'Review Mykola Mud’s front-end engineer resume with professional experience, education history, core stack, tooling, and downloadable CV options covering Vue, Nuxt, Shopify, and modern interface delivery work.',
           canonicalPath: '/resume',
         },
       },
@@ -58,11 +58,11 @@ const router = createRouter({
       name: 'portfolio',
       component: PortfolioPage,
       meta: {
-        title: 'Portfolio',
+        title: 'Front-End Portfolio Projects and Case Studies',
         seo: {
-          title: 'Portfolio',
+          title: 'Front-End Portfolio Projects and Case Studies',
           description:
-            'Selected front-end and eCommerce projects built with Vue, Nuxt, Shopify, and performance-first UI architecture.',
+            'Browse selected front-end portfolio projects and case studies built with Vue, Nuxt, Shopify, and performance-first UI architecture, including implementation details, visual solutions, and technical stack decisions.',
           canonicalPath: '/portfolio',
         },
       },
@@ -72,11 +72,11 @@ const router = createRouter({
       name: 'blog',
       component: BlogPage,
       meta: {
-        title: 'Blog',
+        title: 'Front-End Engineering Blog and Case Notes',
         seo: {
-          title: 'Blog',
+          title: 'Front-End Engineering Blog and Case Notes',
           description:
-            'Technical notes, front-end case studies, and implementation-focused articles on Vue, Nuxt, and eCommerce development.',
+            'Read front-end engineering blog notes, implementation case studies, and practical articles on Vue, Nuxt, eCommerce UI architecture, maintainability, and performance optimization for production-ready interfaces.',
           canonicalPath: '/blog',
         },
       },
@@ -86,11 +86,11 @@ const router = createRouter({
       name: 'contact',
       component: ContactPage,
       meta: {
-        title: 'Contact',
+        title: 'Contact Mykola Mud for Front-End Projects',
         seo: {
-          title: 'Contact',
+          title: 'Contact Mykola Mud for Front-End Projects',
           description:
-            'Contact Mykola Mud for Vue/Nuxt, Shopify frontend, and performance-focused front-end engineering work.',
+            'Contact Mykola Mud to discuss Vue, Nuxt, Shopify frontend, and performance-focused front-end engineering work, request project estimates, or start collaboration on product interface improvements.',
           canonicalPath: '/contact',
         },
       },
@@ -100,10 +100,11 @@ const router = createRouter({
       name: 'game',
       component: GamePage,
       meta: {
-        title: 'Game',
+        title: 'Interactive Game Demo and Portfolio Experiment',
         seo: {
-          title: 'Game',
-          description: 'Interactive game page in the portfolio project.',
+          title: 'Interactive Game Demo and Portfolio Experiment',
+          description:
+            'Interactive game demo and portfolio experiment page included in the project as a non-indexed feature example for UI interactions and front-end implementation practice.',
           canonicalPath: '/game',
           noindex: true,
         },
