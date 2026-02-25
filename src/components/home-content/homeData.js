@@ -1,21 +1,54 @@
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useIntervalFn } from '@vueuse/core';
 
-export const fullName = ref('Mykola Mud');
+export const useHomeTitleRotation = (titlesSource) => {
+  const title = ref('');
+  const transitioning = ref(false);
 
-export const titles = [
-  'Multi-Platform Web Developer',
-  'Vue & Nuxt Specialist',
-  'Shopify Ecosystem Architect',
-];
+  const getTitles = () =>
+    (Array.isArray(titlesSource?.value) ? titlesSource.value : []).filter(Boolean);
 
-export const title = ref(titles[0]);
-export const transitioning = ref(false);
+  const syncCurrentTitle = () => {
+    const currentTitles = getTitles();
 
-useIntervalFn(() => {
-  transitioning.value = true;
-  setTimeout(() => {
-    title.value = titles[(titles.indexOf(title.value) + 1) % titles.length];
-    transitioning.value = false;
-  }, 500);
-}, 3000);
+    if (!currentTitles.length) {
+      title.value = '';
+      return;
+    }
+
+    if (!currentTitles.includes(title.value)) {
+      title.value = currentTitles[0];
+    }
+  };
+
+  watch(
+    titlesSource,
+    () => {
+      syncCurrentTitle();
+    },
+    { immediate: true }
+  );
+
+  useIntervalFn(() => {
+    const currentTitles = getTitles();
+
+    if (currentTitles.length <= 1 || !title.value) {
+      return;
+    }
+
+    transitioning.value = true;
+
+    setTimeout(() => {
+      const currentIndex = currentTitles.indexOf(title.value);
+      const nextIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
+
+      title.value = currentTitles[nextIndex % currentTitles.length];
+      transitioning.value = false;
+    }, 500);
+  }, 3000);
+
+  return {
+    title,
+    transitioning,
+  };
+};
