@@ -20,6 +20,7 @@ GitHub Actions secrets required:
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 - `VITE_OPENWEATHER_API_KEY`
+- `VITE_SITE_URL` (required for canonical, prerender snapshots, sitemap, robots)
 - Optional: `VITE_CONTACT_API_URL` (defaults to `/contact`)
 
 Cloudflare Worker secrets required:
@@ -50,8 +51,13 @@ Manual deploy fallback:
 
 - Open site:
   - `https://vue-my-portfolio-contact.freelance-mud.workers.dev/`
+- SEO source sanity check (View Source on `/` and `/about`):
+  - No `https://example.com` in `canonical`, `og:url`, `og:image`, or JSON-LD
 - Health endpoint:
   - `GET /health` should return `success: true`
+- Crawl assets:
+  - `GET /sitemap.xml` returns production domain (not `example.com`)
+  - `GET /robots.txt` contains correct `Sitemap:` URL
 - Contact API smoke test:
   - `curl -i -X POST 'https://vue-my-portfolio-contact.freelance-mud.workers.dev/contact' -H 'Content-Type: application/json' --data '{"fullName":"Test User","email":"test@example.com","message":"Ping"}'`
   - Expect `HTTP 200` and `{"success":true}`

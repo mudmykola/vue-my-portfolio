@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 13:29:41 EET
+- Type: Improvement
+- Title: Add release checklist checks for SEO domain fallback validation
+- Summary: Updated the production release checklist to require `VITE_SITE_URL` in GitHub Actions secrets and added post-deploy verification steps to catch accidental `example.com` fallback values in source HTML, sitemap, and robots assets.
+- Affected module/route/tool: `RELEASE_CHECKLIST.md`, SEO/deploy QA process
+- Issue reference: Follow-up to SEO deployment hardening (`MYK-88`, `MYK-90`)
+
 ## 2026-02-25 13:09:39 EET
 - Type: SEO
 - Title: Add build-time prerendered HTML snapshots for core marketing routes
