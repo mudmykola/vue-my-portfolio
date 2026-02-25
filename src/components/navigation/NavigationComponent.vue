@@ -1,15 +1,20 @@
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAudioStore } from '@/stores/switchingSound.js';
 import { firstName, lastName, menuItems } from './navigationData.js';
-import { avatarUrl, avatarAlt, fetchAvatar } from './navigationAvatarLogic.js';
+import { useSiteContent } from '@/composables/useSiteContent.js';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import ClockWidget from '@/widget/clock/ClockWidget.vue';
 import WeatherWidget from '@/widget/weather/WeatherWidget.vue';
 
 const route = useRoute();
 const audioStore = useAudioStore();
+const { data, load } = useSiteContent();
+
+const avatar = computed(() => data.value?.avatars?.[0] ?? null);
+const avatarUrl = computed(() => avatar.value?.image || '');
+const avatarAlt = computed(() => avatar.value?.alt || 'avatar');
 
 const isCurrentRoute = (link) => route.path === link;
 
@@ -18,7 +23,7 @@ const playNavSound = () => {
 };
 
 onMounted(() => {
-  fetchAvatar();
+  load();
   audioStore.fetchSound();
 });
 </script>
