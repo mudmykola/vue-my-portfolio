@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import { remoteEndpoints } from '../config/remoteEndpoints.js';
 
 export const useServiceStore = defineStore({
   id: 'services',
@@ -9,15 +10,12 @@ export const useServiceStore = defineStore({
   actions: {
     async fetchServices() {
       try {
-        const response = await axios.get(
-          'https://test-api-mudmykola.vercel.app/api-my-portfolio-avatar.json'
-        );
+        const response = await axios.get(remoteEndpoints.avatarDataUrl);
         const data = response.data;
         if (data.servicesCard && Array.isArray(data.servicesCard)) {
-          const baseURL = 'https://test-api-mudmykola.vercel.app';
           this.servicesItem = data.servicesCard.map((item) => ({
             ...item,
-            photo: `${baseURL}${item.photo}`,
+            photo: remoteEndpoints.resolveContentApiAsset(item.photo),
           }));
         } else {
           console.error('Invalid or missing services data');

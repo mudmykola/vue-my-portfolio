@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 
 export const temperature = ref(null);
 export const weatherDescription = ref(null);
@@ -18,7 +19,10 @@ export const fetchWeatherData = async (selectedCity = city.value) => {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${apiKey}&units=metric`
+      remoteEndpoints.buildOpenWeatherCurrentUrl({
+        city: selectedCity,
+        apiKey,
+      })
     );
 
     if (!response.ok) {
@@ -35,7 +39,9 @@ export const fetchWeatherData = async (selectedCity = city.value) => {
 
     temperature.value = Math.round(data.main.temp);
     weatherDescription.value = data.weather[0].main;
-    weatherIconUrl.value = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+    weatherIconUrl.value = remoteEndpoints.buildOpenWeatherIconUrl(
+      data.weather[0].icon
+    );
     city.value = selectedCity;
     localStorage.setItem('selectedCity', selectedCity);
   } catch (error) {

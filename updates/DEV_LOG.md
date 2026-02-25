@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 11:54:20 EET
+- Type: Improvement
+- Title: Centralize external endpoint URLs in env-driven config layer
+- Summary: Replaced hardcoded remote API hosts in blog, portfolio, audio, testimonial, services, fun facts, and weather modules with `src/config/remoteEndpoints.js`, added environment override support, and documented optional `VITE_*` endpoint variables in README.
+- Affected module/route/tool: `src/config/remoteEndpoints.js`, blog/portfolio composables, Pinia stores, weather widget, `README.md`
+- Issue reference: Linear `MYK-28`, GitHub `#89`
+
 ## 2026-02-25 11:46:04 EET
 - Type: Fix
 - Title: Remove frontend Telegram secret env references from docs

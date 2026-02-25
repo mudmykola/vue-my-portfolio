@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 
 const projects = ref([]);
 const loading = ref(false);
@@ -14,9 +15,7 @@ export function usePortfolioPage() {
     error.value = '';
 
     try {
-      const response = await fetch(
-        'https://mudmykola.github.io/test-api/api-my-portfolio-project.json'
-      );
+      const response = await fetch(remoteEndpoints.portfolioProjectsUrl);
 
       if (!response.ok) {
         throw new Error(`Failed to load portfolio: ${response.status}`);
