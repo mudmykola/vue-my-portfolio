@@ -29,7 +29,7 @@ const props = defineProps({
   justify-content: center;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(199, 199, 199);
   min-height: 76px;
 }
 

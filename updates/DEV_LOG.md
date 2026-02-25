@@ -1,5 +1,19 @@
 # Dev Log
 
+## 2026-02-25 11:46:04 EET
+- Type: Fix
+- Title: Remove frontend Telegram secret env references from docs
+- Summary: Completed the MYK-6 cleanup by removing legacy `VITE_TELEGRAM_*` variables from README examples and keeping the documented contact flow on Worker proxy endpoint plus server-side Cloudflare secrets only.
+- Affected module/route/tool: Documentation (`README.md`), contact delivery setup docs
+- Issue reference: Linear `MYK-6`, GitHub `#65`
+
+## 2026-02-25 11:40:08 EET
+- Type: Improvement
+- Title: Enable dev refresh for site-content without manual reload
+- Summary: Added dev-only cache busting and lightweight polling for shared site-content loaders so JSON edits are re-fetched during local development while production caching behavior remains unchanged.
+- Affected module/route/tool: `useSiteContent`, `useAboutPage`, navigation avatar content fetch
+- Issue reference: Linear `MYK-34`, GitHub `#97`
+
 ## 2026-02-25 11:21:16 EET
 - Type: Refactor
 - Title: Move Home hero rotating text content from homeData.js to JSON
