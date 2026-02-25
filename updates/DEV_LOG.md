@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 13:35:09 EET
+- Type: Improvement
+- Title: Document production canonical domain for SEO build environment
+- Summary: Updated README and release checklist to pin `VITE_SITE_URL` to the production domain `https://mykolamud.pp.ua` and reduce risk of canonical/JSON-LD/OG fallback values pointing to the Worker subdomain.
+- Affected module/route/tool: `README.md`, `RELEASE_CHECKLIST.md`, SEO deployment process
+- Issue reference: SEO deployment follow-up
+
 ## 2026-02-25 13:29:41 EET
 - Type: Improvement
 - Title: Add release checklist checks for SEO domain fallback validation

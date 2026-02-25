@@ -67,7 +67,7 @@ Create `.env` in project root:
 ```env
 VITE_OPENWEATHER_API_KEY=
 VITE_CONTACT_API_URL=/contact
-VITE_SITE_URL=
+VITE_SITE_URL=https://mykolamud.pp.ua
 VITE_DEFAULT_OG_IMAGE_PATH=/images/avatar-logo.webp
 VITE_DEFAULT_OG_IMAGE_ALT=Mykola Mud front-end engineer portfolio social preview image
 VITE_DEFAULT_OG_IMAGE_WIDTH=1200
@@ -92,6 +92,7 @@ Important:
 - Prefer server-side secret handling via Cloudflare Worker.
 - `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
 - `VITE_SITE_URL` is used for absolute canonical/OG URLs in runtime SEO metadata and for generated `sitemap.xml` / `robots.txt`.
+- Production value for this project should be `https://mykolamud.pp.ua` (not the `workers.dev` subdomain).
 - `VITE_DEFAULT_OG_IMAGE_PATH` sets a default social preview image path for SEO metadata.
 - `VITE_DEFAULT_OG_IMAGE_ALT`, `VITE_DEFAULT_OG_IMAGE_WIDTH`, `VITE_DEFAULT_OG_IMAGE_HEIGHT` control default social image metadata.
 - External content/API hosts can be overridden via optional `VITE_*` endpoint vars; sane defaults are defined in `src/config/remoteEndpoints.js`.
