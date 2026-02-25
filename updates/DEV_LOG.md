@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 12:02:39 EET
+- Type: Refactor
+- Title: Centralize site-content loading into single shared composable
+- Summary: Removed duplicate `site-content.json` loaders (`useAboutPage`, navigation avatar fetch helper) and switched About/Navigation consumers to `useSiteContent` as the single authoritative content loader with shared caching/error behavior.
+- Affected module/route/tool: `useSiteContent`, About page, Navigation header avatar
+- Issue reference: Linear `MYK-26`, GitHub `#88`
+
 ## 2026-02-25 11:54:20 EET
 - Type: Improvement
 - Title: Centralize external endpoint URLs in env-driven config layer

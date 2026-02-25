@@ -14,9 +14,9 @@ import AboutClientComponent from '@/components/about/AboutClientComponent.vue';
 import AboutTestimonialsComponent from '@/components/about/AboutTestimonialsComponent.vue';
 import AboutFunComponent from '@/components/about/AboutFunComponent.vue';
 import AboutSectionHeader from '@/components/about/AboutSectionHeader.vue';
-import { useAboutPage } from '@/components/about/useAboutPage.js';
+import { useSiteContent } from '@/composables/useSiteContent.js';
 
-const { data, loading, error, load } = useAboutPage();
+const { data, loading, error, load } = useSiteContent();
 
 const page = computed(() => data.value?.aboutPage ?? null);
 
