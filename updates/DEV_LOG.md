@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 13:09:39 EET
+- Type: SEO
+- Title: Add build-time prerendered HTML snapshots for core marketing routes
+- Summary: Implemented a head-prerender strategy that generates route-specific HTML snapshots for core marketing routes during build, including route metadata and JSON-LD in `<head>`, while keeping the existing SPA + Cloudflare Worker runtime flow unchanged.
+- Affected module/route/tool: build pipeline (`package.json`), `scripts/prerender-route-snapshots.mjs`, `README.md`
+- Issue reference: Linear `MYK-90`, GitHub `#114`
+
 ## 2026-02-25 13:05:11 EET
 - Type: SEO
 - Title: Improve image metadata hints and CLS safety across remaining components
