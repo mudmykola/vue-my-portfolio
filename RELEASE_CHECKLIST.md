@@ -21,6 +21,7 @@ GitHub Actions secrets required:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `VITE_OPENWEATHER_API_KEY`
 - `VITE_SITE_URL` (required for canonical, prerender snapshots, sitemap, robots)
+  - Production value: `https://mykolamud.pp.ua`
 - Optional: `VITE_CONTACT_API_URL` (defaults to `/contact`)
 
 Cloudflare Worker secrets required:
