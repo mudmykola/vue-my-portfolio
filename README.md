@@ -66,13 +66,7 @@ Create `.env` in project root:
 
 ```env
 VITE_OPENWEATHER_API_KEY=
-VITE_SUPABASE_URL=
-VITE_SUPABASE_KEY=
 VITE_CONTACT_API_URL=/contact
-
-# Legacy (frontend Telegram, not recommended for production)
-VITE_TELEGRAM_BOT_TOKEN=
-VITE_TELEGRAM_CHAT_ID=
 ```
 
 Important:

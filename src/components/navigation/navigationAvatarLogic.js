@@ -2,10 +2,16 @@ import { ref } from 'vue';
 
 export const avatarUrl = ref('');
 export const avatarAlt = ref('');
+const isDev = import.meta.env.DEV;
+
+const getSiteContentUrl = () =>
+  isDev ? `/data/site-content.json?t=${Date.now()}` : '/data/site-content.json';
 
 export const fetchAvatar = async () => {
   try {
-    const response = await fetch('/data/site-content.json');
+    const response = await fetch(getSiteContentUrl(), {
+      cache: isDev ? 'no-store' : 'default',
+    });
     const data = await response.json();
     const avatars = data?.avatars;
 
