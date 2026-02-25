@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../views/HomePage.vue';
-import AboutPage from '@/views/about/AboutPage.vue';
-import ResumePage from '@/views/resume/ResumePage.vue';
-import PortfolioPage from '@/views/portfolio/PortfolioPage.vue';
-import BlogPage from '@/views/blog/BlogPage.vue';
-import ContactPage from '@/views/contact/ContactPage.vue';
-import GamePage from '@/views/game/GamePage.vue';
-import NotFoundPage from '@/views/NotFoundPage.vue';
+
+const HomePage = () => import('../views/HomePage.vue');
+const AboutPage = () => import('@/views/about/AboutPage.vue');
+const ResumePage = () => import('@/views/resume/ResumePage.vue');
+const PortfolioPage = () => import('@/views/portfolio/PortfolioPage.vue');
+const BlogPage = () => import('@/views/blog/BlogPage.vue');
+const ContactPage = () => import('@/views/contact/ContactPage.vue');
+const GamePage = () => import('@/views/game/GamePage.vue');
+const NotFoundPage = () => import('@/views/NotFoundPage.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

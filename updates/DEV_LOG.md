@@ -1,5 +1,12 @@
 # Dev Log
 
+## 2026-02-25 13:45:11 EET
+- Type: Improvement
+- Title: Start mobile performance pass with route code-splitting and deferred ads script
+- Summary: Converted route views to lazy-loaded chunks, moved Google Fonts loading from SCSS `@import` to head `preconnect + stylesheet`, and deferred AdSense script injection until browser idle to reduce initial mobile bundle parse/execute cost and improve PageSpeed opportunities.
+- Affected module/route/tool: router route loading, `App.vue`, `index.html`, global styles font loading
+- Issue reference: Linear `MYK-19`
+
 ## 2026-02-25 13:35:09 EET
 - Type: Improvement
 - Title: Document production canonical domain for SEO build environment
