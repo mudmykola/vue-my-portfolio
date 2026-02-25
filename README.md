@@ -69,6 +69,9 @@ VITE_OPENWEATHER_API_KEY=
 VITE_CONTACT_API_URL=/contact
 VITE_SITE_URL=
 VITE_DEFAULT_OG_IMAGE_PATH=/images/avatar-logo.webp
+VITE_DEFAULT_OG_IMAGE_ALT=Mykola Mud front-end engineer portfolio social preview image
+VITE_DEFAULT_OG_IMAGE_WIDTH=1200
+VITE_DEFAULT_OG_IMAGE_HEIGHT=630
 
 # Optional remote endpoint overrides (defaults are built in)
 VITE_GITHUB_TEST_API_BASE_URL=
@@ -88,15 +91,35 @@ Important:
 - Do not store real secrets in frontend env for production.
 - Prefer server-side secret handling via Cloudflare Worker.
 - `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
-- `VITE_SITE_URL` is used for absolute canonical/OG URLs in runtime SEO metadata.
+- `VITE_SITE_URL` is used for absolute canonical/OG URLs in runtime SEO metadata and for generated `sitemap.xml` / `robots.txt`.
 - `VITE_DEFAULT_OG_IMAGE_PATH` sets a default social preview image path for SEO metadata.
+- `VITE_DEFAULT_OG_IMAGE_ALT`, `VITE_DEFAULT_OG_IMAGE_WIDTH`, `VITE_DEFAULT_OG_IMAGE_HEIGHT` control default social image metadata.
 - External content/API hosts can be overridden via optional `VITE_*` endpoint vars; sane defaults are defined in `src/config/remoteEndpoints.js`.
+
+### Social Preview Image Strategy (SEO)
+
+- Default social preview image is configured globally via `VITE_DEFAULT_OG_IMAGE_PATH` (used for both Open Graph and Twitter).
+- Route-specific override is supported in router SEO config via `meta.seo.ogImage`.
+- Optional route-specific social image metadata overrides:
+  - `meta.seo.ogImageAlt`
+  - `meta.seo.ogImageWidth`
+  - `meta.seo.ogImageHeight`
+
+Recommended image spec (Open Graph / Twitter large card):
+
+- Size: `1200x630`
+- Format: `webp` or `jpg`
+- Keep key text/logo inside a centered safe area (avoid edges for platform crops)
+- Use clear contrast and minimal text for better share previews
 
 ## Deployment
 
 Release runbook:
 
 - `RELEASE_CHECKLIST.md`
+- `npm run build` also generates SEO crawl assets in `dist/`:
+  - `dist/sitemap.xml`
+  - `dist/robots.txt`
 
 ### Firebase Hosting (frontend)
 

@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
   <ul class="about-fun-grid">
     <li v-for="fact in props.facts" :key="fact.id" class="about-fun-card">
-      <img width="56" height="56" :src="fact.photo" :alt="fact.title" />
+      <img width="56" height="56" :src="fact.photo" :alt="fact.title" loading="lazy" decoding="async" />
       <h3>{{ fact.title }}</h3>
       <p>{{ Number(fact.number).toLocaleString() }}</p>
     </li>

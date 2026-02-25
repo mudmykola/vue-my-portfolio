@@ -21,7 +21,15 @@ onMounted(() => {
 
 <template>
   <div class="weather-pill" v-if="!loading && weatherIconUrl">
-    <img class="weather-pill__icon" :src="weatherIconUrl" :alt="weatherDescription" />
+    <img
+      class="weather-pill__icon"
+      :src="weatherIconUrl"
+      :alt="weatherDescription || 'Weather icon'"
+      width="18"
+      height="18"
+      loading="lazy"
+      decoding="async"
+    />
     <span class="weather-pill__city">{{ city }}</span>
     <strong class="weather-pill__temp">{{ temperature.toFixed(0) }}&deg;C</strong>
     <button class="weather-pill__action" type="button" @click="chooseLocation" aria-label="Choose city">

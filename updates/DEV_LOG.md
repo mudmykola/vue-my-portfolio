@@ -1,5 +1,33 @@
 # Dev Log
 
+## 2026-02-25 13:05:11 EET
+- Type: SEO
+- Title: Improve image metadata hints and CLS safety across remaining components
+- Summary: Added missing image loading and decoding hints across navigation, weather, about, blog, and portfolio image components, improved avatar/weather alt fallbacks, and added width/height metadata where fixed or standardized dimensions are available to reduce layout shifts.
+- Affected module/route/tool: navigation header avatar, weather widget, about cards, blog images, portfolio images
+- Issue reference: Linear `MYK-94`, GitHub `#118`
+
+## 2026-02-25 13:00:13 EET
+- Type: SEO
+- Title: Expand social preview metadata strategy for OG and Twitter images
+- Summary: Extended the SEO manager with default and route-overridable social image metadata (`og:image`, `og:image:alt`, `og:image:width`, `og:image:height`, `twitter:image`, `twitter:image:alt`) and documented image specs plus route override fields in README.
+- Affected module/route/tool: `src/config/seo.js`, `index.html`, `README.md`
+- Issue reference: Linear `MYK-93`, GitHub `#117`
+
+## 2026-02-25 12:57:46 EET
+- Type: SEO
+- Title: Add custom 404 page and noindex catch-all route
+- Summary: Added a dedicated NotFound page and router catch-all route with noindex SEO metadata and a stable `/404` canonical path to improve invalid URL handling for users and crawlers.
+- Affected module/route/tool: `src/views/NotFoundPage.vue`, router catch-all route, route SEO metadata
+- Issue reference: Linear `MYK-92`, GitHub `#116`
+
+## 2026-02-25 12:56:12 EET
+- Type: SEO
+- Title: Generate robots.txt and sitemap.xml during production build
+- Summary: Added build-time generation of `dist/robots.txt` and `dist/sitemap.xml` for core indexable routes using `VITE_SITE_URL` as the canonical origin source, with `/game` disallowed in robots output and README documentation for the SEO asset generation flow.
+- Affected module/route/tool: build pipeline (`package.json`), `scripts/generate-seo-assets.mjs`, `README.md`
+- Issue reference: Linear `MYK-88`, GitHub `#112`
+
 ## 2026-02-25 12:48:48 EET
 - Type: SEO
 - Title: Standardize full SEO H1 format as title plus keyword context

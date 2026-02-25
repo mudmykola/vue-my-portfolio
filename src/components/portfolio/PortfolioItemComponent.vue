@@ -144,7 +144,7 @@ onUnmounted(() => {
           class="portfolio-project-card"
           @click="showModal(project)"
         >
-          <img :src="imageUrl(project.image)" :alt="project.name" loading="lazy" />
+          <img :src="imageUrl(project.image)" :alt="project.name" loading="lazy" decoding="async" />
           <h3>{{ project.name }}</h3>
           <p>{{ project.description }}</p>
           <span>{{ project.technology }}</span>
@@ -189,6 +189,7 @@ onUnmounted(() => {
                   :src="currentImage"
                   :alt="selectedProject.name"
                   class="portfolio-modal__image"
+                  decoding="async"
                 />
                 <div v-else class="portfolio-modal__empty">
                   Image not available
@@ -225,7 +226,14 @@ onUnmounted(() => {
                   @click="selectImage(index)"
                   :aria-label="`Open image ${index + 1}`"
                 >
-                  <img :src="image" :alt="`${selectedProject.name} preview ${index + 1}`" />
+                  <img
+                    :src="image"
+                    :alt="`${selectedProject.name} preview ${index + 1}`"
+                    width="74"
+                    height="50"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </button>
               </div>
             </div>

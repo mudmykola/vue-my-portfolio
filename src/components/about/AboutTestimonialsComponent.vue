@@ -27,7 +27,14 @@ const props = defineProps({
         <article class="about-testimonial-card">
           <p class="about-testimonial-card__text">{{ testimonial.text }}</p>
           <div class="about-testimonial-card__author">
-            <img width="44" height="44" :src="testimonial.photo" :alt="testimonial.author" />
+            <img
+              width="44"
+              height="44"
+              :src="testimonial.photo"
+              :alt="testimonial.author"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p>{{ testimonial.author }}</p>
               <span>{{ testimonial.company }}</span>

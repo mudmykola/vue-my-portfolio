@@ -52,6 +52,8 @@ const rotateImage = (event) => {
         height="300"
         :src="props.avatar.image"
         :alt="props.avatar.alt"
+        loading="lazy"
+        decoding="async"
       />
     </div>
 

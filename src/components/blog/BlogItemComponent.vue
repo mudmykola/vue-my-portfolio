@@ -62,7 +62,15 @@
 
       <div v-if="featuredPost" class="blog-content">
         <article class="blog-featured">
-          <img :src="getPostImageUrl(featuredPost.image)" :alt="featuredPost.title" loading="lazy" />
+          <img
+            :src="getPostImageUrl(featuredPost.image)"
+            :alt="featuredPost.title"
+            width="1200"
+            height="630"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
           <div class="blog-featured__body">
             <div class="blog-featured__top">
               <span class="blog-chip blog-chip--accent">
@@ -90,7 +98,14 @@
 
         <div class="blog-grid">
           <article v-for="post in gridPosts" :key="post.id" class="blog-card">
-            <img :src="getPostImageUrl(post.image)" :alt="post.title" loading="lazy" />
+            <img
+              :src="getPostImageUrl(post.image)"
+              :alt="post.title"
+              width="1200"
+              height="630"
+              loading="lazy"
+              decoding="async"
+            />
             <div class="blog-card__body">
               <span class="blog-chip blog-chip--accent">
                 <font-awesome-icon :icon="faTag" />
@@ -135,7 +150,14 @@
               <font-awesome-icon :icon="faXmark" />
             </button>
 
-            <img :src="getPostImageUrl(selectedPost.image)" :alt="selectedPost.title" class="blog-modal__image" />
+            <img
+              :src="getPostImageUrl(selectedPost.image)"
+              :alt="selectedPost.title"
+              class="blog-modal__image"
+              width="1200"
+              height="630"
+              decoding="async"
+            />
 
             <div class="blog-modal__body">
               <div class="blog-modal__head">

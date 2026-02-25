@@ -6,6 +6,7 @@ import PortfolioPage from '@/views/portfolio/PortfolioPage.vue';
 import BlogPage from '@/views/blog/BlogPage.vue';
 import ContactPage from '@/views/contact/ContactPage.vue';
 import GamePage from '@/views/game/GamePage.vue';
+import NotFoundPage from '@/views/NotFoundPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -120,6 +121,23 @@ const router = createRouter({
           canonicalPath: '/game',
           schemaType: 'WebPage',
           breadcrumbLabel: 'Game',
+          noindex: true,
+        },
+      },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundPage,
+      meta: {
+        title: '404 Page Not Found',
+        seo: {
+          title: '404 Page Not Found',
+          description:
+            'This URL does not match an existing page on Mykola Mud’s portfolio website. Use navigation to return to valid pages such as Home, Portfolio, Resume, Blog, or Contact.',
+          canonicalPath: '/404',
+          schemaType: 'WebPage',
+          breadcrumbLabel: '404',
           noindex: true,
         },
       },
