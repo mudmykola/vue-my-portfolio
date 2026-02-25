@@ -118,6 +118,7 @@ Release runbook:
 
 - `RELEASE_CHECKLIST.md`
 - `npm run build` also generates SEO crawl assets in `dist/`:
+  - route HTML snapshots for core SEO pages (`/about`, `/resume`, `/portfolio`, `/blog`, `/contact`) with route-specific `<head>` metadata
   - `dist/sitemap.xml`
   - `dist/robots.txt`
 
@@ -137,6 +138,13 @@ Current Firebase config:
 ### Cloudflare Worker (frontend + Contact API)
 
 Worker serves built frontend (`dist`) and handles contact submissions via `POST /contact`.
+
+SEO prerender strategy (compatible with current SPA + Worker flow):
+
+- Build step generates route-specific HTML snapshots for core marketing routes.
+- Each snapshot keeps the same app bundle but includes route-specific `title`, `description`, canonical, OG/Twitter tags, and JSON-LD in `<head>`.
+- This improves crawler entry-page metadata without migrating the project to SSR.
+- Set `VITE_SITE_URL` in CI for correct absolute canonical/OG URLs in prerendered snapshots and sitemap.
 
 High-level flow:
 
