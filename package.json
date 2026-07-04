@@ -14,7 +14,8 @@
     "test:watch": "node --test --watch",
     "verify": "npm run test && npm run build",
     "stage": "npm run verify && git add .",
-    "deploy:worker": "npm run verify && cd worker && npx wrangler deploy"
+    "deploy:worker": "npm run verify && cd worker && npx wrangler deploy",
+    "sync:dev": "git checkout feature/VMP_dev && git pull origin feature/VMP_dev && git merge --no-edit origin/master && git push origin feature/VMP_dev"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,vue,scss,json}": [
