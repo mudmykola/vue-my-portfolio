@@ -36,7 +36,11 @@ export default {
     const url = new URL(request.url);
     const { method } = request;
     const origin = getOrigin(request, env);
-    const isContactRoute = url.pathname === '/contact';
+    // Use /api/contact: a plain /contact path collides with the prerendered
+    // SPA route and gets 405'd by the static-asset layer before reaching here.
+    // /contact is kept as an alias for backwards compatibility.
+    const isContactRoute =
+      url.pathname === '/api/contact' || url.pathname === '/contact';
     const isHealthRoute = url.pathname === '/health';
 
     if (request.method === 'GET' && isHealthRoute) {
@@ -47,7 +51,7 @@ export default {
           status: 'ok',
           usage: {
             method: 'POST',
-            endpoint: '/contact',
+            endpoint: '/api/contact',
             contentType: 'application/json',
           },
         },
@@ -85,7 +89,11 @@ export default {
 
     const contentType = request.headers.get('Content-Type') || '';
     if (!contentType.includes('application/json')) {
-      return json({ success: false, error: 'Unsupported content type' }, 415, origin);
+      return json(
+        { success: false, error: 'Unsupported content type' },
+        415,
+        origin
+      );
     }
 
     let payload;
@@ -141,7 +149,11 @@ export default {
 
       return json({ success: true }, 200, origin);
     } catch {
-      return json({ success: false, error: 'Unable to process request' }, 500, origin);
+      return json(
+        { success: false, error: 'Unable to process request' },
+        500,
+        origin
+      );
     }
   },
 };

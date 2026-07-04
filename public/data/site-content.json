@@ -262,7 +262,11 @@
   },
   "aboutPage": {
     "title": " | Front-End Engineer Background and Services",
-    "subtitle": ["Developer", "Manager", "Creative Person"],
+    "subtitle": [
+      "Developer",
+      "Manager",
+      "Creative Person"
+    ],
     "servicesTitle": "Services",
     "clientsTitle": "Clients",
     "testimonialsTitle": "Testimonials",
@@ -311,7 +315,7 @@
     "subtitle": "3+ Years of Experience",
     "overviewCard": {
       "title": "Profile Snapshot",
-      "description": "Front-End Engineer specializing in Shopify and Vue/Nuxt, building scalable, performance-first systems.",
+      "description": "Front-End Engineer specializing in Shopify development and the Vue/Nuxt ecosystem. Focused on building high-performance, scalable web solutions with an emphasis on maintainable architecture and optimized user experiences.",
       "experienceLabel": "Experience Entries",
       "educationLabel": "Education Entries",
       "downloadLabelSingle": "Download CV",
@@ -323,86 +327,35 @@
     "experienceTitle": "Experience",
     "skillFrontendTitle": "Front-end Technologies",
     "skillToolsTitle": "Tools and Technologies",
-    "educationItems": [
-      {
-        "id": 1,
-        "year": "2022",
-        "title": "Front-end developer courses",
-        "institution": "Online Academy Ciklum",
-        "description": "Thanks to this course, I will be ready to create interactive interfaces as well as build full-fledged websites, from layout to hosting."
-      },
-      {
-        "id": 2,
-        "year": "2021",
-        "title": "Course Front-end development",
-        "institution": "Beetroot Academy",
-        "description": "I gained a deep understanding of basic technologies such as HTML, CSS, and JavaScript, which are the foundation of any web developer."
-      },
-      {
-        "id": 3,
-        "year": "2020",
-        "title": "Web developer",
-        "institution": "WAYUP Academy",
-        "description": "Through the practical assignments and projects in the course, I gained experience with real-world web projects, including working with Git and GitHub to manage code versions and collaborate with other developers."
-      }
-    ],
-    "experienceItems": [
-      {
-        "id": 1,
-        "year": "2023 - Up To Now",
-        "title": "Front End Engineer Shopify E-Commerce | Vue | Nuxt",
-        "institution": "RANKBERRY",
-        "description": "Liquid Development: Development of custom templates, dynamic sections, and components based on Liquid."
-      },
-      {
-        "id": 2,
-        "year": "2023 - 2024",
-        "title": "Front End Engineer Shopify E-Commerce | Vue | Nuxt",
-        "institution": "Ecom-X Company",
-        "description": "Development and implementation of user interfaces for e-commerce on the Shopify platform, using Vue.js and Nuxt.js."
-      },
-      {
-        "id": 3,
-        "year": "2023",
-        "title": "Front End Engineer Vue Composition API",
-        "institution": "Dozor Product Company",
-        "description": "Code optimization, changing the logic to the Composition API, working with GraphQL."
-      },
-      {
-        "id": 4,
-        "year": "2022 - 2023",
-        "title": "Development of a company website",
-        "institution": "Freelance project AWW Company",
-        "description": "Development and implementation of interface components such as menus, carousels, order forms, product filters, etc."
-      }
-    ],
     "frontendTechnologies": [
-      { "name": "HTML", "progress": 90 },
-      { "name": "CSS", "progress": 90 },
-      { "name": "JavaScript", "progress": 85 },
-      { "name": "Vue.js", "progress": 75 },
-      { "name": "Tailwind CSS", "progress": 55 },
-      { "name": "jQuery", "progress": 95 },
-      { "name": "Vuex", "progress": 75 },
-      { "name": "Pinia", "progress": 45 },
-      { "name": "Nuxt.js", "progress": 35 },
-      { "name": "DOM", "progress": 85 },
-      { "name": "REST","progress": 45 },
-      { "name": "JSON", "progress": 85 },
-      { "name": "Axios", "progress": 65 },
-      { "name": "Fetch", "progress": 55 }
+      { "name": "JavaScript" },
+      { "name": "TypeScript" },
+      { "name": "Vue 3" },
+      { "name": "Nuxt 4" },
+      { "name": "Pinia" },
+      { "name": "Tailwind CSS" },
+      { "name": "SCSS" },
+      { "name": "Shopify Liquid" },
+      { "name": "Shopify APIs" },
+      { "name": "GraphQL" },
+      { "name": "REST APIs" },
+      { "name": "Cloudflare Workers" },
+      { "name": "Git" },
+      { "name": "GA4" }
     ],
     "toolsTechnologies": [
-      { "name": "Node.js", "progress": 60 },
-      { "name": "Webpack", "progress": 90 },
-      { "name": "Gulp", "progress": 85 },
-      { "name": "Vite", "progress": 65 },
-      { "name": "NPM", "progress": 55 },
-      { "name": "Yarn", "progress": 95 },
-      { "name": "Shopify CLI", "progress": 75 },
-      { "name": "Liquid (Shopify)", "progress": 45 },
-      { "name": "Git", "progress": 35 },
-      { "name": "Figma", "progress": 85 }
+      { "name": "Git" },
+      { "name": "GitHub" },
+      { "name": "Node.js" },
+      { "name": "pnpm" },
+      { "name": "Vite" },
+      { "name": "Shopify CLI" },
+      { "name": "Cloudflare Workers" },
+      { "name": "Cloudflare KV" },
+      { "name": "Wrangler" },
+      { "name": "GraphQL" },
+      { "name": "GA4" },
+      { "name": "Figma" }
     ]
   }
 }

@@ -1,0 +1,95 @@
+{
+  "portfolioCard": [
+    {
+      "id": 1,
+      "name": "Airmazing E-Commerce Bubble House",
+      "category": "Shopify",
+      "image": "/images/1w.png",
+      "imageSet": ["/images/1.png", "/images/4.png", "/images/3.png"],
+      "description": "The design, structure, and development were completed in a week.",
+      "descriptionFull": "Developed using HTML, CSS, JS, Liquid, Shopify API, it has a user-friendly interface with clear navigation, a dynamic product catalog with filtering and sorting, detailed product pages with high-quality visuals and descriptions, a shopping cart, and a secure checkout process. The platform is also optimized for performance and SEO.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://www.airmazing.us"
+    },
+    {
+      "id": 2,
+      "name": "Stony E-Commerce Boards",
+      "category": "Shopify",
+      "image": "/images/1ee.png",
+      "imageSet": [
+        "/images/1e.png",
+        "/images/2e.png",
+        "/images/3e.png",
+        "/images/4e.png"
+      ],
+      "description": "Design, development, functionality, marketing, and SEO were created.",
+      "descriptionFull": "Developed an e-commerce store on the Shopify platform with a dynamic catalog, filtering, detailed product pages, and secure payment. Used HTML, CSS, JS, Liquid and SEO optimization.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://stony.store/"
+    },
+    {
+      "id": 3,
+      "name": "Discount App Deport E-Commerce",
+      "category": "Vue SPA",
+      "image": "/images/1ttt.png",
+      "imageSet": [
+        "/images/1t.png",
+        "/images/2t.png",
+        "/images/3t.png",
+        "/images/4t.png"
+      ],
+      "description": "Design, development, functionality, marketing, and SEO were created.",
+      "descriptionFull": "He developed an online store on the Shopify platform that combines elegant design, user-friendly interface, high functionality, and efficiency.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://household-appliances-stores.myshopify.com/"
+    },
+    {
+      "id": 4,
+      "name": "Flampic E-Commerce is a functional wooden things",
+      "category": "Shopify",
+      "image": "/images/1rrr.png",
+      "imageSet": [
+        "/images/1r.png",
+        "/images/2r.png",
+        "/images/3r.png",
+        "/images/4r.png"
+      ],
+      "description": "Embodiment of function and design.",
+      "descriptionFull": "Developed a modern online store based on Shopify, using advanced technologies to ensure a pleasant user experience and high sales. He used HTML, CSS, JavaScript, and Liquid to create a dynamic interface with clear navigation and convenient search. The product catalog is equipped with filters and sorting, which allows customers to easily find the items they need. Each product page contains detailed descriptions, specifications, and high-quality images so that customers can make an informed purchase decision. A secure checkout process with Shopify API integration guarantees the reliability of transactions. In addition, the store is optimized for search engines (SEO), which ensures its visibility to potential customers.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://flampic-stores.myshopify.com/"
+    },
+    {
+      "id": 5,
+      "name": "Bella Verde E-Commerce",
+      "category": "Shopify",
+      "image": "/images/1yyy.png",
+      "imageSet": [
+        "/images/1y.png",
+        "/images/2y.png",
+        "/images/3y.png",
+        "/images/4y.png"
+      ],
+      "description": "Redesigned, added new functionality, changed the look of the gallery.",
+      "descriptionFull": "Each product page contains detailed descriptions, features, and high-quality images so that customers can make an informed purchase decision. A secure checkout process with Shopify API integration ensures that transactions are reliable. In addition, the store is optimized for search engines (SEO), which ensures its visibility to potential customers.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://bellaverde.us/"
+    },
+    {
+      "id": 6,
+      "name": "Vensa E-Commerce Jewelry",
+      "category": "Vue SPA",
+      "image": "/images/1uuu.png",
+      "imageSet": [
+        "/images/1u.png",
+        "/images/2u.png",
+        "/images/3u.png",
+        "/images/4u.png"
+      ],
+      "description": "We created design, development, functionality, search, filters, shopping cart.",
+      "descriptionFull": "Developed a modern online store based on Shopify, using advanced technologies to ensure a pleasant user experience and high sales. He used HTML, CSS, JavaScript, and Liquid to create a dynamic interface with clear navigation and easy search.",
+      "technology": "HTML, CSS, JS, Liquid, Shopify Cli",
+      "link": "https://vense-store.myshopify.com/"
+    }
+  ]
+}
