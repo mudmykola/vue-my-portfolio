@@ -1,0 +1,29 @@
+Create a Shopify developer blog article and return ONLY a valid JSON object in this format:
+
+{
+  "id": <number>,
+  "title": "<SEO title>",
+  "image": "/images/post/<slug>.jpeg",
+  "excerpt": "<short summary>",
+  "contentHtml": "<HTML article>",
+  "date": "YYYY-MM-DD",
+  "category": "Shopify"
+}
+
+Requirements:
+- Write in English.
+- Return only JSON, no markdown.
+- Generate a clear SEO-friendly title.
+- Generate a kebab-case image filename based on the topic.
+- Excerpt: 1-2 sentences, max 160 characters.
+- contentHtml must use HTML tags only (<p>, <h2>, <ul>, <li>, <code>, <pre>).
+- Structure the article with:
+  - Introduction
+  - What Is Changing?
+  - Why This Matters
+  - Developer Impact
+  - Backward Compatibility (if applicable)
+  - Key Takeaway
+- Explain the update in a practical developer-focused way.
+- Include code examples when relevant.
+- Do not invent facts not present in the source material.

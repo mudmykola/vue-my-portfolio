@@ -9,7 +9,9 @@ export const useAudioStore = defineStore('audio', {
   actions: {
     async fetchSound() {
       try {
-        const response = await axios.get(remoteEndpoints.clickSoundGithubContentUrl);
+        const response = await axios.get(
+          remoteEndpoints.clickSoundGithubContentUrl
+        );
         const data = response.data;
 
         if (data.download_url) {

@@ -6,7 +6,9 @@ export const useHomeTitleRotation = (titlesSource) => {
   const transitioning = ref(false);
 
   const getTitles = () =>
-    (Array.isArray(titlesSource?.value) ? titlesSource.value : []).filter(Boolean);
+    (Array.isArray(titlesSource?.value) ? titlesSource.value : []).filter(
+      Boolean
+    );
 
   const syncCurrentTitle = () => {
     const currentTitles = getTitles();

@@ -20,9 +20,7 @@ const gameHiddenTitleSuffix = computed(() => {
 </script>
 
 <template>
-  <div
-    class="game container-centered"
-  >
+  <div class="game container-centered">
     <div class="game-box">
       <div class="game-title flex flex-col items-center mb-6">
         <span class="page-badge mb-3">Interactive</span>

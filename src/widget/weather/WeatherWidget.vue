@@ -31,8 +31,15 @@ onMounted(() => {
       decoding="async"
     />
     <span class="weather-pill__city">{{ city }}</span>
-    <strong class="weather-pill__temp">{{ temperature.toFixed(0) }}&deg;C</strong>
-    <button class="weather-pill__action" type="button" @click="chooseLocation" aria-label="Choose city">
+    <strong class="weather-pill__temp"
+      >{{ temperature.toFixed(0) }}&deg;C</strong
+    >
+    <button
+      class="weather-pill__action"
+      type="button"
+      @click="chooseLocation"
+      aria-label="Choose city"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
         <path
           fill="currentColor"
@@ -41,8 +48,12 @@ onMounted(() => {
       </svg>
     </button>
   </div>
-  <div class="weather-pill weather-pill--status" v-else-if="loading">Weather...</div>
-  <div class="weather-pill weather-pill--status" v-else-if="weatherError">{{ weatherError }}</div>
+  <div class="weather-pill weather-pill--status" v-else-if="loading">
+    Weather...
+  </div>
+  <div class="weather-pill weather-pill--status" v-else-if="weatherError">
+    {{ weatherError }}
+  </div>
 </template>
 
 <style scoped>

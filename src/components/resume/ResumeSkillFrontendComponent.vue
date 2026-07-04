@@ -2,7 +2,7 @@
 const props = defineProps({
   title: String,
   items: Array,
-})
+});
 </script>
 
 <template>
@@ -47,13 +47,35 @@ const props = defineProps({
 }
 
 .resume-skill-list__item {
-  padding: 0.42rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.7rem;
   border-radius: 999px;
-  color: var(--app-text);
+  color: #d9fff2;
   font-size: 0.82rem;
   font-weight: 600;
   line-height: 1;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(73, 220, 177, 0.1);
+  border: 1px solid rgba(73, 220, 177, 0.28);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.resume-skill-list__item::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--app-accent);
+  flex: 0 0 auto;
+}
+
+.resume-skill-list__item:hover {
+  border-color: rgba(73, 220, 177, 0.5);
+  background: rgba(73, 220, 177, 0.16);
+  transform: translateY(-1px);
 }
 </style>

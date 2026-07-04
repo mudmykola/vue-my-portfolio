@@ -11,7 +11,11 @@ defineProps({
       <h3>{{ values.title }}</h3>
     </div>
     <div class="value-grid">
-      <article v-for="item in values.cards" :key="item.title" class="value-card">
+      <article
+        v-for="item in values.cards"
+        :key="item.title"
+        class="value-card"
+      >
         <h4>{{ item.title }}</h4>
         <p>{{ item.text }}</p>
       </article>

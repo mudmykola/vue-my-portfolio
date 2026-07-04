@@ -37,7 +37,8 @@ const valuesContent = computed(() => ({
 const workflowContent = computed(() => ({
   ...fallbackHomeContent.workflow,
   ...(homeContent.value?.workflow ?? {}),
-  items: homeContent.value?.workflow?.items ?? fallbackHomeContent.workflow.items,
+  items:
+    homeContent.value?.workflow?.items ?? fallbackHomeContent.workflow.items,
 }));
 
 const ctaContent = computed(() => ({
@@ -65,15 +66,15 @@ const toolkit = computed(() => {
     return unique;
   }
 
-  return homeContent.value?.fallbackToolkit ?? fallbackHomeContent.fallbackToolkit;
+  return (
+    homeContent.value?.fallbackToolkit ?? fallbackHomeContent.fallbackToolkit
+  );
 });
 
 const primaryToolkit = computed(() => toolkit.value.slice(0, 8));
 
-const {
-  title: rotatingTitle,
-  transitioning,
-} = useHomeTitleRotation(heroRotatingTitles);
+const { title: rotatingTitle, transitioning } =
+  useHomeTitleRotation(heroRotatingTitles);
 
 onMounted(load);
 </script>

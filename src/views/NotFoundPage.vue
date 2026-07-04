@@ -52,4 +52,3 @@ import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
   gap: 0.75rem;
 }
 </style>
-

@@ -47,18 +47,26 @@ const hiddenTitleSuffix = computed(() => {
     </span>
 
     <component :is="props.headingTag" class="about-section-head__title">
-      <span v-if="hiddenTitleSuffix" aria-hidden="true">{{ renderedVisibleTitle }}</span>
+      <span v-if="hiddenTitleSuffix" aria-hidden="true">{{
+        renderedVisibleTitle
+      }}</span>
       <template v-else>{{ renderedVisibleTitle }}</template>
       <span v-if="hiddenTitleSuffix" class="about-section-head__title-seo">
         {{ hiddenTitleSuffix }}
       </span>
     </component>
 
-    <p v-if="typeof props.subtitle === 'string' && props.subtitle" class="about-section-head__subtitle">
+    <p
+      v-if="typeof props.subtitle === 'string' && props.subtitle"
+      class="about-section-head__subtitle"
+    >
       {{ props.subtitle }}
     </p>
 
-    <div v-else-if="Array.isArray(props.subtitle) && props.subtitle.length" class="about-section-head__chips">
+    <div
+      v-else-if="Array.isArray(props.subtitle) && props.subtitle.length"
+      class="about-section-head__chips"
+    >
       <span v-for="item in props.subtitle" :key="item">{{ item }}</span>
     </div>
   </header>
