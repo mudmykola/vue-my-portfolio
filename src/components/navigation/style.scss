@@ -71,7 +71,10 @@
   border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.5rem 0.75rem;
-  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
   white-space: nowrap;
 }
 

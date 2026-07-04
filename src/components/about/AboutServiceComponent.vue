@@ -9,8 +9,19 @@ const props = defineProps({
 
 <template>
   <ul class="about-services-grid">
-    <li v-for="service in props.services" :key="service.id" class="about-service-card">
-      <img width="76" height="76" :src="service.photo" :alt="service.title" loading="lazy" decoding="async" />
+    <li
+      v-for="service in props.services"
+      :key="service.id"
+      class="about-service-card"
+    >
+      <img
+        width="76"
+        height="76"
+        :src="service.photo"
+        :alt="service.title"
+        loading="lazy"
+        decoding="async"
+      />
       <h3>{{ service.title }}</h3>
       <p>{{ service.desc }}</p>
     </li>
@@ -62,5 +73,4 @@ const props = defineProps({
     grid-template-columns: 1fr;
   }
 }
-
 </style>

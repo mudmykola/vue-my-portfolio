@@ -141,7 +141,9 @@ const rotateImage = (event) => {
   padding: 0.45rem 0.8rem;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .about-intro-card__toggle:hover {
@@ -160,5 +162,4 @@ const rotateImage = (event) => {
     display: block;
   }
 }
-
 </style>

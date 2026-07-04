@@ -8,8 +8,19 @@ const props = defineProps({
 </script>
 <template>
   <ul class="about-clients-grid">
-    <li v-for="client in props.clients" :key="client.id" class="about-client-card">
-      <img width="140" height="68" :src="client.image" :alt="client.alt" loading="lazy" decoding="async" />
+    <li
+      v-for="client in props.clients"
+      :key="client.id"
+      class="about-client-card"
+    >
+      <img
+        width="140"
+        height="68"
+        :src="client.image"
+        :alt="client.alt"
+        loading="lazy"
+        decoding="async"
+      />
     </li>
   </ul>
 </template>
@@ -49,5 +60,4 @@ const props = defineProps({
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
 </style>

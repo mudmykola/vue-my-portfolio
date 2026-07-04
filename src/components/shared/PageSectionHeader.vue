@@ -44,25 +44,36 @@ const hiddenTitleSuffix = computed(() => {
 </script>
 
 <template>
-  <header class="page-section-head" :class="{ 'page-section-head--compact': props.compact }">
+  <header
+    class="page-section-head"
+    :class="{ 'page-section-head--compact': props.compact }"
+  >
     <span v-if="props.badge" class="page-badge">
       <font-awesome-icon v-if="props.icon" :icon="props.icon" />
       {{ props.badge }}
     </span>
 
     <component :is="props.headingTag" class="page-section-head__title">
-      <span v-if="hiddenTitleSuffix" aria-hidden="true">{{ renderedVisibleTitle }}</span>
+      <span v-if="hiddenTitleSuffix" aria-hidden="true">{{
+        renderedVisibleTitle
+      }}</span>
       <template v-else>{{ renderedVisibleTitle }}</template>
       <span v-if="hiddenTitleSuffix" class="page-section-head__title-seo">
         {{ hiddenTitleSuffix }}
       </span>
     </component>
 
-    <p v-if="typeof props.subtitle === 'string' && props.subtitle" class="page-section-head__subtitle">
+    <p
+      v-if="typeof props.subtitle === 'string' && props.subtitle"
+      class="page-section-head__subtitle"
+    >
       {{ props.subtitle }}
     </p>
 
-    <div v-else-if="Array.isArray(props.subtitle) && props.subtitle.length" class="page-section-head__chips">
+    <div
+      v-else-if="Array.isArray(props.subtitle) && props.subtitle.length"
+      class="page-section-head__chips"
+    >
       <span v-for="item in props.subtitle" :key="item">{{ item }}</span>
     </div>
   </header>

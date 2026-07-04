@@ -72,7 +72,11 @@ const contactIcons = {
         </span>
 
         <a
-          v-if="info.label === 'Email' || info.label === 'Phone' || info.label === 'Skype'"
+          v-if="
+            info.label === 'Email' ||
+            info.label === 'Phone' ||
+            info.label === 'Skype'
+          "
           :href="getHref(info.label, normalizeContactValue(info))"
           target="_blank"
           rel="noopener noreferrer"
@@ -86,7 +90,12 @@ const contactIcons = {
 
     <ul class="about-social-list">
       <li v-for="(link, icon) in props.socialLinks" :key="icon">
-        <a :href="link" target="_blank" rel="noopener noreferrer" class="app-btn app-btn--sm app-btn--ghost">
+        <a
+          :href="link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="app-btn app-btn--sm app-btn--ghost"
+        >
           <font-awesome-icon :icon="socialIcons[icon]" />
           <span>{{ icon }}</span>
         </a>
@@ -169,5 +178,4 @@ const contactIcons = {
     text-align: left;
   }
 }
-
 </style>

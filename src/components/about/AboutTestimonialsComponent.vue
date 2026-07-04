@@ -19,11 +19,14 @@ const props = defineProps({
         480: { slidesPerView: 1.3, spaceBetween: 10 },
         640: { slidesPerView: 1.3, spaceBetween: 12 },
         900: { slidesPerView: 2 },
-        1200: { slidesPerView: 3 }
+        1200: { slidesPerView: 3 },
       }"
       class="about-testimonial-swiper"
     >
-      <SwiperSlide v-for="testimonial in props.testimonials" :key="testimonial.id">
+      <SwiperSlide
+        v-for="testimonial in props.testimonials"
+        :key="testimonial.id"
+      >
         <article class="about-testimonial-card">
           <p class="about-testimonial-card__text">{{ testimonial.text }}</p>
           <div class="about-testimonial-card__author">
@@ -155,5 +158,4 @@ const props = defineProps({
     -webkit-line-clamp: 3;
   }
 }
-
 </style>

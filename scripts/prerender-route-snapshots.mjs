@@ -17,20 +17,31 @@ const deriveOriginFromContactApiUrl = (value = '') => {
 };
 
 const configuredSiteOrigin = trimTrailingSlash(process.env.VITE_SITE_URL || '');
-const contactApiOrigin = deriveOriginFromContactApiUrl(process.env.VITE_CONTACT_API_URL || '');
-const siteOrigin = configuredSiteOrigin || contactApiOrigin || 'https://example.com';
-const defaultOgImagePath = process.env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp';
+const contactApiOrigin = deriveOriginFromContactApiUrl(
+  process.env.VITE_CONTACT_API_URL || ''
+);
+const siteOrigin =
+  configuredSiteOrigin || contactApiOrigin || 'https://example.com';
+const defaultOgImagePath =
+  process.env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp';
 const defaultOgImageAlt =
-  process.env.VITE_DEFAULT_OG_IMAGE_ALT || 'Mykola Mud front-end engineer portfolio social preview image';
-const defaultOgImageWidth = String(process.env.VITE_DEFAULT_OG_IMAGE_WIDTH || '1200');
-const defaultOgImageHeight = String(process.env.VITE_DEFAULT_OG_IMAGE_HEIGHT || '630');
+  process.env.VITE_DEFAULT_OG_IMAGE_ALT ||
+  'Mykola Mud front-end engineer portfolio social preview image';
+const defaultOgImageWidth = String(
+  process.env.VITE_DEFAULT_OG_IMAGE_WIDTH || '1200'
+);
+const defaultOgImageHeight = String(
+  process.env.VITE_DEFAULT_OG_IMAGE_HEIGHT || '630'
+);
 
 if (!configuredSiteOrigin && !contactApiOrigin) {
   console.warn(
     '[prerender] VITE_SITE_URL is not set and VITE_CONTACT_API_URL is not absolute. Using https://example.com fallback for route snapshots.'
   );
 } else if (!configuredSiteOrigin && contactApiOrigin) {
-  console.warn(`[prerender] VITE_SITE_URL is not set. Using ${contactApiOrigin} derived from VITE_CONTACT_API_URL for route snapshots.`);
+  console.warn(
+    `[prerender] VITE_SITE_URL is not set. Using ${contactApiOrigin} derived from VITE_CONTACT_API_URL for route snapshots.`
+  );
 }
 
 const absoluteUrl = (value) => {
@@ -125,7 +136,10 @@ const buildBreadcrumbNode = (route, canonicalUrl) => {
       '@type': 'ListItem',
       position: itemListElement.length + 1,
       name: index === segments.length - 1 ? route.breadcrumbLabel : segment,
-      item: index === segments.length - 1 ? canonicalUrl : `${siteOrigin}${current}`,
+      item:
+        index === segments.length - 1
+          ? canonicalUrl
+          : `${siteOrigin}${current}`,
     });
   });
 
@@ -169,20 +183,26 @@ const buildJsonLd = (route, canonicalUrl, ogImageUrl) =>
     ],
   });
 
-const replaceTagContent = (html, pattern, value) => html.replace(pattern, `$1${value}$2`);
+const replaceTagContent = (html, pattern, value) =>
+  html.replace(pattern, `$1${value}$2`);
 
 const setMetaContent = (html, selector, content) => {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(<meta[^>]+${escapedSelector}[^>]+content=\")[^\"]*(\"[^>]*>)`);
+  const regex = new RegExp(
+    `(<meta[^>]+${escapedSelector}[^>]+content=\")[^\"]*(\"[^>]*>)`
+  );
   return replaceTagContent(html, regex, content);
 };
 
 const setLinkHref = (html, rel, href) => {
-  const regex = new RegExp(`(<link[^>]+rel=\"${rel}\"[^>]+href=\")[^\"]*(\"[^>]*>)`);
+  const regex = new RegExp(
+    `(<link[^>]+rel=\"${rel}\"[^>]+href=\")[^\"]*(\"[^>]*>)`
+  );
   return replaceTagContent(html, regex, href);
 };
 
-const setTitle = (html, title) => html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+const setTitle = (html, title) =>
+  html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
 
 const setStructuredData = (html, jsonLd) => {
   const scriptTag = `<script id=\"app-structured-data\" type=\"application/ld+json\">${jsonLd}</script>`;
@@ -196,7 +216,8 @@ const setStructuredData = (html, jsonLd) => {
 };
 
 const buildRouteHtml = (baseHtml, route) => {
-  const canonicalUrl = route.path === '/' ? `${siteOrigin}/` : `${siteOrigin}${route.path}`;
+  const canonicalUrl =
+    route.path === '/' ? `${siteOrigin}/` : `${siteOrigin}${route.path}`;
   const ogImageUrl = absoluteUrl(defaultOgImagePath);
   const robots = route.noindex ? 'noindex, nofollow' : 'index, follow';
 
@@ -211,7 +232,11 @@ const buildRouteHtml = (baseHtml, route) => {
   html = setMetaContent(html, 'property="og:image"', ogImageUrl);
   html = setMetaContent(html, 'property="og:image:alt"', defaultOgImageAlt);
   html = setMetaContent(html, 'property="og:image:width"', defaultOgImageWidth);
-  html = setMetaContent(html, 'property="og:image:height"', defaultOgImageHeight);
+  html = setMetaContent(
+    html,
+    'property="og:image:height"',
+    defaultOgImageHeight
+  );
   html = setMetaContent(html, 'name="twitter:title"', route.title);
   html = setMetaContent(html, 'name="twitter:description"', route.description);
   html = setMetaContent(html, 'name="twitter:image"', ogImageUrl);
@@ -240,4 +265,6 @@ for (const route of ROUTES) {
   await writeSnapshot(route, routeHtml);
 }
 
-console.log(`[prerender] Generated route HTML snapshots for ${ROUTES.length} core routes`);
+console.log(
+  `[prerender] Generated route HTML snapshots for ${ROUTES.length} core routes`
+);

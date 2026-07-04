@@ -155,9 +155,16 @@ h6 {
   max-width: 100%;
   min-height: calc(100dvh - 190px);
   margin: 0 auto;
-  background:
-    radial-gradient(circle at 10% 10%, rgba(73, 220, 177, 0.11), transparent 40%),
-    radial-gradient(circle at 80% 85%, rgba(243, 192, 86, 0.09), transparent 40%),
+  background: radial-gradient(
+      circle at 10% 10%,
+      rgba(73, 220, 177, 0.11),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 85%,
+      rgba(243, 192, 86, 0.09),
+      transparent 40%
+    ),
     var(--app-surface);
   border: 1px solid var(--app-border);
   padding: 1.25rem;

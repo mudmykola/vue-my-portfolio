@@ -10,7 +10,8 @@ const SEO_DEFAULTS = {
     'Portfolio of Mykola Mud, front-end engineer specializing in Vue, Nuxt, Shopify storefronts, performance-focused interfaces, reusable component systems, and production-ready implementation for modern digital products.',
   defaultOgImage: env.VITE_DEFAULT_OG_IMAGE_PATH || '/images/avatar-logo.webp',
   defaultOgImageAlt:
-    env.VITE_DEFAULT_OG_IMAGE_ALT || 'Mykola Mud front-end engineer portfolio social preview image',
+    env.VITE_DEFAULT_OG_IMAGE_ALT ||
+    'Mykola Mud front-end engineer portfolio social preview image',
   defaultOgImageWidth: Number(env.VITE_DEFAULT_OG_IMAGE_WIDTH || 1200),
   defaultOgImageHeight: Number(env.VITE_DEFAULT_OG_IMAGE_HEIGHT || 630),
   twitterCard: 'summary_large_image',
@@ -42,7 +43,9 @@ const HEAD_SELECTORS = {
 
 const getSiteOrigin = () =>
   SEO_DEFAULTS.siteUrl ||
-  (typeof window !== 'undefined' ? trimTrailingSlash(window.location.origin) : '');
+  (typeof window !== 'undefined'
+    ? trimTrailingSlash(window.location.origin)
+    : '');
 
 const ensureAbsoluteUrl = (value) => {
   if (!value) return '';
@@ -108,7 +111,12 @@ const getRoutePath = (route) =>
   (typeof window !== 'undefined' ? window.location.pathname : '/');
 
 const getRouteDisplayTitle = (route, seo) =>
-  String(route?.meta?.seo?.breadcrumbLabel || route?.meta?.title || seo.title || 'Page');
+  String(
+    route?.meta?.seo?.breadcrumbLabel ||
+      route?.meta?.title ||
+      seo.title ||
+      'Page'
+  );
 
 const buildWebsiteNode = () => {
   const origin = getSiteOrigin();
@@ -217,7 +225,9 @@ const applyRouteStructuredData = (route, seo) => {
   const routeNode = buildRouteNode(route, seo);
   const breadcrumbNode = buildBreadcrumbNode(route, seo);
 
-  const graph = [websiteNode, personNode, routeNode, breadcrumbNode].filter(Boolean);
+  const graph = [websiteNode, personNode, routeNode, breadcrumbNode].filter(
+    Boolean
+  );
   if (!graph.length) return;
 
   const script = ensureJsonLdScript();
@@ -234,14 +244,24 @@ export const resolveSeoMeta = (route) => {
   const description = routeSeo.description || SEO_DEFAULTS.defaultDescription;
 
   const canonicalPath =
-    routeSeo.canonicalPath || route?.path || (typeof window !== 'undefined' ? window.location.pathname : '/');
+    routeSeo.canonicalPath ||
+    route?.path ||
+    (typeof window !== 'undefined' ? window.location.pathname : '/');
   const canonicalUrl = ensureAbsoluteUrl(canonicalPath);
 
-  const ogImage = ensureAbsoluteUrl(routeSeo.ogImage || SEO_DEFAULTS.defaultOgImage);
+  const ogImage = ensureAbsoluteUrl(
+    routeSeo.ogImage || SEO_DEFAULTS.defaultOgImage
+  );
   const ogImageAlt = routeSeo.ogImageAlt || SEO_DEFAULTS.defaultOgImageAlt;
-  const ogImageWidth = String(routeSeo.ogImageWidth || SEO_DEFAULTS.defaultOgImageWidth);
-  const ogImageHeight = String(routeSeo.ogImageHeight || SEO_DEFAULTS.defaultOgImageHeight);
-  const robotsContent = routeSeo.noindex ? 'noindex, nofollow' : 'index, follow';
+  const ogImageWidth = String(
+    routeSeo.ogImageWidth || SEO_DEFAULTS.defaultOgImageWidth
+  );
+  const ogImageHeight = String(
+    routeSeo.ogImageHeight || SEO_DEFAULTS.defaultOgImageHeight
+  );
+  const robotsContent = routeSeo.noindex
+    ? 'noindex, nofollow'
+    : 'index, follow';
 
   return {
     title,

@@ -178,61 +178,61 @@
       "displayName": "Mykola Mud",
       "h1Title": "Mykola Mud | Front-End Engineer Portfolio",
       "rotatingTitles": [
-        "Multi-Platform Web Developer",
-        "Vue & Nuxt Specialist",
-        "Shopify Ecosystem Architect"
+        "Frontend Engineer",
+        "Vue & Nuxt Developer",
+        "Shopify Developer"
       ],
-      "kicker": "AVAILABLE FOR NEW PROJECTS",
-      "description": "I build polished interfaces for real products with a strong focus on speed, maintainability, and user experience.",
+      "kicker": "VUE • NUXT • SHOPIFY",
+      "description": "I build polished interfaces for real products with a strong focus on performance, maintainability, and user experience.",
       "portfolioCtaLabel": "See Portfolio",
       "contactCtaLabel": "Contact Me",
       "toolkitTitle": "Core Toolkit",
       "toolkitCountSuffix": "technologies"
     },
     "values": {
-      "eyebrow": "What I Focus On",
-      "title": "Practical Front-End that serves real business goals",
+      "eyebrow": "Core Principles",
+      "title": "Engineering solutions for modern ecommerce",
       "cards": [
         {
-          "title": "Product UX",
-          "text": "Clear user flows, visual hierarchy, and interactions designed for retention."
+          "title": "Scalable Architecture",
+          "text": "Systems built to evolve with products, teams, and business requirements."
         },
         {
-          "title": "Clean Architecture",
-          "text": "Components and data layers structured for scale, not short-term hacks."
+          "title": "Performance & Quality",
+          "text": "Clean implementation with strong attention to speed, accessibility, and reliability."
         },
         {
-          "title": "Fast Delivery",
-          "text": "Reliable implementation with transparent progress and predictable timelines."
+          "title": "Practical Delivery",
+          "text": "Focused on solving real problems without unnecessary complexity."
         }
       ]
     },
     "workflow": {
       "eyebrow": "How I Work",
-      "title": "Simple process, clear milestones, no chaos",
+      "title": "A practical approach to product development",
       "items": [
         {
           "step": "01",
-          "title": "Discovery",
-          "text": "I map business goals, user needs, and technical constraints before coding."
+          "title": "Plan",
+          "text": "Define objectives, scope, and technical direction."
         },
         {
           "step": "02",
-          "title": "Design & Build",
-          "text": "UI systems, component architecture, and integrations are built in parallel."
+          "title": "Develop",
+          "text": "Implement features with clean architecture and maintainable code."
         },
         {
           "step": "03",
-          "title": "Refine & Ship",
-          "text": "Final optimization, QA, and rollout with measurable performance improvements."
+          "title": "Improve",
+          "text": "Measure, optimize, and iterate based on real-world results."
         }
       ]
     },
     "cta": {
-      "eyebrow": "Ready To Start",
-      "title": "Need a modern Vue/Nuxt interface for your product?",
-      "description": "I can help you redesign, optimize, or build your next front-end feature set.",
-      "primaryLabel": "Start a Project",
+      "eyebrow": "Get In Touch",
+      "title": "Let's build better digital products",
+      "description": "I'm always interested in discussing frontend engineering, ecommerce, and product development.",
+      "primaryLabel": "Contact Me",
       "secondaryLabel": "View Resume"
     },
     "fallbackToolkit": [
@@ -262,11 +262,7 @@
   },
   "aboutPage": {
     "title": " | Front-End Engineer Background and Services",
-    "subtitle": [
-      "Developer",
-      "Manager",
-      "Creative Person"
-    ],
+    "subtitle": ["Developer", "Manager", "Creative Person"],
     "servicesTitle": "Services",
     "clientsTitle": "Clients",
     "testimonialsTitle": "Testimonials",
