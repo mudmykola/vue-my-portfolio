@@ -1,0 +1,71 @@
+{
+  "experienceItems": [
+    {
+      "id": 5,
+      "year": "2026 - Up To Now",
+      "title": "Middle Frontend Developer | Shopify, Vue.js, Nuxt",
+      "institution": "JATAPP",
+      "description": "Frontend Developer focused on Shopify, Vue, Nuxt, JavaScript, Liquid, and ecommerce interfaces.\n\nWorking on frontend development, UI implementation, performance improvements, Shopify storefronts, reusable components, and integration with modern ecommerce workflows."
+    },
+
+    {
+      "id": 1,
+      "year": "2025 - 2026",
+      "title": "Headless Frontend Developer (Shopify / Nuxt 3 / Vue)",
+      "institution": "RANKBERRY",
+      "description": "\uD83D\uDE80 Developing high-performance headless storefronts using Nuxt 3 and Shopify Storefront API\n\n\uD83E\uDDE0 Creating CMS-driven sections via Shopify Metafields (navigation, footers, banners, content blocks)\n\n\uD83D\uDD27 Building modular architecture with reusable components and global UI elements\n\n\uD83D\uDED2 Prototyping a custom checkout flow with Telegram Bot integration, Nova Poshta delivery, online payments and confirmation modals\n\n\uD83D\uDCF0 Developing a full-featured blog system with tags, filters, likes, live search, and recommended posts\n\n\uD83D\uDD0D Improving SEO with SSR, dynamic meta tags, canonical URLs, and sitemap generation\n\n\uD83D\uDCE6 Adding JSON-LD structured data (Product, BlogPosting, Breadcrumb) for enhanced search visibility (Rich Snippets)\n\n\uD83D\uDC0D Writing Python scrapers for content migration (e.g., legacy ASPX blogs → Shopify)\n\n\uD83E\uDDF0 Implementing Firebase + JSON-based content editing for lightweight and flexible content management\n\n\uD83C\uDF08 Organizing Shopify filters: mapping inconsistent color names, unifying filter values, adding SEO-friendly labels\n\n\uD83C\uDFA8 Designing a clean, responsive UI with dark/light theme support and performance-focused styling"
+    },
+    {
+      "id": 101,
+      "year": "2024 - 2025 (example - replace)",
+      "institution": "RANKBERRY",
+      "title": "FE Shopify Plus Developer | E-commerce Platform Specialist",
+      "description": "\uD83D\uDD38 Liquid Development: Development of custom templates, dynamic sections, and components based on Liquid.\n\uD83D\uDD38 Frontend Development: Use of modern frameworks (HTML5, CSS3, JavaScript, TailwindCSS, React) to build a responsive and optimized interface.\n\uD83D\uDD38 Shopify Plus Features: Setting up Shopify Scripts for discount automation, customizing checkout, and integrating Shopify Flow for business processes.\n\uD83D\uDD38 API Integration: Work with Shopify REST API and GraphQL to integrate with CRM, ERP, and marketing platforms.\n\uD83D\uDD38 Performance Optimization: Improve page load speed with asynchronous content loading, image optimization, and code minimization.\n\uD83D\uDD38 Third-party Apps & Customization: Integrate and modify third-party applications through the API or create custom applications in Node.js."
+    },
+    {
+      "id": 2,
+      "year": "2023 - 2024",
+      "title": "Front End Engineer Shopify E-Commerce | Vue | Nuxt",
+      "institution": "Ecom-X Company",
+      "description": "\uD83D\uDD38 Developing the design and functionality of online stores in accordance with customer requirements.\n\uD83D\uDD38 Integration of the necessary modules and applications to ensure the full functionality of online stores.\n\uD83D\uDD38 Testing and eliminating errors in the code.\n\uD83D\uDD38 Support for online stores after launch."
+    },
+    {
+      "id": 3,
+      "year": "2023",
+      "title": "Front End Engineer Vue Composition API",
+      "institution": "Dozor Product Company",
+      "description": "Code optimization, changing the logic to the Composition API, working with GraphQL."
+    },
+    {
+      "id": 4,
+      "year": "2022 - 2023",
+      "title": "Development of a company website",
+      "institution": "Freelance project AWW Company",
+      "description": "Development and implementation of interface components such as menus, carousels, order forms, product filters, etc."
+    }
+
+  ],
+  "educationItems": [
+    {
+      "id": 1,
+      "year": "2022",
+      "title": "Front-end developer courses",
+      "institution": "Online Academy Ciklum",
+      "description": "Thanks to this course, I will be ready to create interactive interfaces as well as build full-fledged websites, from layout to hosting."
+    },
+    {
+      "id": 2,
+      "year": "2021",
+      "title": "Course Front-end development",
+      "institution": "Beetroot Academy",
+      "description": "I gained a deep understanding of basic technologies such as HTML, CSS, and JavaScript, which are the foundation of any web developer."
+    },
+    {
+      "id": 3,
+      "year": "2020",
+      "title": "Web developer",
+      "institution": "WAYUP Academy",
+      "description": "Through the practical assignments and projects in the course, I gained experience with real-world web projects, including working with Git and GitHub to manage code versions and collaborate with other developers."
+    }
+  ]
+}

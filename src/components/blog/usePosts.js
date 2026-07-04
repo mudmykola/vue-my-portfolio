@@ -104,8 +104,12 @@ export function usePosts() {
     }
   };
 
-  const getPostImageUrl = (imagePath) =>
-    remoteEndpoints.resolveGithubTestApiAsset(imagePath);
+  const getPostImageUrl = (imagePath) => {
+    const path = String(imagePath || '').trim();
+    if (!path) return '';
+    if (/^https?:\/\//i.test(path)) return path;
+    return path.startsWith('/') ? path : `/${path}`;
+  };
 
   onMounted(fetchPosts);
 

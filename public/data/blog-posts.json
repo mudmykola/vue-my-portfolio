@@ -1,0 +1,94 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "10 CSS life hacks that will make your websites better",
+      "image": "/images/post/9.jpg",
+      "excerpt": "Web development can be both challenging and exciting. ",
+      "content": "Web development can be both challenging and exciting. Today we will share with you 10 useful CSS life hacks that will help you improve your websites. Use them for convenience and efficiency in your work!Flexbox for element arrangement: Use Flexbox to create flexible and responsive layouts without the need for complex CSS rules.Grid for creating grids: Use Grid to work with grids quickly and easily, allowing you to create complex layouts with ease.Hide elements with display: none: To hide an element on a page, set its style to display: none. This is useful for excluding content on mobile devices or during animations.Change the color of links: Set the color style for <a> elements to change the color of links on your website.Use opacity and visibility properties: Instead of setting display: none to hide elements, use opacity: 0 or visibility: hidden. This allows you to leave space on the page that can be occupied or animated.Compound selectors: Use compound selectors (e.g., .header h1) to select specific elements on a page.Transitions and animations: Add transitions and animations to your website to create seamless and engaging effects.Variable border width: Use the border-width property to create variable width borders that add depth and interest to your design.",
+      "date": "2024-04-20",
+      "category": "CSS"
+    },
+    {
+      "id": 2,
+      "title": "Mastering the v-bind directive in Vue.js",
+      "image": "/images/post/10.jpg",
+      "excerpt": "There are many frameworks and libraries in the world of web development",
+      "content": "There are many frameworks and libraries in the world of web development, but one of the most popular and powerful is Vue.js. One of the key features of Vue.js is its system of directives that allow you to easily and efficiently manipulate DOM elements and their attributes. One of the most useful directives is v-bind.v-bind is a Vue.js directive that allows you to dynamically bind HTML attributes to data in your Vue.js application. It can be used to dynamically change the values of attributes, styles, classes, and other element properties.Here are some examples of how to use the v-bind directive:Dynamic attributes: Use v-bind to dynamically change the values of HTML attributes such as href, src, class, style, and others.Component parameters: Use v-bind to pass parameters to custom Vue.js components.Dynamic styles and classes: Change the styles and classes of elements on a page based on data in your application with v-bind.Manage element properties: Manipulate any HTML element property with v-bind, including disabled, readonly, validated, and more.Using v-bind allows you to create dynamic and interactive web pages that respond to changes in the data of your Vue.js application. This makes Vue.js one of the most popular choices for modern web development.Thanks to the v-bind directive, you can build powerful and efficient web applications with minimal effort. Master this skill, and your Vue.js projects will impress users.",
+      "date": "2024-04-20",
+      "category": "VUE"
+    },
+    {
+      "id": 3,
+      "title": "Understanding and Using the Component Lifecycle in Vue.js",
+      "image": "/images/post/3.png",
+      "excerpt": "In Vue.js, as in many other frameworks, each component has its own lifecycle",
+      "content": "In Vue.js, as in many other frameworks, each component has its own lifecycle, which consists of different phases that occur during its lifetime. Understanding this lifecycle is important for effective work with Vue.js and web application development. In this article, we'll look at the different phases of the component lifecycle in Vue.js and how to use them.beforeCreate: This phase occurs before the component instance is created. At this point, no component data has been initialized and no reactivity has occurred.created: After this phase, the component instance has been created and data is being initialized. At this point, you can make requests to the server or set up subscriptions.beforeMount: Before the component is inserted into the DOM. In this phase, you can perform additional preparations.mounted: When the component is inserted into the DOM. This phase is ideal for performing additional actions after the component has been fully rendered.beforeUpdate: Called before the component is updated, when data changes occur but are not yet reflected in the DOM.updated: After the component is updated and the corresponding changes are reflected in the DOM. This phase can be used to perform additional actions after the update.beforeDestroy: Before the component is destroyed. In this phase, you can remove subscriptions or clean up resources.destroyed: After the component has been destroyed and all subscriptions and resources have been cleared.",
+      "date": "2024-04-21",
+      "category": "VUE"
+    },
+    {
+      "id": 4,
+      "title": "JavaScript’s Secret Weapon: Supercharge Your Web Apps with Web Workers",
+      "image": "/images/post/6.webp",
+      "excerpt": "During a recent interview, I found myself confronted with a question.",
+      "content": "During a recent interview, I found myself confronted with a question: How can we implement multi-threading in JavaScript? To my dismay, I was at a loss for an answer. JavaScript, by its nature, operates on a single thread. However, my curiosity led me to discover an intriguing solution: Web Workers.Web Workers represent a feature within JavaScript that unlocks the potential for concurrent script execution in web applications. They operate in the background, distinct from the main execution thread of a web page, thereby preventing UI blocking and enhancing responsiveness.This revelation was particularly enlightening for someone like me, previously unaware of this capability.Let’s explore a practical example to grasp the functionality and utility of Web Workers.To experiment with the provided code, it's essential to run a server; otherwise, the code won’t execute. The simplest approach is to globally install the http-server package via npm.",
+      "date": "2024-04-21",
+      "category": "JS"
+    },
+    {
+      "id": 5,
+      "title": "Becoming a Hacker: Must Read Security & Cyber Crime Books",
+      "image": "/images/post/5.webp",
+      "excerpt": "This book is at the top of the list because… well, the human element is the weakest link in any attack.",
+      "content": "This book is at the top of the list because… well, the human element is the weakest link in any attack.Think about it.How might your company get hacked? A security guard sitting at the front door, hired to keep unauthorized people out of the building, might let a “pest control guy” right in and even grant them access to the server room, as they’ve “been hired to get rid of the roaches”. The security guard really, really dislikes roaches, and doesn’t want to see any, nor does he want to have the chance of hitching some of them back to his home.Likewise, the receptionist may receive an email which looks to be from the CEO. It tells her to order a gift card in the amount of $500, and then send the card details over to him. Well, that wasn’t the CEO, it was a carefully crafted email written by a social engineer.That’s the basic idea of social engineering, it plays on people’s emotions and biases. If we arm ourselves with the knowledge of how they work, we’d be better able to guard ourselves, as well as the companies we work for.The author of this book, Christopher Hadnagy, also has some very engaging videos on YouTube explaining some of the concepts in the book. Check them out: 7 Jedi Mind Tricks: Influence Your Target without a Word, The Science Behind Human Hacking.The book is just as engaging as his talks.",
+      "date": "2024-04-24",
+      "category": "JS"
+    },
+    {
+      "id": 6,
+      "title": "Powering Shopify’s High-Performance, PCI DSS v4 Compliant Checkout with Sandboxing",
+      "image": "/images/post/11.webp",
+      "excerpt": "Navigating commerce compliance demands constant vigilance.",
+      "content": "Navigating commerce compliance demands constant vigilance. New regulations, such as the anti-skimming safeguards in PCI DSS version 4, pose significant challenges. Fortunately, merchants using Shopify's Checkout Extensibility feature can leverage Shopify's architecture to ensure PCI DSSv4 compliance.Shopify's Checkout architecture, powered by sandboxing, offers a robust solution for delivering a secure and compliant checkout experience. This architecture isolates custom code in sandboxed JavaScript environments, enhancing performance and security. Web Pixels for analytics and Checkout UI Extensions for additional content run within these sandboxes, communicating with the parent page via a mediated bridge.By utilizing sandboxing technologies, Shopify ensures that custom code runs independently of the main thread, maintaining performance and security standards. The architecture employs iframes and Web Workers to manage communication between the parent page and sandboxed code, ensuring a responsive checkout experience while mitigating security risks.The use of sandboxing is pivotal in achieving PCI DSS compliance, as it prevents the execution of custom code in the parent page. This approach guarantees a high-performance, low-maintenance, and future-proof checkout platform for merchants.PCI DSS version 4 introduces new requirements, particularly focused on anti-skimming protections. Merchants must maintain an inventory of all scripts, ensure only authorized scripts are loaded, and verify the integrity of each loaded script. Shopify Checkout, with its managed sandboxed runtime, streamlines compliance efforts for merchants, abstracting complexity and ensuring future-proof checkout experiences.With Shopify's proactive approach to compliance and security, merchants can focus on growing their businesses without worrying about regulatory implications. The managed runtime, coupled with robust security measures, provides a seamless and secure checkout experience, setting the stage for continued growth and success.",
+      "date": "2024-04-24",
+      "category": "Shopify"
+    },
+    {
+      "id": 7,
+      "title": "Join us for the Netlify Dynamic Site Challenge: $3,000 in Prizes!",
+      "image": "/images/post/12.avif",
+      "excerpt": "We're thrilled to announce our collaboration with Netlify ",
+      "content": "We're thrilled to announce our collaboration with Netlify for the upcoming DEV challenge. This challenge is dedicated to crafting dynamic and high-performance digital experiences, regardless of the framework you choose!From now until May 12th, the Netlify Dynamic Site Challenge invites you to showcase your expertise, compete for cash prizes, and explore Netlify's cutting-edge Agnostic Platform Primitives. With these tools, you can unlock unparalleled functionalities across various frameworks like Next.js, Astro, Nuxt, Remix, and more.This challenge is a unique opportunity to contribute to the advancement of the open web and open-source community while honing your skills in emerging frameworks. We can't wait to witness the innovative projects you'll create.We encourage you to take on at least one of our three exciting prompts:Visual Feast:Create a dynamic image gallery leveraging the power of the Netlify Image CDN. Your project should harness Netlify's on-demand image transformation features, showcasing the ability to fetch images, apply transformations such as resizing and format optimization, and present the optimized images in an elegant gallery layout.For those ready to dive right in, here's the submission template. Remember to review all challenge rules on the official challenge page before submitting.Let's make this challenge a memorable journey of creativity and exploration!",
+      "date": "2024-05-05",
+      "category": "JS"
+    },
+    {
+      "id": 8,
+      "title": "Improving the Online Store: New Theme Block Settings & Features",
+      "image": "/images/post/13.webp",
+      "excerpt": "We're excited to announce the latest updates for your online store theme.",
+      "content": "We're excited to announce the latest updates for your online store theme, providing more control and flexibility for a better shopping experience. Key features include a custom countdown timer to create urgency, a dynamic announcement bar for key messages, flexible size grid metafields for customizable product information, enhanced mobile experience with optimized scrolling, and improved styling options for a polished look. Update your theme to the latest version to access these features and customize them from your Shopify admin panel. These updates aim to make your store more attractive and functional, enhancing the shopping experience for your customers. Explore the new features today and elevate your store!",
+      "date": "2024-06-27",
+      "category": "Shopify"
+    },
+    {
+      "id": 9,
+      "title": "Mastering Container Units in CSS: Challenges, Solutions, and Best Practices",
+      "image": "/images/post/14.jpg",
+      "excerpt": "I experimented with using container units for every aspect of a design...",
+      "content": "I experimented with using container units for every aspect of a design, expecting everything to scale seamlessly. Container units, which size elements based on their containers, seemed like a perfect solution. However, the reality was more complicated.Challenges with Container Units\\n\\nOne key issue is the difficulty in styling the container itself with container units. For example, applying consistent styles like border-radius can lead to unexpected results because different elements reference different containers.\\nAvoid Direct Container Styling\\n\\nTo avoid these pitfalls, it's often better not to apply size-based styles directly on the container. Instead, consider adding a wrapper element to maintain consistency in your design.\\nText Sizing Issues\\n\\nUsing container units for text can cause it to become too large or too small, especially with varying card sizes. To ensure better control, mix container units with other relative sizing techniques, allowing for minimum and maximum size limits.\\nLayout Shifts\\n\\nContainer units are helpful for adjusting layouts at different breakpoints, but they can be tricky when switching between horizontal and vertical layouts. In these cases, using a combination of units often yields better results.\\nConclusion\\n\\nWhile container units offer strong scalability and flexibility, they aren’t a one-size-fits-all solution. Use them selectively, and combine them with other units to achieve more consistent and reliable designs.",
+      "date": "2024-08-10",
+      "category": "CSS"
+    },
+    {
+      "id": 10,
+      "title": "Netlify Aims To Simplify the Frontend With Cloud Primitives",
+      "image": "/images/post/15.jpg",
+      "excerpt": "Matt Biilmann, CEO of Netlify, highlighted at the InfoBip Shift conference in Miami that...",
+      "content": "Matt Biilmann, CEO of Netlify, highlighted at the InfoBip Shift conference in Miami that web development complexity is returning to the frontend, similar to what he observed in his original JamStack talk in 2016. Despite periods of reduced complexity, newer approaches are reintroducing it. Biilmann points to frameworks like Astro and Remix as solutions to simplify frontend development.Astro focuses on simplicity by using pre-generated static HTML, which suits content-driven sites with specific JavaScript interactions. In contrast, Remix emphasizes dynamic rendering with edge caching, integrating closely with CDNs like Netlify. Both frameworks offer different paths to reducing complexity while maintaining scalability. Netlify has partnered with Astro, committing $12,500 monthly to support its open-source community and development.",
+      "date": "2024-08-25",
+      "category": "JS"
+    }
+  ]
+}

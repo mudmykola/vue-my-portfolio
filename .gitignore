@@ -40,3 +40,4 @@ postcss.config.js!/.firebase/
 !/tailwind.config.js
 !/package-lock.json
 .env
+.gitnexus

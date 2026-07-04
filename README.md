@@ -74,12 +74,9 @@ VITE_DEFAULT_OG_IMAGE_WIDTH=1200
 VITE_DEFAULT_OG_IMAGE_HEIGHT=630
 
 # Optional remote endpoint overrides (defaults are built in)
-VITE_GITHUB_TEST_API_BASE_URL=
-VITE_CONTENT_API_BASE_URL=
 VITE_GITHUB_API_BASE_URL=
 VITE_BLOG_POSTS_URL=
 VITE_PORTFOLIO_PROJECTS_URL=
-VITE_AVATAR_DATA_URL=
 VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
 VITE_OPENWEATHER_API_BASE_URL=
 VITE_OPENWEATHER_ICON_BASE_URL=
@@ -165,11 +162,19 @@ Frontend now calls `/contact` by default.
 
 ## Content Management
 
-Main content source:
+Content lives locally under `public/data/` and is served same-origin:
 
-- `public/data/site-content.json`
+- `public/data/site-content.json` — text, cards, testimonials, resume titles/overview/skills
+- `public/data/resume.json` — experience & education timeline (`experienceItems[]`, `educationItems[]`)
+- `public/data/portfolio.json` — portfolio projects (`portfolioCard[]`); images in `public/images/`
+- `public/data/blog-posts.json` — blog posts (`posts[]`); images in `public/images/post/`
 
-Update this file to refresh text, cards, testimonials, and resume data without changing component logic.
+Experience groups positions by company: give several entries the same `institution`
+value to render them as one company with a nested career-growth timeline.
+
+Update these files to refresh content without changing component logic. Changes require a redeploy of the static files (no full rebuild needed — they are not bundled).
+
+Portfolio/blog can still be pointed back to a remote source via optional `VITE_PORTFOLIO_PROJECTS_URL` / `VITE_BLOG_POSTS_URL`.
 
 ## Project Structure
 

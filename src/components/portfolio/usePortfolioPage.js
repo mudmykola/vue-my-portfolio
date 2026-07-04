@@ -22,7 +22,9 @@ export function usePortfolioPage() {
       }
 
       const data = await response.json();
-      projects.value = Array.isArray(data?.portfolioCard) ? data.portfolioCard : [];
+      projects.value = Array.isArray(data?.portfolioCard)
+        ? data.portfolioCard
+        : [];
       loaded = true;
     } catch (e) {
       console.error('Failed to load portfolio content:', e);

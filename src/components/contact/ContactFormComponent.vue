@@ -1,5 +1,12 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
+import {
+  faUser,
+  faEnvelope,
+  faPaperPlane,
+  faCircleCheck,
+  faTriangleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import { sendTelegramMessage } from '@/services/telegramService';
 
 const fullName = ref('');
@@ -37,8 +44,9 @@ const submitForm = async () => {
       fullName.value = '';
       email.value = '';
       message.value = '';
-      successTitle.value = '✅ Success!';
-      successDesc.value = 'Your message has been sent successfully.';
+      successTitle.value = 'Message sent';
+      successDesc.value =
+        'Thanks for reaching out — I will get back to you shortly.';
       isError.value = false;
       showPopup.value = true;
       clearTimeout(popupTimer);
@@ -46,7 +54,7 @@ const submitForm = async () => {
         showPopup.value = false;
       }, 5000);
     } else {
-      successTitle.value = '❌ Error';
+      successTitle.value = 'Something went wrong';
       successDesc.value = error || 'Failed to send message. Please try again.';
       isError.value = true;
       showPopup.value = true;
@@ -77,42 +85,67 @@ onUnmounted(() => {
 
 <template>
   <section class="contact-form-card">
-    <header>
+    <header class="contact-form-card__head">
       <span class="page-badge">Quick Message</span>
       <h3>Send me a project request</h3>
       <p>Describe your task and I will reply as soon as possible.</p>
     </header>
 
-    <form class="contact-form" @submit.prevent="submitForm">
-      <label class="contact-form__field">
-        <span>Full Name</span>
-        <input
-          v-model="fullName"
-          class="input-field"
-          type="text"
-          placeholder="Your full name"
-        />
-        <p v-if="fullNameError" class="error-text">Please enter your full name.</p>
-      </label>
+    <form class="contact-form" @submit.prevent="submitForm" novalidate>
+      <div class="contact-form__row">
+        <label
+          class="contact-form__field"
+          :class="{ 'is-error': fullNameError }"
+        >
+          <span class="contact-form__label">Full name</span>
+          <span class="contact-form__control">
+            <font-awesome-icon :icon="faUser" class="contact-form__icon" />
+            <input
+              v-model.trim="fullName"
+              class="input-field"
+              type="text"
+              name="name"
+              autocomplete="name"
+              placeholder="Your full name"
+              :aria-invalid="fullNameError"
+            />
+          </span>
+          <p v-if="fullNameError" class="error-text">
+            Please enter your full name.
+          </p>
+        </label>
 
-      <label class="contact-form__field">
-        <span>Email</span>
-        <input
-          v-model="email"
-          class="input-field"
-          type="email"
-          placeholder="you@email.com"
-        />
-        <p v-if="emailError" class="error-text">Please enter a valid email address.</p>
-      </label>
+        <label class="contact-form__field" :class="{ 'is-error': emailError }">
+          <span class="contact-form__label">Email</span>
+          <span class="contact-form__control">
+            <font-awesome-icon :icon="faEnvelope" class="contact-form__icon" />
+            <input
+              v-model.trim="email"
+              class="input-field"
+              type="email"
+              name="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="you@email.com"
+              :aria-invalid="emailError"
+            />
+          </span>
+          <p v-if="emailError" class="error-text">
+            Please enter a valid email address.
+          </p>
+        </label>
+      </div>
 
-      <label class="contact-form__field">
-        <span>Message</span>
+      <label class="contact-form__field" :class="{ 'is-error': messageError }">
+        <span class="contact-form__label">Message</span>
         <textarea
-          v-model="message"
-          class="input-field"
-          rows="5"
+          v-model.trim="message"
+          class="input-field contact-form__textarea"
+          rows="6"
+          name="message"
+          autocomplete="off"
           placeholder="Tell me about your idea..."
+          :aria-invalid="messageError"
         ></textarea>
         <p v-if="messageError" class="error-text">Please enter a message.</p>
       </label>
@@ -122,8 +155,13 @@ onUnmounted(() => {
         class="app-btn app-btn--primary contact-form__submit"
         :disabled="sending"
       >
-        <span v-if="sending">Sending...</span>
-        <span v-else>Send Message</span>
+        <span
+          v-if="sending"
+          class="contact-form__spinner"
+          aria-hidden="true"
+        ></span>
+        <font-awesome-icon v-else :icon="faPaperPlane" />
+        {{ sending ? 'Sending…' : 'Send message' }}
       </button>
     </form>
   </section>
@@ -134,7 +172,14 @@ onUnmounted(() => {
         <div
           class="contact-popup__box"
           :class="{ 'contact-popup__box--error': isError }"
+          role="alertdialog"
+          aria-live="assertive"
         >
+          <span class="contact-popup__icon">
+            <font-awesome-icon
+              :icon="isError ? faTriangleExclamation : faCircleCheck"
+            />
+          </span>
           <h2>{{ successTitle }}</h2>
           <p>{{ successDesc }}</p>
           <button

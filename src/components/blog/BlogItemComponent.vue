@@ -44,7 +44,11 @@
           :key="category"
           type="button"
           class="app-btn app-btn--sm"
-          :class="selectedCategory === category ? 'app-btn--primary' : 'app-btn--ghost'"
+          :class="
+            selectedCategory === category
+              ? 'app-btn--primary'
+              : 'app-btn--ghost'
+          "
           @click="setCategory(category)"
         >
           {{ category }}
@@ -61,16 +65,19 @@
       </div>
 
       <div v-if="featuredPost" class="blog-content">
-        <article class="blog-featured">
-          <img
-            :src="getPostImageUrl(featuredPost.image)"
-            :alt="featuredPost.title"
-            width="1200"
-            height="630"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
+        <article class="blog-featured" @click="openModal(featuredPost)">
+          <div class="blog-featured__media">
+            <span class="blog-featured__badge">Featured</span>
+            <img
+              :src="getPostImageUrl(featuredPost.image)"
+              :alt="featuredPost.title"
+              width="1200"
+              height="630"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
           <div class="blog-featured__body">
             <div class="blog-featured__top">
               <span class="blog-chip blog-chip--accent">
@@ -90,28 +97,42 @@
             <h3>{{ featuredPost.title }}</h3>
             <p>{{ featuredPost.excerpt }}</p>
 
-            <button type="button" class="app-btn app-btn--primary app-btn--sm" @click="openModal(featuredPost)">
+            <button
+              type="button"
+              class="app-btn app-btn--primary app-btn--sm"
+              @click.stop="openModal(featuredPost)"
+            >
               {{ readMore }}
             </button>
           </div>
         </article>
 
         <div class="blog-grid">
-          <article v-for="post in gridPosts" :key="post.id" class="blog-card">
-            <img
-              :src="getPostImageUrl(post.image)"
-              :alt="post.title"
-              width="1200"
-              height="630"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="blog-card__body">
-              <span class="blog-chip blog-chip--accent">
+          <article
+            v-for="post in gridPosts"
+            :key="post.id"
+            class="blog-card"
+            role="button"
+            tabindex="0"
+            :aria-label="`Open ${post.title}`"
+            @click="openModal(post)"
+            @keydown.enter="openModal(post)"
+          >
+            <div class="blog-card__media">
+              <img
+                :src="getPostImageUrl(post.image)"
+                :alt="post.title"
+                width="1200"
+                height="630"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="blog-chip blog-chip--accent blog-card__category">
                 <font-awesome-icon :icon="faTag" />
                 {{ post.category }}
               </span>
-
+            </div>
+            <div class="blog-card__body">
               <h4>{{ post.title }}</h4>
               <p>{{ post.excerpt }}</p>
 
@@ -120,7 +141,11 @@
                   <font-awesome-icon :icon="faCalendarDays" />
                   {{ formatDate(post.date) }}
                 </span>
-                <button type="button" class="app-btn app-btn--sm app-btn--ghost" @click="openModal(post)">
+                <button
+                  type="button"
+                  class="app-btn app-btn--sm app-btn--ghost"
+                  @click.stop="openModal(post)"
+                >
                   {{ readMore }}
                 </button>
               </footer>
@@ -132,21 +157,45 @@
       <p v-else class="text-default">No posts found for selected filters.</p>
 
       <footer class="blog-pagination">
-        <button type="button" class="app-btn app-btn--primary" :disabled="currentPage === 1" @click="prevPage">
+        <button
+          type="button"
+          class="app-btn app-btn--primary"
+          :disabled="currentPage === 1"
+          @click="prevPage"
+        >
           <font-awesome-icon :icon="faArrowLeft" />
           {{ btnPrev }}
         </button>
         <span>Page {{ currentPage }} / {{ totalPages }}</span>
-        <button type="button" class="app-btn app-btn--primary" :disabled="currentPage === totalPages" @click="nextPage">
+        <button
+          type="button"
+          class="app-btn app-btn--primary"
+          :disabled="currentPage === totalPages"
+          @click="nextPage"
+        >
           {{ btnNext }}
           <font-awesome-icon :icon="faArrowRight" />
         </button>
       </footer>
 
       <teleport to="body">
-        <section v-if="selectedPost" class="blog-modal" @click.self="closeModal">
-          <article class="blog-modal__dialog" role="dialog" aria-modal="true" :aria-label="selectedPost.title">
-            <button type="button" class="blog-modal__close app-btn app-btn--icon app-btn--ghost" :aria-label="btnClose" @click="closeModal">
+        <section
+          v-if="selectedPost"
+          class="blog-modal"
+          @click.self="closeModal"
+        >
+          <article
+            class="blog-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            :aria-label="selectedPost.title"
+          >
+            <button
+              type="button"
+              class="blog-modal__close app-btn app-btn--icon app-btn--ghost"
+              :aria-label="btnClose"
+              @click="closeModal"
+            >
               <font-awesome-icon :icon="faXmark" />
             </button>
 
@@ -241,7 +290,10 @@ const resetFilters = () => {
 };
 
 const readTime = (post) => {
-  const words = String(post?.content || post?.excerpt || '').trim().split(/\s+/).filter(Boolean).length;
+  const words = String(post?.content || post?.excerpt || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 180));
 };
 
