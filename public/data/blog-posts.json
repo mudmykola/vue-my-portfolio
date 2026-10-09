@@ -92,6 +92,24 @@
       "category": "JS"
     },
     {
+      "id": 15,
+      "title": "Shopify Introduces Identity Verification for Partner Collaborator Requests",
+      "image": "/images/post/shopify-partner-identity-verification.webp",
+      "excerpt": "Shopify Partners will soon be required to verify their identity before sending new collaborator requests to merchant stores.",
+      "contentHtml": "<p>Shopify has introduced identity verification for Shopify Partners to improve trust between merchants and partners. The verification process is available now and will become mandatory in the coming weeks for anyone sending new collaborator requests.</p><h2>What Is Changing?</h2><p>Partners can now verify their identity before requesting collaborator access to merchant stores. Although verification is currently optional, Shopify will soon require it before any new collaborator request can be submitted.</p><p>Identity verification:</p><ul><li>Applies only to new collaborator requests.</li><li>Does not affect access to stores where collaborator permissions have already been granted.</li><li>Is completed through <code>Stripe</code>.</li><li>Requires a government-issued photo ID and a selfie or liveness check.</li></ul><h2>Why This Matters</h2><p>Collaborator access gives partners direct access to live merchant stores. Requiring identity verification helps merchants confirm who is requesting access, reduces platform abuse, and improves the overall security of the Shopify Partner ecosystem.</p><h2>Developer Impact</h2><p>Every team member who sends collaborator requests must complete their own identity verification before enforcement begins.</p><ul><li>Verify your identity in the Dev Dashboard.</li><li>Ensure every user in your Partner organization completes verification.</li><li>Prepare a government-issued photo ID.</li><li>Use a device capable of completing a selfie or liveness check.</li></ul><h2>Action Required</h2><p>Identity verification is optional today but will become mandatory in the coming weeks. Once enforcement begins, unverified users will no longer be able to submit new collaborator requests until verification is complete.</p><h2>Key Takeaway</h2><p>If your agency or development team regularly requests collaborator access to merchant stores, complete identity verification now to avoid workflow interruptions when Shopify makes the requirement mandatory.</p>",
+      "date": "2026-07-14",
+      "category": "Shopify"
+    },
+    {
+      "id":14,
+      "title": "Shopify Themes Introduce Color Palettes for Centralized Theme Styling",
+      "image": "/images/post/shopify-color-palettes-themes.webp",
+      "excerpt": "Shopify Themes now support color palettes, allowing merchants to manage theme colors from a single centralized palette.",
+      "contentHtml": "<p>Shopify has introduced a new <code>color_palette</code> setting type for Online Store themes. The feature provides merchants with a centralized way to manage colors across an entire theme while still allowing local customization at the section and block level.</p><h2>What Is Changing?</h2><p>The new <code>color_palette</code> setting creates a single editable collection of theme colors. Merchants can manage colors from one location instead of updating individual color settings throughout the theme.</p><p>Theme developers can now reference palette entries as default values for existing <code>color</code> and <code>color_background</code> settings.</p><p>This creates a more consistent design system while reducing repetitive color configuration.</p><h2>Why This Matters</h2><p>Managing colors across large themes can become difficult when color values are scattered throughout multiple sections and blocks. Color palettes simplify this process by providing a centralized source of truth for brand colors.</p><p>When a merchant updates a palette color, the change can automatically propagate throughout the theme wherever that palette entry is being used.</p><p>This results in a faster, more intuitive customization experience and helps maintain visual consistency across storefronts.</p><h2>Developer Impact</h2><p>Theme developers can begin using the new <code>color_palette</code> setting when building or updating themes.</p><p>Key benefits include:</p><ul><li>Centralized color management.</li><li>Improved merchant editing experience.</li><li>Reduced duplication of color settings.</li><li>More maintainable theme configuration.</li><li>Consistent branding across sections and blocks.</li></ul><p>Palette colors can still be overridden locally when additional flexibility is needed.</p><pre><code class=\"language-json\">{\n  \"type\": \"color_palette\",\n  \"id\": \"theme_palette\",\n  \"label\": \"Theme Colors\"\n}</code></pre><p>Individual color settings can reference palette values as defaults while preserving merchant control at lower levels of the theme hierarchy.</p><h2>Backward Compatibility</h2><p>Color schemes continue to be fully supported. Existing themes do not need to migrate to color palettes, and no changes are required for current Theme Store submissions.</p><p>However, Shopify has indicated that future theme development efforts will focus on the palette system because it provides a better editing experience for merchants.</p><h2>Key Takeaway</h2><p>The new <code>color_palette</code> setting introduces a more scalable approach to theme styling in Shopify. While existing color schemes remain supported, developers building new themes should consider adopting color palettes to provide a more modern and maintainable customization experience.</p><p>Developers interested in a production implementation can explore Horizon 4.0.0, which already uses the new palette system throughout the theme.</p>",
+      "date": "2026-07-04",
+      "category": "Shopify"
+    },
+    {
       "id": 11,
       "title": "Shopify Introduces FULFILLMENT_NOT_REQUIRED Status in Admin GraphQL API",
       "image": "/images/post/shopify-fulfillment-not-required.jpeg",
@@ -111,7 +129,7 @@
       "category": "Shopify"
     },
     {
-      "id": 3,
+      "id": 13,
       "title": "Nuxt Team Is Developing an AI-Powered Nuxt Agent",
       "image": "/images/post/nuxt-agent.webp",
       "excerpt": "The Nuxt team is actively developing Nuxt Agent, an AI-powered assistant integrated into the Nuxt documentation and ecosystem.",
@@ -119,5 +137,6 @@
       "date": "2026-07-04",
       "category": "Nuxt"
     }
+
   ]
 }

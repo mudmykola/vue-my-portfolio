@@ -1,5 +1,31 @@
 # Dev Log
 
+## 2026-10-09 10:22:28 EEST
+
+- Type: Improvement
+- Title: Refresh website profile and resume from October 2026 CVs
+- Summary: Updated Home and About copy, services, resume summary and skills; replaced the work timeline with four CV-backed roles and six dated courses; removed duplicate/example roles; refreshed Stony portfolio copy while preserving existing project links and images. NDA identities remain undisclosed. Dynamic experience and PDF downloads preserved.
+- Affected module/route/tool: `/`, `/about`, `/resume`, `/portfolio`; public/data/site-content.json, resume.json, portfolio.json
+- Issue reference: GitHub #70 (CV content refresh complete; browser QA and other portfolio/link review remain pending)
+- Validation: 16 tests and production build passed; JSON structure, unique timeline IDs, local CV links and portfolio image paths verified; git diff --check passed. Browser unavailable in CUA. Existing VITE_SITE_URL warning persists; no deployment.
+
+## 2026-10-09 10:19:03 EEST
+
+- Type: Improvement
+- Title: Calculate resume experience years automatically
+- Summary: Read both October 2026 CVs and used their January 2022 career start as the configurable experienceStartYear. The subtitle now interpolates completed calendar years (4+ in 2026, 5+ in 2027), with a reactive clock for open-page updates. Added year-boundary and invalid-input tests.
+- Affected module/route/tool: `/resume`, ResumeComponent.vue, experienceYears.js, site-content.json
+- Issue reference: GitHub #70; this subtitle update is complete, broader content refresh remains In Progress.
+- Validation: npm run verify passed (16 tests and production build); GitNexus impact ran for resume and detect-changes reported low risk. Existing timeline loader unchanged. Build warned about unset VITE_SITE_URL and example.com fallback; no deployment.
+
+## 2026-10-09 10:14:03 EEST
+
+- Type: Improvement
+- Title: Refresh Vue/Nuxt and Shopify downloadable resumes
+- Summary: Replaced both resume PDFs with the October 2026 source files while preserving existing download URLs. Verified PDF signatures, file existence and exact source SHA-256 matches.
+- Affected module/route/tool: `/resume`, `public/download/`
+- Issue reference: GitHub #70 (resume PDF update complete; broader content refresh remains In Progress)
+
 ## 2026-02-25 13:45:11 EET
 
 - Type: Improvement

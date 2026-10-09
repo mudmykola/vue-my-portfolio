@@ -1,5 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
+import { useNow } from '@vueuse/core';
+import { getExperienceYears } from './experienceYears.js';
 import {
   faBriefcase,
   faDownload,
@@ -15,7 +17,23 @@ import { useSiteContent } from '@/composables/useSiteContent.js';
 
 const { data, loading, error, load } = useSiteContent();
 
-const resume = computed(() => data.value?.resumePage ?? null);
+const now = useNow({ interval: 60000 });
+const resume = computed(() => {
+  const page = data.value?.resumePage;
+  if (!page) return null;
+
+  const years = getExperienceYears(
+    page.experienceStartYear,
+    now.value.getFullYear()
+  );
+  return {
+    ...page,
+    subtitle:
+      years === null
+        ? page.subtitle
+        : page.subtitle.replace('{years}', String(years)),
+  };
+});
 
 // Experience & Education content lives in its own file (public/data/resume.json)
 // so the frequently-updated timeline is easy to maintain independently.
