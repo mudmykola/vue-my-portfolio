@@ -3,7 +3,7 @@
     {
       "id": 1,
       "image": "/images/avatar-logo.webp",
-      "alt": "my-avatar"
+      "alt": "Mykola Mud, Vue, Nuxt and Shopify frontend developer"
     }
   ],
   "switching-sound": [
@@ -106,32 +106,32 @@
     {
       "id": 1,
       "image": "/images/avatar-logo.webp",
-      "alt": "my-avatar-about"
+      "alt": "Portrait of Mykola Mud, frontend developer"
     }
   ],
   "servicesCard": [
     {
       "id": 1,
-      "title": "Front-End Engineering",
-      "desc": "Building scalable, high-performance web interfaces focused on user experience and business growth.",
+      "title": "Vue & Nuxt Development",
+      "desc": "Building component-based web applications and headless storefronts with Vue, Nuxt, TypeScript, SSR, and API integrations.",
       "photo": "/images/service-1.png"
     },
     {
       "id": 2,
-      "title": "E-commerce Front-End",
-      "desc": "Developing fast, conversion-focused storefronts and web applications.",
+      "title": "Shopify Frontend Development",
+      "desc": "Custom Liquid themes, configurable Online Store 2.0 sections, product pages, cart logic, and subscriptions.",
       "photo": "/images/service-2.png"
     },
     {
       "id": 3,
-      "title": "UI Development",
-      "desc": "Creating modern, responsive and performance-driven digital products.",
+      "title": "E-commerce Analytics",
+      "desc": "Storefront and checkout tracking with Amplitude, Shopify Web Pixels, cross-domain identity, and edge event pipelines.",
       "photo": "/images/service-3.png"
     },
     {
       "id": 4,
-      "title": "Modern Web Architecture",
-      "desc": "Engineering scalable front-end systems with clean structure and long-term maintainability.",
+      "title": "Performance & Integrations",
+      "desc": "Responsive interfaces, Core Web Vitals, REST and GraphQL integrations, store migrations, and data automation.",
       "photo": "/images/service-4.png"
     }
   ],
@@ -178,12 +178,12 @@
       "displayName": "Mykola Mud",
       "h1Title": "Mykola Mud | Front-End Engineer Portfolio",
       "rotatingTitles": [
-        "Frontend Engineer",
+        "Frontend Developer",
         "Vue & Nuxt Developer",
-        "Shopify Developer"
+        "Shopify Frontend Engineer"
       ],
       "kicker": "VUE • NUXT • SHOPIFY",
-      "description": "I build polished interfaces for real products with a strong focus on performance, maintainability, and user experience.",
+      "description": "I build Vue and Nuxt applications, custom Shopify themes, and headless storefronts, with a focus on reusable components, web performance, and e-commerce analytics.",
       "portfolioCtaLabel": "See Portfolio",
       "contactCtaLabel": "Contact Me",
       "toolkitTitle": "Core Toolkit",
@@ -236,42 +236,57 @@
       "secondaryLabel": "View Resume"
     },
     "fallbackToolkit": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Vue.js",
-      "Nuxt.js",
-      "Pinia",
-      "Vuex",
+      "JavaScript (ES6+)",
+      "TypeScript",
+      "Vue 3 / Vue 2",
+      "Nuxt 3 / 4",
+      "Composition API",
+      "Pinia / Vuex",
+      "Vue Router",
+      "HTML5 / CSS3",
+      "SCSS",
       "Tailwind CSS",
-      "REST",
-      "JSON",
-      "Axios",
-      "Fetch",
-      "Node.js",
-      "Vite",
-      "Webpack",
-      "Gulp",
-      "NPM",
-      "Yarn",
+      "Shopify Liquid",
+      "Online Store 2.0",
+      "SSR",
+      "REST / GraphQL",
+      "WebSockets",
+      "Unit & E2E Testing",
+      "Git / GitHub",
+      "Vite / Webpack",
       "Shopify CLI",
-      "Liquid (Shopify)",
-      "Git",
+      "Storefront API",
+      "Admin API (GraphQL / REST)",
+      "Checkout Extensibility",
+      "Metafields",
+      "Theme App Extensions",
+      "Shopify Web Pixels",
+      "Recharge / Loop Subscriptions",
+      "Cloudflare Workers",
+      "Amplitude",
+      "Meta Pixel / GA4",
+      "Firebase",
+      "Python",
+      "Google Apps Script",
       "Figma"
     ]
   },
   "aboutPage": {
     "title": " | Front-End Engineer Background and Services",
-    "subtitle": ["Developer", "Manager", "Creative Person"],
+    "subtitle": [
+      "Frontend Developer",
+      "Vue & Nuxt Developer",
+      "Shopify Frontend Engineer"
+    ],
     "servicesTitle": "Services",
     "clientsTitle": "Clients",
     "testimonialsTitle": "Testimonials",
     "funTitle": "Fun Facts",
-    "infoTitle": "Headless Front-End Engineer",
+    "infoTitle": "Frontend Developer | Vue, Nuxt & Shopify",
     "infoDesc": [
-      "I specialize in building modern, fast, and SEO-optimized frontend solutions for eCommerce — with a strong focus on headless Shopify architecture using Nuxt 3 and Vue.",
-      "I create intuitive, component-based user interfaces with clean code and modular design. My workflow often includes Shopify Storefront API, Metafields as CMS, and Liquid theme customization. I'm passionate about performance optimization, structured data (JSON-LD), and caching strategies (Nitro).",
-      "Over the years, I’ve worked across different industries, collaborating in Agile/Scrum teams and delivering flexible, maintainable frontends tailored to real business needs."
+      "I build web applications and e-commerce platforms with JavaScript, TypeScript, Vue, Nuxt, and Shopify. My work spans reusable components, headless storefronts, custom Liquid themes, and responsive interfaces.",
+      "At JATAPP, I developed modular product-page components, worked on subscriptions and cart logic, and delivered Amplitude tracking across storefront and checkout. I also built a Cloudflare Workers pipeline for pre-checkout events and cross-domain analytics.",
+      "My experience includes Vue Composition API, Pinia, SSR, REST and GraphQL integrations, real-time features with WebSockets, and unit and E2E testing. I have also migrated stores to Shopify and automated product and order workflows with Python, Google Apps Script, Firebase, and Telegram."
     ],
     "contactInfo": [
       {
@@ -308,10 +323,11 @@
   },
   "resumePage": {
     "title": " | Front-End Engineer Experience and CV",
-    "subtitle": "3+ Years of Experience",
+    "subtitle": "{years}+ Years of Experience",
+    "experienceStartYear": 2022,
     "overviewCard": {
       "title": "Profile Snapshot",
-      "description": "Front-End Engineer specializing in Shopify development and the Vue/Nuxt ecosystem. Focused on building high-performance, scalable web solutions with an emphasis on maintainable architecture and optimized user experiences.",
+      "description": "Frontend Developer specializing in Vue, Nuxt, and Shopify. Experienced in reusable component architecture, SSR and headless storefronts, custom Liquid themes, subscriptions, and e-commerce analytics with Amplitude and Shopify Web Pixels.",
       "experienceLabel": "Experience Entries",
       "educationLabel": "Education Entries",
       "downloadLabelSingle": "Download CV",
@@ -324,34 +340,107 @@
     "skillFrontendTitle": "Front-end Technologies",
     "skillToolsTitle": "Tools and Technologies",
     "frontendTechnologies": [
-      { "name": "JavaScript" },
-      { "name": "TypeScript" },
-      { "name": "Vue 3" },
-      { "name": "Nuxt 4" },
-      { "name": "Pinia" },
-      { "name": "Tailwind CSS" },
-      { "name": "SCSS" },
-      { "name": "Shopify Liquid" },
-      { "name": "Shopify APIs" },
-      { "name": "GraphQL" },
-      { "name": "REST APIs" },
-      { "name": "Cloudflare Workers" },
-      { "name": "Git" },
-      { "name": "GA4" }
+      {
+        "name": "JavaScript (ES6+)"
+      },
+      {
+        "name": "TypeScript"
+      },
+      {
+        "name": "Vue 3 / Vue 2"
+      },
+      {
+        "name": "Nuxt 3 / 4"
+      },
+      {
+        "name": "Composition API"
+      },
+      {
+        "name": "Pinia / Vuex"
+      },
+      {
+        "name": "Vue Router"
+      },
+      {
+        "name": "HTML5 / CSS3"
+      },
+      {
+        "name": "SCSS"
+      },
+      {
+        "name": "Tailwind CSS"
+      },
+      {
+        "name": "Shopify Liquid"
+      },
+      {
+        "name": "Online Store 2.0"
+      },
+      {
+        "name": "SSR"
+      },
+      {
+        "name": "REST / GraphQL"
+      },
+      {
+        "name": "WebSockets"
+      },
+      {
+        "name": "Unit & E2E Testing"
+      }
     ],
     "toolsTechnologies": [
-      { "name": "Git" },
-      { "name": "GitHub" },
-      { "name": "Node.js" },
-      { "name": "pnpm" },
-      { "name": "Vite" },
-      { "name": "Shopify CLI" },
-      { "name": "Cloudflare Workers" },
-      { "name": "Cloudflare KV" },
-      { "name": "Wrangler" },
-      { "name": "GraphQL" },
-      { "name": "GA4" },
-      { "name": "Figma" }
+      {
+        "name": "Git / GitHub"
+      },
+      {
+        "name": "Vite / Webpack"
+      },
+      {
+        "name": "Shopify CLI"
+      },
+      {
+        "name": "Storefront API"
+      },
+      {
+        "name": "Admin API (GraphQL / REST)"
+      },
+      {
+        "name": "Checkout Extensibility"
+      },
+      {
+        "name": "Metafields"
+      },
+      {
+        "name": "Theme App Extensions"
+      },
+      {
+        "name": "Shopify Web Pixels"
+      },
+      {
+        "name": "Recharge / Loop Subscriptions"
+      },
+      {
+        "name": "Cloudflare Workers"
+      },
+      {
+        "name": "Amplitude"
+      },
+      {
+        "name": "Meta Pixel / GA4"
+      },
+      {
+        "name": "Firebase"
+      },
+      {
+        "name": "Python"
+      },
+      {
+        "name": "Google Apps Script"
+      },
+      {
+        "name": "Figma"
+      }
     ]
   }
 }
