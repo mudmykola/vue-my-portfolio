@@ -1,11 +1,12 @@
 # Session handoff
 
-- Timestamp: 2026-10-09 10:22:28 EEST
-- Objective: Update site content from both October 2026 CVs; prior PDF and automatic experience work preserved.
-- Stage: CV-backed JSON content implemented; issue #70/project remain In Progress because broader portfolio/link review and visual QA are pending.
-- Complete: Home/About profile and services, Resume summary/skills, 4 work roles (JATAPP 07/2026-10/2026; RANKBERRY 09/2024-06/2026; Ecom-X 12/2023-08/2024; freelance 01/2022-11/2023), 6 education/course records, Stony portfolio description. Existing testimonial/fun metrics and other project records lack CV evidence and were preserved.
-- Verified: npm run verify passed (16 tests/build), JSON schema/IDs, CV download and portfolio image file paths, git diff --check. No function changes in this stage; GitNexus detect-changes run.
-- Pending: User visual review of Home/About/Resume/Portfolio. CUA reports no browsers; external portfolio URLs not live-verified.
-- Next step: Review local pages; finish broader #70 scope before closing. Commit/push/deploy only by explicit request.
-- Relevant files: public/data/site-content.json, resume.json, portfolio.json; updates/DEV_LOG.md. Earlier ResumeComponent, experienceYears helper/tests, and PDF replacements preserved.
-- Runtime/commit: Vite started by this session at http://127.0.0.1:5173/ (exec session 80409); feature/VMP_dev; no commit, push or deployment. Build uses example.com SEO fallback without VITE_SITE_URL. Unrelated blog edits preserved.
+- Timestamp: 2026-10-09 10:31:45 EEST
+- Objective: Complete GitHub #115 Person/WebSite JSON-LD baseline.
+- Stage: Implementation and required local checks passed; GitHub #115 confirmed CLOSED; project Status and Workflow confirmed Done.
+- Complete: Shared configurable profile in src/config/structuredData.js used by runtime and prerender snapshots; stable person/website IDs, sameAs, publisher, consistent profile portrait. Existing page/breadcrumb hooks retained.
+- Verified: VITE_SITE_URL=https://mykolamud.pp.ua npm run verify — 18 tests/build passed; six dist snapshots have one parseable production-domain graph; repeated route changes tested with DOM head adapter; git diff --check. GitNexus index refreshed; impact LOW for changed functions; detect-changes MEDIUM in expected SEO/build flows.
+- Limits: No browser available in previous CUA inventory; no external schema validator, search crawler or deployment verification. New untracked config/test files reviewed separately because detect-changes excludes them.
+- Pending user input: None required. User commits/pushes/deploys manually.
+- Next step: User reviews diff and commits; reindex GitNexus after committing.
+- Files: src/config/structuredData.js, src/config/seo.js, scripts/prerender-route-snapshots.mjs, tests/seo-structured-data.test.js, README.md, updates/DEV_LOG.md.
+- Runtime/commit: feature/VMP_dev; working tree was clean at start (prior CV work committed by user). No commit/push/deploy this task. Prior #70 remains In Progress for portfolio/link review and visual QA. Previously started Vite state not reverified.
