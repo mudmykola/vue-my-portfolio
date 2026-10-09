@@ -1,5 +1,14 @@
 # Dev Log
 
+## 2026-10-09 10:31:45 EEST
+
+- Type: Improvement
+- Title: Complete shared Person and WebSite structured data baseline
+- Summary: Added a shared configurable profile and identity-node builder for runtime SEO and build-time snapshots. Person profile fields and portrait are consistent across routes, with GitHub/LinkedIn sameAs links; WebSite references Person as publisher. Existing route schema and breadcrumb hooks retained.
+- Affected module/route/tool: src/config/structuredData.js, src/config/seo.js, scripts/prerender-route-snapshots.mjs, README.md, tests/seo-structured-data.test.js
+- Issue reference: GitHub #115
+- Validation: 18 tests and production build passed with VITE_SITE_URL=https://mykolamud.pp.ua. Tests exercise six core routes, repeat navigation, one JSON-LD script, graph references and runtime/snapshot identity parity. All six built snapshots checked for one parseable graph with production IDs. GitNexus impact LOW; detect-changes MEDIUM and only expected SEO/build flows. No browser/external schema-validator/production proof, commit or deployment.
+
 ## 2026-10-09 10:22:28 EEST
 
 - Type: Improvement

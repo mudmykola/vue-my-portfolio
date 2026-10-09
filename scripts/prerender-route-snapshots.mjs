@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { buildIdentityNodes } from '../src/config/structuredData.js';
 
 const projectRoot = process.cwd();
 const distDir = path.join(projectRoot, 'dist');
@@ -150,25 +151,11 @@ const buildBreadcrumbNode = (route, canonicalUrl) => {
   };
 };
 
-const buildJsonLd = (route, canonicalUrl, ogImageUrl) =>
+const buildJsonLd = (route, canonicalUrl) =>
   JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'WebSite',
-        '@id': `${siteOrigin}${WEBSITE_NODE_ID}`,
-        url: `${siteOrigin}/`,
-        name: 'Mykola Mud',
-        inLanguage: 'en',
-      },
-      {
-        '@type': 'Person',
-        '@id': `${siteOrigin}${PERSON_NODE_ID}`,
-        name: 'Mykola Mud',
-        url: `${siteOrigin}/about`,
-        image: ogImageUrl,
-        jobTitle: 'Front-End Engineer',
-      },
+      ...buildIdentityNodes(siteOrigin, absoluteUrl(defaultOgImagePath)),
       {
         '@type': route.schemaType,
         '@id': `${canonicalUrl}#webpage`,
@@ -242,7 +229,7 @@ const buildRouteHtml = (baseHtml, route) => {
   html = setMetaContent(html, 'name="twitter:image"', ogImageUrl);
   html = setMetaContent(html, 'name="twitter:image:alt"', defaultOgImageAlt);
   html = setLinkHref(html, 'canonical', canonicalUrl);
-  html = setStructuredData(html, buildJsonLd(route, canonicalUrl, ogImageUrl));
+  html = setStructuredData(html, buildJsonLd(route, canonicalUrl));
 
   return html;
 };

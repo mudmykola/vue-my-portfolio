@@ -1,3 +1,5 @@
+import { buildIdentityNodes } from './structuredData.js';
+
 const env = import.meta?.env ?? {};
 
 const trimTrailingSlash = (value) => String(value || '').replace(/\/+$/, '');
@@ -122,37 +124,20 @@ const buildWebsiteNode = () => {
   const origin = getSiteOrigin();
   if (!origin) return null;
 
-  return {
-    '@type': 'WebSite',
-    '@id': `${origin}${WEBSITE_NODE_ID}`,
-    url: `${origin}/`,
-    name: SEO_DEFAULTS.siteName,
-    inLanguage: 'en',
-  };
+  return buildIdentityNodes(
+    origin,
+    ensureAbsoluteUrl(SEO_DEFAULTS.defaultOgImage)
+  )[0];
 };
 
 const buildPersonNode = () => {
   const origin = getSiteOrigin();
   if (!origin) return null;
 
-  return {
-    '@type': 'Person',
-    '@id': `${origin}${PERSON_NODE_ID}`,
-    name: 'Mykola Mud',
-    url: `${origin}/about`,
-    image: ensureAbsoluteUrl(SEO_DEFAULTS.defaultOgImage),
-    jobTitle: 'Front-End Engineer',
-    description:
-      'Front-end engineer focused on Vue, Nuxt, Shopify storefronts, scalable UI systems, and performance-oriented implementation.',
-    knowsAbout: [
-      'Vue.js',
-      'Nuxt',
-      'Shopify Frontend Development',
-      'Frontend Architecture',
-      'Web Performance',
-      'UI Development',
-    ],
-  };
+  return buildIdentityNodes(
+    origin,
+    ensureAbsoluteUrl(SEO_DEFAULTS.defaultOgImage)
+  )[1];
 };
 
 const buildBreadcrumbNode = (route, seo) => {

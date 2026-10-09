@@ -160,6 +160,17 @@ Suggested secrets in Worker:
 
 Frontend now calls `/contact` by default.
 
+## Structured Data
+
+Person and WebSite profile data is configured in `src/config/structuredData.js`.
+Runtime SEO and build-time HTML snapshots use the same identity nodes, stable
+`#person` / `#website` IDs, profile portrait, and GitHub/LinkedIn `sameAs` links.
+The existing route SEO config controls page schema types and breadcrumbs; Article
+schemas can be added when individual article routes exist.
+
+Set `VITE_SITE_URL=https://mykolamud.pp.ua` for production builds so graph IDs,
+canonical URLs, and sitemap URLs use the production domain.
+
 ## Content Management
 
 Content lives locally under `public/data/` and is served same-origin:
@@ -273,5 +284,3 @@ Optional CORS origin is in `worker/wrangler.toml`:
 cd worker
 npx wrangler deploy
 ```
-
-
