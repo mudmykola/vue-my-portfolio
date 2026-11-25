@@ -4,7 +4,11 @@ import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 export const temperature = ref(null);
 export const weatherDescription = ref(null);
 export const weatherIconUrl = ref(null);
-export const city = ref(localStorage.getItem('selectedCity') || 'Kyiv');
+const storedCity =
+  typeof localStorage !== 'undefined'
+    ? localStorage.getItem('selectedCity')
+    : '';
+export const city = ref(storedCity || 'Kyiv');
 export const weatherError = ref('');
 
 const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
@@ -43,7 +47,9 @@ export const fetchWeatherData = async (selectedCity = city.value) => {
       data.weather[0].icon
     );
     city.value = selectedCity;
-    localStorage.setItem('selectedCity', selectedCity);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('selectedCity', selectedCity);
+    }
   } catch (error) {
     console.error('Error fetching weather data:', error);
     weatherError.value = 'Unable to load weather right now.';
@@ -51,6 +57,8 @@ export const fetchWeatherData = async (selectedCity = city.value) => {
 };
 
 export const chooseLocation = () => {
+  if (typeof window === 'undefined') return;
+
   const selectedCity = prompt('Please enter a city:');
   if (selectedCity) {
     fetchWeatherData(selectedCity);

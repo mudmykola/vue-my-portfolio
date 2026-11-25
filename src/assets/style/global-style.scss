@@ -1,14 +1,32 @@
 :root {
-  --app-bg-900: #0d121f;
-  --app-bg-800: #151d31;
-  --app-surface: rgba(13, 20, 35, 0.72);
-  --app-surface-soft: rgba(255, 255, 255, 0.08);
-  --app-text: #f6f8ff;
-  --app-text-soft: rgba(246, 248, 255, 0.78);
-  --app-accent: #49dcb1;
-  --app-accent-alt: #f3c056;
-  --app-border: rgba(255, 255, 255, 0.14);
-  --app-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
+  --color-bg: #080f0e;
+  --color-surface: #0d1815;
+  --color-surface-raised: #13211d;
+  --color-border: rgba(190, 215, 204, 0.14);
+  --color-text: #f3f7f5;
+  --color-text-secondary: #b5c2bc;
+  --color-text-muted: #7f9088;
+  --color-accent: #18d6a0;
+  --color-accent-hover: #2ce5b1;
+  --color-accent-soft: rgba(24, 214, 160, 0.12);
+  --color-accent-border: rgba(24, 214, 160, 0.42);
+  --color-text-on-accent: #052219;
+  --color-success: #18d6a0;
+  --color-warning: #f4bf58;
+  --color-error: #ff7373;
+  --color-info: #76b9ff;
+
+  // Compatibility aliases for existing page modules during the redesign migration.
+  --app-bg-900: var(--color-bg);
+  --app-bg-800: var(--color-surface);
+  --app-surface: var(--color-surface);
+  --app-surface-soft: var(--color-accent-soft);
+  --app-text: var(--color-text);
+  --app-text-soft: var(--color-text-secondary);
+  --app-accent: var(--color-accent);
+  --app-accent-alt: var(--color-warning);
+  --app-border: var(--color-border);
+  --app-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
 }
 
 *,
@@ -20,6 +38,7 @@
 html,
 body,
 #app {
+  background: var(--color-bg);
   color: var(--app-text);
   font-family: 'Manrope', 'Inter', sans-serif;
   width: 100%;
@@ -56,6 +75,23 @@ li {
   overflow-wrap: anywhere;
 }
 
+h1 {
+  font-size: clamp(2.375rem, 5vw, 4.25rem);
+  line-height: 1.08;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.875rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  line-height: 1.2;
+}
+
 h1,
 h2,
 h3,
@@ -77,9 +113,9 @@ h6 {
   gap: 0.35rem;
   padding: 0.28rem 0.62rem;
   border-radius: 999px;
-  border: 1px solid rgba(73, 220, 177, 0.45);
-  background: rgba(73, 220, 177, 0.12);
-  color: #cfffee;
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-hover);
   font-size: 0.68rem;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -99,22 +135,41 @@ h6 {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  min-height: 40px;
-  padding: 0.58rem 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.06);
+  min-height: 48px;
+  padding: 0.75rem 1.35rem;
+  border-radius: 9px;
+  border: 1px solid var(--color-border);
+  background: transparent;
   color: var(--app-text);
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   line-height: 1;
-  transition: all 0.22s ease;
+  transition:
+    background-color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    color 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .app-btn:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-accent-border);
+  background: var(--color-accent-soft);
+  transform: translateY(-1px);
+}
+
+.app-btn:active {
+  transform: translateY(0);
+}
+
+.app-btn:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-accent-hover);
+  outline-offset: 3px;
 }
 
 .app-btn:disabled {
@@ -123,13 +178,16 @@ h6 {
 }
 
 .app-btn--primary {
-  border-color: rgba(73, 220, 177, 0.55);
-  background: rgba(73, 220, 177, 0.16);
-  color: #e3fff5;
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font-weight: 700;
 }
 
 .app-btn--primary:hover {
-  background: rgba(73, 220, 177, 0.24);
+  border-color: var(--color-accent-hover);
+  background: var(--color-accent-hover);
+  color: var(--color-text-on-accent);
 }
 
 .app-btn--ghost {
@@ -137,10 +195,10 @@ h6 {
 }
 
 .app-btn--sm {
-  min-height: 34px;
+  min-height: 44px;
   padding: 0.45rem 0.75rem;
   font-size: 0.82rem;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .app-btn--icon {
@@ -153,26 +211,15 @@ h6 {
 .container-centered {
   width: min(1200px, 100%);
   max-width: 100%;
-  min-height: calc(100dvh - 190px);
+  min-height: calc(100dvh - 160px);
   margin: 0 auto;
-  background: radial-gradient(
-      circle at 10% 10%,
-      rgba(73, 220, 177, 0.11),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 80% 85%,
-      rgba(243, 192, 86, 0.09),
-      transparent 40%
-    ),
-    var(--app-surface);
+  background: var(--color-surface);
   border: 1px solid var(--app-border);
   padding: 1.25rem;
-  border-radius: 22px;
+  border-radius: 12px;
   box-shadow: var(--app-shadow);
   overflow-y: auto;
   overflow-x: clip;
-  backdrop-filter: blur(14px);
   color: var(--app-text);
   scrollbar-color: var(--app-accent) rgba(255, 255, 255, 0.14);
 }
@@ -216,7 +263,18 @@ h6 {
       height: 100%;
       width: 3px;
       border-radius: 99px;
-      background: linear-gradient(var(--app-accent), var(--app-accent-alt));
+      background: var(--color-accent);
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

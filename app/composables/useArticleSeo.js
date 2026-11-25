@@ -1,0 +1,77 @@
+import { buildIdentityNodes } from '@/config/structuredData.js';
+import { buildCanonicalUrl } from '../utils/routeSeo.js';
+
+export function useArticleSeo(article) {
+  const config = useRuntimeConfig();
+  const siteUrl = String(
+    config.public.siteUrl || 'https://mykolamud.pp.ua'
+  ).replace(/\/+$/, '');
+  const canonicalUrl = buildCanonicalUrl(siteUrl, `/blog/${article.handle}`);
+  const image =
+    article.image ||
+    config.public.defaultOgImagePath ||
+    '/images/avatar-logo.webp';
+  const imageUrl = /^https?:\/\//i.test(image)
+    ? image
+    : `${siteUrl}${image.startsWith('/') ? image : `/${image}`}`;
+  const title = article.seoTitle || article.title;
+  const description = article.seoDescription || article.excerpt;
+  const graph = [
+    ...buildIdentityNodes(siteUrl, imageUrl),
+    {
+      '@type': 'Article',
+      '@id': `${canonicalUrl}#article`,
+      url: canonicalUrl,
+      headline: article.title,
+      description,
+      datePublished: article.date,
+      image: imageUrl,
+      author: { '@id': `${siteUrl}#person` },
+      publisher: { '@id': `${siteUrl}#person` },
+      isPartOf: { '@id': `${siteUrl}#website` },
+      mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: title,
+      description,
+      isPartOf: { '@id': `${siteUrl}#website` },
+      about: { '@id': `${siteUrl}#person` },
+      inLanguage: 'en',
+    },
+  ];
+
+  useSeoMeta({
+    title,
+    description,
+    robots: 'index, follow',
+    ogTitle: title,
+    ogDescription: description,
+    ogType: 'article',
+    ogUrl: canonicalUrl,
+    ogImage: imageUrl,
+    ogImageAlt: article.imageAlt || article.title,
+    twitterCard: 'summary_large_image',
+    twitterTitle: title,
+    twitterDescription: description,
+    twitterImage: imageUrl,
+  });
+  useHead({
+    link: [{ rel: 'canonical', href: canonicalUrl }],
+    script: [
+      {
+        key: 'app-structured-data',
+        id: 'app-structured-data',
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': graph,
+        }),
+      },
+    ],
+  });
+  return { canonicalUrl, graph };
+}

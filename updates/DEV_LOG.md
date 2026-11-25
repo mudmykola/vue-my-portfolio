@@ -210,3 +210,35 @@
 - Summary: Extracted Home page static copy (hero, values, workflow, CTA, and fallback toolkit labels) from `HomeComponent.vue` into `public/data/site-content.json` and kept fallback values in the component for safe rendering.
 - Affected module/route/tool: Home page (`/`), `HomeComponent.vue`, `site-content.json`
 - Issue reference: Linear `MYK-82`, GitHub `#102`
+
+## 2026-11-25
+
+- Type: Feature
+- Title: Port portfolio routes and SEO contract to Nuxt
+- Summary: Added Nuxt route wrappers for the existing public pages, centralized route SEO metadata and JSON-LD generation, and added SSR-safe guards for weather and clock widgets while preserving the current views and design.
+- Affected module/route/tool: Nuxt `app/pages`, `app/composables/usePortfolioSeo.js`, `app/utils/routeSeo.js`, weather/clock widgets, all public routes
+- Issue reference: GitHub `#136`
+
+## 2026-11-25
+
+- Type: Feature
+- Title: Integrate Shopify Storefront blog into Nuxt
+- Summary: Added server-only Shopify Storefront GraphQL endpoints, normalized articles to the existing blog contract, added local fallback data, article routes and Article JSON-LD without exposing Shopify credentials to browser code.
+- Affected module/route/tool: Nuxt blog listing/article routes, `/api/blog`, Shopify Storefront GraphQL adapter, blog components and runtime config
+- Issue reference: GitHub `#137`
+
+## 2026-11-25
+
+- Type: Improvement
+- Title: Verify Nuxt shell runtime and SSR routes
+- Summary: Verified the Nuxt dev server, all public routes and dynamic blog article SSR; added the Nuxt compatibility date and a deterministic Home display-name fallback to remove the SSR prop warning.
+- Affected module/route/tool: Nuxt runtime, `nuxt.config.ts`, Home SSR fallback, public routes
+- Issue reference: GitHub `#138`
+
+## 2026-11-25 — Design system foundation
+
+- Type: Refactor / Improvement
+- Title: Establish the shared Mykola Mud portfolio design system
+- Summary: Recorded the user-provided dark graphite and emerald design system and implemented its shared tokens, typography baseline, Nuxt shell, common header/navigation, accessible mobile menu, button states, focus treatment and reduced-motion support.
+- Module/routes: global styles, layout shell, shared navigation, all routes
+- Issue reference: Migration epic #134 / user design-system brief

@@ -12,6 +12,10 @@ import {
 import { usePosts } from './usePosts.js';
 import BlogPostModal from '../blog/BlogPostModal.vue';
 
+const props = defineProps({
+  initialPosts: { type: Array, default: null },
+});
+
 const {
   filterAllCategories,
   sortByDate,
@@ -38,7 +42,7 @@ const {
   closeModal,
   formatDate,
   getPostImageUrl,
-} = usePosts();
+} = usePosts({ initialPosts: props.initialPosts });
 
 const posts = computed(() => paginatedPosts.value ?? []);
 
@@ -80,6 +84,17 @@ const getCardClass = (index, total) => {
 };
 
 const isFeaturedCard = (index) => index === 0;
+
+const getArticleHref = (post) => {
+  const handle =
+    post?.handle ||
+    String(post?.title || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  return `/blog/${handle}`;
+};
 </script>
 
 <template>
@@ -196,14 +211,10 @@ const isFeaturedCard = (index) => index === 0;
             <h3>{{ post.title }}</h3>
             <p>{{ post.excerpt }}</p>
 
-            <button
-              type="button"
-              class="blog-card__link"
-              @click.stop="openModal(post)"
-            >
+            <a :href="getArticleHref(post)" class="blog-card__link" @click.stop>
               {{ readMore }}
               <font-awesome-icon :icon="faArrowRight" />
-            </button>
+            </a>
           </div>
         </article>
       </div>

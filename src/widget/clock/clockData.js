@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 export const currentTime = ref('');
@@ -30,7 +30,4 @@ export const updateClock = () => {
   dayNightIcon.value = isNight ? faMoon : faSun;
 };
 
-watchEffect(() => {
-  const intervalId = setInterval(updateClock, 1000);
-  return () => clearInterval(intervalId);
-});
+updateClock();

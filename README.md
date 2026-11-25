@@ -85,6 +85,7 @@ VITE_OPENWEATHER_ICON_BASE_URL=
 Important:
 
 - `VITE_*` values are embedded at build time.
+- Nuxt Shopify blog access uses server-only `NUXT_SHOPIFY_STORE_DOMAIN`, `NUXT_SHOPIFY_STOREFRONT_TOKEN`, optional `NUXT_SHOPIFY_API_VERSION` and `NUXT_SHOPIFY_BLOG_HANDLE`; never put the Storefront token in `VITE_*` variables.
 - Do not store real secrets in frontend env for production.
 - Prefer server-side secret handling via Cloudflare Worker.
 - `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).

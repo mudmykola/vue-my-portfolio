@@ -2,6 +2,10 @@
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import BlogItemComponent from '@/components/blog/BlogItemComponent.vue';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
+
+defineProps({
+  initialPosts: { type: Array, default: null },
+});
 </script>
 
 <template>
@@ -17,7 +21,7 @@ import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
       />
 
       <section class="blog-layout__list">
-        <BlogItemComponent />
+        <BlogItemComponent :initial-posts="initialPosts" />
       </section>
     </div>
   </section>

@@ -2,7 +2,7 @@ import { ref, computed, watch, onMounted } from 'vue';
 import axios from 'axios';
 import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 
-export function usePosts() {
+export function usePosts(options = {}) {
   const labels = {
     filterAllCategories: 'All Categories',
     sortByDate: 'Date',
@@ -14,7 +14,7 @@ export function usePosts() {
     btnClose: 'Close',
   };
 
-  const posts = ref([]);
+  const posts = ref(options.initialPosts || []);
   const selectedPost = ref(null);
   const currentPage = ref(1);
   const postsPerPage = 6;
@@ -90,6 +90,7 @@ export function usePosts() {
   };
 
   const fetchPosts = async () => {
+    if (options.initialPosts) return;
     loading.value = true;
     error.value = '';
 

@@ -1,5 +1,6 @@
 export const fallbackHomeContent = {
   hero: {
+    displayName: 'Mykola Mud',
     kicker: 'AVAILABLE FOR NEW PROJECTS',
     description:
       'I build polished interfaces for real products with a strong focus on speed, maintainability, and user experience.',

@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:nuxt": "nuxt dev",
     "build": "vite build && node scripts/prerender-route-snapshots.mjs && node scripts/generate-seo-assets.mjs",
+    "build:nuxt": "nuxt build",
     "preview": "vite preview",
+    "preview:nuxt": "nuxt preview",
+    "generate:nuxt": "nuxt generate",
     "prepare": "husky install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -32,6 +36,7 @@
     "axios": "^1.6.8",
     "fs-extra": "^11.2.0",
     "highlight.js": "^11.11.1",
+    "nuxt": "^4.1.3",
     "pinia": "^2.1.7",
     "swiper": "^11.0.7",
     "vue": "^3.4.21",
@@ -46,6 +51,7 @@
     "prettier": "^3.3.3",
     "sass": "^1.72.0",
     "tailwindcss": "^3.4.1",
+    "typescript": "^5.9.3",
     "vite": "^5.1.5"
   }
 }

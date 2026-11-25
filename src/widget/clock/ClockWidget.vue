@@ -9,8 +9,24 @@
 </template>
 
 <script setup>
-import { currentTime, currentDate, dayNightIcon } from './clockData.js';
+import { onMounted, onUnmounted } from 'vue';
+import {
+  currentTime,
+  currentDate,
+  dayNightIcon,
+  updateClock,
+} from './clockData.js';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+let intervalId;
+
+onMounted(() => {
+  intervalId = window.setInterval(updateClock, 1000);
+});
+
+onUnmounted(() => {
+  window.clearInterval(intervalId);
+});
 </script>
 
 <style lang="scss" scoped>

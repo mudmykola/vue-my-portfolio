@@ -1,33 +1,40 @@
 <template>
   <nav class="mobile-navigation" aria-label="Mobile navigation">
-    <ul class="mobile-tabs">
-      <li v-for="item in menuItems" :key="item.id">
-        <button
-          type="button"
-          class="mobile-tab"
-          :class="{ 'mobile-tab--active': isActive(item.link) }"
-          @click="handleItemClick(item)"
-        >
-          <font-awesome-icon :icon="item.icon" class="mobile-tab__icon" />
-          <span class="mobile-tab__label">{{ item.name }}</span>
-        </button>
-      </li>
-    </ul>
+    <button
+      type="button"
+      class="mobile-menu-trigger"
+      aria-controls="mobile-menu-panel"
+      :aria-expanded="isOpen"
+      @click="isOpen = !isOpen"
+    >
+      <font-awesome-icon :icon="isOpen ? faXmark : faBars" aria-hidden="true" />
+      <span>{{ isOpen ? 'Close menu' : 'Open menu' }}</span>
+    </button>
+
+    <div v-if="isOpen" id="mobile-menu-panel" class="mobile-menu-panel">
+      <router-link
+        v-for="item in menuItems"
+        :key="item.id"
+        :to="item.link"
+        class="mobile-menu-link"
+        :class="{ 'mobile-menu-link--active': isActive(item.link) }"
+        @click="isOpen = false"
+      >
+        <font-awesome-icon :icon="item.icon" aria-hidden="true" />
+        <span>{{ item.name }}</span>
+      </router-link>
+    </div>
   </nav>
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { menuItems } from './navigationData.js';
 
-const router = useRouter();
 const route = useRoute();
-
-const handleItemClick = (item) => {
-  if (route.path !== item.link) {
-    router.push(item.link);
-  }
-};
+const isOpen = ref(false);
 
 const isActive = (link) => route.path === link;
 </script>
@@ -39,53 +46,59 @@ const isActive = (link) => route.path === link;
   right: 0;
   bottom: 0;
   z-index: 60;
-  padding: 0.45rem 0.55rem calc(0.45rem + env(safe-area-inset-bottom));
-  background: rgba(9, 15, 29, 0.94);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom));
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
   display: none;
 }
 
-.mobile-tabs {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.3rem;
-}
-
-.mobile-tab {
+.mobile-menu-trigger {
+  min-height: 44px;
   width: 100%;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: transparent;
-  color: rgba(246, 248, 255, 0.75);
-  padding: 0.4rem 0.2rem;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.58rem;
-  transition: all 0.2s ease;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
 }
 
-.mobile-tab__icon {
-  font-size: 0.84rem;
+.mobile-menu-trigger:hover,
+.mobile-menu-trigger[aria-expanded='true'] {
+  border-color: var(--color-accent-border);
+  color: var(--color-accent);
 }
 
-.mobile-tab--active {
-  color: #49dcb1;
-  border-color: rgba(73, 220, 177, 0.45);
-  background: rgba(73, 220, 177, 0.12);
+.mobile-menu-panel {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-raised);
 }
 
-.mobile-tab__label {
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+.mobile-menu-link {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.mobile-menu-link:hover,
+.mobile-menu-link--active {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
 @media only screen and (max-width: 640px) {
@@ -95,12 +108,8 @@ const isActive = (link) => route.path === link;
 }
 
 @media only screen and (max-width: 420px) {
-  .mobile-tab {
-    padding: 0.35rem 0.15rem;
-  }
-
-  .mobile-tab__label {
-    font-size: 0.54rem;
+  .mobile-navigation {
+    padding-inline: 0.75rem;
   }
 }
 </style>
