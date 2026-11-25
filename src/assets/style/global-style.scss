@@ -16,6 +16,17 @@
   --color-error: #ff7373;
   --color-info: #76b9ff;
 
+  --motion-fast: 140ms;
+  --motion-ui: 200ms;
+  --motion-panel: 260ms;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.18);
+  --shadow-popover: 0 16px 44px rgba(0, 0, 0, 0.32);
+  --shadow-modal: 0 24px 72px rgba(0, 0, 0, 0.48);
+  --focus-ring: 0 0 0 3px rgba(24, 214, 160, 0.32);
+
   // Compatibility aliases for existing page modules during the redesign migration.
   --app-bg-900: var(--color-bg);
   --app-bg-800: var(--color-surface);

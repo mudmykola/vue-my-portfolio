@@ -80,6 +80,45 @@ accessible panel with `aria-expanded`, keyboard focus and 44px minimum targets.
 - Respect `prefers-reduced-motion`.
 - Cards lift at most 2px and images scale at most 1.02; no tilt or decorative infinite motion.
 
+## Motion and interaction system
+
+Motion explains a state change or responds to a user action. Keep the shared header and footer
+stable between route changes; animate only the main page content. Prefer `transform` and
+`opacity`, and do not animate layout properties such as `width`, `height`, `margin`, `top` or
+`left`. Never combine CSS and JavaScript animation on the same element.
+
+```css
+:root {
+  --motion-fast: 140ms;
+  --motion-ui: 200ms;
+  --motion-panel: 260ms;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.18);
+  --shadow-popover: 0 16px 44px rgba(0, 0, 0, 0.32);
+  --shadow-modal: 0 24px 72px rgba(0, 0, 0, 0.48);
+  --focus-ring: 0 0 0 3px rgba(24, 214, 160, 0.32);
+}
+```
+
+- Hover and focus use 140–200ms; panels, menus and dialogs use 200–260ms; ordinary transitions
+  never exceed 300ms.
+- Page transitions use Nuxt `pageTransition` or Vue `<Transition>` around the page content only:
+  opacity plus no more than 6–8px vertical movement. Preserve Back/Forward and scroll restoration.
+- Modals use an opacity backdrop and a small 6–8px translate or 0.985→1 scale. They must trap
+  focus, close with Escape/close control/backdrop, lock background scrolling and restore focus.
+- Navigation exposes `aria-current="page"`; menus expose `aria-expanded`; toggles use
+  `aria-pressed`; tabs use tab semantics.
+- Cards lift no more than 2px; images scale no more than 1.02. Do not tilt cards, animate large
+  shadows, use parallax, or add decorative infinite loops.
+- Mobile menus open with a short fade and vertical movement, close after navigation/Escape/outside
+  click, and keep interactive targets at least 44px.
+- Respect `prefers-reduced-motion: reduce`: remove movement, scale, parallax and decorative
+  reveals; retain an understandable state change or a short fade.
+- Use Vue transitions and CSS first. Do not add an animation library for simple interactions;
+  consider `motion-v` only for a demonstrated coordinated animation or complex gesture need.
+
 ## Media and content
 
 - Use real portraits, project screenshots, logos and images from project assets/data.
@@ -103,3 +142,6 @@ error and success states.
 4. Reuse existing Font Awesome icons; do not add another icon library.
 5. Keep content sourced from current project data.
 6. Implement structure before decoration and verify desktop/mobile behavior.
+7. Check active, hover, focus-visible, pressed, disabled and loading states with mouse and keyboard.
+8. Verify page transitions, modal focus behavior, reduced motion, scroll locking, layout stability and
+   absence of horizontal overflow at 1440, 1024, 768, 390 and 320px.

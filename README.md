@@ -1,287 +1,202 @@
-# Vue My Portfolio
+# Mykola Mud Portfolio
 
-Personal portfolio website built with Vue 3 + Vite, focused on modern UI/UX, responsive layout, and clean component architecture.
+Персональне портфоліо Mykola Mud — Front-End Engineer. Проєкт поступово мігрує з Vue/Vite на Nuxt без зміни публічних маршрутів, фактичного контенту та джерел даних.
 
-## Stack
+Основний стек: Vue 3, Nuxt 4, Vue Router, Pinia, SCSS і Shopify Storefront API для блогу.
 
-- Vue 3 (Composition API)
-- Vite 5
-- Vue Router
-- Pinia
-- SCSS
-- Swiper
-- Firebase Hosting (frontend deploy)
-- Cloudflare Worker (recommended contact proxy)
+## Можливості
 
-## Features
+- сторінки Home, Portfolio, About, Resume, Blog, Contact і Game;
+- SSR/SEO-маршрути Nuxt зі стабільними canonical, sitemap, robots і JSON-LD;
+- блог із Shopify Storefront API та локальним fallback-контентом;
+- portfolio, resume і site content із JSON-джерел у `public/data/`;
+- responsive layout для desktop, tablet і mobile;
+- доступне mobile menu, keyboard focus і reduced-motion підтримка;
+- Cloudflare Worker для contact API та Telegram delivery;
+- збережений Vite runtime як перехідний compatibility layer до завершення міграції.
 
-- Multi-page portfolio: Home, About, Resume, Portfolio, Blog, Contact, Game
-- Responsive desktop/mobile layout
-- Portfolio modal gallery
-- Blog filters/sorting/search
-- Weather + clock widgets in header
-- JSON-driven content (`public/data/site-content.json`)
+## Стек
 
-## Project Setup
+- Vue 3 + Composition API
+- Nuxt 4 + Nitro
+- Vite 5 — legacy/static runtime під час міграції
+- Vue Router, Pinia, SCSS
+- Font Awesome
+- Shopify Storefront API
+- Cloudflare Workers
+- Firebase Hosting для статичного Vite build
 
-### Requirements
+## Вимоги та встановлення
 
 - Node.js 18+
-- pnpm
-
-### Install
+- npm
 
 ```bash
-pnpm install
+npm install
 ```
 
-### Run locally
+## Локальна розробка
+
+Nuxt runtime:
 
 ```bash
-pnpm dev
+npm run dev:nuxt
 ```
 
-### Build
+Legacy Vite runtime:
 
 ```bash
-pnpm build
+npm run dev
 ```
 
-### Preview build
+Nuxt preview після production build:
 
 ```bash
-pnpm preview
+npm run preview:nuxt
 ```
 
-### Tests
+## Build і перевірки
 
 ```bash
-pnpm test
-pnpm test:watch
+# Nuxt production build
+npm run build:nuxt
+
+# Vite static build + route snapshots + sitemap/robots
+npm run build
+
+# Тести
+npm test
+
+# Повна перевірка legacy/static pipeline
+npm run verify
 ```
 
-## Environment Variables
+Тести перевіряють route SEO, structured data, Shopify blog normalization, portfolio/blog composables і Cloudflare Worker contract.
 
-Create `.env` in project root:
+## Публічні маршрути
+
+| Route           | Призначення             |
+| --------------- | ----------------------- |
+| `/`             | Home                    |
+| `/portfolio`    | Portfolio projects      |
+| `/about`        | About                   |
+| `/resume`       | Resume                  |
+| `/blog`         | Shopify-backed blog     |
+| `/blog/:handle` | Individual blog article |
+| `/contact`      | Contact form            |
+| `/game`         | Game page               |
+
+## Конфігурація середовища
+
+Створи локальний `.env` у корені проєкту. Реальні секрети не додавай у Git.
 
 ```env
-VITE_OPENWEATHER_API_KEY=
-VITE_CONTACT_API_URL=/contact
 VITE_SITE_URL=https://mykolamud.pp.ua
+VITE_CONTACT_API_URL=/contact
 VITE_DEFAULT_OG_IMAGE_PATH=/images/avatar-logo.webp
 VITE_DEFAULT_OG_IMAGE_ALT=Mykola Mud front-end engineer portfolio social preview image
 VITE_DEFAULT_OG_IMAGE_WIDTH=1200
 VITE_DEFAULT_OG_IMAGE_HEIGHT=630
 
-# Optional remote endpoint overrides (defaults are built in)
+# Optional client-side endpoint overrides
 VITE_GITHUB_API_BASE_URL=
-VITE_BLOG_POSTS_URL=
 VITE_PORTFOLIO_PROJECTS_URL=
-VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
+VITE_BLOG_POSTS_URL=
+VITE_OPENWEATHER_API_KEY=
 VITE_OPENWEATHER_API_BASE_URL=
 VITE_OPENWEATHER_ICON_BASE_URL=
+VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
+
+# Nuxt server-only Shopify configuration
+NUXT_SHOPIFY_STORE_DOMAIN=
+NUXT_SHOPIFY_STOREFRONT_TOKEN=
+NUXT_SHOPIFY_API_VERSION=2025-10
+NUXT_SHOPIFY_BLOG_HANDLE=
 ```
 
-Important:
+Правила:
 
-- `VITE_*` values are embedded at build time.
-- Nuxt Shopify blog access uses server-only `NUXT_SHOPIFY_STORE_DOMAIN`, `NUXT_SHOPIFY_STOREFRONT_TOKEN`, optional `NUXT_SHOPIFY_API_VERSION` and `NUXT_SHOPIFY_BLOG_HANDLE`; never put the Storefront token in `VITE_*` variables.
-- Do not store real secrets in frontend env for production.
-- Prefer server-side secret handling via Cloudflare Worker.
-- `VITE_CONTACT_API_URL` defaults to `/contact` (same domain Worker API).
-- `VITE_SITE_URL` is used for absolute canonical/OG URLs in runtime SEO metadata and for generated `sitemap.xml` / `robots.txt`.
-- Production value for this project should be `https://mykolamud.pp.ua` (not the `workers.dev` subdomain).
-- `VITE_DEFAULT_OG_IMAGE_PATH` sets a default social preview image path for SEO metadata.
-- `VITE_DEFAULT_OG_IMAGE_ALT`, `VITE_DEFAULT_OG_IMAGE_WIDTH`, `VITE_DEFAULT_OG_IMAGE_HEIGHT` control default social image metadata.
-- External content/API hosts can be overridden via optional `VITE_*` endpoint vars; sane defaults are defined in `src/config/remoteEndpoints.js`.
+- `VITE_*` значення вбудовуються у frontend build і не підходять для секретів;
+- Shopify Storefront token використовуй тільки через server-side Nuxt config;
+- `VITE_SITE_URL` має містити production-домен, а не `workers.dev` URL;
+- endpoint defaults визначені в `src/config/remoteEndpoints.js`;
+- contact secrets зберігаються у Cloudflare Worker environment.
 
-### Social Preview Image Strategy (SEO)
+## Content і дані
 
-- Default social preview image is configured globally via `VITE_DEFAULT_OG_IMAGE_PATH` (used for both Open Graph and Twitter).
-- Route-specific override is supported in router SEO config via `meta.seo.ogImage`.
-- Optional route-specific social image metadata overrides:
-  - `meta.seo.ogImageAlt`
-  - `meta.seo.ogImageWidth`
-  - `meta.seo.ogImageHeight`
+- `public/data/site-content.json` — основний текст, services, testimonials і profile content;
+- `public/data/resume.json` — experience та education timeline;
+- `public/data/portfolio.json` — portfolio projects;
+- `public/data/blog-posts.json` — локальний fallback для блогу;
+- `public/images/` — реальні портрети, screenshots і project assets;
+- Shopify — production source для blog articles у Nuxt runtime.
 
-Recommended image spec (Open Graph / Twitter large card):
+Не вигадуй проєкти, клієнтів, метрики, відгуки або результати. Зміни контенту не повинні змінювати route contract чи публічне призначення сторінок.
 
-- Size: `1200x630`
-- Format: `webp` or `jpg`
-- Keep key text/logo inside a centered safe area (avoid edges for platform crops)
-- Use clear contrast and minimal text for better share previews
+## Структура
+
+```text
+app/       # Nuxt app, layouts and pages
+server/    # Nuxt server routes, including Shopify blog API
+src/       # shared Vue components, composables, services and stores
+public/    # data, images and static assets
+docs/      # tracked project documentation
+tests/     # Node test suite
+worker/    # Cloudflare Worker contact API
+```
+
+Nuxt pages використовують наявні Vue-компоненти з `src/`, щоб міграція не дублювала бізнес-логіку.
+
+## Design system
+
+Канонічні правила візуального дизайну та interaction/motion описані в [`docs/design-system.md`](docs/design-system.md).
+
+Основні принципи:
+
+- темно-графітова основа, світлий текст і emerald як єдиний UI accent;
+- Sora для заголовків, Manrope/Inter для body і navigation;
+- спільні header, navigation і footer на всіх сторінках;
+- motion пояснює стан і не блокує контент;
+- обов’язкова keyboard accessibility і `prefers-reduced-motion`;
+- без випадкових градієнтів, паралаксу, tilt-карток і декоративних нескінченних анімацій.
 
 ## Deployment
 
-Release runbook:
-
-- `RELEASE_CHECKLIST.md`
-- `npm run build` also generates SEO crawl assets in `dist/`:
-  - route HTML snapshots for core SEO pages (`/about`, `/resume`, `/portfolio`, `/blog`, `/contact`) with route-specific `<head>` metadata
-  - `dist/sitemap.xml`
-  - `dist/robots.txt`
-
-### Firebase Hosting (frontend)
+### Nuxt
 
 ```bash
-pnpm build
-firebase deploy --only hosting
+npm run build:nuxt
+npm run preview:nuxt
 ```
 
-Current Firebase config:
+Перед production deploy перевір server-only Shopify env і canonical production URL.
 
-- Hosting public dir: `dist`
-- SPA rewrite: `** -> /index.html`
-- Project alias from `.firebaserc`
-
-### Cloudflare Worker (frontend + Contact API)
-
-Worker serves built frontend (`dist`) and handles contact submissions via `POST /contact`.
-
-SEO prerender strategy (compatible with current SPA + Worker flow):
-
-- Build step generates route-specific HTML snapshots for core marketing routes.
-- Each snapshot keeps the same app bundle but includes route-specific `title`, `description`, canonical, OG/Twitter tags, and JSON-LD in `<head>`.
-- This improves crawler entry-page metadata without migrating the project to SSR.
-- Set `VITE_SITE_URL` in CI for correct absolute canonical/OG URLs in prerendered snapshots and sitemap.
-
-High-level flow:
-
-1. Worker serves SPA on `https://<worker>.workers.dev/`
-2. Frontend sends form data to Worker endpoint (`/contact`)
-3. Worker validates payload and applies CORS policy
-4. Worker reads secrets from environment
-5. Worker sends message to Telegram API
-6. Worker returns normalized JSON response
-
-Suggested secrets in Worker:
-
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-
-Frontend now calls `/contact` by default.
-
-## Structured Data
-
-Person and WebSite profile data is configured in `src/config/structuredData.js`.
-Runtime SEO and build-time HTML snapshots use the same identity nodes, stable
-`#person` / `#website` IDs, profile portrait, and GitHub/LinkedIn `sameAs` links.
-The existing route SEO config controls page schema types and breadcrumbs; Article
-schemas can be added when individual article routes exist.
-
-Set `VITE_SITE_URL=https://mykolamud.pp.ua` for production builds so graph IDs,
-canonical URLs, and sitemap URLs use the production domain.
-
-## Content Management
-
-Content lives locally under `public/data/` and is served same-origin:
-
-- `public/data/site-content.json` — text, cards, testimonials, resume titles/overview/skills
-- `public/data/resume.json` — experience & education timeline (`experienceItems[]`, `educationItems[]`)
-- `public/data/portfolio.json` — portfolio projects (`portfolioCard[]`); images in `public/images/`
-- `public/data/blog-posts.json` — blog posts (`posts[]`); images in `public/images/post/`
-
-Experience groups positions by company: give several entries the same `institution`
-value to render them as one company with a nested career-growth timeline.
-
-Update these files to refresh content without changing component logic. Changes require a redeploy of the static files (no full rebuild needed — they are not bundled).
-
-Portfolio/blog can still be pointed back to a remote source via optional `VITE_PORTFOLIO_PROJECTS_URL` / `VITE_BLOG_POSTS_URL`.
-
-## Project Structure
-
-```text
-src/
-  components/
-    about/
-    blog/
-    contact/
-    home-content/
-    navigation/
-    portfolio/
-    resume/
-  composables/
-  layout/
-  services/
-  views/
-public/
-  data/site-content.json
-firebase.json
-```
-
-## Troubleshooting
-
-### `firebase: command not found`
-
-Use:
+### Firebase Hosting / static Vite runtime
 
 ```bash
+npm run build
 npx firebase-tools deploy --only hosting
 ```
 
-or install globally:
+Static build генерує route snapshots для SEO-сторінок, `dist/sitemap.xml` і `dist/robots.txt`.
 
-```bash
-npm i -g firebase-tools
-```
+### Cloudflare Worker
 
-### Env changes are not applied after deploy
-
-`VITE_*` vars are compiled into the build. Rebuild before deploy:
-
-```bash
-pnpm build
-firebase deploy --only hosting
-```
-
-### Contact form security
-
-If contact form uses Telegram token in frontend, token is exposed publicly. Move to Worker proxy for production.
-
-## Workflow
-
-- Track tasks in Linear and GitHub Project backlog.
-- Start task: set `In Progress`.
-- After implementation + confirmation: set `Done`.
-- New idea from discussion: create issue and put in `Backlog`.
-
-## Cloudflare Worker Auto Deploy (GitHub Actions)
-
-Added workflow:
-
-- `.github/workflows/deploy-worker.yml`
-
-It deploys Worker automatically on every push/merge to `main`.
-
-### Required GitHub Secrets
-
-In repo settings add:
-
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-
-### Worker Files
-
-- `worker/wrangler.toml`
-- `worker/src/index.js`
-
-### Worker Secrets (Cloudflare)
-
-Set once with Wrangler (local):
+Worker обслуговує contact endpoint `POST /contact`, валідовує payload і надсилає повідомлення через Telegram API.
 
 ```bash
 cd worker
 npx wrangler secret put TELEGRAM_BOT_TOKEN
 npx wrangler secret put TELEGRAM_CHAT_ID
-```
-
-Optional CORS origin is in `worker/wrangler.toml`:
-
-- `ALLOWED_ORIGIN` (set your real domain instead of `*` for production)
-
-### Manual Deploy Check
-
-```bash
-cd worker
 npx wrangler deploy
 ```
+
+Не зберігай `TELEGRAM_BOT_TOKEN` або `TELEGRAM_CHAT_ID` у frontend env чи репозиторії.
+
+## Робочий процес
+
+1. Перевір актуальний route, data source, assets і dirty worktree.
+2. Зміни роби мінімально, зберігаючи маршрути, факти та публічний API.
+3. Для UI перевіряй 1440, 1024, 768, 390 і 320px, keyboard focus та reduced motion.
+4. Запускай релевантні тести й production build.
+5. Користувач створює commit, push і deploy вручну.

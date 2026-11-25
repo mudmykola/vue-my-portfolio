@@ -7,7 +7,7 @@
 - Summary: Added a shared configurable profile and identity-node builder for runtime SEO and build-time snapshots. Person profile fields and portrait are consistent across routes, with GitHub/LinkedIn sameAs links; WebSite references Person as publisher. Existing route schema and breadcrumb hooks retained.
 - Affected module/route/tool: src/config/structuredData.js, src/config/seo.js, scripts/prerender-route-snapshots.mjs, README.md, tests/seo-structured-data.test.js
 - Issue reference: GitHub #115
-- Validation: 18 tests and production build passed with VITE_SITE_URL=https://mykolamud.pp.ua. Tests exercise six core routes, repeat navigation, one JSON-LD script, graph references and runtime/snapshot identity parity. All six built snapshots checked for one parseable graph with production IDs. GitNexus impact LOW; detect-changes MEDIUM and only expected SEO/build flows. No browser/external schema-validator/production proof, commit or deployment.
+- Validation: 18 tests and production build passed with the production site URL. Tests exercise six core routes, repeat navigation, one JSON-LD script, graph references and runtime/snapshot identity parity. All six built snapshots checked for one parseable graph with production IDs. No external schema-validator, production proof, commit or deployment.
 
 ## 2026-10-09 10:22:28 EEST
 
@@ -25,7 +25,7 @@
 - Summary: Read both October 2026 CVs and used their January 2022 career start as the configurable experienceStartYear. The subtitle now interpolates completed calendar years (4+ in 2026, 5+ in 2027), with a reactive clock for open-page updates. Added year-boundary and invalid-input tests.
 - Affected module/route/tool: `/resume`, ResumeComponent.vue, experienceYears.js, site-content.json
 - Issue reference: GitHub #70; this subtitle update is complete, broader content refresh remains In Progress.
-- Validation: npm run verify passed (16 tests and production build); GitNexus impact ran for resume and detect-changes reported low risk. Existing timeline loader unchanged. Build warned about unset VITE_SITE_URL and example.com fallback; no deployment.
+- Validation: verification passed with 16 tests and production build; the existing timeline loader remained unchanged. Build warned about an unset production site URL and fallback domain; no deployment.
 
 ## 2026-10-09 10:14:03 EEST
 

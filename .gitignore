@@ -54,4 +54,7 @@ CLAUDE.md
 .windsurf/
 .aider*
 .continue/
+.claude/
 .claude/launch.json
+docs/session-handoff.md
+.resume-overview-card
