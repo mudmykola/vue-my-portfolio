@@ -4,6 +4,7 @@ import { faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import ContactFormComponent from '@/components/contact/ContactFormComponent.vue';
 import ContactInfoComponent from '@/components/contact/ContactInfoComponent.vue';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
+import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
 
 const { data, loading, error, load } = useSiteContent();
@@ -27,7 +28,12 @@ onMounted(load);
       <p v-if="loading" class="text-default">Loading...</p>
       <p v-else-if="error" class="text-default">{{ error }}</p>
 
-      <section v-else class="contact-layout__grid" data-scroll-scene>
+      <section
+        v-else
+        class="contact-layout__grid tech-atmosphere-host"
+        data-scroll-scene
+      >
+        <SectionAtmosphere variant="left" />
         <ContactInfoComponent :contactInfo="contactInfo" />
         <ContactFormComponent />
       </section>

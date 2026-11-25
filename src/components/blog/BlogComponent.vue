@@ -2,6 +2,7 @@
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import BlogItemComponent from '@/components/blog/BlogItemComponent.vue';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
+import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 
 defineProps({
   initialPosts: { type: Array, default: null },
@@ -20,7 +21,8 @@ defineProps({
         subtitle="Structured notes, case studies, and practical front-end updates"
       />
 
-      <section class="blog-layout__list" data-scroll-scene>
+      <section class="blog-layout__list tech-atmosphere-host" data-scroll-scene>
+        <SectionAtmosphere variant="right" />
         <BlogItemComponent :initial-posts="initialPosts" />
       </section>
     </div>

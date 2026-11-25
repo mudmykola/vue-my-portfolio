@@ -11,6 +11,16 @@ testimonials or client claims.
 - Modern, restrained, technology-oriented personal portfolio; not an agency or SaaS dashboard.
 - Use real assets from `public/images` and project data.
 - Keep generous whitespace, clear hierarchy and one consistent header/navigation/footer system.
+- Use the reusable `SectionAtmosphere` SVG layer for occasional circuit traces and junction marks
+  on major section containers. Keep each section's variant sparse, low-opacity and behind content;
+  do not add the layer to repeating cards or stack it with an existing decorative accent.
+- On Home, preserve the branching Hero microchip artwork and continue its terminal trace into one
+  circuit artifact aligned to the real section boundaries. Pair it with a sparse, continuously
+  looping meteor field as the site's signature atmosphere. Keep the circuit low-opacity behind
+  content and the meteor cadence calm; disable meteor motion for reduced-motion users. Elsewhere use
+  static circuit traces with occasional short diagonal streaks only; decorations must be
+  `aria-hidden`, pointer-free, absolutely positioned and excluded from layout/scroll dimensions.
+  Reduce their opacity on mobile and respect reduced motion.
 - Do not use lime, purple UI accents, serif or decorative fonts, arbitrary gradients, excessive
   cards, invented social proof or invented metrics.
 
@@ -78,7 +88,12 @@ accessible panel with `aria-expanded`, keyboard focus and 44px minimum targets.
 - All interactive elements require hover, `:focus-visible` and pressed states.
 - Transitions: 160–220ms, `cubic-bezier(0.2, 0.7, 0.2, 1)`.
 - Respect `prefers-reduced-motion`.
-- Cards lift at most 2px and images scale at most 1.02; no tilt or decorative infinite motion.
+- Cards lift at most 2px and images scale at most 1.02; no tilt or decorative infinite motion outside
+  the intentionally sparse Home meteor field.
+- The Home Hero scroll cue may use a larger circuit-transition node with converging traces and a
+  short signal traveling toward the next section on hover/focus. Keep native anchor behavior and
+  smooth the in-page transition while the Home cue is present; reduced-motion users retain an
+  immediate transition. Stop the arrow loop and hide traveling signals for reduced-motion users.
 
 ## Motion and interaction system
 
@@ -124,6 +139,8 @@ stable between route changes; animate only the main page content. Prefer `transf
   Preserve native scrolling, browser scroll restoration and stable shared header/footer. The
   progress line is decorative and pointer-free; hide it and remove reveal movement for users who
   request reduced motion.
+- Use browser-native smooth scrolling for the Home Hero’s About anchor while its cue is present;
+  preserve its URL fragment and history entry. Reduced-motion users get immediate scrolling.
 - Keep the shared `.app-header` sticky at `top: 0` during document scrolling. Do not apply
   `overflow-x: hidden` to `html`, `body` or `#app`: it can create a nested scroll container and
   disable viewport sticky positioning. Use `overflow-x: clip` where clipping is needed, then

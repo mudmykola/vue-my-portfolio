@@ -14,6 +14,7 @@ import AboutClientComponent from '@/components/about/AboutClientComponent.vue';
 import AboutTestimonialsComponent from '@/components/about/AboutTestimonialsComponent.vue';
 import AboutFunComponent from '@/components/about/AboutFunComponent.vue';
 import AboutSectionHeader from '@/components/about/AboutSectionHeader.vue';
+import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
 
 const { data, loading, error, load } = useSiteContent();
@@ -38,7 +39,11 @@ onMounted(load);
         :subtitle="page.subtitle"
       />
 
-      <section class="about-layout__intro" data-scroll-scene>
+      <section
+        class="about-layout__intro tech-atmosphere-host"
+        data-scroll-scene
+      >
+        <SectionAtmosphere variant="left" />
         <AboutInfoComponent
           :avatar="data.aboutAvatar[0]"
           :title="page.infoTitle"
@@ -50,7 +55,11 @@ onMounted(load);
         />
       </section>
 
-      <section class="about-layout__block" data-scroll-scene>
+      <section
+        class="about-layout__block tech-atmosphere-host"
+        data-scroll-scene
+      >
+        <SectionAtmosphere variant="right" />
         <AboutSectionHeader
           badge="Services"
           :icon="faCode"

@@ -73,6 +73,10 @@ html {
   scrollbar-gutter: stable;
 }
 
+html:has(.hero-scroll-cue) {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
 }

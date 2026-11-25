@@ -1,5 +1,63 @@
 # Dev Log
 
+## 2026-11-26
+
+- Type: Improvement
+- Title: Smooth the Home Hero scroll cue transition
+- Summary: Added browser-native smooth scrolling while the Home Hero cue is present. The anchor still updates `#section-about` and preserves browser history; reduced-motion users keep immediate scrolling. Other routes retain their existing scroll behavior.
+- Affected module/route/tool: `src/assets/style/global-style.scss`, `docs/design-system.md`, `/`
+- Issue reference: #149
+- Validation: Vite production build, scoped Prettier and `git diff --check` passed. Playwright confirmed smooth progress, the About target sits 96px below the sticky header, the hash and Back/Forward history work, reduced motion switches to `auto`, and 1440/390/320px have no horizontal overflow. Browser console had no errors. Build uses the existing `VITE_SITE_URL` fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Turn the Home Hero scroll cue into a circuit transition node
+- Summary: Replaced the generic small scroll hint with a prominent central node, converging branching traces, a short signal stem and the “Follow the signal” label; increased the gap between the label and node for clearer hierarchy. The keyboard-accessible native anchor targets About; the arrow is static and traveling signal disabled for reduced motion.
+- Affected module/route/tool: `src/components/home-content/HomeHeroSection.vue`, `src/components/home-content/HomeValuesSection.vue`, `src/components/home-content/style.scss`, `docs/design-system.md`, `/`
+- Issue reference: #148
+- Validation: Vite production build, scoped Prettier and `git diff --check` passed. Playwright checked 1440/1024/768/390/320px: 76px central node and converging rails stay centered, label gap is 14px, and there is no horizontal overflow; focus ring is visible; hover runs the downward signal; anchor reaches About below the sticky header; reduced motion stops animation. Browser console has no errors. Build emitted the existing `VITE_SITE_URL` fallback warning (`https://example.com`). No commit, push or deploy.
+
+- Type: Fix
+- Title: Restore the branching Hero circuit connection
+- Summary: Restored the original branching SVG circuitry in Home Hero and attached the page-wide circuit spine to its terminal junction so the Hero traces continue into the remaining Home sections.
+- Affected module/route/tool: `src/components/home-content/HomeHeroSection.vue`, `src/components/home-content/HomeArtifactField.vue`, `docs/design-system.md`, `/`
+- Issue reference: #147
+- Validation: Vite production build passed. Playwright visually confirmed the Hero traces are restored and measured the shared spine junction against the SVG terminal at 1440/1024/768/390/320px; both coordinates match exactly at each width, with no horizontal overflow or browser errors. `git diff --check` passed. The existing `VITE_SITE_URL` fallback warning remains. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Unify Home atmosphere and keep meteors falling
+- Summary: Replaced disconnected Home-only circuit overlays and the one-shot Hero meteor animation with one page-height SVG artifact aligned to live section positions and a sparse, continuously looping meteor field. Reduced motion hides the meteor field; circuit decoration remains static and behind content.
+- Affected module/route/tool: `src/components/home-content/HomeArtifactField.vue`, Home sections, `src/components/home-content/style.scss`, `docs/design-system.md`, `/`
+- Issue reference: #147
+- Validation: Vite production build passed; Playwright checked 1440/1024/768/390/320px with zero horizontal overflow, six correctly positioned section anchors, pointer-free/aria-hidden decoration and fixed meteor positioning during scroll. Confirmed meteor animation repeats infinitely and is hidden for `prefers-reduced-motion`; scoped Prettier and `git diff --check` passed. Build emitted the existing `VITE_SITE_URL` fallback warning (`https://example.com`). No commit, push or deploy.
+
+- Type: Improvement
+- Title: Refine Home Expertise intro copy
+- Summary: Replaced the generic Expertise headline and repetitive description with concise, search-relevant copy naming Shopify, Vue/Nuxt, custom themes, integrations, performance and maintainability.
+- Affected module/route/tool: `src/components/home-content/HomeExpertiseSection.vue`, `/`
+- Issue reference: #146
+- Validation: Vite production build passed; agent-browser verified the rendered heading/description at 1440px with no horizontal overflow; scoped Prettier and `git diff --check` passed. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Remove divider from Home About section
+- Summary: Removed the standalone horizontal rule at the bottom of the Home About section and its unused desktop/mobile styles.
+- Affected module/route/tool: `src/components/home-content/HomeValuesSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #145
+- Validation: Vite production build passed; browser confirmed `.about-preview__rule` is absent and the Home route has no horizontal overflow; scoped Prettier and `git diff --check` passed. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Extend the circuit atmosphere across major sections
+- Summary: Extracted the Home Hero circuit field into reusable SVG/CSS section atmosphere variants and applied sparse, static traces with occasional short meteor-like streaks to selected major sections across Home, About, Portfolio, Resume, Blog and Contact. Kept animated meteors exclusive to the Hero and reduced decoration on narrow screens.
+- Affected module/route/tool: `src/components/shared/SectionAtmosphere.vue`, Home/About/Portfolio/Resume/Blog/Contact section components, `src/components/home-content/style.scss`, `docs/design-system.md`, `/`, `/about`, `/portfolio`, `/resume`, `/blog`, `/contact`
+- Issue reference: #144
+- Validation: `npm test` (22 passed), Vite production build and Nuxt production build passed; agent-browser/Playwright checked `/`, `/about`, `/portfolio`, `/resume`, `/blog`, and `/contact` at 1440/1024/768/390/320px with no horizontal overflow, `aria-hidden` SVG layers, and pointer events disabled; About desktop and Contact mobile reviewed visually; reduced-motion hides Home Hero meteors while atmosphere stays static; scoped Prettier and `git diff --check` passed. GitNexus CLI impact refresh was unavailable because npm registry DNS failed; prior indexed impact for the affected page components was LOW and direct usage/imports were confirmed. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Redesign Home Expertise around grouped technologies
+- Summary: Rebuilt the Expertise section as a two-column editorial layout with a descriptive left column and three source-backed skill groups on the right. Added responsive wrapping and dividers while preserving the existing dark/emerald visual system.
+- Affected module/route/tool: `src/components/home-content/HomeExpertiseSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #143
+- Validation: `npm test` (22 passed), Vite and Nuxt production builds passed; agent-browser reviewed the section at 1440/1024/768/390/320px with three 7-item groups and no horizontal overflow; scoped Prettier and `git diff --check` passed. GitNexus impact for the section was LOW; its index is two commits behind and refresh failed on a registry-lock permission error. No commit, push or deploy.
+
 ## 2026-11-25
 
 - Type: Fix

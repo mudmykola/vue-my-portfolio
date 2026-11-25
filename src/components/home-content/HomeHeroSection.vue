@@ -7,8 +7,8 @@ import {
   faShopify,
   faVuejs,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCodeBranch } from '@fortawesome/free-solid-svg-icons';
-import HeroMeteorField from './HeroMeteorField.vue';
+import { faArrowDown, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
+import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 
 const props = defineProps({
   hero: { type: Object, required: true },
@@ -20,32 +20,151 @@ const heroKickerItems = computed(() =>
   (props.hero.kicker || '')
     .split('·')
     .map((item) => item.trim())
-    .filter(Boolean),
+    .filter(Boolean)
 );
 const architectureNodes = [
-  { id: 'figma', label: 'Figma', role: 'UI source', icon: faFigma, route: 'M420 280L140 110', snippet: ['const design = await getDesign()', 'const tokens = design.variables', '<Component :tokens="tokens" />'] },
-  { id: 'typescript', label: 'TypeScript', role: 'contracts', mark: 'TS', route: 'M500 280V80', snippet: ['type Product = {', '  handle: string', '  price: number', '}'] },
-  { id: 'vue', label: 'Vue', role: 'components', icon: faVuejs, route: 'M400 400L140 350', snippet: ['const props = defineProps<Props>()', 'const price = computed(() => props.product.price)', '<ProductCard :product="product" />'] },
-  { id: 'nuxt', label: 'Nuxt', role: 'SSR / routing', asset: '/images/brands/nuxt.svg', route: 'M580 280L860 110', snippet: ['const product = await getProduct()', 'const href = `/products/${product.handle}`', '<NuxtLink :to="href" />'] },
-  { id: 'api', label: 'REST / GraphQL', role: 'data layer', icon: faCodeBranch, route: 'M600 400L860 350', snippet: ['const query = `query Product {', '  product(handle: $handle) { price }', '}`'] },
-  { id: 'shopify', label: 'Shopify', role: 'commerce', icon: faShopify, route: 'M500 520V620', snippet: ['const storefront = createClient({', '  domain: shop.myshopify.com,', '  token: runtimeConfig.storefront', '})'] },
-  { id: 'cloudflare', label: 'Cloudflare', role: 'edge runtime', icon: faCloudflare, route: 'M600 500L760 520', snippet: ['export default {', '  async fetch(request, env) {', '    return handleEdgeRequest(request, env)', '  }', '}'] },
+  {
+    id: 'figma',
+    label: 'Figma',
+    role: 'UI source',
+    icon: faFigma,
+    route: 'M420 280L140 110',
+    snippet: [
+      'const design = await getDesign()',
+      'const tokens = design.variables',
+      '<Component :tokens="tokens" />',
+    ],
+  },
+  {
+    id: 'typescript',
+    label: 'TypeScript',
+    role: 'contracts',
+    mark: 'TS',
+    route: 'M500 280V80',
+    snippet: ['type Product = {', '  handle: string', '  price: number', '}'],
+  },
+  {
+    id: 'vue',
+    label: 'Vue',
+    role: 'components',
+    icon: faVuejs,
+    route: 'M400 400L140 350',
+    snippet: [
+      'const props = defineProps<Props>()',
+      'const price = computed(() => props.product.price)',
+      '<ProductCard :product="product" />',
+    ],
+  },
+  {
+    id: 'nuxt',
+    label: 'Nuxt',
+    role: 'SSR / routing',
+    asset: '/images/brands/nuxt.svg',
+    route: 'M580 280L860 110',
+    snippet: [
+      'const product = await getProduct()',
+      'const href = `/products/${product.handle}`',
+      '<NuxtLink :to="href" />',
+    ],
+  },
+  {
+    id: 'api',
+    label: 'REST / GraphQL',
+    role: 'data layer',
+    icon: faCodeBranch,
+    route: 'M600 400L860 350',
+    snippet: [
+      'const query = `query Product {',
+      '  product(handle: $handle) { price }',
+      '}`',
+    ],
+  },
+  {
+    id: 'shopify',
+    label: 'Shopify',
+    role: 'commerce',
+    icon: faShopify,
+    route: 'M500 520V620',
+    snippet: [
+      'const storefront = createClient({',
+      '  domain: shop.myshopify.com,',
+      '  token: runtimeConfig.storefront',
+      '})',
+    ],
+  },
+  {
+    id: 'cloudflare',
+    label: 'Cloudflare',
+    role: 'edge runtime',
+    icon: faCloudflare,
+    route: 'M600 500L760 520',
+    snippet: [
+      'export default {',
+      '  async fetch(request, env) {',
+      '    return handleEdgeRequest(request, env)',
+      '  }',
+      '}',
+    ],
+  },
 ];
 
 const processStages = ['component', 'render', 'storefront'];
 architectureNodes.push(
-  { id: 'pinia', label: 'Pinia', role: 'state', mark: 'P', snippet: ['export const useCart = defineStore("cart", {', '  state: () => ({ items: [] })', '})'] },
-  { id: 'github', label: 'GitHub', role: 'source control', icon: faGithub, snippet: ['git add src/components', 'git commit -m "feat: storefront"', 'git push origin feature/storefront'] },
+  {
+    id: 'pinia',
+    label: 'Pinia',
+    role: 'state',
+    mark: 'P',
+    snippet: [
+      'export const useCart = defineStore("cart", {',
+      '  state: () => ({ items: [] })',
+      '})',
+    ],
+  },
+  {
+    id: 'github',
+    label: 'GitHub',
+    role: 'source control',
+    icon: faGithub,
+    snippet: [
+      'git add src/components',
+      'git commit -m "feat: storefront"',
+      'git push origin feature/storefront',
+    ],
+  }
 );
 // One coordinate system drives both HTML icons and SVG connections.
-const boardPositions = [[12, 12], [38, 12], [12, 43], [64, 12], [88, 43], [88, 76], [64, 89], [12, 76], [36, 89]];
+const boardPositions = [
+  [12, 12],
+  [38, 12],
+  [12, 43],
+  [64, 12],
+  [88, 43],
+  [88, 76],
+  [64, 89],
+  [12, 76],
+  [36, 89],
+];
 architectureNodes.forEach((node, index) => {
   const [x, y] = boardPositions[index];
   node.x = x;
   node.y = y;
   node.route = `M500 350 L${x * 10} ${y * 7}`;
 });
-const architectureSequence = ['figma', 'vue', 'typescript', 'nuxt', 'api', 'shopify', 'api', 'nuxt', 'cloudflare', 'github', 'pinia', 'vue'];
+const architectureSequence = [
+  'figma',
+  'vue',
+  'typescript',
+  'nuxt',
+  'api',
+  'shopify',
+  'api',
+  'nuxt',
+  'cloudflare',
+  'github',
+  'pinia',
+  'vue',
+];
 function connectionBetween(sourceId, targetId, index) {
   const source = architectureNodes.find((node) => node.id === sourceId);
   const target = architectureNodes.find((node) => node.id === targetId);
@@ -53,13 +172,14 @@ function connectionBetween(sourceId, targetId, index) {
   const sy = source.y * 7;
   const tx = target.x * 10;
   const ty = target.y * 7;
-  const baseLane = sourceId === 'nuxt' && targetId === 'cloudflare'
-    ? 950
-    : sourceId === 'nuxt' || targetId === 'nuxt'
-      ? 880
-      : sx;
+  const baseLane =
+    sourceId === 'nuxt' && targetId === 'cloudflare'
+      ? 950
+      : sourceId === 'nuxt' || targetId === 'nuxt'
+        ? 880
+        : sx;
   // Each route owns a lane; reverse requests no longer reuse the same pixels.
-  const offset = (index % 4 + 1) * 12;
+  const offset = ((index % 4) + 1) * 12;
   const direction = baseLane >= 500 ? 1 : -1;
   const lane = Math.max(35, Math.min(970, baseLane + direction * offset));
   const startY = sy + (index % 2 ? 7 : -7);
@@ -67,36 +187,54 @@ function connectionBetween(sourceId, targetId, index) {
   return `M${sx} ${sy} L${sx + direction * 18} ${startY} H${lane} V${endY} H${tx + direction * 18} L${tx} ${ty}`;
 }
 const communicationRoutes = architectureSequence.map((id, index) =>
-  connectionBetween(id, architectureSequence[(index + 1) % architectureSequence.length], index),
+  connectionBetween(
+    id,
+    architectureSequence[(index + 1) % architectureSequence.length],
+    index
+  )
 );
 const communicationStep = ref(0);
-const communicationTarget = computed(() => architectureSequence[(communicationStep.value + 1) % architectureSequence.length]);
+const communicationTarget = computed(
+  () =>
+    architectureSequence[
+      (communicationStep.value + 1) % architectureSequence.length
+    ]
+);
 const consoleRoute = computed(() => {
-  const node = architectureNodes.find((item) => item.id === architectureSequence[communicationStep.value]);
+  const node = architectureNodes.find(
+    (item) => item.id === architectureSequence[communicationStep.value]
+  );
   return `M490 217 V163 H${node.x * 10 - 12} V${node.y * 7 - 12} L${node.x * 10} ${node.y * 7}`;
 });
 const responseRoute = computed(() => {
-  const node = architectureNodes.find((item) => item.id === communicationTarget.value);
+  const node = architectureNodes.find(
+    (item) => item.id === communicationTarget.value
+  );
   return `M${node.x * 10} ${node.y * 7} L${node.x * 10 + 12} ${node.y * 7 + 12} H980 V187 H510 V217`;
 });
 const communicationRoute = computed(() =>
-  flowPhase.value === 'launch' ? consoleRoute.value
-    : flowPhase.value === 'reply' ? responseRoute.value
-      : communicationRoutes[communicationStep.value],
+  flowPhase.value === 'launch'
+    ? consoleRoute.value
+    : flowPhase.value === 'reply'
+      ? responseRoute.value
+      : communicationRoutes[communicationStep.value]
 );
 const activeArchitectureId = ref('nuxt');
 const flowPhase = ref('writing');
 const activeArchitectureNode = computed(
-  () => architectureNodes.find((node) => node.id === activeArchitectureId.value) || architectureNodes[0],
+  () =>
+    architectureNodes.find((node) => node.id === activeArchitectureId.value) ||
+    architectureNodes[0]
 );
 const activeCodeLines = computed(() =>
   activeArchitectureNode.value.snippet.map((text, index) => ({
-    className: index === 0 ? 'code-muted' : index === 1 ? 'code-key' : 'code-tag',
+    className:
+      index === 0 ? 'code-muted' : index === 1 ? 'code-key' : 'code-tag',
     text,
-  })),
+  }))
 );
 const codeLength = computed(() =>
-  activeCodeLines.value.reduce((total, line) => total + line.text.length + 1, 0),
+  activeCodeLines.value.reduce((total, line) => total + line.text.length + 1, 0)
 );
 const typedCharacters = ref(999);
 const isReducedMotion = ref(false);
@@ -127,8 +265,10 @@ const visibleCodeLines = computed(() => {
 const currentStage = computed(() =>
   Math.min(
     processStages.length - 1,
-    Math.floor((typedCharacters.value / codeLength.value) * processStages.length),
-  ),
+    Math.floor(
+      (typedCharacters.value / codeLength.value) * processStages.length
+    )
+  )
 );
 
 const activeCodeLine = computed(() => {
@@ -146,7 +286,7 @@ const activeCodeLine = computed(() => {
 });
 
 const typingStatus = computed(() =>
-  typedCharacters.value >= codeLength.value ? 'ready' : 'writing',
+  typedCharacters.value >= codeLength.value ? 'ready' : 'writing'
 );
 
 function typeCode() {
@@ -189,28 +329,32 @@ function runArchitectureFlow() {
   flowPhase.value = 'writing';
   startTypingPreview();
 
-  architectureTimer = window.setTimeout(() => {
-    window.clearTimeout(typingTimer);
-    typedCharacters.value = codeLength.value;
-    flowPhase.value = 'launch';
-    architectureTimer = window.setTimeout(() => {
-    flowPhase.value = 'sending';
-    architectureTimer = window.setTimeout(() => {
-      flowPhase.value = 'received';
-      activeArchitectureId.value = communicationTarget.value;
+  architectureTimer = window.setTimeout(
+    () => {
+      window.clearTimeout(typingTimer);
+      typedCharacters.value = codeLength.value;
+      flowPhase.value = 'launch';
       architectureTimer = window.setTimeout(() => {
-        flowPhase.value = 'reply';
+        flowPhase.value = 'sending';
         architectureTimer = window.setTimeout(() => {
-          flowPhase.value = 'complete';
+          flowPhase.value = 'received';
+          activeArchitectureId.value = communicationTarget.value;
           architectureTimer = window.setTimeout(() => {
-          communicationStep.value = (communicationStep.value + 1) % architectureSequence.length;
-          runArchitectureFlow();
-          }, 900);
+            flowPhase.value = 'reply';
+            architectureTimer = window.setTimeout(() => {
+              flowPhase.value = 'complete';
+              architectureTimer = window.setTimeout(() => {
+                communicationStep.value =
+                  (communicationStep.value + 1) % architectureSequence.length;
+                runArchitectureFlow();
+              }, 900);
+            }, 1500);
+          }, 650);
         }, 1500);
-      }, 650);
-    }, 1500);
-    }, 1500);
-  }, 1500 + codeLength.value * 32 + 220);
+      }, 1500);
+    },
+    1500 + codeLength.value * 32 + 220
+  );
 }
 
 const characterMotionSequence = [
@@ -277,31 +421,7 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="home-hero">
-    <div class="hero-signal-field" aria-hidden="true">
-      <div class="hero-signal-field__glow"></div>
-      <svg viewBox="0 0 1200 700" preserveAspectRatio="none">
-        <g class="hero-signal-field__lines">
-          <path d="M0 126H138l22 22h160l24-24h168" />
-          <path d="M0 498h116l28-28h174l24 24h148" />
-          <path d="M1200 112h-126l-24 24H914l-28-28H734" />
-          <path d="M1200 542h-144l-28-28H864l-24 24H700" />
-          <path d="M216 0v78l28 28v118" />
-          <path d="M1004 0v94l-26 26v136" />
-          <path d="M336 700v-94l24-24V478" />
-          <path d="M890 700v-78l-24-24V478" />
-        </g>
-        <g class="hero-signal-field__nodes">
-          <circle cx="320" cy="148" r="3" />
-          <circle cx="320" cy="498" r="3" />
-          <circle cx="880" cy="136" r="3" />
-          <circle cx="864" cy="518" r="3" />
-          <circle cx="244" cy="224" r="3" />
-          <circle cx="978" cy="256" r="3" />
-        </g>
-      </svg>
-      <div class="hero-signal-field__shade"></div>
-    </div>
-    <HeroMeteorField />
+    <SectionAtmosphere class="hero-atmosphere" variant="hero" />
     <div class="hero-shell">
       <div class="hero-grid">
         <div class="hero-copy">
@@ -313,7 +433,8 @@ onBeforeUnmount(() => {
               :key="item"
               class="hero-kicker__item"
             >
-              {{ item }}<span
+              {{ item
+              }}<span
                 v-if="index < heroKickerItems.length - 1"
                 class="hero-kicker__separator"
                 aria-hidden="true"
@@ -359,9 +480,21 @@ onBeforeUnmount(() => {
               </div>
               <div class="architecture-board__connections" aria-hidden="true">
                 <svg viewBox="0 0 1000 700" preserveAspectRatio="none">
-                  <path :d="consoleRoute" :class="{ 'is-active': flowPhase === 'launch' }" />
-                  <path v-if="flowPhase === 'reply'" :d="responseRoute" class="is-active" />
-                  <circle cx="500" cy="217" r="6" class="architecture-board__port" />
+                  <path
+                    :d="consoleRoute"
+                    :class="{ 'is-active': flowPhase === 'launch' }"
+                  />
+                  <path
+                    v-if="flowPhase === 'reply'"
+                    :d="responseRoute"
+                    class="is-active"
+                  />
+                  <circle
+                    cx="500"
+                    cy="217"
+                    r="6"
+                    class="architecture-board__port"
+                  />
                   <path
                     v-for="(route, index) in communicationRoutes"
                     :key="index"
@@ -392,9 +525,14 @@ onBeforeUnmount(() => {
                   :key="node.id"
                   class="architecture-board__node"
                   :class="`architecture-board__node--${node.id}`"
-                  :style="{ '--node-x': `${node.x}%`, '--node-y': `${node.y}%` }"
+                  :style="{
+                    '--node-x': `${node.x}%`,
+                    '--node-y': `${node.y}%`,
+                  }"
                   :data-active="activeArchitectureId === node.id"
-                  :data-flow-state="activeArchitectureId === node.id ? flowPhase : 'idle'"
+                  :data-flow-state="
+                    activeArchitectureId === node.id ? flowPhase : 'idle'
+                  "
                   :aria-label="`${node.label} — ${node.role}`"
                 >
                   <font-awesome-icon
@@ -403,24 +541,34 @@ onBeforeUnmount(() => {
                     class="architecture-board__icon"
                     aria-hidden="true"
                   />
-                  <img v-else-if="node.asset" :src="node.asset" alt="" class="architecture-board__icon" aria-hidden="true" />
-                  <span v-else class="architecture-board__monogram" aria-hidden="true">
+                  <img
+                    v-else-if="node.asset"
+                    :src="node.asset"
+                    alt=""
+                    class="architecture-board__icon"
+                    aria-hidden="true"
+                  />
+                  <span
+                    v-else
+                    class="architecture-board__monogram"
+                    aria-hidden="true"
+                  >
                     {{ node.mark }}
                   </span>
                 </span>
               </div>
               <div class="code-window" aria-hidden="true">
-            <div class="code-window__bar" aria-hidden="true">
-              <span></span><span></span><span></span>
-              <small>{{ activeArchitectureNode.label }} / live.ts</small>
-              <em>LIVE</em>
-            </div>
-            <div class="code-window__file">
-              <span class="code-window__file-dot"></span>
-              <span>{{ activeArchitectureNode.label }}</span>
-              <span>{{ activeArchitectureNode.role }}</span>
-            </div>
-            <pre><code><span
+                <div class="code-window__bar" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                  <small>{{ activeArchitectureNode.label }} / live.ts</small>
+                  <em>LIVE</em>
+                </div>
+                <div class="code-window__file">
+                  <span class="code-window__file-dot"></span>
+                  <span>{{ activeArchitectureNode.label }}</span>
+                  <span>{{ activeArchitectureNode.role }}</span>
+                </div>
+                <pre><code><span
               v-for="(line, index) in visibleCodeLines"
               :key="line.text"
               :class="['code-line', line.className]"
@@ -428,30 +576,44 @@ onBeforeUnmount(() => {
                 v-if="index === activeCodeLine"
                 class="code-caret"
               ></i></span></span></code></pre>
-            <div class="code-window__command">
-              <span class="code-window__command-prompt">$</span>
-              <span>npm run build:storefront</span>
-              <strong>{{ flowPhase === 'sending' ? 'pinging' : flowPhase === 'received' ? 'received' : typingStatus }}</strong>
-            </div>
-            <div class="code-window__process">
-              <ol>
-                <li
-                  v-for="(stage, index) in processStages"
-                  :key="stage"
-                  :class="[
-                    'code-window__stage',
-                    { 'is-active': index <= currentStage },
-                  ]"
-                >
-                  <span class="code-window__stage-dot"></span>
-                  <span>{{ stage }}</span>
-                </li>
-              </ol>
-            </div>
-            <div class="code-window__status">
-              <span>build / storefront</span>
-              <strong>{{ flowPhase === 'complete' ? 'response received' : flowPhase === 'launch' ? 'request sent' : flowPhase === 'reply' ? 'receiving response' : typingStatus }}</strong>
-            </div>
+                <div class="code-window__command">
+                  <span class="code-window__command-prompt">$</span>
+                  <span>npm run build:storefront</span>
+                  <strong>{{
+                    flowPhase === 'sending'
+                      ? 'pinging'
+                      : flowPhase === 'received'
+                        ? 'received'
+                        : typingStatus
+                  }}</strong>
+                </div>
+                <div class="code-window__process">
+                  <ol>
+                    <li
+                      v-for="(stage, index) in processStages"
+                      :key="stage"
+                      :class="[
+                        'code-window__stage',
+                        { 'is-active': index <= currentStage },
+                      ]"
+                    >
+                      <span class="code-window__stage-dot"></span>
+                      <span>{{ stage }}</span>
+                    </li>
+                  </ol>
+                </div>
+                <div class="code-window__status">
+                  <span>build / storefront</span>
+                  <strong>{{
+                    flowPhase === 'complete'
+                      ? 'response received'
+                      : flowPhase === 'launch'
+                        ? 'request sent'
+                        : flowPhase === 'reply'
+                          ? 'receiving response'
+                          : typingStatus
+                  }}</strong>
+                </div>
               </div>
             </div>
           </div>
@@ -462,6 +624,31 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </div>
+    <a
+      class="hero-scroll-cue"
+      href="#section-about"
+      aria-label="Scroll to the About section"
+    >
+      <span class="hero-scroll-cue__label">Follow the signal</span>
+      <span class="hero-scroll-cue__rails" aria-hidden="true">
+        <svg viewBox="0 0 300 48" preserveAspectRatio="none" focusable="false">
+          <path d="M0 24H54L70 40H218L234 24H300" />
+          <circle cx="54" cy="24" r="2.5" />
+          <circle cx="218" cy="40" r="2.5" />
+        </svg>
+        <svg viewBox="0 0 300 48" preserveAspectRatio="none" focusable="false">
+          <path d="M0 24H66L82 40H230L246 24H300" />
+          <circle cx="82" cy="40" r="2.5" />
+          <circle cx="246" cy="24" r="2.5" />
+        </svg>
+      </span>
+      <span class="hero-scroll-cue__node" aria-hidden="true">
+        <font-awesome-icon :icon="faArrowDown" />
+      </span>
+      <span class="hero-scroll-cue__stem" aria-hidden="true">
+        <span class="hero-scroll-cue__signal"></span>
+      </span>
+    </a>
   </section>
 </template>
 
@@ -525,7 +712,9 @@ onBeforeUnmount(() => {
   border: 0 !important;
   font-size: 36px;
 }
-.architecture-board__node .architecture-board__monogram { font-size: 22px; }
+.architecture-board__node .architecture-board__monogram {
+  font-size: 22px;
+}
 .architecture-board .code-window {
   top: 31%;
   left: 50%;
@@ -536,14 +725,30 @@ onBeforeUnmount(() => {
   animation: none;
 }
 .architecture-board__connections,
-.architecture-board__nodes { inset: 0; }
-.architecture-board__connections svg { display: block; }
-.architecture-board__connections { z-index: 1; }
-.architecture-board__port { fill: var(--color-info); }
-.architecture-board[data-flow-phase='launch'] .architecture-board__dot { fill: var(--color-info); }
-.architecture-board[data-flow-phase='complete'] .architecture-board__port { fill: var(--color-accent); }
-.architecture-board[data-flow-phase='sending'] .architecture-board__dot { fill: var(--color-info); }
-.architecture-board[data-flow-phase='reply'] .architecture-board__dot { fill: var(--color-accent); }
+.architecture-board__nodes {
+  inset: 0;
+}
+.architecture-board__connections svg {
+  display: block;
+}
+.architecture-board__connections {
+  z-index: 1;
+}
+.architecture-board__port {
+  fill: var(--color-info);
+}
+.architecture-board[data-flow-phase='launch'] .architecture-board__dot {
+  fill: var(--color-info);
+}
+.architecture-board[data-flow-phase='complete'] .architecture-board__port {
+  fill: var(--color-accent);
+}
+.architecture-board[data-flow-phase='sending'] .architecture-board__dot {
+  fill: var(--color-info);
+}
+.architecture-board[data-flow-phase='reply'] .architecture-board__dot {
+  fill: var(--color-accent);
+}
 @media (max-width: 1120px) {
   .home-hero .hero-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -561,9 +766,20 @@ onBeforeUnmount(() => {
     font-size: clamp(2.6rem, 10.5vw, 3.5rem);
     line-height: 1.04;
   }
-  .hero-visual .hero-console-stage { height: 540px; }
-  .architecture-board .code-window { width: 68%; padding: 10px; }
-  .architecture-board .architecture-board__node { width: 36px; height: 36px; }
-  .architecture-board__node .architecture-board__icon { width: 28px; height: 28px; }
+  .hero-visual .hero-console-stage {
+    height: 540px;
+  }
+  .architecture-board .code-window {
+    width: 68%;
+    padding: 10px;
+  }
+  .architecture-board .architecture-board__node {
+    width: 36px;
+    height: 36px;
+  }
+  .architecture-board__node .architecture-board__icon {
+    width: 28px;
+    height: 28px;
+  }
 }
 </style>

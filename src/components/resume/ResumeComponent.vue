@@ -10,6 +10,7 @@ import {
   faLayerGroup,
 } from '@fortawesome/free-solid-svg-icons';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
+import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 import ResumeExperienceComponent from '@/components/resume/ResumeExperienceComponent.vue';
 import ResumeEducationComponent from '@/components/resume/ResumeEducationComponent.vue';
 import ResumeSkillComponent from '@/components/resume/ResumeSkillComponent.vue';
@@ -164,7 +165,8 @@ onMounted(() => {
         :subtitle="resume.subtitle"
       />
 
-      <article class="resume-overview" data-scroll-scene>
+      <article class="resume-overview tech-atmosphere-host" data-scroll-scene>
+        <SectionAtmosphere variant="branch" />
         <div class="resume-overview__intro">
           <span class="page-badge">Overview</span>
           <h2 class="resume-overview__heading">{{ overviewCardText.title }}</h2>
@@ -226,7 +228,8 @@ onMounted(() => {
         </div>
       </article>
 
-      <div class="resume-columns" data-scroll-scene>
+      <div class="resume-columns tech-atmosphere-host" data-scroll-scene>
+        <SectionAtmosphere variant="left" />
         <ResumeExperienceComponent
           :title="resume.experienceTitle"
           :items="experienceItems"

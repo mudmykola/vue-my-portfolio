@@ -7,6 +7,7 @@ import HomeWorkflowSection from './HomeWorkflowSection.vue';
 import HomeCtaSection from './HomeCtaSection.vue';
 import HomeExpertiseSection from './HomeExpertiseSection.vue';
 import HomeSelectedWorkSection from './HomeSelectedWorkSection.vue';
+import HomeArtifactField from './HomeArtifactField.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
 import { usePortfolioPage } from '@/components/portfolio/usePortfolioPage.js';
 
@@ -99,6 +100,7 @@ onMounted(() => {
 
 <template>
   <section class="home-page">
+    <HomeArtifactField />
     <HomeHeroSection :hero="heroContent" :full-name="heroDisplayName" />
 
     <HomeValuesSection
