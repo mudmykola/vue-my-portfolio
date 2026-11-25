@@ -116,6 +116,18 @@ stable between route changes; animate only the main page content. Prefer `transf
   click, and keep interactive targets at least 44px.
 - Respect `prefers-reduced-motion: reduce`: remove movement, scale, parallax and decorative
   reveals; retain an understandable state change or a short fade.
+- Scroll effects use the shared 2px progress line and one-time reveals on selected major content
+  sections. Mark only those section roots with `data-scroll-scene`; never animate each card, text
+  row or every section by default. Use `IntersectionObserver` with a visible-by-default fallback
+  when JavaScript or the API is unavailable.
+- Scroll reveals use only `opacity` and `transform`, move at most 14px and finish within 300ms.
+  Preserve native scrolling, browser scroll restoration and stable shared header/footer. The
+  progress line is decorative and pointer-free; hide it and remove reveal movement for users who
+  request reduced motion.
+- Keep the shared `.app-header` sticky at `top: 0` during document scrolling. Do not apply
+  `overflow-x: hidden` to `html`, `body` or `#app`: it can create a nested scroll container and
+  disable viewport sticky positioning. Use `overflow-x: clip` where clipping is needed, then
+  verify sticky behavior and horizontal overflow across supported widths.
 - Use Vue transitions and CSS first. Do not add an animation library for simple interactions;
   consider `motion-v` only for a demonstrated coordinated animation or complex gesture need.
 

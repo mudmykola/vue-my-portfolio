@@ -2,6 +2,20 @@
 
 ## 2026-11-25
 
+- Type: Fix
+- Title: Restore sticky shared header during page scroll
+- Summary: Replaced root-level horizontal overflow hiding with clipping, which had created a nested scroll context and prevented the already-sticky shared header from sticking to the document viewport. Recorded the shared header/overflow rule for future work.
+- Affected module/route/tool: `src/assets/style/global-style.scss`, shared header, `/`, `/about`, `/portfolio`, `/resume`, `/blog`, `/contact`
+- Issue reference: #142
+- Validation: `npm test` (22 passed), Vite production build and Nuxt production build passed; agent-browser confirmed the header remains at viewport top at 400px scroll on all six routes and at 1440/1024/768/390/320px, with the mobile menu opening correctly and no horizontal overflow; scoped Prettier and `git diff --check` passed. GitNexus detect-changes reported LOW risk. No commit, push or deploy.
+
+- Type: Improvement
+- Title: Add restrained scroll motion across portfolio pages
+- Summary: Added a 2px emerald page-progress line and one-time 14px section reveals on selected major content blocks. A mutation observer attaches scenes after async route content mounts; reduced motion disables reveals and hides the progress line. Native scroll and restoration remain untouched.
+- Affected module/route/tool: `src/components/shared/PageScrollMotion.vue`, `src/layout/MainLayoutComponent.vue`, `src/components/home-content/HomeValuesSection.vue`, `src/components/home-content/HomeSelectedWorkSection.vue`, `src/components/about/AboutComponent.vue`, `src/components/portfolio/PortfolioItemComponent.vue`, `src/components/resume/ResumeComponent.vue`, `src/components/blog/BlogComponent.vue`, `src/components/contact/ContactComponent.vue`, `AGENTS.md`, `docs/design-system.md`, `/`, `/about`, `/portfolio`, `/resume`, `/blog`, `/contact`
+- Issue reference: #141
+- Validation: 22 tests passed; Vite and Nuxt production builds passed; agent-browser checked all six routes, scroll progress and reveal states, reduced motion, and 1440/1024/768/390/320px widths without horizontal overflow; no browser errors; `git diff --check` and scoped Prettier passed. No commit, push or deploy.
+
 - Type: Improvement
 - Title: Redesign the Home About preview
 - Summary: Recomposed the section into a responsive portrait, About copy with a verified five-item technology line, and three principle rows with consistent emerald icons and dividers. Kept the existing content and About route link.

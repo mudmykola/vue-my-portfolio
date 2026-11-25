@@ -1,10 +1,12 @@
 <script setup>
 import NavigationComponent from '@/components/navigation/NavigationComponent.vue';
 import MobileMenu from '@/components/navigation/MobileMenu.vue';
+import PageScrollMotion from '@/components/shared/PageScrollMotion.vue';
 </script>
 
 <template>
   <div class="app-shell wrapper flex flex-col">
+    <PageScrollMotion />
     <MobileMenu />
 
     <header class="app-header">

@@ -164,7 +164,7 @@ onMounted(() => {
         :subtitle="resume.subtitle"
       />
 
-      <article class="resume-overview">
+      <article class="resume-overview" data-scroll-scene>
         <div class="resume-overview__intro">
           <span class="page-badge">Overview</span>
           <h2 class="resume-overview__heading">{{ overviewCardText.title }}</h2>
@@ -226,7 +226,7 @@ onMounted(() => {
         </div>
       </article>
 
-      <div class="resume-columns">
+      <div class="resume-columns" data-scroll-scene>
         <ResumeExperienceComponent
           :title="resume.experienceTitle"
           :items="experienceItems"

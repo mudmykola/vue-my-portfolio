@@ -38,7 +38,7 @@ onMounted(load);
         :subtitle="page.subtitle"
       />
 
-      <section class="about-layout__intro">
+      <section class="about-layout__intro" data-scroll-scene>
         <AboutInfoComponent
           :avatar="data.aboutAvatar[0]"
           :title="page.infoTitle"
@@ -50,7 +50,7 @@ onMounted(load);
         />
       </section>
 
-      <section class="about-layout__block">
+      <section class="about-layout__block" data-scroll-scene>
         <AboutSectionHeader
           badge="Services"
           :icon="faCode"

@@ -27,7 +27,7 @@ onMounted(load);
       <p v-if="loading" class="text-default">Loading...</p>
       <p v-else-if="error" class="text-default">{{ error }}</p>
 
-      <section v-else class="contact-layout__grid">
+      <section v-else class="contact-layout__grid" data-scroll-scene>
         <ContactInfoComponent :contactInfo="contactInfo" />
         <ContactFormComponent />
       </section>

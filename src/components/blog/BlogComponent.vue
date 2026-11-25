@@ -20,7 +20,7 @@ defineProps({
         subtitle="Structured notes, case studies, and practical front-end updates"
       />
 
-      <section class="blog-layout__list">
+      <section class="blog-layout__list" data-scroll-scene>
         <BlogItemComponent :initial-posts="initialPosts" />
       </section>
     </div>

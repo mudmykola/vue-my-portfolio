@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="home-section section-selected-work">
+  <section class="home-section section-selected-work" data-scroll-scene>
     <div class="section-intro section-intro--work">
       <p class="section-eyebrow">Selected work</p>
       <h2>A few things I’ve built.</h2>

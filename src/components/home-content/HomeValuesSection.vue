@@ -15,7 +15,7 @@ const principleIcons = [faLayerGroup, faGaugeHigh, faCube];
 </script>
 
 <template>
-  <section class="home-section section-about">
+  <section class="home-section section-about" data-scroll-scene>
     <div class="about-preview">
       <img
         v-if="about.avatar?.image"

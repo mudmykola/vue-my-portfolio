@@ -124,7 +124,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="portfolio-list">
+  <section class="portfolio-list" data-scroll-scene>
     <p v-if="loading" class="text-default">Loading projects...</p>
     <p v-else-if="error" class="text-default">{{ error }}</p>
 
