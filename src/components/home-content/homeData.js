@@ -46,7 +46,7 @@ export const useHomeTitleRotation = (titlesSource) => {
 
       title.value = currentTitles[nextIndex % currentTitles.length];
       transitioning.value = false;
-    }, 500);
+    }, 200);
   }, 3000);
 
   return {

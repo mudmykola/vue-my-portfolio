@@ -1,14 +1,17 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useHomeTitleRotation } from './homeData.js';
 import { fallbackHomeContent } from './homeFallbackContent.js';
 import HomeHeroSection from './HomeHeroSection.vue';
 import HomeValuesSection from './HomeValuesSection.vue';
 import HomeWorkflowSection from './HomeWorkflowSection.vue';
 import HomeCtaSection from './HomeCtaSection.vue';
+import HomeExpertiseSection from './HomeExpertiseSection.vue';
+import HomeSelectedWorkSection from './HomeSelectedWorkSection.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
+import { usePortfolioPage } from '@/components/portfolio/usePortfolioPage.js';
 
 const { data, load } = useSiteContent();
+const { projects, load: loadProjects } = usePortfolioPage();
 
 const homeContent = computed(() => data.value?.homePage ?? {});
 
@@ -20,13 +23,6 @@ const heroContent = computed(() => ({
 const heroDisplayName = computed(
   () => heroContent.value.displayName || fallbackHomeContent.hero.displayName
 );
-
-const heroRotatingTitles = computed(() => {
-  const titles = heroContent.value.rotatingTitles;
-  return Array.isArray(titles) && titles.length
-    ? titles
-    : fallbackHomeContent.hero.rotatingTitles;
-});
 
 const valuesContent = computed(() => ({
   ...fallbackHomeContent.values,
@@ -44,6 +40,14 @@ const workflowContent = computed(() => ({
 const ctaContent = computed(() => ({
   ...fallbackHomeContent.cta,
   ...(homeContent.value?.cta ?? {}),
+}));
+
+const aboutContent = computed(() => ({
+  avatar: data.value?.aboutAvatar?.[0] ?? data.value?.avatars?.[0],
+  title:
+    data.value?.aboutPage?.infoTitle ||
+    'Frontend Developer | Vue, Nuxt & Shopify',
+  description: data.value?.aboutPage?.infoDesc?.[0] || '',
 }));
 
 const frontendToolkit = computed(() =>
@@ -71,27 +75,40 @@ const toolkit = computed(() => {
   );
 });
 
-const primaryToolkit = computed(() => toolkit.value.slice(0, 8));
+const aboutTechnologies = computed(() => {
+  const labels = [
+    ['JavaScript', /javascript/i],
+    ['TypeScript', /typescript/i],
+    ['Vue', /vue/i],
+    ['Nuxt', /nuxt/i],
+    ['Shopify', /shopify/i],
+  ];
 
-const { title: rotatingTitle, transitioning } =
-  useHomeTitleRotation(heroRotatingTitles);
+  return labels
+    .filter(([, matcher]) =>
+      toolkit.value.some((technology) => matcher.test(technology))
+    )
+    .map(([label]) => label);
+});
 
-onMounted(load);
+onMounted(() => {
+  load();
+  loadProjects();
+});
 </script>
 
 <template>
   <section class="home-page">
-    <HomeHeroSection
-      :hero="heroContent"
-      :full-name="heroDisplayName"
-      :title="rotatingTitle"
-      :transitioning="transitioning"
-      :toolkit="toolkit"
-      :primary-toolkit="primaryToolkit"
-    />
+    <HomeHeroSection :hero="heroContent" :full-name="heroDisplayName" />
 
-    <HomeValuesSection :values="valuesContent" />
+    <HomeValuesSection
+      :values="valuesContent"
+      :about="aboutContent"
+      :technologies="aboutTechnologies"
+    />
+    <HomeExpertiseSection :toolkit="toolkit" />
     <HomeWorkflowSection :workflow="workflowContent" />
+    <HomeSelectedWorkSection :projects="projects" />
     <HomeCtaSection :cta="ctaContent" />
   </section>
 </template>

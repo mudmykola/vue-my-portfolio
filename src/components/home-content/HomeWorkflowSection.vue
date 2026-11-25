@@ -6,9 +6,9 @@ defineProps({
 
 <template>
   <section class="home-section section-workflow">
-    <div class="section-head">
+    <div class="section-intro">
       <p class="section-eyebrow">{{ workflow.eyebrow }}</p>
-      <h3>{{ workflow.title }}</h3>
+      <h2>{{ workflow.title }}</h2>
     </div>
     <div class="workflow-grid">
       <article
@@ -17,7 +17,7 @@ defineProps({
         class="workflow-card"
       >
         <span class="workflow-step">{{ item.step }}</span>
-        <h4>{{ item.title }}</h4>
+        <h3>{{ item.title }}</h3>
         <p>{{ item.text }}</p>
       </article>
     </div>

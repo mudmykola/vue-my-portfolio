@@ -1,9 +1,11 @@
 export const fallbackHomeContent = {
   hero: {
     displayName: 'Mykola Mud',
-    kicker: 'AVAILABLE FOR NEW PROJECTS',
+    headlinePrimary: 'Thoughtful development',
+    headlineAccent: 'for modern commerce.',
+    kicker: 'VUE · NUXT · SHOPIFY',
     description:
-      'I build polished interfaces for real products with a strong focus on speed, maintainability, and user experience.',
+      'I help businesses turn complex commerce requirements into fast, reliable storefronts with Shopify, Vue, and Nuxt.',
     portfolioCtaLabel: 'See Portfolio',
     contactCtaLabel: 'Contact Me',
     toolkitTitle: 'Core Toolkit',

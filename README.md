@@ -75,16 +75,17 @@ npm run verify
 
 ## Публічні маршрути
 
-| Route           | Призначення             |
-| --------------- | ----------------------- |
-| `/`             | Home                    |
-| `/portfolio`    | Portfolio projects      |
-| `/about`        | About                   |
-| `/resume`       | Resume                  |
-| `/blog`         | Shopify-backed blog     |
-| `/blog/:handle` | Individual blog article |
-| `/contact`      | Contact form            |
-| `/game`         | Game page               |
+| Route            | Призначення              |
+| ---------------- | ------------------------ |
+| `/`              | Home                     |
+| `/portfolio`     | Portfolio projects       |
+| `/about`         | About                    |
+| `/resume`        | Resume                   |
+| `/blog`          | Shopify-backed blog      |
+| `/blog/:handle`  | Individual blog article  |
+| `/contact`       | Contact form             |
+| `/game`          | Game page                |
+| `/design-system` | Live component inventory |
 
 ## Конфігурація середовища
 

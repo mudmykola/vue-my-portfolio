@@ -134,6 +134,26 @@ column. Long titles wrap naturally, filters may scroll horizontally, and the pag
 horizontal overflow. Check keyboard navigation, focus visibility, contrast, loading, empty,
 error and success states.
 
+## Component inventory
+
+The live reference is available at `/design-system` and is intentionally not part of the primary
+site navigation. It demonstrates the states that reusable components must support before they are
+used across Home, Portfolio, About, Resume, Blog or Contact.
+
+| Area        | Required reusable elements                                                         | Status                                       |
+| ----------- | ---------------------------------------------------------------------------------- | -------------------------------------------- |
+| Tokens      | Color, type, spacing, radius, shadow, motion and focus tokens                      | Foundation implemented                       |
+| Buttons     | Primary, secondary, text/ghost, hover, focus, pressed, disabled and loading        | Inventory implemented; page adoption ongoing |
+| Form fields | Input, email, textarea and select with default, focus, error, disabled and success | Inventory implemented; page adoption ongoing |
+| Selection   | Checkbox, radio, switch, filter chip and active state                              | Inventory implemented; page adoption ongoing |
+| Navigation  | Brand lockup, nav links, active/hover/focus and social links                       | Shared header implemented                    |
+| Feedback    | Success, error, warning, validation and toast                                      | Inventory implemented; page adoption ongoing |
+| Surfaces    | Project card, modal/dialog, tooltip and pagination                                 | Inventory implemented; page adoption ongoing |
+| Icons       | Font Awesome Solid for UI and official Brands for services/technologies            | Shared icon rule implemented                 |
+
+New reusable UI must first use the existing tokens and match the states shown on the inventory page.
+Page-specific styling is allowed only when the component has a clear content or layout reason.
+
 ## Agent implementation rules
 
 1. Inspect the real route, data and assets before editing.

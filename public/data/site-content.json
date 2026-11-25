@@ -176,6 +176,8 @@
   "homePage": {
     "hero": {
       "displayName": "Mykola Mud",
+      "headlinePrimary": "Thoughtful development",
+      "headlineAccent": "for modern commerce.",
       "h1Title": "Mykola Mud | Front-End Engineer Portfolio",
       "rotatingTitles": [
         "Frontend Developer",
@@ -183,7 +185,7 @@
         "Shopify Frontend Engineer"
       ],
       "kicker": "VUE • NUXT • SHOPIFY",
-      "description": "I build Vue and Nuxt applications, custom Shopify themes, and headless storefronts, with a focus on reusable components, web performance, and e-commerce analytics.",
+      "description": "I help businesses turn complex commerce requirements into fast, reliable storefronts with Shopify, Vue, and Nuxt.",
       "portfolioCtaLabel": "See Portfolio",
       "contactCtaLabel": "Contact Me",
       "toolkitTitle": "Core Toolkit",

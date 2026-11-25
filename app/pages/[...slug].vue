@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
+import DecorativeAccent from '@/components/shared/DecorativeAccent.vue';
 import { useArticleSeo } from '../composables/useArticleSeo.js';
 import { usePortfolioSeo } from '../composables/usePortfolioSeo.js';
 import { routeSeo } from '../utils/routeSeo.js';
@@ -47,7 +48,11 @@ if (article.value) {
 </script>
 
 <template>
-  <article v-if="article" class="blog-page container-centered">
+  <article
+    v-if="article"
+    class="blog-page blog-article-page container-centered"
+  >
+    <DecorativeAccent kind="arc" />
     <div class="blog-layout">
       <header class="blog-surface blog-article__header">
         <p class="blog-kicker">{{ article.category }}</p>
@@ -80,6 +85,8 @@ if (article.value) {
 <style scoped lang="scss">
 .blog-article__header,
 .blog-article__content {
+  position: relative;
+  z-index: 1;
   padding: clamp(1.25rem, 3vw, 2.5rem);
   border-radius: 24px;
 }
@@ -98,8 +105,16 @@ if (article.value) {
 }
 
 .blog-article__media img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   border-radius: 24px;
+}
+
+.blog-article-page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
 }
 </style>

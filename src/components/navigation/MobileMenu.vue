@@ -18,6 +18,7 @@
         :to="item.link"
         class="mobile-menu-link"
         :class="{ 'mobile-menu-link--active': isActive(item.link) }"
+        :aria-current="isActive(item.link) ? 'page' : undefined"
         @click="isOpen = false"
       >
         <font-awesome-icon :icon="item.icon" aria-hidden="true" />

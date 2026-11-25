@@ -7,3 +7,10 @@ import MainContentComponent from '@/main-content/MainContentComponent.vue';
     <MainContentComponent />
   </div>
 </template>
+
+<style scoped>
+.home {
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
+}
+</style>
