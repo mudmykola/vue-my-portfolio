@@ -3,6 +3,142 @@
 ## 2026-11-26
 
 - Type: Improvement
+- Date/time: 2026-11-26 14:16 Europe/Kyiv
+- Title: Move Back to top into a floating control
+- Summary: Removed the persistent Back to top link from the footer row. Added a fixed arrow that appears after 400px of scrolling, leaves the fixed mobile navigation clear, and is removed from keyboard navigation while hidden.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Production build, scoped Prettier, `git diff --check`, and browser checks passed. The control hides at 399px, appears at 401px, returns to `#page-top`, respects reduced motion, and clears mobile navigation at 390px and 320px; no horizontal overflow at 1440, 1024, 768, 390 or 320px. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Fix
+- Date/time: 2026-11-26 14:06 Europe/Kyiv
+- Title: Replace footer outlines with a fog halo
+- Summary: Removed the crisp idle ring from footer social links and replaced it with a blurred radial halo that fades softly into the background; hover/focus brightens the mist while icons stay sharp.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser confirmed a transparent border, diffuse halo, crisp icon glyphs, no horizontal overflow at 320px, and no transition or movement under reduced motion. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 14:01 Europe/Kyiv
+- Title: Soften the footer social borders
+- Summary: Added a restrained emerald halo around the social-link borders and a slightly brighter hover/focus glow while keeping the icon artwork crisp.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser confirmed the border glow, sharp icon color, and reduced-motion hover state with no transition or movement. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 13:58 Europe/Kyiv
+- Title: Add a subtle circuit close to the Home CTA
+- Summary: Extended the existing Hero circuit into two low-opacity CTA edge traces with three junction nodes, and added a soft emerald radial glow with a restrained inset shadow. Reused the current meteor field and cadence.
+- Affected module/route/tool: `src/components/home-content/HomeArtifactField.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #158
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser confirmed two traces and three nodes, no horizontal overflow at 1440, 1024, 768, 390 and 320px, and meteor motion is hidden under reduced motion. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Fix
+- Date/time: 2026-11-26 13:50 Europe/Kyiv
+- Title: Align the footer with Home section edges
+- Summary: Expanded the footer inner container and copyright row to match the exact horizontal boundaries of `section-cta` and `section-selected-work` at desktop, tablet and mobile widths.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Browser geometry at 1440, 1024, 768, 390 and 320px confirms exact left/right alignment with Home sections and no horizontal overflow. Production build, scoped Prettier and `git diff --check` passed. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No tests were run. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 13:45 Europe/Kyiv
+- Title: Compact and redistribute the shared footer
+- Summary: Removed the identity block, put all six route links in one responsive navigation, kept social links at the opposite edge and spread copyright/Back to top across the bottom row. Reduced footer height to about 119px on desktop and 208px on mobile.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser checked 1440, 1024, 768, 390 and 320px; no horizontal overflow, identity block absent, six route links and social links visible. Verified keyboard focus and reduced-motion behavior. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 13:40 Europe/Kyiv
+- Title: Redesign the shared portfolio footer
+- Summary: Expanded the footer into a responsive closing block with owner identity, route links, existing social profiles, a contact link, copyright and Back to top. Kept the existing site palette and reduced-motion behavior.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, all routes
+- Issue reference: #158
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser checked 1440, 1024, 768, 390 and 320px with no horizontal overflow; verified route-current state, social links, visible keyboard focus and reduced-motion hover behavior. No tests were run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 13:33 Europe/Kyiv
+- Title: Accent the Get In Touch CTA heading
+- Summary: Applied the shared emerald accent to the Home CTA H2 only; other section headings keep their existing color.
+- Affected module/route/tool: `src/components/home-content/style.scss`, `/`
+- Issue reference: #158
+- Validation: Production build and `git diff --check` passed. Browser computed style confirms the CTA H2 uses `rgb(24, 214, 160)` and a non-CTA Home H2 retains `rgb(243, 247, 245)`. No tests were run. Build reports the existing `VITE_SITE_URL` / contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 13:05 Europe/Kyiv
+- Title: Give the Home CTA a circuit-led footer close
+- Summary: Kept the CTA framed as the closing panel above the global footer and reused Home’s existing shared circuit-trace and meteor layer. Removed the separate CTA route so the same subtle Hero scheme carries through without duplication.
+- Affected module/route/tool: `src/components/home-content/HomeCtaSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #158
+- Validation: Production build and `git diff --check` passed. Browser checks at 1440, 1024, 768, 390 and 320px show no horizontal overflow; the shared circuit and meteor layer remains behind CTA text and controls. Tests were not run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 12:57 Europe/Kyiv
+- Title: Add a shared portfolio footer
+- Summary: Added a restrained site-wide footer with the current year, owner name, and an emerald Back to top link. The shared layout now lets the main content flex to fill the viewport and reserves space after the footer for the fixed mobile navigation.
+- Affected module/route/tool: `src/components/shared/SiteFooter.vue`, `src/layout/MainLayoutComponent.vue`, `src/layout/style.scss`, all routes
+- Issue reference: #158
+- Validation: Production build and `git diff --check` passed. Browser verified the footer on Home and About, the Back to top anchor, and no horizontal overflow at 1440, 1024, 768, 390 and 320px. Tests were not run. Build retains the existing `VITE_SITE_URL` and contact URL fallback warning. No commit, push or deploy.
+
+- Type: Fix
+- Date/time: 2026-11-26 12:48 Europe/Kyiv
+- Title: Restore the Selected Work eyebrow accent
+- Summary: The shared intro copy rule overrode the global eyebrow color. Set the Selected Work eyebrow explicitly to the shared emerald accent token.
+- Affected module/route/tool: `src/components/home-content/style.scss`, `/`
+- Issue reference: #157
+- Validation: Production build and `git diff --check` passed. No tests were run. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 12:44 Europe/Kyiv
+- Title: Rebuild the Home Selected Work showcase
+- Summary: Moved the section heading above the full-width showcase, switched previews to the supplied project screenshots when available, and styled three equal bordered cards with wide media and a right-aligned all-projects link. The grid adapts from three columns to two and then one.
+- Affected module/route/tool: `src/components/home-content/HomeSelectedWorkSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #157
+- Validation: Production build and `git diff --check` passed. Browser checks at 1440, 1024, 768, 390 and 320px show three, three, two and one-column layouts with no horizontal overflow; the 2048px rendering matches the supplied composition. Build reports the existing `VITE_SITE_URL` and contact URL fallback. Tests were not run. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 12:34 Europe/Kyiv
+- Title: Loop the Home workflow ping while visible
+- Summary: Repeats the full 8-second handshake with a pause between pings while the workflow is in view. It pulses 01/02/03, routes through the fading beacon 5px before the terminal, shows `ACK`, then idles. It stops offscreen and restarts on return; mobile uses the vertical stage route and reduced-motion users get the static diagram.
+- Affected module/route/tool: `src/components/home-content/HomeWorkflowSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #155
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Browser observed two terminal ACK cycles, confirmed the signal stops offscreen, the branch junctions align with a 5px terminal gap, mobile uses the vertical loop, and reduced motion disables animation. Checked widths 1440 and 390px with no horizontal overflow. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 12:02 Europe/Kyiv
+- Title: Match Home Workflow and Expertise section grids
+- Summary: Matched the Workflow intro column and H2 width to Expertise, removing the narrower heading cap, and moved its divider to the exact start of the right content column. At tablet widths both sections switch to full-width intros and matching top dividers to keep workflow copy readable.
+- Affected module/route/tool: `src/components/home-content/style.scss`, `/`
+- Issue reference: #155
+- Validation: Browser geometry confirmed both desktop vertical dividers share the same x-coordinate, Workflow and Expertise intro/H2 widths match exactly at 1440/1024/768px, and tablet layouts use matching top dividers. Checked 1440/1024/768/390px with no horizontal overflow; production build, scoped Prettier and `git diff --check` passed. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 11:57 Europe/Kyiv
+- Title: Align Home workflow with the Expertise grid
+- Summary: Kept the reduced terminal at the section's upper-right, aligned stage circles and headings on a shared left edge, and moved the workflow to a full-width layout at tablet widths so descriptions stay readable.
+- Affected module/route/tool: `src/components/home-content/HomeWorkflowSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #155
+- Validation: Vite production build, scoped Prettier, `git diff --check`, and browser checks at 1440/1024/768/390/320px passed. Stage circle/title left edges align on desktop, tablet descriptions gain full-width space, and no horizontal overflow. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 11:35 Europe/Kyiv
+- Title: Unify Home page typography scale
+- Summary: Defined one responsive token per semantic text role and applied it across Home section headings, card and step headings, body copy, eyebrows, supporting labels and buttons. Recorded the hierarchy and decorative microtype exception in the design system.
+- Affected module/route/tool: `src/components/home-content/style.scss`, `docs/design-system.md`, `/`
+- Issue reference: #156
+- Validation: Vite production build, scoped Prettier, `git diff --check`, and browser checks at 1440/1024/768/390/320px passed. Matching H2/H3/body/eyebrow/button roles share computed sizes across sections; no horizontal overflow. Build retains the existing `VITE_SITE_URL` and `VITE_CONTACT_API_URL` fallback warning. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 11:21 Europe/Kyiv
+- Title: Restyle Home workflow as a connected timeline
+- Summary: Reworked the Home workflow into a split heading and three-step timeline with connected numbered circles, short heading rules and an upper-right terminal accent. The timeline switches to a vertical connector on narrow screens; copy remains content-driven.
+- Affected module/route/tool: `src/components/home-content/HomeWorkflowSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #155
+- Validation: `npm run build`, targeted Prettier, `git diff --check`, and browser checks at 1440, 1024, 768, 390 and 320px passed. The connector aligns with step centers in both layouts; no horizontal overflow. No commit, push or deploy.
+
+- Type: Improvement
 - Date/time: 2026-11-26 11:04 Europe/Kyiv
 - Title: Pair Home expertise icons with technology names
 - Summary: Paired each brand, local Nuxt or semantic icon with its readable technology name, keeping the grouped layout free of icon cards and preserving accessible labels and responsive wrapping.

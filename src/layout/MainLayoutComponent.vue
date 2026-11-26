@@ -2,10 +2,11 @@
 import NavigationComponent from '@/components/navigation/NavigationComponent.vue';
 import MobileMenu from '@/components/navigation/MobileMenu.vue';
 import PageScrollMotion from '@/components/shared/PageScrollMotion.vue';
+import SiteFooter from '@/components/shared/SiteFooter.vue';
 </script>
 
 <template>
-  <div class="app-shell wrapper flex flex-col">
+  <div id="page-top" class="app-shell wrapper flex flex-col">
     <PageScrollMotion />
     <MobileMenu />
 
@@ -18,6 +19,8 @@ import PageScrollMotion from '@/components/shared/PageScrollMotion.vue';
         <slot />
       </div>
     </main>
+
+    <SiteFooter />
   </div>
 </template>
 

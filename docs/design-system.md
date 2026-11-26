@@ -54,13 +54,19 @@ Shopify `#95BF47`. They are not UI palette colors.
 
 - Headings: `Sora`, fallback `Manrope`, `sans-serif`.
 - Body and navigation: `Manrope`, fallback `Inter`, `sans-serif`.
-- H1: 60–68px desktop, 38–44px mobile, weight 700–800, line-height 1.05–1.12.
-- H2: 40–48px desktop, 30–36px mobile, weight 700, line-height 1.1–1.2.
-- H3: 26–30px desktop, 22–26px mobile, weight 650–700.
-- Lead: 18–20px desktop, 17–18px mobile, line-height 1.55–1.65.
-- Body: 16px, line-height 1.6–1.7. Small: 14px. Eyebrow: 12px uppercase with 0.12em spacing.
+- Home hero H1 is its own display tier; keep its responsive scale and weight 800.
+- Home section H2: `clamp(1.8rem, 3vw, 2.5625rem)` (41px maximum at a 16px root), weight 700, line-height 1.12.
+- Home card and step H3: `clamp(1.05rem, 1.38vw, 1.55rem)`, weight 650–700, line-height 1.2.
+- Home body: `clamp(0.95rem, 1.12vw, 1.15rem)`, line-height 1.55–1.65.
+- Home supporting labels: `0.875rem`. Eyebrow: `0.75rem` (12px), uppercase, weight 800, line-height 1.3, letter-spacing 0.13em.
+- On Home, use the same size token for each semantic role across sections. Do not add per-section font-size overrides for H2, H3, eyebrow or body copy. Keep microtype inside decorative code and product-interface artwork at the scale of that artwork.
 - Navigation: 15px desktop, 16px mobile, weight 600.
 - Text columns target approximately 60–70 characters.
+
+The Home scale is defined once on `.home-page` as `--home-type-display`, `--home-type-section`,
+`--home-type-subheading`, `--home-type-body`, `--home-type-supporting`, and
+`--home-type-eyebrow`. Reuse these tokens for content text rather than copying their values into
+individual section selectors.
 
 ## Layout
 

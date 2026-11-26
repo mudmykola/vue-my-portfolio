@@ -6,6 +6,8 @@ const width = ref(1);
 const height = ref(1);
 const branches = ref([]);
 const nodes = ref([]);
+const ctaTraces = ref([]);
+const ctaNodes = ref([]);
 const meteors = [
   {
     id: 1,
@@ -50,6 +52,7 @@ function updateArtifact() {
 
   width.value = page.clientWidth;
   height.value = page.scrollHeight;
+  const pageRect = page.getBoundingClientRect();
 
   const sectionSelectors = [
     '.section-about',
@@ -58,7 +61,7 @@ function updateArtifact() {
     '.section-selected-work',
     '.section-cta',
   ];
-  const pageTop = page.getBoundingClientRect().top + window.scrollY;
+  const pageTop = pageRect.top + window.scrollY;
   const sectionNodes = sectionSelectors
     .map((selector) => page.querySelector(selector))
     .filter(Boolean);
@@ -101,6 +104,38 @@ function updateArtifact() {
     const bendY = anchor.y + (index % 2 === 0 ? -18 : 18);
     return `M ${anchor.x} ${anchor.y} L ${anchor.x} ${bendY} L ${endX} ${bendY}`;
   });
+
+  const ctaSection = page.querySelector('.section-cta');
+  if (!ctaSection) {
+    ctaTraces.value = [];
+    ctaNodes.value = [];
+    return;
+  }
+
+  const ctaRect = ctaSection.getBoundingClientRect();
+  const ctaLeft = ctaRect.left - pageRect.left;
+  const ctaTop = ctaRect.top + window.scrollY - pageTop;
+  const ctaRight = ctaLeft + ctaRect.width;
+  const ctaBottom = ctaTop + ctaRect.height;
+  const ctaWidth = ctaRect.width;
+  const upperNode = {
+    x: ctaLeft + ctaWidth * 0.91,
+    y: ctaTop + 28,
+  };
+  const lowerNode = {
+    x: ctaLeft + ctaWidth * 0.86,
+    y: ctaBottom - 14,
+  };
+
+  ctaTraces.value = [
+    `M ${ctaLeft + ctaWidth * 0.78} ${ctaTop + 12} H ${upperNode.x} V ${upperNode.y} H ${ctaRight - 8}`,
+    `M ${ctaRight - 8} ${ctaBottom - 30} V ${lowerNode.y} H ${lowerNode.x}`,
+  ];
+  ctaNodes.value = [
+    upperNode,
+    { x: ctaRight - 8, y: ctaBottom - 30 },
+    lowerNode,
+  ];
 }
 
 function scheduleUpdate() {
@@ -156,6 +191,12 @@ onBeforeUnmount(() => {
         class="home-artifact-field__branch"
         :d="branch"
       />
+      <path
+        v-for="(trace, index) in ctaTraces"
+        :key="`cta-trace-${index}`"
+        class="home-artifact-field__cta-trace"
+        :d="trace"
+      />
       <circle
         v-for="(node, index) in nodes"
         :key="`node-${index}`"
@@ -163,6 +204,14 @@ onBeforeUnmount(() => {
         :cx="node.x"
         :cy="node.y"
         r="3"
+      />
+      <circle
+        v-for="(node, index) in ctaNodes"
+        :key="`cta-node-${index}`"
+        class="home-artifact-field__cta-node"
+        :cx="node.x"
+        :cy="node.y"
+        r="2.5"
       />
     </svg>
 
@@ -210,6 +259,15 @@ onBeforeUnmount(() => {
 
 .home-artifact-field__node {
   fill: rgba(24, 214, 160, 0.26);
+  stroke: none;
+}
+
+.home-artifact-field__cta-trace {
+  stroke: rgba(24, 214, 160, 0.105);
+}
+
+.home-artifact-field__cta-node {
+  fill: rgba(24, 214, 160, 0.24);
   stroke: none;
 }
 
@@ -275,6 +333,10 @@ onBeforeUnmount(() => {
 
   .home-artifact-field__circuit {
     stroke: rgba(24, 214, 160, 0.075);
+  }
+
+  .home-artifact-field__cta-node {
+    fill: rgba(24, 214, 160, 0.18);
   }
 }
 

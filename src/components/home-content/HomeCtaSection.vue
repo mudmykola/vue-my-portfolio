@@ -1,6 +1,4 @@
 <script setup>
-import DecorativeAccent from '@/components/shared/DecorativeAccent.vue';
-
 defineProps({
   cta: { type: Object, required: true },
 });
@@ -8,7 +6,6 @@ defineProps({
 
 <template>
   <section class="home-section section-cta">
-    <DecorativeAccent kind="waves" />
     <div class="cta-card">
       <p class="section-eyebrow">{{ cta.eyebrow }}</p>
       <h2>{{ cta.title }}</h2>
