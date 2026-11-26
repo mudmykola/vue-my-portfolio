@@ -80,14 +80,17 @@ display tier's Home breakpoint values unchanged.
 
 ## Layout
 
-- Max content width: `1200px`.
-- Horizontal padding: 64px desktop, 32px tablet, 20–24px mobile.
+- Shared page width: route content, section borders, grids, filters, pagination and CTAs align to
+  the same left and right rails as the header's inner container. Use the shared fluid gutter
+  `clamp(1rem, 3vw, 3rem)`; do not add a narrower route-level `max-width` that pulls a page inward.
+- Internal reading measure may be narrower for long-form text, while the section and page edges
+  remain aligned to the shared header rails.
 - Desktop 12-column grid / 24px gap; tablet 8 columns / 20px; mobile 4 columns / 16px.
 - Spacing scale: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 120px.
 - Reuse `--section-content-gap`, `--project-grid-gap`, and `--radius-card` for the Home and Portfolio
   selected-work patterns.
 - Large section spacing: 88–112px desktop, 64–80px tablet, 48–64px mobile.
-- Align sections to shared container edges. Avoid horizontal overflow.
+- Align every route's sections to the shared header container edges. Avoid horizontal overflow.
 
 ## Header and navigation
 

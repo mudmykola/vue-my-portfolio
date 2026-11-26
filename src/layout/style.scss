@@ -46,3 +46,26 @@
   max-width: none;
   padding-inline: 0;
 }
+
+.app-content:has(.blog-page) {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.app-content:has(.blog-page) > .blog-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.app-content:has(.blog-article-page) > .blog-article-page {
+  min-height: auto;
+  padding-block: clamp(1.5rem, 3.2vw, 3rem);
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}

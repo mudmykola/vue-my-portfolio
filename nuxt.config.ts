@@ -48,7 +48,7 @@ export default defineNuxtConfig({
     shopifyStorefrontToken: '',
     shopifyStorefrontTokenType: 'public',
     shopifyApiVersion: '2026-10',
-    shopifyBlogHandle: '',
+    shopifyBlogHandle: 'blog-post',
     shopifyPortfolioCollectionHandle: 'portfolio',
     public: {
       siteUrl:

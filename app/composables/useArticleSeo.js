@@ -42,6 +42,30 @@ export function useArticleSeo(article) {
       about: { '@id': `${siteUrl}#person` },
       inLanguage: 'en',
     },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonicalUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${siteUrl}/`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Blog',
+          item: `${siteUrl}/blog`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: article.title,
+          item: canonicalUrl,
+        },
+      ],
+    },
   ];
 
   useSeoMeta({
@@ -66,10 +90,10 @@ export function useArticleSeo(article) {
         key: 'app-structured-data',
         id: 'app-structured-data',
         type: 'application/ld+json',
-        children: JSON.stringify({
+        textContent: {
           '@context': 'https://schema.org',
           '@graph': graph,
-        }),
+        },
       },
     ],
   });

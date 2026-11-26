@@ -4,6 +4,7 @@ const BLOG_ARTICLE_FIELDS = `
   id
   handle
   title
+  authorV2 { name }
   excerpt
   content
   contentHtml
@@ -14,15 +15,13 @@ const BLOG_ARTICLE_FIELDS = `
 `;
 
 export const SHOPIFY_BLOG_QUERY = `#graphql
-  query BlogArticles($first: Int!, $after: String) {
-    blogs(first: 1) {
-      nodes {
-        handle
-        title
-        articles(first: $first, after: $after) {
-          nodes { ${BLOG_ARTICLE_FIELDS} }
-          pageInfo { hasNextPage endCursor }
-        }
+  query BlogArticles($blogHandle: String!, $first: Int!, $after: String) {
+    blog(handle: $blogHandle) {
+      handle
+      title
+      articles(first: $first, after: $after) {
+        nodes { ${BLOG_ARTICLE_FIELDS} }
+        pageInfo { hasNextPage endCursor }
       }
     }
   }
@@ -60,12 +59,18 @@ export const normalizeShopifyArticle = (article, blog = {}) => {
     article.excerpt || article.seo?.description || stripHtml(contentHtml)
   ).trim();
   const title = String(article.title || '').trim();
-  const tags = Array.isArray(article.tags) ? article.tags.filter(Boolean) : [];
+  const tags = Array.isArray(article.tags)
+    ? article.tags.map((tag) => String(tag).trim()).filter(Boolean)
+    : [];
+  const author = String(
+    article.authorV2?.name || article.author?.name || article.author || ''
+  ).trim();
 
   return {
     id: article.id || `shopify-${article.handle || slugify(title)}`,
     handle: article.handle || slugify(title),
     title,
+    author,
     image: article.image?.url || '',
     imageAlt: article.image?.altText || title,
     excerpt,

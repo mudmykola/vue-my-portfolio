@@ -2,6 +2,22 @@
 
 ## 2026-11-26
 
+- Type: Improvement
+- Date/time: 2026-11-26 23:04 Europe/Kyiv
+- Title: Use Shopify blog tags and author across Blog
+- Summary: Scoped the list query to the configured Shopify blog (`blog-post` by default), requested `authorV2.name`, and normalized author plus trimmed tags. Blog topics now include all unique tags with case-insensitive de-duplication; filters match any tag and search includes tags and author. Added author bylines to featured/list metadata, preview modal, and article detail page while retaining legacy category fallback.
+- Affected module/route: `server/utils/shopifyBlog.js`, `server/api/blog/index.get.js`, `nuxt.config.ts`, `src/components/blog/usePosts.js`, `BlogItemComponent.vue`, `BlogPostModal.vue`, `app/pages/[...slug].vue`, `/blog`
+- Issue reference: #165
+- Validation: `npm run build` and scoped Prettier/`git diff --check` passed; Shopify Storefront GraphQL validator accepted the query for API `2026-10`. Cloudflare preview fetched the `blog-post` handle and returned a Shopify article with 7 tags and author `Mykola Mud'`. Browser confirmed topic filtering, author search, byline in the preview and article page, and no horizontal overflow at 1440, 1024, 768, 390, and 320px; console errors: 0. Production deployment not performed.
+
+- Type: Improvement
+- Date/time: 2026-11-26 22:45 Europe/Kyiv
+- Title: Customize the Blog page to match the editorial reference
+- Summary: Reworked `/blog` into an editorial layout with an Insights intro and counts, a featured article index, compact filters, numbered article rows, pagination, and a Home-styled contact CTA. Added a page-local loading skeleton while preserving filters, article routes, and modal previews.
+- Affected module/route: `src/components/blog/BlogComponent.vue`, `BlogItemComponent.vue`, `style.scss`, `usePosts.js`, `/blog`
+- Issue reference: #164
+- Validation: Cloudflare/Nitro `npm run build` passed; scoped Prettier and `git diff --check` passed. The built Wrangler preview rendered matching SSR and client markup without browser errors. Checked filter, search, pagination, modal/Escape behavior, and responsive widths 1440, 1024, 768, 390, and 320px. The already-running Nuxt dev server on port 3000 continued serving stale SSR markup; built preview was clean. No deployment performed.
+
 - Type: Fix
 - Date/time: 2026-11-26 22:02 Europe/Kyiv
 - Title: Keep header navigation styled on reload
@@ -1032,3 +1048,120 @@
 - Module/routes: portfolio project dialog, `/portfolio`
 - Issue reference: GitHub `#161`
 - Validation: Vite production build, Prettier, and `git diff --check` passed. Browser review confirmed a 32px title in two lines on a wide modal, compact emerald project-type badge, and no horizontal overflow at 1440/1024/768/390/320px.
+
+## 2026-11-26 23:41 EET — Rebuild Blog on shared header rails
+
+- Type: Improvement
+- Title: Align Blog content and restore readable article excerpts
+- Summary: Removed the Blog route's nested width caps and aligned its page, section edges and CTA to the shared header gutters. Rebalanced the featured story, standardized Blog type sizes on shared tokens, and replaced full-body excerpts with concise text previews. Applied the same outer rails to article routes and constrained long-form article copy to a readable measure.
+- Module/routes: Blog listing and article pages, `/blog`, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, Prettier, and `git diff --check` passed. Playwright verified shared header rails and no horizontal overflow at 1440/1024/768/390/320px; topic filter, search, reset, preview modal, Escape close, scroll lock, focus restoration and reduced-motion behavior worked. Direct article rendering was checked at 320px. The current Shopify response contains two posts, so pagination controls were correctly hidden and could not be exercised in the browser.
+
+## 2026-11-26 23:48 EET — Give the featured Blog story more room
+
+- Type: Improvement
+- Title: Widen the featured article title and excerpt
+- Summary: Removed the featured content's max-width cap, widened its title measure from 32ch to 48ch and its excerpt from 70ch to 90ch. The copy now uses more of the available column while retaining a readable line length.
+- Module/routes: Blog featured article, `/blog`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, Prettier and `git diff --check` passed. Playwright confirmed the wider text measures at 1440px, containment at 1024px and 768px, and no horizontal overflow.
+
+## 2026-11-26 23:58 EET — Make Blog list rows direct article links
+
+- Type: Improvement
+- Title: Remove article previews and clarify clickable Blog rows
+- Summary: Removed the Blog preview modal and made each list row a single keyboard-accessible link to its article. Brought category, author, date and reading time above a larger title, kept the excerpt with the story, and added restrained hover, focus and arrow states. The featured index is now decorative; its title and Read article action remain direct links.
+- Module/routes: Blog listing, `/blog`, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed row links navigate to article routes, search filters remain functional, no modal is rendered, keyboard focus is visible, reduced-motion removes transitions, and horizontal overflow is 0 at 1440/1024/768/390/320px. Current Shopify data has 3 posts, so pagination is hidden.
+
+## 2026-11-27 00:13 EET — Refine Blog article reading layout
+
+- Type: Improvement
+- Title: Add article breadcrumbs and improve long-form reading styles
+- Summary: Added accessible Home / Blog / article breadcrumbs and matching schema.org BreadcrumbList data. Centered the article heading and body on the same readable measure, shortened long excerpts used as the article intro without changing body content, formatted publication dates, and refined prose headings, inline/code blocks, lists, quotes, tables, figures, links and source notes. Corrected JSON-LD output so it renders as a valid script body rather than a `children` attribute.
+- Module/routes: Blog article page and article SEO, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified valid JSON-LD with the three visible breadcrumb entries, navigation back to `/blog`, visible breadcrumb focus, 0 horizontal overflow at 1440/1024/768/390/320px, and no browser console errors.
+
+## 2026-11-27 00:23 EET — Add Blog article section navigation
+
+- Type: Improvement
+- Title: Break long Blog articles into navigable sections
+- Summary: Added generated, duplicate-safe anchors for article H2 headings and a section navigator that stays beside the prose on desktop, highlights the current section, and collapses into a native disclosure on smaller screens. Kept article HTML and native hash navigation intact; reduced-motion users get no nav transitions.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified all 5 H2 anchors and matching links, desktop/mobile navigation modes at 1440/1024/768/390/320px, no horizontal overflow, mobile disclosure and hash navigation, direct fragment loading, reduced-motion transition suppression, and no browser console errors. Dev console retains Vue Router fragment lookup and `definePageMeta` warnings during dynamic route loading; fragment target and active state resolve after render. GitHub issue #166 and both project fields are Done.
+
+## 2026-11-27 00:31 EET — Align Blog article masthead
+
+- Type: Improvement
+- Title: Integrate article heading with the reading column
+- Summary: Aligned the article category, title and author/date metadata with the prose column and removed the excerpt from the article header so it no longer repeats the opening paragraph. Kept the cover image across the wider reading rail.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed header and prose share the same left edge at 1440/1024/768/390/320px, duplicate excerpt is absent, horizontal overflow is 0, and there are no browser console errors.
+
+## 2026-11-27 00:37 EET — Widen Blog article reading column
+
+- Type: Improvement
+- Title: Use more of the article page width
+- Summary: Expanded the article and prose grid measure from 72ch to 84ch while preserving the compact contents rail and single-column responsive layout.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed the prose column widened from 617px to 723px at 1440px, masthead and prose remain aligned at all checked widths, mobile contents mode remains active below 980px, horizontal overflow is 0 at 1440/1024/768/390/320px, and there are no browser console errors.
+
+## 2026-11-27 00:43 EET — Align Blog article to header rails
+
+- Type: Improvement
+- Title: Expand article layout to the shared page container
+- Summary: Expanded the article masthead, cover image and reading layout to the full shared header rails. Kept prose at a readable 90ch maximum and anchored the compact contents navigation to the right rail; smaller screens remain single-column.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified exact shared header/article rail alignment at 1440/1024/768/390/320px, no horizontal overflow, desktop sidebar and mobile disclosure modes, and no browser console errors.
+
+## 2026-11-27 00:48 EET — Refine Blog article content styles
+
+- Type: Improvement
+- Title: Style long-form article content elements
+- Summary: Tuned the lead paragraph and H2 rhythm, constrained prose/list/source-note measures, refined inline-code chips, and gave preformatted commands a distinct scrollable code surface. Kept the article container and reading navigation unchanged.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright rendered representative paragraph, H2, list, inline code, pre/code and source-note markup; verified 0 horizontal overflow at 1440/1024/768/390/320px and no browser console errors.
+
+## 2026-11-27 00:54 EET — Add stronger Blog article color accents
+
+- Type: Improvement
+- Title: Emphasize article headings and terminal commands
+- Summary: Increased the emerald accent on H2 rules, inline code, list markers and source links. Detects shell command blocks separately and styles them as the site's terminal with a title bar, status lights and a prompt, while keeping regular code blocks in their neutral code surface.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified the real Vite+ article's command block receives the terminal class and title/prompt, with desktop/mobile rendering and 0 horizontal overflow at 1440/1024/768/390/320px; browser console errors: 0.
+
+## 2026-11-27 01:00 EET — Style Blog article breadcrumbs as a path
+
+- Type: Improvement
+- Title: Give article breadcrumbs a compact technical path style
+- Summary: Changed visible breadcrumb segments to `~ / blog / article title`, used monospace typography for the route, and accented separators with the shared emerald color. Kept Home and Blog destinations, current-page semantics, keyboard focus styling, and natural wrapping on narrow screens.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright checked breadcrumb links/current-page text, path wrapping and page width at 1440/1024/768/390/320px; browser console errors: 0.
+
+## 2026-11-27 01:03 EET — Keep Blog breadcrumb on one line
+
+- Type: Improvement
+- Title: Truncate long article breadcrumb titles
+- Summary: Prevented breadcrumb segments from wrapping and made long current-page titles truncate with an ellipsis while retaining the full title in the accessible DOM.
+- Module/routes: Blog article page, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright injected a long title and confirmed a single-row breadcrumb, ellipsis truncation, and no horizontal overflow at 1440/1024/768/390/320px; browser console errors: 0.
+
+## 2026-11-27 01:17 EET — Scale Blog topic filters for larger tag sets
+
+- Type: Improvement
+- Title: Keep Blog topic filters compact with searchable overflow
+- Summary: Measure the topic row and show only chips that fit, with the remaining count in a `+N` control. Its anchored dropdown searches all topics, shows matching post counts and keeps the selected topic visible in the chip row. Escape and outside clicks close the menu; reduced-motion users get no chevron movement.
+- Module/routes: Blog listing, `/blog`
+- Issue reference: GitHub `#167`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified 117 topics (100 temporary QA topics added in-browser) at 1440/1024/768/390/320px: exact hidden counts, no row/page overflow, all topics searchable, menu stays in viewport, selection filters posts, and keyboard/outside/empty-search states work. Reduced-motion and browser console checked; errors: 0.

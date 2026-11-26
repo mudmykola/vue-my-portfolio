@@ -1,7 +1,5 @@
 <script setup>
-import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import BlogItemComponent from '@/components/blog/BlogItemComponent.vue';
-import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
 import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 
 defineProps({
@@ -10,22 +8,25 @@ defineProps({
 </script>
 
 <template>
-  <section class="blog-page container-centered">
-    <div class="blog-layout">
-      <PageSectionHeader
-        badge="Insights"
-        :icon="faNewspaper"
-        heading-tag="h1"
-        visible-title="Blog"
-        title=" | Front-End Engineering Notes and Articles"
-        subtitle="Structured notes, case studies, and practical front-end updates"
-      />
-
-      <section class="blog-layout__list tech-atmosphere-host" data-scroll-scene>
-        <SectionAtmosphere variant="right" />
-        <BlogItemComponent :initial-posts="initialPosts" />
-      </section>
+  <section class="blog-page">
+    <div class="blog-layout tech-atmosphere-host">
+      <SectionAtmosphere variant="right" />
+      <BlogItemComponent :initial-posts="initialPosts" />
     </div>
+
+    <section class="blog-contact tech-atmosphere-host" data-scroll-scene>
+      <SectionAtmosphere variant="left" />
+      <div class="blog-contact__content">
+        <p class="section-eyebrow">Get in touch</p>
+        <h2>Enjoyed the read?</h2>
+        <p>
+          Have a topic you’d like me to write about or a question to discuss?
+        </p>
+        <router-link to="/contact" class="app-btn app-btn--primary">
+          Contact Me <span aria-hidden="true">→</span>
+        </router-link>
+      </div>
+    </section>
   </section>
 </template>
 

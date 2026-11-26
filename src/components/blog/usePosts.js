@@ -11,32 +11,53 @@ export function usePosts(options = {}) {
     readMore: 'Read more',
     btnPrev: 'Previous',
     btnNext: 'Next',
-    btnClose: 'Close',
   };
 
   const posts = ref(options.initialPosts || []);
-  const selectedPost = ref(null);
   const currentPage = ref(1);
   const postsPerPage = 6;
   const searchQuery = ref('');
   const sortBy = ref('date');
   const selectedCategory = ref('');
-  const loading = ref(false);
+  const loading = ref(Boolean(options.initialLoading));
   const error = ref('');
+
+  const postTopics = (post) => {
+    const tags = Array.isArray(post?.tags)
+      ? post.tags.map((tag) => String(tag).trim()).filter(Boolean)
+      : [];
+
+    return tags.length
+      ? tags
+      : [String(post?.category || '').trim()].filter(Boolean);
+  };
+  const topicKey = (topic) =>
+    String(topic || '')
+      .trim()
+      .toLocaleLowerCase();
 
   const filteredPosts = computed(() => {
     let sortedPosts = [...posts.value];
 
     if (selectedCategory.value) {
-      sortedPosts = sortedPosts.filter(
-        (post) => post.category === selectedCategory.value
+      sortedPosts = sortedPosts.filter((post) =>
+        postTopics(post).some(
+          (topic) => topicKey(topic) === topicKey(selectedCategory.value)
+        )
       );
     }
 
     if (searchQuery.value) {
       const query = searchQuery.value.toLowerCase();
       sortedPosts = sortedPosts.filter((post) =>
-        [post.title, post.excerpt, post.content, post.category]
+        [
+          post.title,
+          post.excerpt,
+          post.content,
+          post.author,
+          post.category,
+          ...postTopics(post),
+        ]
           .join(' ')
           .toLowerCase()
           .includes(query)
@@ -48,7 +69,9 @@ export function usePosts(options = {}) {
     }
 
     if (sortBy.value === 'category') {
-      return sortedPosts.sort((a, b) => a.category.localeCompare(b.category));
+      return sortedPosts.sort((a, b) =>
+        (postTopics(a)[0] || '').localeCompare(postTopics(b)[0] || '')
+      );
     }
 
     return sortedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -64,9 +87,28 @@ export function usePosts(options = {}) {
     return filteredPosts.value.slice(startIndex, startIndex + postsPerPage);
   });
 
-  const categories = computed(() => [
-    ...new Set(posts.value.map((post) => post.category)),
-  ]);
+  const categories = computed(() => {
+    const topics = new Map();
+
+    posts.value.flatMap(postTopics).forEach((topic) => {
+      const key = topicKey(topic);
+      if (key && !topics.has(key)) topics.set(key, topic);
+    });
+
+    return [...topics.values()];
+  });
+
+  const topicCounts = computed(() => {
+    const counts = new Map();
+
+    posts.value.forEach((post) => {
+      new Set(postTopics(post).map(topicKey)).forEach((key) => {
+        counts.set(key, (counts.get(key) || 0) + 1);
+      });
+    });
+
+    return counts;
+  });
 
   const prevPage = () => {
     if (currentPage.value > 1) currentPage.value--;
@@ -74,19 +116,6 @@ export function usePosts(options = {}) {
 
   const nextPage = () => {
     if (currentPage.value < totalPages.value) currentPage.value++;
-  };
-
-  const openModal = (post) => {
-    selectedPost.value = post;
-  };
-
-  const closeModal = () => {
-    selectedPost.value = null;
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const fetchPosts = async () => {
@@ -105,13 +134,6 @@ export function usePosts(options = {}) {
     }
   };
 
-  const getPostImageUrl = (imagePath) => {
-    const path = String(imagePath || '').trim();
-    if (!path) return '';
-    if (/^https?:\/\//i.test(path)) return path;
-    return path.startsWith('/') ? path : `/${path}`;
-  };
-
   onMounted(fetchPosts);
 
   watch([selectedCategory, sortBy, searchQuery], () => {
@@ -123,7 +145,6 @@ export function usePosts(options = {}) {
     posts,
     loading,
     error,
-    selectedPost,
     currentPage,
     searchQuery,
     sortBy,
@@ -134,10 +155,7 @@ export function usePosts(options = {}) {
     prevPage,
     nextPage,
     categories,
-    openModal,
-    closeModal,
-    formatDate,
+    topicCounts,
     fetchPosts,
-    getPostImageUrl,
   };
 }

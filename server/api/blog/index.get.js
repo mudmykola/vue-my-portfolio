@@ -9,6 +9,7 @@ import {
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const query = getQuery(event);
+  const blogHandle = String(config.shopifyBlogHandle || '');
   const first = Math.min(Math.max(Number(query.first) || 50, 1), 100);
   const after = query.after ? String(query.after) : null;
   const fallbackPage = () => {
@@ -16,14 +17,15 @@ export default defineEventHandler(async (event) => {
     return { ...fallback, articles: fallback.articles.slice(0, first) };
   };
 
-  if (!hasShopifyConfig(config)) return fallbackPage();
+  if (!hasShopifyConfig(config) || !blogHandle) return fallbackPage();
 
   try {
     const data = await shopifyRequest(config, SHOPIFY_BLOG_QUERY, {
+      blogHandle,
       first,
       after,
     });
-    const blog = data.blogs?.nodes?.[0];
+    const blog = data.blog;
     const connection = blog?.articles;
 
     if (!blog || !connection) return fallbackPage();
