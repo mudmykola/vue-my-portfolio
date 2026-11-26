@@ -3,6 +3,22 @@
 ## 2026-11-26
 
 - Type: Improvement
+- Date/time: 2026-11-26 11:04 Europe/Kyiv
+- Title: Pair Home expertise icons with technology names
+- Summary: Paired each brand, local Nuxt or semantic icon with its readable technology name, keeping the grouped layout free of icon cards and preserving accessible labels and responsive wrapping.
+- Affected module/route/tool: `src/components/home-content/HomeExpertiseSection.vue`, `src/components/home-content/style.scss`, `/`
+- Issue reference: #154
+- Validation: `npm run build`, targeted Prettier, `git diff --check`, and browser checks at 1440, 1024, 768, 390 and 320px passed. All 21 icon/name pairs render without horizontal overflow. No commit, push or deploy.
+
+- Type: Fix
+- Date/time: 2026-11-26 10:31 Europe/Kyiv
+- Title: Keep the Home Hero scroll cue visible on short desktop viewports
+- Summary: Reduced the Home hero visual area's minimum height and console stage height on wide, short viewports so the complete scroll cue remains in the first screen without overlapping the hero copy.
+- Affected module/route/tool: `src/components/home-content/HomeHeroSection.vue`, `/`
+- Issue reference: #152
+- Validation: `npm run build` passed. Playwright confirmed the cue fits at 1440×900, 1440×768 and 1920×1080, with no horizontal overflow at 1440, 1024, 768, 390 and 320px widths. On widths at or below 1120px, the existing stacked hero keeps the cue below the hero content. No commit, push or deploy.
+
+- Type: Improvement
 - Title: Smooth the Home Hero scroll cue transition
 - Summary: Added browser-native smooth scrolling while the Home Hero cue is present. The anchor still updates `#section-about` and preserves browser history; reduced-motion users keep immediate scrolling. Other routes retain their existing scroll behavior.
 - Affected module/route/tool: `src/assets/style/global-style.scss`, `docs/design-system.md`, `/`

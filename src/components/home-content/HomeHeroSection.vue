@@ -685,6 +685,16 @@ onBeforeUnmount(() => {
   height: clamp(520px, 42vw, 660px);
   contain: none;
 }
+@media (min-width: 1121px) and (max-height: 950px) {
+  .home-hero .hero-visual {
+    min-height: 0;
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-visual .hero-console-stage {
+    height: clamp(380px, calc(100svh - 390px), 560px);
+  }
+}
 .architecture-board .architecture-board__node {
   left: var(--node-x) !important;
   top: var(--node-y) !important;
