@@ -13,6 +13,8 @@ dist
 dist-ssr
 .nuxt
 .output
+.wrangler
+.dev.vars*
 coverage
 *.local
 

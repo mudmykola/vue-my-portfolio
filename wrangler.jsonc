@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vue-my-portfolio-contact",
+  "compatibility_date": "2026-11-26",
+  "observability": { "enabled": true },
+  "vars": {
+    "ALLOWED_ORIGIN": "*",
+    "NUXT_PUBLIC_SITE_URL": "https://mykolamud.pp.ua",
+  },
+}

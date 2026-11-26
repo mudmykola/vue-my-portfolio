@@ -138,22 +138,60 @@ const showModal = (project, event) => {
   <section
     class="portfolio-list home-section section-selected-work"
     data-scroll-scene
+    :aria-busy="loading"
   >
-    <div
-      v-if="loading"
-      class="portfolio-loading"
-      role="status"
-      aria-live="polite"
-      aria-busy="true"
-    >
-      <span class="portfolio-loading__spinner" aria-hidden="true" />
-      <span class="portfolio-loading__copy">
-        <strong>Loading selected work</strong>
-        <span>Fetching project details</span>
-      </span>
-      <span class="portfolio-loading__meta" aria-hidden="true"
-        >PORTFOLIO / SYNC</span
+    <div v-if="loading" class="portfolio-loading">
+      <div
+        class="portfolio-loading__status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
       >
+        <span class="portfolio-loading__spinner" aria-hidden="true" />
+        <span class="portfolio-loading__copy">
+          <strong>Loading selected work</strong>
+          <span>Fetching project details</span>
+        </span>
+        <span class="portfolio-loading__meta" aria-hidden="true"
+          >PORTFOLIO / SYNC</span
+        >
+      </div>
+
+      <div class="portfolio-loading__toolbar" aria-hidden="true">
+        <div class="portfolio-loading__filters">
+          <span
+            v-for="filter in 4"
+            :key="filter"
+            class="portfolio-loading__filter"
+            :class="`portfolio-loading__filter--${filter}`"
+          />
+        </div>
+        <span class="portfolio-loading__count" />
+      </div>
+
+      <div class="portfolio-loading__grid" aria-hidden="true">
+        <article v-for="card in 6" :key="card" class="portfolio-loading__card">
+          <div class="portfolio-loading__preview">
+            <div class="portfolio-loading__chrome">
+              <span v-for="dot in 3" :key="dot" />
+            </div>
+            <div class="portfolio-loading__screen">
+              <span />
+              <span />
+            </div>
+          </div>
+          <div class="portfolio-loading__body">
+            <div class="portfolio-loading__heading">
+              <span />
+              <span />
+            </div>
+            <span class="portfolio-loading__description" />
+            <div class="portfolio-loading__tags">
+              <span v-for="tag in 3" :key="tag" />
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
     <p v-else-if="error" class="portfolio-state" role="alert">{{ error }}</p>
 

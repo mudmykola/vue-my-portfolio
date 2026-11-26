@@ -1,6 +1,6 @@
 # Mykola Mud Portfolio
 
-Персональне портфоліо Mykola Mud — Front-End Engineer. Проєкт поступово мігрує з Vue/Vite на Nuxt без зміни публічних маршрутів, фактичного контенту та джерел даних.
+Персональне портфоліо Mykola Mud — Front-End Engineer. Основний runtime — Nuxt 4 на Cloudflare Workers; Vue-компоненти, маршрути та джерела даних збережені.
 
 Основний стек: Vue 3, Nuxt 4, Vue Router, Pinia, SCSS і Shopify Storefront API для блогу та портфоліо.
 
@@ -13,19 +13,19 @@
 - resume і site content із JSON-джерел у `public/data/`;
 - responsive layout для desktop, tablet і mobile;
 - доступне mobile menu, keyboard focus і reduced-motion підтримка;
-- Cloudflare Worker для contact API та Telegram delivery;
-- збережений Vite runtime як перехідний compatibility layer до завершення міграції.
+- Cloudflare Worker для SSR, Shopify API, contact API та Telegram delivery;
+- збережений Vite runtime як тимчасовий rollback path.
 
 ## Стек
 
 - Vue 3 + Composition API
 - Nuxt 4 + Nitro
-- Vite 5 — legacy/static runtime під час міграції
+- Vite 5 — legacy/static rollback runtime
 - Vue Router, Pinia, SCSS
 - Font Awesome
 - Shopify Storefront API
 - Cloudflare Workers
-- Firebase Hosting для статичного Vite build
+- Firebase Hosting для legacy static Vite build
 
 ## Вимоги та встановлення
 
@@ -44,38 +44,26 @@ npm install
 npm run dev
 ```
 
-Явний запуск Nuxt runtime:
-
-```bash
-npm run dev:nuxt
-```
-
-Vite dev runtime (Shopify API через server middleware):
+Vite dev runtime (legacy rollback path):
 
 ```bash
 npm run dev:vite
 ```
 
-Nuxt preview після production build:
-
-```bash
-npm run preview:nuxt
-```
-
 ## Build і перевірки
 
 ```bash
-# Nuxt production build
-npm run build:nuxt
-
-# Vite static build + route snapshots + sitemap/robots
+# Nuxt production build for Cloudflare Workers
 npm run build
 
 # Тести
 npm test
 
-# Повна перевірка legacy/static pipeline
+# Тести та production build
 npm run verify
+
+# Local Nuxt preview
+npm run preview
 ```
 
 Тести перевіряють route SEO, structured data, Shopify blog normalization, portfolio/blog composables і Cloudflare Worker contract.
@@ -96,7 +84,7 @@ npm run verify
 
 ## Конфігурація середовища
 
-Створи локальний `.env` у корені проєкту. Реальні секрети не додавай у Git.
+Для локальної розробки можна створити `.env` у корені проєкту; він ігнорується Git і не входить у production build як файл. Production значення задаються в Cloudflare Worker Settings → Variables and Secrets.
 
 ```env
 VITE_SITE_URL=https://mykolamud.pp.ua
@@ -115,7 +103,7 @@ VITE_OPENWEATHER_API_BASE_URL=
 VITE_OPENWEATHER_ICON_BASE_URL=
 VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
 
-# Nuxt server-only Shopify configuration
+# Local Nuxt server-only configuration; production uses Cloudflare bindings
 NUXT_SHOPIFY_STORE_DOMAIN=
 NUXT_SHOPIFY_STOREFRONT_TOKEN=
 NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE=private
@@ -128,15 +116,17 @@ NUXT_SHOPIFY_PORTFOLIO_COLLECTION_HANDLE=portfolio
 
 - `VITE_*` значення вбудовуються у frontend build і не підходять для секретів;
 - Shopify Storefront token використовуй тільки в server-side конфігурації; Vite dev middleware також читає `NUXT_*` значення лише на сервері;
-- `VITE_SITE_URL` має містити production-домен, а не `workers.dev` URL;
+- у Cloudflare встанови `NUXT_SHOPIFY_STORE_DOMAIN`, `NUXT_SHOPIFY_STOREFRONT_TOKEN`, `NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE`, `NUXT_SHOPIFY_API_VERSION`, `NUXT_SHOPIFY_PORTFOLIO_COLLECTION_HANDLE` і `NUXT_SHOPIFY_BLOG_HANDLE`; токени зберігай як Secrets;
+- контактна форма використовує наявні Cloudflare secrets `TELEGRAM_BOT_TOKEN` і `TELEGRAM_CHAT_ID`;
+- `NUXT_PUBLIC_SITE_URL` заданий у `wrangler.jsonc` і має містити production-домен, а не `workers.dev` URL;
 - endpoint defaults визначені в `src/config/remoteEndpoints.js`;
-- contact secrets зберігаються у Cloudflare Worker environment.
+- жоден `.env` файл не потрібен для production і не має потрапляти в Git.
 
 ## Content і дані
 
 - `public/data/site-content.json` — основний текст, services, testimonials і profile content;
 - `public/data/resume.json` — experience та education timeline;
-- `public/data/portfolio.json` — локальний fallback для статичного Vite build; Vite dev і Nuxt runtime читають Shopify collection;
+- `public/data/portfolio.json` — локальний fallback; Nuxt runtime читає Shopify collection через `/api/portfolio`;
 - `public/data/blog-posts.json` — локальний fallback для блогу;
 - `public/images/` — реальні портрети, screenshots і project assets;
 - Shopify — production source для blog articles і portfolio projects у Nuxt runtime.
@@ -173,27 +163,29 @@ Nuxt pages використовують наявні Vue-компоненти з
 
 ## Deployment
 
-### Nuxt
-
-```bash
-npm run build:nuxt
-npm run preview:nuxt
-```
-
-Перед production deploy перевір server-only Shopify env і canonical production URL.
-
-### Firebase Hosting / static Vite runtime
+### Cloudflare Workers / Nuxt
 
 ```bash
 npm run build
+npm run preview
+```
+
+Nuxt збирається з Nitro `cloudflare_module` preset. Cloudflare runtime bindings для Shopify і Telegram задаються в Worker Settings → Variables and Secrets; токени лишаються server-only. `wrangler.jsonc` задає Worker name, compatibility date, public site URL і генерує Worker assets конфігурацію через Nitro.
+
+Production deployment виконується лише вручну через GitHub Actions → **Build Nuxt and deploy Cloudflare Worker** → **Run workflow**, або локально командою `npm run deploy:worker` після налаштування Wrangler credentials. Автоматичні push перевіряють тести і build, але не перемикають production.
+
+### Legacy static Vite runtime
+
+```bash
+npm run build:vite
 npx firebase-tools deploy --only hosting
 ```
 
-Static build генерує route snapshots для SEO-сторінок, `dist/sitemap.xml` і `dist/robots.txt`.
+`npm run build:vite` залишений як тимчасовий rollback path. Він генерує route snapshots, `dist/sitemap.xml` і `dist/robots.txt`; основний production build — Nuxt.
 
 ### Cloudflare Worker
 
-Worker обслуговує contact endpoint `POST /contact`, валідовує payload і надсилає повідомлення через Telegram API.
+Nuxt Worker обслуговує `POST /api/contact` та сумісний alias `POST /contact`, валідовує payload і надсилає повідомлення через Telegram API. Старий `worker/wrangler.toml` лишається для rollback до static Worker.
 
 ```bash
 cd worker

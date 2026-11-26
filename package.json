@@ -5,13 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "dev:nuxt": "nuxt dev",
     "dev:vite": "vite",
-    "build": "vite build && node scripts/prerender-route-snapshots.mjs && node scripts/generate-seo-assets.mjs",
-    "build:nuxt": "nuxt build",
-    "preview": "vite preview",
-    "preview:nuxt": "nuxt preview",
-    "generate:nuxt": "nuxt generate",
+    "build": "nuxt build && NUXT_SEO_OUTPUT_DIR=.output/public node scripts/generate-seo-assets.mjs",
+    "build:vite": "vite build && node scripts/prerender-route-snapshots.mjs && node scripts/generate-seo-assets.mjs",
+    "preview": "nuxt preview",
     "prepare": "husky install",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -19,7 +16,7 @@
     "test:watch": "node --test --watch",
     "verify": "npm run test && npm run build",
     "stage": "npm run verify && git add .",
-    "deploy:worker": "npm run verify && cd worker && npx wrangler deploy",
+    "deploy:worker": "npm run verify && npx -y wrangler@4 --cwd .output deploy",
     "sync:dev": "git checkout feature/VMP_dev && git pull origin feature/VMP_dev && git merge --no-edit origin/master && git push origin feature/VMP_dev"
   },
   "lint-staged": {

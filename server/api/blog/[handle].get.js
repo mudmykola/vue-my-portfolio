@@ -9,9 +9,10 @@ import {
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const handle = String(getRouterParam(event, 'handle') || '');
+  const fallback = fallbackArticleByHandle(handle);
+  const blogHandle = String(config.shopifyBlogHandle || '');
 
-  if (!hasShopifyConfig(config)) {
-    const fallback = fallbackArticleByHandle(handle);
+  if (!hasShopifyConfig(config) || !blogHandle) {
     if (!fallback)
       throw createError({
         statusCode: 404,
@@ -21,10 +22,6 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const blogHandle = String(config.shopifyBlogHandle || '');
-    if (!blogHandle)
-      throw new Error('NUXT_SHOPIFY_BLOG_HANDLE is not configured.');
-
     const data = await shopifyRequest(config, SHOPIFY_ARTICLE_QUERY, {
       blogHandle,
       articleHandle: handle,
@@ -40,6 +37,7 @@ export default defineEventHandler(async (event) => {
     return { article };
   } catch (error) {
     if (error?.statusCode === 404) throw error;
+    if (fallback) return { article: fallback };
     console.error('[blog] Shopify article request failed.');
     throw createError({
       statusCode: 502,

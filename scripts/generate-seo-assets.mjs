@@ -2,7 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const projectRoot = process.cwd();
-const distDir = path.join(projectRoot, 'dist');
+const outputDir = path.resolve(
+  projectRoot,
+  process.env.NUXT_SEO_OUTPUT_DIR || 'dist'
+);
 
 const INDEXABLE_ROUTES = [
   '/',
@@ -29,7 +32,10 @@ const deriveOriginFromContactApiUrl = (value = '') => {
 };
 
 const siteUrl = trimTrailingSlash(
-  import.meta.env?.VITE_SITE_URL || process.env.VITE_SITE_URL || ''
+  process.env.NUXT_PUBLIC_SITE_URL ||
+    import.meta.env?.VITE_SITE_URL ||
+    process.env.VITE_SITE_URL ||
+    'https://mykolamud.pp.ua'
 );
 const contactApiOrigin = deriveOriginFromContactApiUrl(
   import.meta.env?.VITE_CONTACT_API_URL ||
@@ -91,12 +97,18 @@ const buildRobotsTxt = () => {
   ].join('\n');
 };
 
-await fs.mkdir(distDir, { recursive: true });
+await fs.mkdir(outputDir, { recursive: true });
 await fs.writeFile(
-  path.join(distDir, 'sitemap.xml'),
+  path.join(outputDir, 'sitemap.xml'),
   buildSitemapXml(),
   'utf8'
 );
-await fs.writeFile(path.join(distDir, 'robots.txt'), buildRobotsTxt(), 'utf8');
+await fs.writeFile(
+  path.join(outputDir, 'robots.txt'),
+  buildRobotsTxt(),
+  'utf8'
+);
 
-console.log('[seo-assets] Generated dist/sitemap.xml and dist/robots.txt');
+console.log(
+  `[seo-assets] Generated sitemap.xml and robots.txt in ${outputDir}`
+);

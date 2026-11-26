@@ -3,6 +3,36 @@
 ## 2026-11-26
 
 - Type: Improvement
+- Date/time: 2026-11-26 21:43 Europe/Kyiv
+- Title: Refresh the site favicon
+- Summary: Replaced the plain M tile with a compact angular M monogram in the site’s emerald palette. Added SVG, multi-size ICO, and Apple touch icon assets, with explicit references for both Nuxt and Vite.
+- Affected module/route/tool: `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png`, `index.html`, `nuxt.config.ts`, all routes
+- Issue reference: #162
+- Validation: `npm run build:vite` and `npm run build` passed. Confirmed ICO includes 16, 32, 48, and 64px sizes and the Apple icon is 180px. Visual asset preview inspected; production deployment not performed.
+
+## 2026-11-26
+
+- Type: Improvement
+- Date/time: 2026-11-26 21:30 Europe/Kyiv
+- Title: Add a layout-matched Portfolio loading state
+- Summary: Added an immediate Portfolio-page skeleton for filters and six project previews, reserving the responsive card layout while Shopify data loads. The initial state is page-local, so Home behavior is unchanged; reduced-motion support remains in place.
+- Affected module/route/tool: `src/components/portfolio/PortfolioComponent.vue`, `src/components/portfolio/PortfolioItemComponent.vue`, `src/components/portfolio/style.scss`, `/portfolio`
+- Issue reference: #67
+- Validation: `npm run verify` passed (29 tests and Nuxt Cloudflare Worker build); `npm run build:vite`, scoped Prettier, and `git diff --check` passed. Browser confirmed the populated Portfolio page after data load. A delayed API visual check was not performed; production deployment was not performed.
+
+## 2026-11-26
+
+- Type: Improvement
+- Date/time: 2026-11-26 21:09 Europe/Kyiv
+- Title: Cut Nuxt over to Cloudflare runtime bindings
+- Summary: Made Nuxt/Nitro `cloudflare_module` the default build and preview target. Shopify credentials are now runtime-only Cloudflare bindings and are not compiled into client or server build defaults; the portfolio API serves 10 Shopify products in local Cloudflare preview. Preserved Telegram contact endpoints and added health handling. Nuxt output now includes sitemap/robots. If Shopify returns an empty blog, existing local articles remain available, including article routes. Push CI verifies; production deploy requires a manual workflow dispatch.
+- Affected module/route/tool: `nuxt.config.ts`, `wrangler.jsonc`, `server/api/portfolio.get.js`, `server/api/blog/index.get.js`, `server/api/blog/[handle].get.js`, `server/api/contact.post.js`, `server/routes/contact.post.js`, `server/routes/health.get.js`, `server/utils/contactSubmission.js`, `package.json`, `.github/workflows/deploy-worker.yml`, `/portfolio`, `/blog`, `/api/contact`
+- Issue reference: #150
+- Validation: `npm run verify` passed (29 tests and Nuxt Cloudflare Worker build); scoped Prettier and `git diff --check` passed. Wrangler local preview returned 10 Shopify products (`source: shopify`), retained 15 fallback blog articles when Shopify's blog was empty, returned 200 for public routes, health, sitemap, robots and fallback article; malformed contact payload returned 400. Secret token was absent from generated client assets and SSR HTML. Production deployment and production response remain unverified; `.env` remains local-only and ignored by Git.
+
+## 2026-11-26
+
+- Type: Improvement
 - Date/time: 2026-11-26 16:07 Europe/Kyiv
 - Title: Load Portfolio projects from Shopify collection
 - Summary: Added a shared Shopify collection loader for Nuxt and Vite development. Product type drives category filters, tags become technology labels, vendor appears in project details, featured/additional product images populate cards and the gallery, and `custom.project_url` supplies project links. Public and private Storefront token headers are configurable. Nuxt is the default `npm run dev` frontend; Vite dev now serves the same server-side `/api/portfolio` middleware, while static Vite builds keep the local JSON fallback.

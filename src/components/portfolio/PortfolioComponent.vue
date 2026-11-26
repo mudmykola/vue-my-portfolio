@@ -1,13 +1,18 @@
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
 import HomeArtifactField from '@/components/home-content/HomeArtifactField.vue';
 import PortfolioItemComponent from '@/components/portfolio/PortfolioItemComponent.vue';
 import { usePortfolioPage } from '@/components/portfolio/usePortfolioPage.js';
 
 const { projects, loading, error, imageBase, load } = usePortfolioPage();
+const pageLoading = ref(true);
+const isLoading = computed(() => pageLoading.value || loading.value);
 
-onMounted(load);
+onMounted(async () => {
+  await load();
+  pageLoading.value = false;
+});
 </script>
 
 <template>
@@ -24,7 +29,7 @@ onMounted(load);
 
       <PortfolioItemComponent
         :projects="projects"
-        :loading="loading"
+        :loading="isLoading"
         :error="error"
         :imageBase="imageBase"
       />
