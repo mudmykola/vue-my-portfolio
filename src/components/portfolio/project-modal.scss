@@ -210,23 +210,32 @@
 
 .portfolio-modal__intro {
   display: grid;
-  gap: 0.9rem;
+  justify-items: start;
+  gap: 0.8rem;
 }
 
 .portfolio-modal__category {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
   margin: 0;
-  color: var(--color-accent);
+  padding: 0.38rem 0.66rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent);
+  border-radius: 3px;
+  color: var(--color-text-on-accent);
+  background: var(--color-accent);
   font-size: var(--type-eyebrow);
-  font-weight: 750;
-  letter-spacing: 0.14em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
 .portfolio-modal__details h2 {
-  max-width: 13ch;
+  max-width: 100%;
   margin: 0;
   color: var(--color-text);
-  font-size: var(--type-section);
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.045em;
   line-height: 1.12;
@@ -316,10 +325,6 @@
 
   .portfolio-modal__image {
     height: min(48vh, 460px);
-  }
-
-  .portfolio-modal__details h2 {
-    max-width: 24ch;
   }
 }
 

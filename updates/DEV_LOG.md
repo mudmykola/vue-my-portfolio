@@ -985,3 +985,12 @@
 - Module/routes: portfolio project modal, `/portfolio`
 - Issue reference: GitHub `#161`
 - Validation: Vite production build, Prettier, and `git diff --check` passed. Browser reproduction showed the shared app-button hover moving the next arrow down 22px; after the fix its bounding box stayed identical on hover while its accent color changed.
+
+## 2026-11-26 18:09 EET — Refine portfolio dialog title and type badge
+
+- Type: Improvement
+- Title: Reduce case-study title size and clarify project type
+- Summary: Reduced the dialog title from the shared 41px section-heading cap to a responsive 25–32px scale and let it use the full details column. Styled the project type as a compact emerald badge with a square corner, matching the portfolio card treatment.
+- Module/routes: portfolio project dialog, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: Vite production build, Prettier, and `git diff --check` passed. Browser review confirmed a 32px title in two lines on a wide modal, compact emerald project-type badge, and no horizontal overflow at 1440/1024/768/390/320px.
