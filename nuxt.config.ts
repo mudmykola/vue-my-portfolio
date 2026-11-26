@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
+        { rel: 'stylesheet', href: '/styles/critical-navigation.css' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         {
           rel: 'icon',

@@ -2,6 +2,14 @@
 
 ## 2026-11-26
 
+- Type: Fix
+- Date/time: 2026-11-26 22:02 Europe/Kyiv
+- Title: Keep header navigation styled on reload
+- Summary: Nuxt dev initially rendered the header before component CSS was injected, briefly showing both navigation modes in the default left-aligned flow. Added a small render-blocking public stylesheet for the shared header structure and connected it to Nuxt and Vite.
+- Affected module/route/tool: `public/styles/critical-navigation.css`, `nuxt.config.ts`, `index.html`, all routes
+- Issue reference: #163
+- Validation: Nuxt and Vite production builds passed. Direct Nuxt reload checks at 1440, 1024, 390, and 320px and Vite reload checks at the same widths confirm the desktop links and mobile menu switch at the intended breakpoint with no horizontal overflow. Critical stylesheet returned HTTP 200 in both dev servers. Prettier and `git diff --check` passed. Production deployment not performed.
+
 - Type: Improvement
 - Date/time: 2026-11-26 21:43 Europe/Kyiv
 - Title: Refresh the site favicon
