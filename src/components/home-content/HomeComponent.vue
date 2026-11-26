@@ -12,7 +12,7 @@ import { useSiteContent } from '@/composables/useSiteContent.js';
 import { usePortfolioPage } from '@/components/portfolio/usePortfolioPage.js';
 
 const { data, load } = useSiteContent();
-const { projects, load: loadProjects } = usePortfolioPage();
+const { projects, imageBase, load: loadProjects } = usePortfolioPage();
 
 const homeContent = computed(() => data.value?.homePage ?? {});
 
@@ -110,7 +110,7 @@ onMounted(() => {
     />
     <HomeExpertiseSection :toolkit="toolkit" />
     <HomeWorkflowSection :workflow="workflowContent" />
-    <HomeSelectedWorkSection :projects="projects" />
+    <HomeSelectedWorkSection :projects="projects" :image-base="imageBase" />
     <HomeCtaSection :cta="ctaContent" />
   </section>
 </template>

@@ -2,9 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   fallbackArticleByHandle,
+  getShopifyRequestHeaders,
   normalizeShopifyArticle,
   slugify,
 } from '../server/utils/shopifyBlog.js';
+
+test('uses the matching authentication header for each Storefront token type', () => {
+  assert.equal(
+    getShopifyRequestHeaders({ shopifyStorefrontToken: 'token' })[
+      'X-Shopify-Storefront-Access-Token'
+    ],
+    'token'
+  );
+  assert.equal(
+    getShopifyRequestHeaders({
+      shopifyStorefrontToken: 'token',
+      shopifyStorefrontTokenType: 'private',
+    })['Shopify-Storefront-Private-Token'],
+    'token'
+  );
+});
 
 test('normalizes Shopify articles to the existing blog post contract', () => {
   const article = normalizeShopifyArticle(

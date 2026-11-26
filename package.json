@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "nuxt dev",
     "dev:nuxt": "nuxt dev",
+    "dev:vite": "vite",
     "build": "vite build && node scripts/prerender-route-snapshots.mjs && node scripts/generate-seo-assets.mjs",
     "build:nuxt": "nuxt build",
     "preview": "vite preview",

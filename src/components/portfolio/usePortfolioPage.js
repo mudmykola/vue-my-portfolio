@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import { remoteEndpoints } from '../../config/remoteEndpoints.js';
 
 const projects = ref([]);
@@ -8,6 +8,10 @@ const imageBase = '/';
 let loaded = false;
 
 export function usePortfolioPage() {
+  const endpoint =
+    getCurrentInstance()?.appContext.config.globalProperties
+      .$portfolioProjectsUrl || remoteEndpoints.portfolioProjectsUrl;
+
   const load = async () => {
     if (loaded || loading.value) return;
 
@@ -15,7 +19,7 @@ export function usePortfolioPage() {
     error.value = '';
 
     try {
-      const response = await fetch(remoteEndpoints.portfolioProjectsUrl);
+      const response = await fetch(endpoint);
 
       if (!response.ok) {
         throw new Error(`Failed to load portfolio: ${response.status}`);

@@ -100,6 +100,9 @@ const getShopifyConfig = (config) => ({
     .replace(/^https?:\/\//, '')
     .replace(/\/$/, ''),
   token: String(config.shopifyStorefrontToken || ''),
+  tokenType: String(
+    config.shopifyStorefrontTokenType || 'public'
+  ).toLowerCase(),
   version: String(config.shopifyApiVersion || '2026-10'),
   blogHandle: String(config.shopifyBlogHandle || ''),
 });
@@ -109,16 +112,26 @@ export const hasShopifyConfig = (config) => {
   return Boolean(domain && token);
 };
 
+export const getShopifyRequestHeaders = (config) => {
+  const { token, tokenType } = getShopifyConfig(config);
+  const tokenHeader =
+    tokenType === 'private'
+      ? 'Shopify-Storefront-Private-Token'
+      : 'X-Shopify-Storefront-Access-Token';
+
+  return {
+    'Content-Type': 'application/json',
+    [tokenHeader]: token,
+  };
+};
+
 export async function shopifyRequest(config, query, variables) {
   const { domain, token, version } = getShopifyConfig(config);
   const response = await $fetch(
     `https://${domain}/api/${version}/graphql.json`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': token,
-      },
+      headers: getShopifyRequestHeaders(config),
       body: { query, variables },
     }
   );

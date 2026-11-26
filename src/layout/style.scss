@@ -40,3 +40,9 @@
     padding: 0.45rem;
   }
 }
+
+.app-content:has(.portfolio-page) {
+  width: 100%;
+  max-width: none;
+  padding-inline: 0;
+}

@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
-import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
+import { computed, ref, watch } from 'vue';
+import PortfolioProjectModal from './PortfolioProjectModal.vue';
 
 const props = defineProps({
   projects: {
@@ -21,10 +21,10 @@ const props = defineProps({
   },
 });
 
-const selectedProject = ref(null);
 const activeFilter = ref('All');
-const currentImageIndex = ref(0);
-const lastModalCloseAt = ref(0);
+const currentPage = ref(1);
+const pageSize = 6;
+const projectModal = ref(null);
 
 const filters = computed(() => [
   'All',
@@ -36,6 +36,50 @@ const filteredProjects = computed(() => {
   return props.projects.filter(
     (project) => project.category === activeFilter.value
   );
+});
+
+const totalPages = computed(() =>
+  Math.ceil(filteredProjects.value.length / pageSize)
+);
+const pageItems = computed(() => {
+  const total = totalPages.value;
+  const current = currentPage.value;
+  if (total <= 5) {
+    return Array.from({ length: total }, (_, index) => ({
+      page: index + 1,
+      label: String(index + 1),
+    }));
+  }
+
+  const pages =
+    current <= 3
+      ? [1, 2, 3, 4, 'ellipsis', total]
+      : current >= total - 2
+        ? [1, 'ellipsis', total - 3, total - 2, total - 1, total]
+        : [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', total];
+
+  return pages.map((page, index) => ({
+    page: typeof page === 'number' ? page : null,
+    label: typeof page === 'number' ? String(page) : `ellipsis-${index}`,
+  }));
+});
+const pageProjects = computed(() => {
+  const start = (currentPage.value - 1) * pageSize;
+  return filteredProjects.value.slice(start, start + pageSize);
+});
+
+const selectFilter = (filter) => {
+  activeFilter.value = filter;
+  currentPage.value = 1;
+};
+
+const setPage = (page) => {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
+};
+
+watch(totalPages, (pages) => {
+  if (currentPage.value > pages) currentPage.value = Math.max(1, pages);
 });
 
 const imageUrl = (path) => {
@@ -60,79 +104,62 @@ const imageFromSet = (imageEntry) => {
   return '';
 };
 
-const selectedProjectImages = computed(() => {
-  const project = selectedProject.value;
-  if (!project) return [];
+const projectDomain = (link) => {
+  if (!link) return '';
 
-  const fromSet = Array.isArray(project.imageSet)
-    ? project.imageSet.map((entry) => imageFromSet(entry)).filter(Boolean)
-    : [];
-
-  if (fromSet.length > 0) return fromSet;
-
-  const fallback = imageUrl(project.image);
-  return fallback ? [fallback] : [];
-});
-
-const currentImage = computed(
-  () => selectedProjectImages.value[currentImageIndex.value] || ''
-);
-
-const showModal = (project) => {
-  if (Date.now() - lastModalCloseAt.value < 300) return;
-  selectedProject.value = project;
-  currentImageIndex.value = 0;
+  const value = String(link).trim();
+  try {
+    const normalized = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    return new URL(normalized).hostname.replace(/^www\./i, '');
+  } catch {
+    return '';
+  }
 };
 
-const closeModal = () => {
-  lastModalCloseAt.value = Date.now();
-  selectedProject.value = null;
-  currentImageIndex.value = 0;
+const technologyTags = (project) => {
+  const technology = project?.technology;
+  const values = Array.isArray(technology)
+    ? technology
+    : String(technology || '').split(',');
+
+  return values.map((tag) => String(tag).trim()).filter(Boolean);
 };
 
-const closeOnEscape = (event) => {
-  if (event.key === 'Escape') closeModal();
+const visibleTechnologyTags = (project) => technologyTags(project).slice(0, 3);
+const remainingTechnologyCount = (project) =>
+  Math.max(technologyTags(project).length - 3, 0);
+
+const showModal = (project, event) => {
+  projectModal.value?.open(project, event);
 };
-
-const nextImage = () => {
-  const total = selectedProjectImages.value.length;
-  if (!total) return;
-  currentImageIndex.value = (currentImageIndex.value + 1) % total;
-};
-
-const prevImage = () => {
-  const total = selectedProjectImages.value.length;
-  if (!total) return;
-  currentImageIndex.value = (currentImageIndex.value - 1 + total) % total;
-};
-
-const selectImage = (index) => {
-  currentImageIndex.value = index;
-};
-
-watch(selectedProject, (project) => {
-  document.body.style.overflow = project ? 'hidden' : '';
-});
-
-onMounted(() => {
-  window.addEventListener('keydown', closeOnEscape);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', closeOnEscape);
-  document.body.style.overflow = '';
-});
 </script>
 
 <template>
-  <section class="portfolio-list tech-atmosphere-host" data-scroll-scene>
-    <SectionAtmosphere variant="edge" />
-    <p v-if="loading" class="text-default">Loading projects...</p>
-    <p v-else-if="error" class="text-default">{{ error }}</p>
+  <section
+    class="portfolio-list home-section section-selected-work"
+    data-scroll-scene
+  >
+    <div
+      v-if="loading"
+      class="portfolio-loading"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <span class="portfolio-loading__spinner" aria-hidden="true" />
+      <span class="portfolio-loading__copy">
+        <strong>Loading selected work</strong>
+        <span>Fetching project details</span>
+      </span>
+      <span class="portfolio-loading__meta" aria-hidden="true"
+        >PORTFOLIO / SYNC</span
+      >
+    </div>
+    <p v-else-if="error" class="portfolio-state" role="alert">{{ error }}</p>
 
     <template v-else>
       <div class="portfolio-toolbar">
-        <div class="portfolio-filter">
+        <div class="portfolio-filter" role="group" aria-label="Filter projects">
           <button
             v-for="filter in filters"
             :key="filter"
@@ -141,194 +168,149 @@ onUnmounted(() => {
             :class="
               activeFilter === filter ? 'app-btn--primary' : 'app-btn--ghost'
             "
-            @click="activeFilter = filter"
+            :aria-pressed="activeFilter === filter"
+            @click="selectFilter(filter)"
           >
             {{ filter }}
           </button>
         </div>
-        <span class="portfolio-toolbar__count">
+        <span class="portfolio-toolbar__count" aria-live="polite">
           {{ filteredProjects.length }}
           {{ filteredProjects.length === 1 ? 'project' : 'projects' }}
         </span>
       </div>
 
-      <div class="portfolio-grid">
+      <p v-if="!filteredProjects.length" class="portfolio-state" role="status">
+        No projects are available right now.
+      </p>
+
+      <div v-if="pageProjects.length" class="portfolio-grid">
         <article
-          v-for="project in filteredProjects"
+          v-for="project in pageProjects"
           :key="project.id"
           class="portfolio-card"
           role="button"
           tabindex="0"
-          :aria-label="`Open ${project.name}`"
-          @click="showModal(project)"
-          @keydown.enter="showModal(project)"
+          aria-haspopup="dialog"
+          :aria-label="`View case study: ${project.name}`"
+          @click="showModal(project, $event)"
+          @keydown.enter.prevent="showModal(project, $event)"
+          @keydown.space.prevent="showModal(project, $event)"
         >
           <div class="portfolio-card__media">
-            <img
-              :src="imageUrl(project.image)"
-              :alt="project.name"
-              loading="lazy"
-              decoding="async"
-            />
-            <span v-if="project.category" class="portfolio-card__category">
+            <span
+              v-if="project.category"
+              class="portfolio-card__category"
+              aria-label="Project type"
+            >
               {{ project.category }}
             </span>
+            <div class="portfolio-preview-window">
+              <div class="portfolio-preview-window__chrome" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span
+                  v-if="projectDomain(project.link)"
+                  class="portfolio-preview-window__domain"
+                >
+                  {{ projectDomain(project.link) }}
+                </span>
+              </div>
+              <img
+                v-if="imageFromSet(project.image)"
+                class="portfolio-preview-window__image"
+                :src="imageFromSet(project.image)"
+                :alt="project.imageAlt || project.name"
+                loading="lazy"
+                decoding="async"
+              />
+              <div
+                v-else
+                class="portfolio-preview-window__empty"
+                aria-hidden="true"
+              >
+                Preview unavailable
+              </div>
+            </div>
           </div>
 
           <div class="portfolio-card__body">
-            <h3 class="portfolio-card__title">{{ project.name }}</h3>
+            <h2 class="portfolio-card__title">{{ project.name }}</h2>
+            <span class="portfolio-card__cta" aria-hidden="true"> + </span>
             <p class="portfolio-card__desc">{{ project.description }}</p>
-
-            <div class="portfolio-card__footer">
-              <span v-if="project.technology" class="portfolio-card__tech">
-                {{ project.technology }}
+            <div
+              v-if="technologyTags(project).length"
+              class="portfolio-card__technologies"
+            >
+              <span
+                v-for="tag in visibleTechnologyTags(project)"
+                :key="tag"
+                class="portfolio-card__technology"
+              >
+                {{ tag }}
               </span>
-              <span class="portfolio-card__cta" aria-hidden="true">
-                View
-                <svg
-                  viewBox="0 0 24 24"
-                  width="14"
-                  height="14"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
+              <span
+                v-if="remainingTechnologyCount(project)"
+                class="portfolio-card__technology portfolio-card__technology--more"
+              >
+                +{{ remainingTechnologyCount(project) }}
               </span>
             </div>
           </div>
         </article>
       </div>
-    </template>
 
-    <teleport to="body">
-      <div
-        v-if="selectedProject"
-        class="portfolio-modal"
-        @click.self="closeModal"
+      <nav
+        v-if="totalPages > 1"
+        class="portfolio-pagination"
+        aria-label="Portfolio pages"
       >
         <button
           type="button"
-          class="portfolio-modal__close-floating app-btn app-btn--icon app-btn--ghost"
-          @click.stop="closeModal"
-          @touchstart.stop.prevent="closeModal"
-          aria-label="Close project details"
+          class="portfolio-pagination__step app-btn app-btn--sm app-btn--ghost"
+          :disabled="currentPage === 1"
+          @click="setPage(currentPage - 1)"
         >
-          &times;
+          Previous
         </button>
-
-        <div
-          class="portfolio-modal__content"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="selectedProject.name"
-          @click.stop
-        >
-          <button
-            type="button"
-            class="portfolio-modal__close app-btn app-btn--icon app-btn--ghost"
-            @click.stop="closeModal"
-            @touchstart.stop.prevent="closeModal"
-            aria-label="Close project details"
-          >
-            &times;
-          </button>
-
-          <div class="portfolio-modal__grid">
-            <div class="portfolio-modal__gallery">
-              <div class="portfolio-modal__viewport">
-                <img
-                  v-if="currentImage"
-                  :src="currentImage"
-                  :alt="selectedProject.name"
-                  class="portfolio-modal__image"
-                  decoding="async"
-                />
-                <div v-else class="portfolio-modal__empty">
-                  Image not available
-                </div>
-
-                <button
-                  v-if="selectedProjectImages.length > 1"
-                  type="button"
-                  class="portfolio-modal__nav portfolio-modal__nav--prev app-btn app-btn--icon app-btn--ghost"
-                  @click.stop="prevImage"
-                  aria-label="Previous image"
-                >
-                  ‹
-                </button>
-
-                <button
-                  v-if="selectedProjectImages.length > 1"
-                  type="button"
-                  class="portfolio-modal__nav portfolio-modal__nav--next app-btn app-btn--icon app-btn--ghost"
-                  @click.stop="nextImage"
-                  aria-label="Next image"
-                >
-                  ›
-                </button>
-              </div>
-
-              <div
-                v-if="selectedProjectImages.length > 1"
-                class="portfolio-modal__thumbs"
-              >
-                <button
-                  v-for="(image, index) in selectedProjectImages"
-                  :key="index"
-                  type="button"
-                  class="portfolio-modal__thumb"
-                  :class="{ 'is-active': currentImageIndex === index }"
-                  @click="selectImage(index)"
-                  :aria-label="`Open image ${index + 1}`"
-                >
-                  <img
-                    :src="image"
-                    :alt="`${selectedProject.name} preview ${index + 1}`"
-                    width="74"
-                    height="50"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </button>
-              </div>
-            </div>
-
-            <div class="portfolio-modal__details">
-              <h2>{{ selectedProject.name }}</h2>
-
-              <div>
-                <h3>Description</h3>
-                <p>{{ selectedProject.descriptionFull }}</p>
-              </div>
-
-              <div>
-                <h3>Technology</h3>
-                <p class="portfolio-modal__tech">
-                  {{ selectedProject.technology }}
-                </p>
-              </div>
-
-              <div>
-                <h3>Link</h3>
-                <a
-                  :href="selectedProject.link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="app-btn app-btn--primary app-btn--sm"
-                >
-                  Open Project
-                </a>
-              </div>
-            </div>
-          </div>
+        <div class="portfolio-pagination__pages">
+          <template v-for="item in pageItems" :key="item.label">
+            <span
+              v-if="item.page === null"
+              class="portfolio-pagination__ellipsis"
+              aria-hidden="true"
+              >…</span
+            >
+            <button
+              v-else
+              type="button"
+              class="portfolio-pagination__page app-btn app-btn--sm"
+              :class="
+                currentPage === item.page
+                  ? 'app-btn--primary'
+                  : 'app-btn--ghost'
+              "
+              :aria-label="`Page ${item.page}`"
+              :aria-current="currentPage === item.page ? 'page' : undefined"
+              @click="setPage(item.page)"
+            >
+              {{ item.page }}
+            </button>
+          </template>
         </div>
-      </div>
-    </teleport>
+        <button
+          type="button"
+          class="portfolio-pagination__step app-btn app-btn--sm app-btn--ghost"
+          :disabled="currentPage === totalPages"
+          @click="setPage(currentPage + 1)"
+        >
+          Next
+        </button>
+      </nav>
+    </template>
+
+    <PortfolioProjectModal ref="projectModal" :image-base="imageBase" />
   </section>
 </template>
 

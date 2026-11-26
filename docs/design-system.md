@@ -14,11 +14,10 @@ testimonials or client claims.
 - Use the reusable `SectionAtmosphere` SVG layer for occasional circuit traces and junction marks
   on major section containers. Keep each section's variant sparse, low-opacity and behind content;
   do not add the layer to repeating cards or stack it with an existing decorative accent.
-- On Home, preserve the branching Hero microchip artwork and continue its terminal trace into one
-  circuit artifact aligned to the real section boundaries. Pair it with a sparse, continuously
-  looping meteor field as the site's signature atmosphere. Keep the circuit low-opacity behind
-  content and the meteor cadence calm; disable meteor motion for reduced-motion users. Elsewhere use
-  static circuit traces with occasional short diagonal streaks only; decorations must be
+- On Home and Portfolio, reuse the same branching circuit and sparse meteor atmosphere from
+  `HomeArtifactField.vue`; keep it low-opacity behind content and disable meteor motion for reduced
+  motion users. Other routes use static circuit traces with occasional short diagonal streaks only;
+  decorations must be
   `aria-hidden`, pointer-free, absolutely positioned and excluded from layout/scroll dimensions.
   Reduce their opacity on mobile and respect reduced motion.
 - Do not use lime, purple UI accents, serif or decorative fonts, arbitrary gradients, excessive
@@ -31,6 +30,7 @@ testimonials or client claims.
   --color-bg: #080f0e;
   --color-surface: #0d1815;
   --color-surface-raised: #13211d;
+  --color-project-card: rgba(5, 15, 13, 0.72);
   --color-border: rgba(190, 215, 204, 0.14);
   --color-text: #f3f7f5;
   --color-text-secondary: #b5c2bc;
@@ -44,6 +44,15 @@ testimonials or client claims.
   --color-warning: #f4bf58;
   --color-error: #ff7373;
   --color-info: #76b9ff;
+  --type-section: clamp(1.8rem, 3vw, 2.5625rem);
+  --type-subheading: clamp(1.05rem, 1.38vw, 1.55rem);
+  --type-body: clamp(0.95rem, 1.12vw, 1.15rem);
+  --type-supporting: 0.875rem;
+  --type-eyebrow: 0.75rem;
+  --radius-card: 16px;
+  --section-content-gap: clamp(1.25rem, 2vw, 1.75rem);
+  --project-grid-gap: clamp(0.75rem, 1vw, 1.25rem);
+  --project-card-padding: 0.8rem 1rem 0.9rem;
 }
 ```
 
@@ -63,10 +72,11 @@ Shopify `#95BF47`. They are not UI palette colors.
 - Navigation: 15px desktop, 16px mobile, weight 600.
 - Text columns target approximately 60–70 characters.
 
-The Home scale is defined once on `.home-page` as `--home-type-display`, `--home-type-section`,
-`--home-type-subheading`, `--home-type-body`, `--home-type-supporting`, and
-`--home-type-eyebrow`. Reuse these tokens for content text rather than copying their values into
-individual section selectors.
+Home is the canonical visual reference. Shared type roles live in `:root` as `--type-display`,
+`--type-section`, `--type-subheading`, `--type-body`, `--type-supporting`, and `--type-eyebrow`;
+Home aliases its existing `--home-type-*` names to these shared values. Use the shared roles on
+Portfolio and future routes rather than copying values into route-specific selectors. Keep the
+display tier's Home breakpoint values unchanged.
 
 ## Layout
 
@@ -74,6 +84,8 @@ individual section selectors.
 - Horizontal padding: 64px desktop, 32px tablet, 20–24px mobile.
 - Desktop 12-column grid / 24px gap; tablet 8 columns / 20px; mobile 4 columns / 16px.
 - Spacing scale: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 120px.
+- Reuse `--section-content-gap`, `--project-grid-gap`, and `--radius-card` for the Home and Portfolio
+  selected-work patterns.
 - Large section spacing: 88–112px desktop, 64–80px tablet, 48–64px mobile.
 - Align sections to shared container edges. Avoid horizontal overflow.
 
@@ -158,7 +170,11 @@ stable between route changes; animate only the main page content. Prefer `transf
 
 - Use real portraits, project screenshots, logos and images from project assets/data.
 - Preserve image proportions; use `object-fit: cover` only when important content is not cropped.
-- Portfolio may feature the first case; other cases use spacious two-column layouts.
+- Portfolio features the first available case in a wide, image-led two-column row; remaining cases
+  use a spacious two-column grid, with an unmatched final case spanning the row, collapsing to one
+  column at 768px. Selecting a case opens a
+  gallery-and-details dialog with keyboard focus contained and restored on close. Align its
+  content gutters to the shared header navigation.
 - A card may contain image, real title, category, description and stack where available.
 - Do not invent facts, client logos, testimonials, numbers, reviews or outcomes.
 

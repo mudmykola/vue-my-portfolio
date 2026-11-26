@@ -2,14 +2,15 @@
 
 Персональне портфоліо Mykola Mud — Front-End Engineer. Проєкт поступово мігрує з Vue/Vite на Nuxt без зміни публічних маршрутів, фактичного контенту та джерел даних.
 
-Основний стек: Vue 3, Nuxt 4, Vue Router, Pinia, SCSS і Shopify Storefront API для блогу.
+Основний стек: Vue 3, Nuxt 4, Vue Router, Pinia, SCSS і Shopify Storefront API для блогу та портфоліо.
 
 ## Можливості
 
 - сторінки Home, Portfolio, About, Resume, Blog, Contact і Game;
 - SSR/SEO-маршрути Nuxt зі стабільними canonical, sitemap, robots і JSON-LD;
 - блог із Shopify Storefront API та локальним fallback-контентом;
-- portfolio, resume і site content із JSON-джерел у `public/data/`;
+- Shopify-колекція `portfolio` як джерело проєктів у Nuxt runtime; JSON fallback для Vite та локального режиму;
+- resume і site content із JSON-джерел у `public/data/`;
 - responsive layout для desktop, tablet і mobile;
 - доступне mobile menu, keyboard focus і reduced-motion підтримка;
 - Cloudflare Worker для contact API та Telegram delivery;
@@ -37,16 +38,22 @@ npm install
 
 ## Локальна розробка
 
-Nuxt runtime:
+Основний frontend runtime (Nuxt із Shopify API):
+
+```bash
+npm run dev
+```
+
+Явний запуск Nuxt runtime:
 
 ```bash
 npm run dev:nuxt
 ```
 
-Legacy Vite runtime:
+Vite dev runtime (Shopify API через server middleware):
 
 ```bash
-npm run dev
+npm run dev:vite
 ```
 
 Nuxt preview після production build:
@@ -111,14 +118,16 @@ VITE_CLICK_SOUND_GITHUB_CONTENT_URL=
 # Nuxt server-only Shopify configuration
 NUXT_SHOPIFY_STORE_DOMAIN=
 NUXT_SHOPIFY_STOREFRONT_TOKEN=
-NUXT_SHOPIFY_API_VERSION=2025-10
+NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE=private
+NUXT_SHOPIFY_API_VERSION=2026-10
 NUXT_SHOPIFY_BLOG_HANDLE=
+NUXT_SHOPIFY_PORTFOLIO_COLLECTION_HANDLE=portfolio
 ```
 
 Правила:
 
 - `VITE_*` значення вбудовуються у frontend build і не підходять для секретів;
-- Shopify Storefront token використовуй тільки через server-side Nuxt config;
+- Shopify Storefront token використовуй тільки в server-side конфігурації; Vite dev middleware також читає `NUXT_*` значення лише на сервері;
 - `VITE_SITE_URL` має містити production-домен, а не `workers.dev` URL;
 - endpoint defaults визначені в `src/config/remoteEndpoints.js`;
 - contact secrets зберігаються у Cloudflare Worker environment.
@@ -127,10 +136,11 @@ NUXT_SHOPIFY_BLOG_HANDLE=
 
 - `public/data/site-content.json` — основний текст, services, testimonials і profile content;
 - `public/data/resume.json` — experience та education timeline;
-- `public/data/portfolio.json` — portfolio projects;
+- `public/data/portfolio.json` — локальний fallback для статичного Vite build; Vite dev і Nuxt runtime читають Shopify collection;
 - `public/data/blog-posts.json` — локальний fallback для блогу;
 - `public/images/` — реальні портрети, screenshots і project assets;
-- Shopify — production source для blog articles у Nuxt runtime.
+- Shopify — production source для blog articles і portfolio projects у Nuxt runtime.
+- Для Shopify-продуктів портфоліо заповнюй `title`, `description`, `type`, `vendor`, `tags`, featured image та додаткові product images. `type` формує категорію фільтра, `tags` відображаються як технології, а URL проєкту зчитується з product metafield `custom.project_url` (тип URL, Storefront API access `PUBLIC_READ`).
 
 Не вигадуй проєкти, клієнтів, метрики, відгуки або результати. Зміни контенту не повинні змінювати route contract чи публічне призначення сторінок.
 

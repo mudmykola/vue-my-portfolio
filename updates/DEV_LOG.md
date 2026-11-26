@@ -3,6 +3,40 @@
 ## 2026-11-26
 
 - Type: Improvement
+- Date/time: 2026-11-26 16:07 Europe/Kyiv
+- Title: Load Portfolio projects from Shopify collection
+- Summary: Added a shared Shopify collection loader for Nuxt and Vite development. Product type drives category filters, tags become technology labels, vendor appears in project details, featured/additional product images populate cards and the gallery, and `custom.project_url` supplies project links. Public and private Storefront token headers are configurable. Nuxt is the default `npm run dev` frontend; Vite dev now serves the same server-side `/api/portfolio` middleware, while static Vite builds keep the local JSON fallback.
+- Affected module/route/tool: `package.json`, `README.md`, `vite.config.js`, `src/main.js`, `server/api/portfolio.get.js`, `server/utils/shopifyPortfolio.js`, `server/utils/shopifyBlog.js`, `app/plugins/portfolio-source.js`, `src/components/portfolio/usePortfolioPage.js`, `src/components/portfolio/PortfolioItemComponent.vue`, `/` and `/portfolio`
+- Issue reference: #160
+- Validation: All 29 tests passed; Storefront GraphQL query validated against the 2026-10 schema; Nuxt production build and Vite static build passed; `git diff --check` and Prettier passed. Browser verified `/portfolio` on both Nuxt (`localhost:3000`) and the requested Vite URL (`localhost:5173`): each renders 10 Shopify products, and Mud Tech Blog opens its `custom.project_url`. Direct read-only query confirmed the metafield is publicly readable on 2 products. The token and URL values were not printed.
+
+## 2026-11-26
+
+- Type: Improvement
+- Date/time: 2026-11-26 15:16 Europe/Kyiv
+- Title: Make Home the shared Portfolio design reference
+- Summary: Extracted Home typography and selected-work spacing/radius into shared tokens, applied the same typography, project media, button and CTA styles to `/portfolio`, and reused Home's circuit-and-meteor field behind the Portfolio content. Home keeps its existing responsive type scale.
+- Affected module/route/tool: shared design tokens, Home styles, Portfolio listing/dialog/CTA, `/` and `/portfolio`
+- Issue reference: #159
+- Validation: Production build passed. Browser verified matching Home/Portfolio semantic type sizes and card radius at 1440, 1024, 768, 390 and 320px; no horizontal overflow; shared CTA atmosphere is present; reduced-motion hides meteors; project dialog opens and closes with Escape and restores focus. No tests were run. Existing VITE_SITE_URL and contact API fallback warnings remain. No commit, push or deploy.
+
+- Type: Fix
+- Date/time: 2026-11-26 14:54 Europe/Kyiv
+- Title: Align Portfolio gutters with the shared header
+- Summary: Removed the viewport breakout from the Portfolio content and let its app-content wrapper span the viewport; matched the page’s horizontal gutters to the shared header navigation at every breakpoint.
+- Affected module/route/tool: `src/layout/style.scss`, `src/components/portfolio/style.scss`, `/portfolio`
+- Issue reference: #159
+- Validation: Browser geometry confirms the Portfolio heading and header brand share the same left coordinate at 1440, 1024, 768, 390 and 320px; no horizontal overflow at any tested width. Production build, scoped Prettier and `git diff --check` passed. Existing VITE_SITE_URL and contact API fallback warnings remain. No tests were run. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-26 14:48 Europe/Kyiv
+- Title: Rebuild the Portfolio case-study layout
+- Summary: Replaced the uniform project grid with a wide first case, a two-column case grid and a full-row final case when needed. Added the Selected work header, responsive filter toolbar and contact CTA. Refined project details into a gallery-first dialog with thumbnail navigation, focus containment/restoration, Escape/backdrop close and scroll locking.
+- Affected module/route/tool: `src/components/portfolio/PortfolioComponent.vue`, `src/components/portfolio/PortfolioItemComponent.vue`, `src/components/portfolio/style.scss`, `/portfolio`
+- Issue reference: #159
+- Validation: Production build, scoped Prettier, `git diff --check` and browser verification passed. Confirmed six projects, working category filters, image selection, focus loop/restoration, Escape close and no horizontal overflow at 1440, 1024, 768, 390 and 320px; mobile dialog remains scrollable and reduced motion removes transitions. No tests were run. Build retains existing `VITE_SITE_URL` and contact URL fallback warnings. No commit, push or deploy.
+
+- Type: Improvement
 - Date/time: 2026-11-26 14:16 Europe/Kyiv
 - Title: Move Back to top into a floating control
 - Summary: Removed the persistent Back to top link from the footer row. Added a fixed arrow that appears after 400px of scrolling, leaves the fixed mobile navigation clear, and is removed from keyboard navigation while hidden.
@@ -843,3 +877,111 @@
 - Summary: Added `/design-system` with color, type, button, form, selection, navigation, feedback, surface, icon, spacing, radius/shadow and motion states. Recorded the reusable component inventory and adoption rules in `docs/design-system.md`.
 - Module/routes: `src/components/design-system`, `/design-system`, global tokens
 - Validation: Nuxt production build, 22 tests, desktop/mobile browser snapshots and `git diff --check` passed.
+
+## 2026-11-26 16:31 EET — Portfolio preview refinement
+
+- Type: Improvement
+- Title: Keep project screenshots complete and paginate portfolio
+- Summary: Added restrained browser frames sized to the supplied 16:10 screenshots, preserving the full image while reducing empty side gutters; the featured project also gets a subtle second-image preview on larger screens. Added six projects per page with compact pagination. Filters reset to page one, page state clamps when result counts change, and projects without images receive a composed empty preview instead of a broken image.
+- Module/routes: portfolio cards and featured project, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt production build, Vite production build, desktop and 390px browser checks, modal open, `git diff --check`, and Prettier passed. No horizontal overflow at 390px; four missing Shopify images showed the empty preview without broken images.
+
+## 2026-11-26 16:38 EET — Portfolio loading state
+
+- Type: Improvement
+- Title: Add a compact Shopify portfolio preloader
+- Summary: Replaced the plain loading sentence with a compact emerald status panel and a restrained spinner. The status is announced to assistive technology, stays within the portfolio section, and becomes static for reduced-motion users.
+- Module/routes: `PortfolioItemComponent`, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Vite and Nuxt production builds, Prettier, and `git diff --check` passed.
+
+## 2026-11-26 16:46 EET — Project domains in preview frames
+
+- Type: Improvement
+- Title: Show project domains in portfolio browser frames
+- Summary: Added a centered, compact domain label to feature and card preview chrome, derived from each Shopify project URL and truncated responsively when space is limited.
+- Module/routes: portfolio feature and project cards, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Vite and Nuxt production builds, desktop and 320px browser checks, Prettier, and `git diff --check` passed. No horizontal overflow at 320px.
+
+## 2026-11-26 17:02 EET — Fill portfolio preview frames
+
+- Type: Improvement
+- Title: Give project screenshots more space in portfolio cards
+- Summary: Widened the featured screenshot frame and let card screenshots fill their browser frames. Tuned the media ratio closer to the 16:10 Shopify screenshots, preserving full images without harsh cropping.
+- Module/routes: portfolio feature and project cards, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: Vite and Nuxt production builds, desktop and 390/320px browser checks, Prettier, and `git diff --check` passed. No horizontal overflow at mobile widths.
+
+## 2026-11-26 17:18 EET — Unify the portfolio project catalog
+
+- Type: Improvement
+- Title: Replace the featured-first layout with equal project cards
+- Summary: Replaced the oversized featured project and secondary-card layout with one responsive two-column catalog. Each Shopify project now uses the same preview frame, title, type label, description, technology chips, and case-study affordance. Kept six projects per page, filter-driven page reset, domain labels, missing-image fallback, compact loading state, and the accessible project dialog/gallery. Added reduced-motion handling for card hover movement.
+- Module/routes: portfolio project catalog, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, `git diff --check`, and browser checks for six projects on page one, four on page two, filter reset, modal open/Escape close, and no horizontal overflow at 1440/1024/768/390/320px.
+
+## 2026-11-26 17:29 EET — Refine portfolio card badges
+
+- Type: Improvement
+- Title: Separate project types from technology tags
+- Summary: Moved each project type into a compact floating badge on the preview frame, with an emerald outline and static indicator dot. Restyled technology tags as quiet outlined chips that pick up an emerald tint when the card is hovered or focused. Kept the badge clear of the browser-frame domain label and within narrow cards.
+- Module/routes: portfolio project cards, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, `git diff --check`, desktop visual review, and 320/390px checks for badge fit, chip fit, and no horizontal overflow.
+
+## 2026-11-26 17:32 EET — Simplify portfolio case-study metadata
+
+- Type: Improvement
+- Title: Hide vendor metadata in project dialogs
+- Summary: Removed the `Vendor · …` line from the project dialog and deleted its unused style. Project type and technology details remain visible.
+- Module/routes: portfolio project dialog, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, `git diff --check`, and browser verification that the dialog omits vendor metadata while retaining the project type and technology.
+
+## 2026-11-26 17:38 EET — Refine the portfolio case-study dialog
+
+- Type: Improvement
+- Title: Give the project dialog a clearer gallery and detail hierarchy
+- Summary: Refined the dialog into a framed screenshot stage with consistent SVG gallery arrows, a clearer emerald active-thumbnail state, and technology chips. Grouped the project type, title and description as one introduction; kept project actions at the bottom of the details column. Preserved the desktop split, mobile gallery-first stack, focus handling and reduced-motion behavior.
+- Module/routes: portfolio project dialog, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, `git diff --check`, desktop visual review at 1440px, 1024px two-column check, 768/390/320px stacked checks, technology-chip fit, Escape close and focus restoration, and reduced-motion preference.
+
+## 2026-11-26 17:44 EET — Simplify portfolio cards and add a third column
+
+- Type: Improvement
+- Title: Reduce card framing and fit three projects on wide screens
+- Summary: Removed the outer card and media outlines, leaving one restrained browser-frame border. Changed the type badge to a square-cornered emerald label and flattened technology chips to remove more nested lines. The catalog now uses three columns above 1100px, two at intermediate widths, and one below 768px.
+- Module/routes: portfolio project cards, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, `git diff --check`, and browser checks at 1440/1024/768/390/320px confirming the 3/2/1 column breakpoints, badge fit, and no horizontal overflow.
+
+## 2026-11-26 17:55 EET — Fix Home selected-work previews and dialog
+
+- Type: Fix
+- Title: Show Shopify previews and open case studies from Home
+- Summary: Normalize Shopify image-set entries before rendering Home previews, show a clean fallback for missing images, and open the shared accessible project dialog from each card instead of routing to `/portfolio`. Added compact square-cornered project-type and technology badges.
+- Module/routes: Home selected-work section and shared portfolio dialog, `/`, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: 29 tests, Nuxt and Vite production builds, Prettier, and `git diff --check` passed. Browser checks confirmed Shopify image URLs load for the first two Home projects (the third has no Shopify image and shows the fallback), card activation keeps `/` and opens the dialog, Escape restores focus, the shared dialog still works on `/portfolio`, and there is no horizontal overflow at 1440/1024/768/390/320px. Reduced-motion preference was enabled during the mobile dialog check.
+
+## 2026-11-26 18:01 EET — Match portfolio card action to Home
+
+- Type: Improvement
+- Title: Use the Home plus action on portfolio cards
+- Summary: Replaced the portfolio card arrow with the Home-style square plus control and matched its restrained 45-degree hover/focus turn. Kept the existing card layout, category badge, technology tags, and dialog activation.
+- Module/routes: portfolio cards, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: Vite production build, Prettier, and `git diff --check` passed. Browser verified the 30px plus badge and its 45-degree hover state, existing modal activation and Escape close, 3/2/1 responsive columns, and no horizontal overflow at 1440/1024/768/390/320px.
+
+## 2026-11-26 18:06 EET — Keep modal gallery arrows centered on hover
+
+- Type: Fix
+- Title: Prevent modal navigation buttons from jumping
+- Summary: Prevented shared app-button hover and active transforms from overriding the gallery arrows' vertical centering. The arrows retain their color response without shifting position.
+- Module/routes: portfolio project modal, `/portfolio`
+- Issue reference: GitHub `#161`
+- Validation: Vite production build, Prettier, and `git diff --check` passed. Browser reproduction showed the shared app-button hover moving the next arrow down 22px; after the fix its bounding box stayed identical on hover while its accent color changed.

@@ -22,8 +22,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     shopifyStoreDomain: process.env.NUXT_SHOPIFY_STORE_DOMAIN || '',
     shopifyStorefrontToken: process.env.NUXT_SHOPIFY_STOREFRONT_TOKEN || '',
+    shopifyStorefrontTokenType:
+      process.env.NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE || 'public',
     shopifyApiVersion: process.env.NUXT_SHOPIFY_API_VERSION || '2026-10',
     shopifyBlogHandle: process.env.NUXT_SHOPIFY_BLOG_HANDLE || '',
+    shopifyPortfolioCollectionHandle:
+      process.env.NUXT_SHOPIFY_PORTFOLIO_COLLECTION_HANDLE || 'portfolio',
     public: {
       siteUrl:
         process.env.NUXT_PUBLIC_SITE_URL ||

@@ -19,6 +19,11 @@ import router from './router';
 
 const app = createApp(App);
 
+if (import.meta.env.DEV) {
+  app.config.globalProperties.$portfolioProjectsUrl =
+    import.meta.env.VITE_PORTFOLIO_PROJECTS_URL || '/api/portfolio';
+}
+
 app.use(createPinia());
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(router);
