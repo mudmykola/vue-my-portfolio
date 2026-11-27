@@ -1328,3 +1328,129 @@
 - Module/routes: Resume, `/resume`
 - Issue reference: GitHub `#173`
 - Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed all four roles open by default at 1440px, and auto-collapse with a working expand/collapse control when overflow is introduced and at widths 1024/768/390/320px. Manual expansion persists through a viewport resize; zero browser console errors.
+
+## 2026-11-27 — Present the GitHub project accurately
+
+- Type: Improvement
+- Title: Align repository documentation and metadata with the production stack
+- Summary: Rewrote the README around the Nuxt 4 portfolio, Shopify Storefront API and Cloudflare Workers; standardized the repository on npm; removed the unused Yarn lockfile and sample Jekyll Pages workflow; updated the GitHub description and topics.
+- Module/routes: Repository documentation, CI and GitHub project metadata
+- Issue reference: GitHub `#94`
+- Validation: README Prettier check and `git diff --check` passed. Verified GitHub description, homepage and topic list through the GitHub API. No application tests run because this change only updates repository documentation and configuration.
+
+## 2026-11-27 16:20 EET — Reshape the About profile page
+
+- Type: Improvement
+- Title: Match About to the shared profile-page design
+- Summary: Rebuilt the About intro around the existing profile copy, contacts and transparent portrait; restyled services, client logos, testimonials and metrics as open sections; added the shared Home contact CTA. Preserved existing client identities, quotes and metrics, with three testimonials shown initially and an accessible expand control.
+- Module/routes: About, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed the page and transparent hero portrait at desktop and mobile widths; no horizontal overflow at 390px. `npm run verify` still reports one unrelated existing failure in `tests/usePosts.test.js` (`state.openModal is not a function`); 28 other tests passed.
+
+## 2026-11-27 16:27 EET — Align About with the full-width site layout
+
+- Type: Fix
+- Title: Restore shared width and atmosphere on About
+- Summary: Removed the legacy constrained, scrollable About panel by matching the full-width app-content and header gutters used by Portfolio and Resume. Reused the shared Home artifact field with About-specific circuit anchors across the profile, sections and CTA; falling meteors are active again. Standardized About section badges to the site's plain accent eyebrow style.
+- Module/routes: About and shared layout, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed the page spans the viewport content width, circuit field spans the full content height, four meteor elements are present, and no horizontal overflow at 320/390/768/1024/1440px. Browser console reported no errors.
+
+## 2026-11-27 16:40 EET — Blend and animate the About portrait edge
+
+- Type: Improvement
+- Title: Fade the profile portrait into a subtle moving mist
+- Summary: Added a vertical alpha fade to the portrait's lower edge and two soft mist layers that drift slowly with opacity and transform. The static blur stays fixed; the animation is disabled for reduced-motion preferences.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed the alpha mask, 18-second smoke motion, reduced-motion disabling, no browser errors, and no horizontal overflow at 390px.
+
+## 2026-11-27 16:46 EET — Soften the portrait fade
+
+- Type: Fix
+- Title: Extend the About portrait fade to remove its hard edge
+- Summary: Started the portrait mask fade higher and spread opacity changes across a longer, smoother gradient so the lower image edge dissolves gradually into the page background.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed the softened desktop edge with no browser errors; reduced-motion behavior remains unchanged.
+
+## 2026-11-27 16:59 EET — Make the portrait mist visibly read as fog
+
+- Type: Fix
+- Title: Shape the portrait mist into visible rising wisps
+- Summary: Replaced the faint green glow with broader, desaturated gray-green fog banks and separated rising wisps. The two layers drift slowly at different speeds while keeping the face unobscured; reduced-motion still disables animation.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed visible fog wisps on desktop/mobile and `animation: none` for reduced motion; no browser errors.
+
+## 2026-11-27 — Refine portrait cloud transition
+
+- Type: Improvement
+- Title: Shape overlapping cloud banks at the portrait base
+- Summary: Replaced narrow mist wisps with broad, irregular overlapping cloud banks, a dark grounding layer, and opposing slow drift.
+- Module/routes: About portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Production build and `git diff --check` passed. Visual browser review remains pending.
+
+## 2026-11-27 — Blur the portrait edge itself
+
+- Type: Fix
+- Title: Replace cloud overlays with progressive portrait blur
+- Summary: Removed colored cloud banks and smoke motion. Two masked backdrop blur layers progressively soften the lower image into its existing alpha fade.
+- Module/routes: About portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Production build and `git diff --check` passed; browser visual review pending.
+
+## 2026-11-27 — Stabilize the About intro expansion
+
+- Type: Fix
+- Title: Smooth the profile copy toggle and anchor the portrait
+- Summary: Kept the first description and toggle stable, animated additional copy with measured height and opacity, supported rapid transition cancellation and reduced motion, and aligned the portrait to the intro's top edge with a fixed frame so desktop expansion no longer repositions it. Rewrote the profile copy to position the work at senior level and removed the phrasing that singled out JATAPP; the dated resume entry remains historical, ending in October 2026.
+- Module/routes: About profile intro, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Live browser interaction confirmed the portrait's desktop coordinates stayed identical after expansion, reduced-motion expands without a transition, text fully collapsed again at 390px, and there was no horizontal overflow. Mobile portrait position naturally follows the expanded text in the stacked layout.
+
+## 2026-11-27 — Add profile technology details around the portrait
+
+- Type: Improvement
+- Title: Fill the About portrait space with a subtle technology schematic
+- Summary: Added a restrained circuit line drawing with six nodes behind the portrait and three edge labels for Vue, Nuxt, and Shopify. Labels are hidden below 1100px to avoid crowding the narrower portrait layout; the low contrast schematic remains as background detail.
+- Module/routes: About profile, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser review at 1440px confirmed all three labels stay outside the portrait image; overflow checks passed at 1440, 1024, 768, 390, and 320px.
+
+## 2026-11-27 — Reshape the About client logos
+
+- Type: Improvement
+- Title: Turn the client grid into an editorial logo strip
+- Summary: Moved the section heading into a left column with six grayscale client marks on the right, no logo cards, and a teal hover accent. On tablet and mobile the heading stacks above the logos, which reflow to three and then two columns. Replaced generic logo alt text with the brand names.
+- Module/routes: About clients, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser checks at 1440, 1024, 768, 390, and 320px confirmed the intended grid modes and no horizontal overflow; console reported no errors or warnings.
+
+## 2026-11-27 — Replace About fun facts with project impact
+
+- Type: Improvement
+- Title: Show verified store and delivery metrics in About highlights
+- Summary: Replaced decorative estimates with four verified work metrics supplied by the user: 15+ responsive landing pages, around 11 Shopify stores for one client, 20+ additional Shopify stores, and 25k–50k products migrated from ASPX to Shopify for one store. Rebuilt the block as an open typographic grid with large values and concise context, without icons or card backgrounds.
+- Module/routes: About highlights, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser review confirmed the four-column desktop and 2×2 mobile layouts at 1440, 1024, 768, 390, and 320px with no horizontal overflow or clipped values.
+
+## 2026-11-27 — Unify the About highlights atmosphere with Home CTA
+
+- Type: Improvement
+- Title: Reuse the Home CTA ambient glow in About highlights
+- Summary: Extracted the Home CTA's restrained radial glow and inset shadow into a shared `section-ambient` utility and applied it to About highlights. The About page continues to use its existing shared circuit and meteor field.
+- Module/routes: About highlights and Home CTA, `/about`, `/`
+- Issue reference: GitHub `#174`
+- Validation: Scoped Prettier and `git diff --check` passed; Nuxt production build passed. Browser review of `/about` at 1200px confirmed the highlights use the same resolved radial glow and inset shadow as Home CTA, with the existing circuit field visible behind the section.
+
+## 2026-11-27 — Restore the Home About preview image
+
+- Type: Fix
+- Title: Keep the Home preview on its original avatar asset
+- Summary: The About page portrait asset had also been selected by the Home preview because both read `aboutAvatar`. Home now prefers the shared site avatar again, while `/about` keeps its dedicated portrait asset.
+- Module/routes: Home About preview and About profile, `/`, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser confirmed `/` loads `/images/avatar-logo.webp` successfully for `about-preview__image` (natural width 1254px).

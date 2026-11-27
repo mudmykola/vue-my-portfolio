@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 pnpm-debug.log*
 lerna-debug.log*
 
@@ -33,7 +34,6 @@ coverage
 *.env
 
 *.tsbuildinfo
-!/yarn.lock
 jsconfig.json
 postcss.config.js
 /.firebase/
@@ -41,7 +41,6 @@ postcss.config.js
 !/.firebaserc
 !/firebase.json
 !/vite.config.js
-!/yarn.lock
 !/tailwind.config.js
 !/package-lock.json
 .env

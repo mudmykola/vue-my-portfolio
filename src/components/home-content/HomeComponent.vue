@@ -44,7 +44,7 @@ const ctaContent = computed(() => ({
 }));
 
 const aboutContent = computed(() => ({
-  avatar: data.value?.aboutAvatar?.[0] ?? data.value?.avatars?.[0],
+  avatar: data.value?.avatars?.[0] ?? data.value?.aboutAvatar?.[0],
   title:
     data.value?.aboutPage?.infoTitle ||
     'Frontend Developer | Vue, Nuxt & Shopify',

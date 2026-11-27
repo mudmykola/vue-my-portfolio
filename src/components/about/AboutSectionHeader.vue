@@ -11,6 +11,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  accentText: {
+    type: String,
+    default: '',
+  },
   visibleTitle: {
     type: String,
     default: '',
@@ -37,6 +41,11 @@ const hiddenTitleSuffix = computed(() => {
   if (!fullTitle || !visibleTitle || fullTitle === visibleTitle) return '';
   return fullTitle;
 });
+const titleBeforeAccent = computed(() => {
+  const accent = props.accentText.trim();
+  if (!accent || !props.title.endsWith(accent)) return null;
+  return props.title.slice(0, -accent.length).trimEnd();
+});
 </script>
 
 <template>
@@ -50,6 +59,12 @@ const hiddenTitleSuffix = computed(() => {
       <span v-if="hiddenTitleSuffix" aria-hidden="true">{{
         renderedVisibleTitle
       }}</span>
+      <template v-else-if="titleBeforeAccent !== null">
+        {{ titleBeforeAccent
+        }}<span class="about-section-head__accent"
+          >&nbsp;{{ props.accentText }}</span
+        >
+      </template>
       <template v-else>{{ renderedVisibleTitle }}</template>
       <span v-if="hiddenTitleSuffix" class="about-section-head__title-seo">
         {{ hiddenTitleSuffix }}
@@ -76,16 +91,25 @@ const hiddenTitleSuffix = computed(() => {
 .about-section-head {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  text-align: center;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-bottom: clamp(0.75rem, 1.4vw, 1rem);
 }
 
 .about-section-head__title {
   margin: 0;
-  font-size: clamp(1.8rem, 4.3vw, 3.2rem);
-  line-height: 1.05;
+  font-size: var(--type-section);
+  line-height: 1.12;
+  text-align: left;
+}
+
+.about-section-head__title:is(h1) {
+  font-size: clamp(2.375rem, 4.6vw, 3.5rem);
+  line-height: 1.04;
+}
+
+.about-section-head__accent {
+  color: var(--color-accent);
 }
 
 .about-section-head__title-seo {
@@ -108,7 +132,7 @@ const hiddenTitleSuffix = computed(() => {
 .about-section-head__chips {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.45rem;
 }
 

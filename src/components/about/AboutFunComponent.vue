@@ -9,17 +9,10 @@ const props = defineProps({
 
 <template>
   <ul class="about-fun-grid">
-    <li v-for="fact in props.facts" :key="fact.id" class="about-fun-card">
-      <img
-        width="56"
-        height="56"
-        :src="fact.photo"
-        :alt="fact.title"
-        loading="lazy"
-        decoding="async"
-      />
-      <h3>{{ fact.title }}</h3>
-      <p>{{ Number(fact.number).toLocaleString() }}</p>
+    <li v-for="fact in props.facts" :key="fact.id">
+      <p class="about-fun-grid__value">{{ fact.number }}</p>
+      <h3 class="about-fun-grid__title">{{ fact.title }}</h3>
+      <p class="about-fun-grid__detail">{{ fact.description }}</p>
     </li>
   </ul>
 </template>
@@ -27,46 +20,83 @@ const props = defineProps({
 <style scoped lang="scss">
 .about-fun-grid {
   list-style: none;
-  margin: 0;
-  padding: 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.7rem;
-}
-
-.about-fun-card {
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.85rem;
-  text-align: center;
-}
-
-.about-fun-card img {
-  margin: 0 auto;
-}
-
-.about-fun-card h3 {
-  margin: 0.45rem 0 0.3rem;
-  font-size: 1rem;
-}
-
-.about-fun-card p {
+  gap: 0;
   margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #dcfff3;
+  padding: 0;
 }
 
-@media (max-width: 980px) {
+.about-fun-grid li {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0 1.25rem;
+}
+
+.about-fun-grid li:first-child {
+  padding-left: 0;
+}
+
+.about-fun-grid li + li {
+  border-left: 1px solid var(--app-border);
+}
+
+.about-fun-grid__value {
+  margin: 0 0 0.2rem;
+  color: var(--color-accent);
+  font-family: 'Sora', 'Manrope', sans-serif;
+  font-size: clamp(2rem, 3.3vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  font-variant-numeric: tabular-nums;
+}
+
+.about-fun-grid__title {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--type-supporting);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.about-fun-grid__detail {
+  min-width: 0;
+  margin: 0;
+  color: var(--app-text-soft);
+  font-size: var(--type-supporting);
+  line-height: 1.45;
+}
+
+@media (max-width: 768px) {
   .about-fun-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1rem;
+  }
+
+  .about-fun-grid li {
+    padding: 0.65rem 1rem;
+  }
+
+  .about-fun-grid li:nth-child(2n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .about-fun-grid li:nth-child(2n) {
+    padding-right: 0;
   }
 }
 
-@media (max-width: 640px) {
-  .about-fun-grid {
-    grid-template-columns: 1fr;
+@media (max-width: 420px) {
+  .about-fun-grid li:nth-child(2n) {
+    padding-right: 0;
+  }
+
+  .about-fun-grid__value {
+    font-size: clamp(1.8rem, 9vw, 2.25rem);
   }
 }
 </style>

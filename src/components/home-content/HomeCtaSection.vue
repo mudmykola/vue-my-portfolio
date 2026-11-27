@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="home-section section-cta">
+  <section class="home-section section-cta section-ambient">
     <div class="cta-card">
       <p class="section-eyebrow">{{ cta.eyebrow }}</p>
       <h2>{{ cta.title }}</h2>

@@ -2,14 +2,6 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps({
-  avatar: {
-    type: Object,
-    default: () => ({}),
-  },
-  title: {
-    type: String,
-    default: '',
-  },
   descriptions: {
     type: Array,
     default: () => [],
@@ -17,149 +9,153 @@ const props = defineProps({
 });
 
 const isExpanded = ref(false);
-const collapseParagraphLimit = 1;
+const additionalDescriptions = computed(() => props.descriptions.slice(1));
+const canToggle = computed(() => props.descriptions.length > 1);
 
-const displayedDescriptions = computed(() =>
-  isExpanded.value
-    ? props.descriptions
-    : props.descriptions.slice(0, collapseParagraphLimit)
-);
-
-const canToggle = computed(
-  () =>
-    props.descriptions.length > collapseParagraphLimit ||
-    String(props.descriptions?.[0] || '').length > 220
-);
-
-const toggleContent = () => {
-  isExpanded.value = !isExpanded.value;
+const expand = (element, done) => {
+  element.style.height = '0px';
+  element.style.opacity = '0';
+  const complete = (event) => {
+    if (event.propertyName !== 'height') return;
+    element.removeEventListener('transitionend', complete);
+    element.removeEventListener('transitioncancel', complete);
+    element.style.height = 'auto';
+    done();
+  };
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    element.style.height = 'auto';
+    element.style.opacity = '1';
+    done();
+    return;
+  }
+  element.addEventListener('transitionend', complete);
+  element.addEventListener('transitioncancel', complete);
+  requestAnimationFrame(() => {
+    element.style.height = `${element.scrollHeight}px`;
+    element.style.opacity = '1';
+  });
 };
 
-const rotateImage = (event) => {
-  const image = event.target;
-  const { width, height, left, top } = image.getBoundingClientRect();
-  const x = (event.clientX - left) / width - 0.5;
-  const y = (event.clientY - top) / height - 0.5;
-  image.style.transform = `rotateX(${y * 8}deg) rotateY(${x * -8}deg)`;
+const collapse = (element, done) => {
+  element.style.height = `${element.scrollHeight}px`;
+  element.style.opacity = '1';
+  const complete = (event) => {
+    if (event.propertyName !== 'height') return;
+    element.removeEventListener('transitionend', complete);
+    element.removeEventListener('transitioncancel', complete);
+    done();
+  };
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    done();
+    return;
+  }
+  element.addEventListener('transitionend', complete);
+  element.addEventListener('transitioncancel', complete);
+  requestAnimationFrame(() => {
+    element.style.height = '0px';
+    element.style.opacity = '0';
+  });
 };
 </script>
 
 <template>
-  <article class="about-intro-card">
-    <div class="about-intro-card__avatar" @mousemove="rotateImage">
-      <img
-        width="300"
-        height="300"
-        :src="props.avatar.image"
-        :alt="props.avatar.alt"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
+  <div class="about-intro-copy">
+    <p v-if="descriptions[0]" class="about-intro-copy__lead">
+      {{ descriptions[0] }}
+    </p>
 
-    <div
-      class="about-intro-card__content"
-      :class="{ 'about-intro-card__content--expanded': isExpanded }"
+    <Transition @enter="expand" @leave="collapse">
+      <div
+        v-show="isExpanded"
+        id="about-intro-copy-more"
+        class="about-intro-copy__more"
+      >
+        <p
+          v-for="(item, index) in additionalDescriptions"
+          :key="`${index}-${item.slice(0, 16)}`"
+        >
+          {{ item }}
+        </p>
+      </div>
+    </Transition>
+
+    <button
+      v-if="canToggle"
+      type="button"
+      class="about-intro-copy__toggle"
+      :aria-expanded="isExpanded"
+      :aria-controls="canToggle ? 'about-intro-copy-more' : undefined"
+      @click="isExpanded = !isExpanded"
     >
-      <h3>{{ props.title }}</h3>
-      <p
-        v-for="(item, index) in displayedDescriptions"
-        :key="`${index}-${item.slice(0, 16)}`"
-        :class="{
-          'about-intro-card__text--clamped':
-            !isExpanded && index === 0 && canToggle,
-        }"
-      >
-        {{ item }}
-      </p>
-
-      <button
-        v-if="canToggle"
-        type="button"
-        class="about-intro-card__toggle"
-        :aria-expanded="String(isExpanded)"
-        @click="toggleContent"
-      >
-        {{ isExpanded ? 'Show less' : 'Read more' }}
-      </button>
-    </div>
-  </article>
+      {{ isExpanded ? 'Show less' : 'Read more' }}
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.about-intro-card {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 1rem;
-  align-items: start;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 1rem;
+.about-intro-copy {
+  max-width: 58ch;
+  min-width: 0;
 }
 
-.about-intro-card__avatar {
-  perspective: 900px;
-
-  img {
-    width: 100%;
-    max-width: 280px;
-    height: auto;
-    border-radius: 14px;
-    transition: transform 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-  }
-}
-
-.about-intro-card__content h3 {
-  margin: 0 0 0.65rem;
-  font-size: 1.2rem;
-}
-
-.about-intro-card__content p {
+.about-intro-copy p {
   margin: 0 0 0.65rem;
   color: var(--app-text-soft);
-  line-height: 1.6;
+  font-size: var(--type-body);
+  line-height: 1.55;
 }
 
-.about-intro-card__text--clamped {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
+.about-intro-copy__more {
   overflow: hidden;
+  transition:
+    height 260ms var(--ease-standard),
+    opacity 200ms var(--ease-standard);
+  will-change: height, opacity;
 }
 
-.about-intro-card__toggle {
+.about-intro-copy__toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 0.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--app-text);
-  border-radius: 999px;
-  padding: 0.45rem 0.8rem;
-  font-size: 0.9rem;
+  gap: 0.45rem;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent);
+  font: inherit;
+  font-weight: 700;
   cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: color var(--motion-fast) var(--ease-standard);
 }
 
-.about-intro-card__toggle:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+.about-intro-copy__toggle span {
+  transition: transform var(--motion-fast) var(--ease-standard);
 }
 
-@media (max-width: 980px) {
-  .about-intro-card {
-    grid-template-columns: 1fr;
+.about-intro-copy__toggle:hover {
+  color: var(--color-accent-hover);
+}
+
+.about-intro-copy__toggle:hover span {
+  transform: translateX(3px);
+}
+
+.about-intro-copy__toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-intro-copy__more {
+    transition: none;
   }
 
-  .about-intro-card__avatar img {
-    max-width: 240px;
-    margin: 0 auto;
-    display: block;
+  .about-intro-copy__toggle,
+  .about-intro-copy__toggle span {
+    transition: none;
   }
 }
 </style>

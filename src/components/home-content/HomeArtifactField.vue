@@ -5,7 +5,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'home',
-    validator: (value) => ['home', 'resume'].includes(value),
+    validator: (value) => ['home', 'resume', 'about'].includes(value),
   },
 });
 
@@ -76,6 +76,16 @@ const artifactPatterns = {
     ],
     cta: '.resume-contact-cta',
   },
+  about: {
+    hero: '.about-layout__intro',
+    sections: [
+      '.about-layout__services',
+      '.about-layout__clients',
+      '#about-testimonials',
+      '.about-layout__highlights',
+    ],
+    cta: '.about-layout__cta',
+  },
 };
 
 function updateArtifact() {
@@ -99,12 +109,22 @@ function updateArtifact() {
         x:
           heroRect.left -
           page.getBoundingClientRect().left +
-          (props.variant === 'resume' ? 0.935 : 978 / 1200) * heroRect.width,
+          (props.variant === 'resume'
+            ? 0.935
+            : props.variant === 'about'
+              ? 0.91
+              : 978 / 1200) *
+            heroRect.width,
         y:
           heroRect.top +
           window.scrollY -
           pageTop +
-          (props.variant === 'resume' ? 0.7 : 256 / 700) * heroRect.height,
+          (props.variant === 'resume'
+            ? 0.7
+            : props.variant === 'about'
+              ? 0.68
+              : 256 / 700) *
+            heroRect.height,
         side: 1,
       }
     : null;
