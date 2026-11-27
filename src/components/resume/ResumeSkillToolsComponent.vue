@@ -1,59 +1,124 @@
 <script setup>
+import { computed } from 'vue';
+import { getTechnologyIcon } from '@/utils/technologyIcons.js';
+
 const props = defineProps({
   title: String,
-  items: Array,
+  items: { type: Array, default: () => [] },
 });
+
+const skills = computed(() =>
+  props.items.map((item) => ({
+    ...item,
+    technologyIcon: getTechnologyIcon(item.name),
+  }))
+);
 </script>
 
 <template>
   <section class="resume-skill-group">
-    <h3>{{ props.title }}</h3>
-
-    <ul class="resume-tools-list">
-      <li v-for="item in props.items" :key="item.name">{{ item.name }}</li>
+    <header class="resume-skill-group__head">
+      <font-awesome-icon :icon="faCube" aria-hidden="true" />
+      <h3>{{ title }}</h3>
+    </header>
+    <ul class="resume-skill-list">
+      <li v-for="item in skills" :key="item.name">
+        <span
+          v-if="item.technologyIcon.mark"
+          class="resume-skill-list__mark"
+          :style="{ '--mark-color': item.technologyIcon.color }"
+          aria-hidden="true"
+        >
+          {{ item.technologyIcon.mark }}
+        </span>
+        <img
+          v-else-if="item.technologyIcon.asset"
+          class="resume-skill-list__icon"
+          :src="item.technologyIcon.asset"
+          alt=""
+          aria-hidden="true"
+        />
+        <font-awesome-icon
+          v-else
+          class="resume-skill-list__icon"
+          :icon="item.technologyIcon.icon"
+          :style="{ color: item.technologyIcon.color }"
+          aria-hidden="true"
+        />
+        <span>{{ item.name }}</span>
+      </li>
     </ul>
   </section>
 </template>
 
 <style scoped lang="scss">
 .resume-skill-group {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.8rem;
+  min-width: 0;
 }
 
-.resume-skill-group h3 {
-  margin: 0 0 0.6rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--app-text-soft);
+.resume-skill-group__head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.55rem;
+  color: var(--color-accent);
 }
 
-.resume-tools-list {
-  list-style: none;
+.resume-skill-group__head svg {
+  flex: 0 0 auto;
+  font-size: 1.35rem;
+}
+
+.resume-skill-group__head h3 {
   margin: 0;
-  padding: 0;
+  color: var(--app-text);
+  font-size: var(--type-supporting);
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.resume-skill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.resume-tools-list li {
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--app-text);
-  padding: 0.28rem 0.6rem;
-  font-size: 0.76rem;
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+.resume-skill-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.48rem;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent) 22%, var(--app-border));
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  color: var(--app-text-soft);
+  font-size: var(--type-caption, var(--type-supporting));
+  line-height: 1.3;
+  overflow-wrap: anywhere;
 }
 
-.resume-tools-list li:hover {
-  border-color: rgba(73, 220, 177, 0.4);
-  background: rgba(73, 220, 177, 0.08);
+.resume-skill-list__icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
+  color: var(--color-accent);
+}
+
+.resume-skill-list__mark {
+  display: inline-grid;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
+  place-items: center;
+  color: var(--mark-color, var(--color-accent));
+  font-size: 0.72em;
+  font-weight: 900;
+  line-height: 1;
 }
 </style>

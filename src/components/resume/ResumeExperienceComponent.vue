@@ -1,318 +1,411 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
-import ClampText from '@/components/shared/ClampText.vue';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const props = defineProps({
-  title: String,
-  items: Array,
-  icon: Object,
+  title: { type: String, default: 'Professional experience' },
+  subtitle: { type: String, default: '' },
+  items: { type: Array, default: () => [] },
 });
 
-const PREVIEW_COUNT = 3;
-const isExpanded = ref(false);
+const entries = computed(() =>
+  props.items.map((item) => ({
+    ...item,
+    points: String(item.description || '')
+      .split(/\n+/)
+      .map((point) => point.trim())
+      .filter(Boolean),
+  }))
+);
 
-const list = computed(() => (Array.isArray(props.items) ? props.items : []));
+const experienceSection = ref(null);
+const measureTimeline = ref(null);
+const expanded = ref(true);
+const overflowsSidebar = ref(false);
+const hasManualState = ref(false);
+const initialEntryCount = 2;
+const visibleEntries = computed(() =>
+  expanded.value ? entries.value : entries.value.slice(0, initialEntryCount)
+);
+const showToggle = computed(
+  () =>
+    entries.value.length > initialEntryCount &&
+    (overflowsSidebar.value || hasManualState.value)
+);
 
-/**
- * Group positions by company (institution), LinkedIn style. A company with
- * several positions is shown once with a nested role timeline — the career
- * growth. First-appearance order is preserved.
- */
-const groups = computed(() => {
-  const byCompany = new Map();
-  const order = [];
+let resizeObserver;
+let measureFrame = 0;
 
-  for (const item of list.value) {
-    const key = (item.institution || item.title || `__${item.id}`).trim();
-    if (!byCompany.has(key)) {
-      byCompany.set(key, { key, institution: item.institution, roles: [] });
-      order.push(key);
-    }
-    byCompany.get(key).roles.push(item);
+const measureExperience = () => {
+  if (measureFrame) {
+    cancelAnimationFrame(measureFrame);
   }
 
-  return order.map((key) => byCompany.get(key));
+  measureFrame = requestAnimationFrame(() => {
+    measureFrame = 0;
+
+    const section = experienceSection.value;
+    const timeline = measureTimeline.value;
+    const sidebar = section
+      ?.closest('.resume-content-grid')
+      ?.querySelector('.resume-sidebar');
+    const heading = section?.querySelector('.page-section-head');
+
+    if (!section || !timeline || !sidebar || !heading) {
+      return;
+    }
+
+    const sectionStyle = getComputedStyle(section);
+    const headingStyle = getComputedStyle(heading);
+    const fullHeight =
+      Number.parseFloat(sectionStyle.paddingTop) +
+      Number.parseFloat(sectionStyle.borderTopWidth) +
+      heading.getBoundingClientRect().height +
+      Number.parseFloat(headingStyle.marginBottom) +
+      timeline.getBoundingClientRect().height +
+      Number.parseFloat(sectionStyle.paddingBottom) +
+      Number.parseFloat(sectionStyle.borderBottomWidth);
+    const fitsBesideSidebar =
+      fullHeight <= sidebar.getBoundingClientRect().height + 1;
+
+    overflowsSidebar.value = !fitsBesideSidebar;
+
+    if (!hasManualState.value) {
+      expanded.value = fitsBesideSidebar;
+    }
+  });
+};
+
+const toggleExpanded = () => {
+  hasManualState.value = true;
+  expanded.value = !expanded.value;
+};
+
+watch(entries, measureExperience, { flush: 'post' });
+
+onMounted(() => {
+  measureExperience();
+
+  if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(measureExperience);
+
+    const section = experienceSection.value;
+    const sidebar = section
+      ?.closest('.resume-content-grid')
+      ?.querySelector('.resume-sidebar');
+
+    if (section) resizeObserver.observe(section);
+    if (sidebar) resizeObserver.observe(sidebar);
+    if (measureTimeline.value) resizeObserver.observe(measureTimeline.value);
+  }
 });
 
-const visibleGroups = computed(() =>
-  isExpanded.value ? groups.value : groups.value.slice(0, PREVIEW_COUNT)
-);
-const hiddenCount = computed(() =>
-  Math.max(0, groups.value.length - PREVIEW_COUNT)
-);
-const canToggle = computed(() => hiddenCount.value > 0);
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect();
 
-const toggle = () => {
-  isExpanded.value = !isExpanded.value;
-};
+  if (measureFrame) {
+    cancelAnimationFrame(measureFrame);
+  }
+});
 </script>
 
 <template>
-  <article class="resume-card">
+  <section ref="experienceSection" class="resume-section resume-experience">
     <PageSectionHeader
       badge="Experience"
-      :icon="props.icon"
       :title="props.title"
+      :subtitle="props.subtitle"
       compact
     />
 
-    <ul class="resume-timeline">
+    <ol
+      id="resume-experience-timeline"
+      class="resume-timeline"
+      aria-label="Professional experience"
+    >
       <li
-        v-for="group in visibleGroups"
-        :key="group.key"
+        v-for="entry in visibleEntries"
+        :key="entry.id"
         class="resume-timeline__item"
       >
-        <span class="resume-timeline__marker"></span>
-
-        <!-- Company with several positions: growth timeline -->
-        <div
-          v-if="group.roles.length > 1"
-          class="resume-timeline__content resume-company"
-        >
-          <div class="resume-company__head">
-            <span class="resume-company__name">{{ group.institution }}</span>
-            <span class="resume-company__badge">
-              {{ group.roles.length }} positions
-            </span>
-          </div>
-
-          <ul class="resume-roles">
-            <li
-              v-for="role in group.roles"
-              :key="role.id"
-              class="resume-roles__item"
-            >
-              <span class="resume-roles__marker"></span>
-              <div>
-                <span class="resume-timeline__year">{{ role.year }}</span>
-                <h4>{{ role.title }}</h4>
-                <ClampText
-                  class="resume-timeline__description"
-                  :text="role.description"
-                  :lines="2"
-                />
-              </div>
+        <span class="resume-timeline__date">{{ entry.year }}</span>
+        <span class="resume-timeline__marker" aria-hidden="true"></span>
+        <div class="resume-timeline__content">
+          <h3>{{ entry.title }}</h3>
+          <p class="resume-timeline__institution">{{ entry.institution }}</p>
+          <ul v-if="entry.points.length" class="resume-timeline__details">
+            <li v-for="(point, index) in entry.points" :key="index">
+              {{ point }}
             </li>
           </ul>
         </div>
+      </li>
+    </ol>
 
-        <!-- Single position -->
-        <div v-else class="resume-timeline__content">
-          <span class="resume-timeline__year">{{ group.roles[0].year }}</span>
-          <h3>{{ group.roles[0].title }}</h3>
-          <p class="resume-timeline__institution">
-            {{ group.roles[0].institution }}
-          </p>
-          <ClampText
-            class="resume-timeline__description"
-            :text="group.roles[0].description"
-            :lines="2"
-          />
+    <ol
+      ref="measureTimeline"
+      class="resume-timeline resume-timeline--measure"
+      aria-hidden="true"
+      inert
+    >
+      <li
+        v-for="entry in entries"
+        :key="entry.id"
+        class="resume-timeline__item"
+      >
+        <span class="resume-timeline__date">{{ entry.year }}</span>
+        <span class="resume-timeline__marker" aria-hidden="true"></span>
+        <div class="resume-timeline__content">
+          <h3>{{ entry.title }}</h3>
+          <p class="resume-timeline__institution">{{ entry.institution }}</p>
+          <ul v-if="entry.points.length" class="resume-timeline__details">
+            <li v-for="(point, index) in entry.points" :key="index">
+              {{ point }}
+            </li>
+          </ul>
         </div>
       </li>
-    </ul>
+    </ol>
 
     <button
-      v-if="canToggle"
+      v-if="showToggle"
       type="button"
-      class="app-btn app-btn--ghost app-btn--sm resume-timeline__toggle"
-      :aria-expanded="isExpanded"
-      @click="toggle"
+      class="resume-experience__toggle app-btn app-btn--ghost"
+      :aria-expanded="expanded"
+      aria-controls="resume-experience-timeline"
+      @click="toggleExpanded"
     >
-      {{ isExpanded ? 'Show less' : `Show ${hiddenCount} more` }}
-      <font-awesome-icon
-        :icon="faChevronDown"
-        class="resume-timeline__chevron"
-        :class="{ 'is-open': isExpanded }"
-      />
+      {{
+        expanded ? 'Show latest 2 roles' : `Show all ${entries.length} roles`
+      }}
+      <font-awesome-icon :icon="faChevronDown" aria-hidden="true" />
     </button>
-  </article>
+  </section>
 </template>
 
 <style scoped lang="scss">
-.resume-card {
-  border-radius: 18px;
-  border: 1px solid var(--app-border);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 1.1rem;
+.resume-section {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.3vw, 1.9rem) 0;
+}
+
+.resume-section :deep(.page-section-head) {
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.resume-section :deep(.page-badge) {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-accent);
+  font-size: var(--type-eyebrow);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.resume-section :deep(.page-badge::before) {
+  display: none;
+}
+
+.resume-section :deep(.page-section-head__title) {
+  color: var(--app-text);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  text-align: left;
+}
+
+.resume-section :deep(.page-section-head__subtitle) {
+  color: var(--app-text-soft);
+  font-size: var(--type-supporting);
+  line-height: 1.5;
+  text-align: left;
 }
 
 .resume-timeline {
-  list-style: none;
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+.resume-experience {
   position: relative;
+}
+
+.resume-timeline--measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.resume-timeline::before {
+  position: absolute;
+  top: 0.65rem;
+  bottom: 0.7rem;
+  left: 10.25rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--app-text-soft) 52%, transparent);
+  content: '';
 }
 
 .resume-timeline__item {
   position: relative;
-  padding: 0 0 1.1rem 1.7rem;
+  display: grid;
+  grid-template-columns: 8.5rem 1rem minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1.25rem;
+  min-width: 0;
 }
 
-.resume-timeline__item:last-child {
-  padding-bottom: 0;
-}
-
-/* Connecting line between company markers */
-.resume-timeline__item::before {
-  content: '';
-  position: absolute;
-  left: 5px;
-  top: 0.5rem;
-  bottom: -0.1rem;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.resume-timeline__item:last-child::before {
-  display: none;
-}
-
-.resume-timeline__marker {
-  position: absolute;
-  left: 0;
-  top: 0.35rem;
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: linear-gradient(#49dcb1, #f3c056);
-  box-shadow: 0 0 0 4px rgba(73, 220, 177, 0.12);
-}
-
-.resume-timeline__content {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.75rem 0.85rem;
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.resume-timeline__content:hover {
-  border-color: rgba(73, 220, 177, 0.4);
-  background: rgba(73, 220, 177, 0.05);
-}
-
-.resume-timeline__year {
-  display: inline-flex;
-  border-radius: 999px;
-  border: 1px solid rgba(73, 220, 177, 0.45);
-  background: rgba(73, 220, 177, 0.14);
-  color: #d5fff0;
-  font-size: 0.72rem;
+.resume-timeline__date {
+  padding-top: 0.16rem;
+  color: var(--app-text);
+  font-size: var(--type-supporting);
   font-weight: 700;
-  padding: 0.2rem 0.55rem;
-}
-
-.resume-timeline__content h3 {
-  margin: 0.5rem 0 0.3rem;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-.resume-timeline__institution {
-  margin: 0;
-  font-size: 0.83rem;
-  color: #f3c056;
-}
-
-.resume-timeline__description {
-  margin: 0.38rem 0 0;
-  color: var(--app-text-soft);
   line-height: 1.5;
-  font-size: 0.88rem;
-  white-space: pre-line;
-}
-
-/* Company (grouped) --------------------------------------------------- */
-.resume-company__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.6rem;
-}
-
-.resume-company__name {
-  font-family: 'Sora', 'Manrope', sans-serif;
-  font-size: 1.02rem;
-  font-weight: 700;
-  color: #f3c056;
-}
-
-.resume-company__badge {
-  flex: 0 0 auto;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--app-text-soft);
-  font-size: 0.68rem;
-  padding: 0.18rem 0.5rem;
   white-space: nowrap;
 }
 
-.resume-roles {
-  list-style: none;
+.resume-timeline__marker {
+  position: relative;
+  z-index: 1;
+  width: 0.78rem;
+  height: 0.78rem;
+  margin-top: 0.33rem;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-bg);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.resume-timeline__item:first-child .resume-timeline__marker {
+  background: var(--color-accent);
+}
+
+.resume-timeline__content {
+  min-width: 0;
+}
+
+.resume-timeline__content h3 {
   margin: 0;
+  color: var(--app-text);
+  font-size: clamp(1.08rem, 1.6vw, 1.38rem);
+  font-weight: 750;
+  line-height: 1.28;
+  text-wrap: pretty;
+}
+
+.resume-timeline__institution {
+  margin: 0.12rem 0 0;
+  color: var(--color-accent);
+  font-size: var(--type-supporting);
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.resume-timeline__details {
+  display: grid;
+  gap: 0.08rem;
+  margin: 0.18rem 0 0;
   padding: 0;
+  color: var(--app-text);
+  font-size: var(--type-supporting);
+  line-height: 1.42;
+  list-style: none;
+}
+
+.resume-timeline__details li {
   position: relative;
+  padding-left: 1.15rem;
+  overflow-wrap: anywhere;
 }
 
-.resume-roles__item {
-  position: relative;
-  padding: 0 0 0.85rem 1.25rem;
-}
-
-.resume-roles__item:last-child {
-  padding-bottom: 0;
-}
-
-/* Nested growth line */
-.resume-roles__item::before {
+.resume-timeline__details li::before {
+  position: absolute;
+  top: 0.54em;
+  left: 0.2rem;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--color-accent);
   content: '';
-  position: absolute;
-  left: 3px;
-  top: 0.45rem;
-  bottom: -0.05rem;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.1);
 }
 
-.resume-roles__item:last-child::before {
-  display: none;
+.resume-experience__toggle {
+  min-height: 2.75rem;
+  margin-top: 1.15rem;
+  gap: 0.55rem;
 }
 
-.resume-roles__marker {
-  position: absolute;
-  left: 0;
-  top: 0.3rem;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--app-accent);
-  box-shadow: 0 0 0 3px rgba(73, 220, 177, 0.14);
+.resume-experience__toggle svg {
+  font-size: 0.8em;
+  transition: transform 180ms var(--ease-standard, ease);
 }
 
-.resume-roles__item h4 {
-  margin: 0.35rem 0 0.25rem;
-  font-size: 0.92rem;
-  line-height: 1.3;
-}
-
-/* Toggle -------------------------------------------------------------- */
-.resume-timeline__toggle {
-  margin-top: 0.9rem;
-  width: 100%;
-}
-
-.resume-timeline__chevron {
-  transition: transform 0.25s ease;
-}
-
-.resume-timeline__chevron.is-open {
+.resume-experience__toggle[aria-expanded='true'] svg {
   transform: rotate(180deg);
+}
+
+.resume-experience__toggle:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--color-accent));
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .resume-timeline {
+    gap: 1.1rem;
+    padding-right: 1.4rem;
+  }
+
+  .resume-timeline::before {
+    right: 0.36rem;
+    left: auto;
+  }
+
+  .resume-timeline__item {
+    grid-template-columns: minmax(0, 1fr) 0.8rem;
+    column-gap: 0.7rem;
+  }
+
+  .resume-timeline__date {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0 0 0.3rem;
+  }
+
+  .resume-timeline__marker {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 0.68rem;
+    height: 0.68rem;
+    margin: 0.2rem 0 0;
+  }
+
+  .resume-timeline__content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-experience__toggle svg {
+    transition: none;
+  }
 }
 </style>

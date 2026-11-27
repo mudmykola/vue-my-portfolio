@@ -1,158 +1,142 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import PageSectionHeader from '@/components/shared/PageSectionHeader.vue';
 
 const props = defineProps({
-  title: String,
-  items: Array,
-  icon: Object,
+  title: { type: String, default: 'Education & learning' },
+  subtitle: { type: String, default: '' },
+  items: { type: Array, default: () => [] },
+  compact: { type: Boolean, default: false },
 });
-
-const PREVIEW_COUNT = 3;
-const isExpanded = ref(false);
-
-const list = computed(() => (Array.isArray(props.items) ? props.items : []));
-const visibleItems = computed(() =>
-  isExpanded.value ? list.value : list.value.slice(0, PREVIEW_COUNT)
-);
-const hiddenCount = computed(() =>
-  Math.max(0, list.value.length - PREVIEW_COUNT)
-);
-const canToggle = computed(() => hiddenCount.value > 0);
-
-const toggle = () => {
-  isExpanded.value = !isExpanded.value;
-};
 </script>
 
 <template>
-  <article class="resume-card">
+  <section
+    class="resume-section resume-education"
+    :class="{ 'resume-education--compact': props.compact }"
+  >
     <PageSectionHeader
       badge="Education"
-      :icon="props.icon"
       :title="props.title"
+      :subtitle="props.subtitle"
       compact
     />
 
-    <ul class="resume-education-list">
-      <li
-        v-for="item in visibleItems"
-        :key="item.id"
-        class="resume-education-card"
-      >
-        <span class="resume-education-card__year">{{ item.year }}</span>
-        <h3>{{ item.title }}</h3>
-        <p class="resume-education-card__institution">{{ item.institution }}</p>
-        <p class="resume-education-card__description">{{ item.description }}</p>
+    <ol class="resume-education-list" aria-label="Education and training">
+      <li v-for="item in props.items" :key="item.id">
+        <span class="resume-education-list__date">{{ item.year }}</span>
+        <div class="resume-education-list__content">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.institution }}</p>
+        </div>
       </li>
-    </ul>
-
-    <button
-      v-if="canToggle"
-      type="button"
-      class="app-btn app-btn--ghost app-btn--sm resume-education__toggle"
-      :aria-expanded="isExpanded"
-      @click="toggle"
-    >
-      {{ isExpanded ? 'Show less' : `Show ${hiddenCount} more` }}
-      <font-awesome-icon
-        :icon="faChevronDown"
-        class="resume-education__chevron"
-        :class="{ 'is-open': isExpanded }"
-      />
-    </button>
-  </article>
+    </ol>
+  </section>
 </template>
 
 <style scoped lang="scss">
-.resume-card {
-  border-radius: 18px;
-  border: 1px solid var(--app-border);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 1.1rem;
+.resume-section {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.3vw, 1.9rem) 0;
+}
+
+.resume-section :deep(.page-section-head) {
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+  text-align: left;
+}
+
+.resume-section :deep(.page-badge) {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-accent);
+  font-size: var(--type-eyebrow);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.resume-section :deep(.page-badge::before) {
+  display: none;
+}
+
+.resume-section :deep(.page-section-head__title) {
+  color: var(--app-text);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  text-align: left;
+}
+
+.resume-section :deep(.page-section-head__subtitle) {
+  color: var(--app-text-soft);
+  font-size: var(--type-supporting);
+  line-height: 1.5;
+  text-align: left;
 }
 
 .resume-education-list {
-  list-style: none;
+  display: grid;
+  gap: 0.75rem;
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+.resume-education-list li {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.7rem;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.resume-education-list__date {
+  color: var(--color-accent);
+  font-size: var(--type-caption, var(--type-supporting));
+  font-weight: 750;
+  letter-spacing: 0.025em;
+  line-height: 1.4;
+}
+
+.resume-education-list__content {
+  min-width: 0;
+}
+
+.resume-education-list__content h3 {
+  margin: 0;
+  color: var(--app-text);
+  font-size: var(--type-supporting);
+  font-weight: 750;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.resume-education-list__content p {
+  margin: 0.08rem 0 0;
+  color: var(--app-text-soft);
+  font-size: var(--type-caption, var(--type-supporting));
+  line-height: 1.4;
+}
+
+.resume-education--compact {
+  padding: 1.15rem 0;
+}
+
+.resume-education--compact :deep(.page-section-head__title) {
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  letter-spacing: -0.035em;
+  line-height: 1.16;
+}
+
+.resume-education--compact :deep(.page-section-head__subtitle) {
+  display: none;
 }
 
 @media (max-width: 900px) {
-  .resume-education-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .resume-education--compact {
+    padding-top: 1.15rem;
   }
-}
-
-@media (max-width: 560px) {
-  .resume-education-list {
-    grid-template-columns: 1fr;
-  }
-}
-
-.resume-education-card {
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.7rem 0.8rem;
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.resume-education-card:hover {
-  border-color: rgba(243, 192, 86, 0.4);
-  background: rgba(243, 192, 86, 0.05);
-}
-
-.resume-education-card__year {
-  display: inline-flex;
-  border-radius: 999px;
-  border: 1px solid rgba(243, 192, 86, 0.45);
-  background: rgba(243, 192, 86, 0.13);
-  color: #ffe6b5;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.2rem 0.55rem;
-}
-
-.resume-education-card h3 {
-  margin: 0.45rem 0 0.22rem;
-  font-size: 0.95rem;
-  line-height: 1.3;
-}
-
-.resume-education-card__institution {
-  margin: 0;
-  color: #49dcb1;
-  font-size: 0.8rem;
-}
-
-.resume-education-card__description {
-  margin: 0.3rem 0 0;
-  color: var(--app-text-soft);
-  font-size: 0.83rem;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.resume-education__toggle {
-  margin-top: 0.9rem;
-  width: 100%;
-}
-
-.resume-education__chevron {
-  transition: transform 0.25s ease;
-}
-
-.resume-education__chevron.is-open {
-  transform: rotate(180deg);
 }
 </style>

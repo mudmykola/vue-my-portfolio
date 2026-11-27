@@ -1,6 +1,14 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
+const props = defineProps({
+  variant: {
+    type: String,
+    default: 'home',
+    validator: (value) => ['home', 'resume'].includes(value),
+  },
+});
+
 const host = ref(null);
 const width = ref(1);
 const height = ref(1);
@@ -46,39 +54,57 @@ const meteors = [
 let resizeObserver;
 let animationFrame;
 
+const artifactPatterns = {
+  home: {
+    hero: '.home-hero',
+    sections: [
+      '.section-about',
+      '.section-expertise',
+      '.section-workflow',
+      '.section-selected-work',
+      '.section-cta',
+    ],
+    cta: '.section-cta',
+  },
+  resume: {
+    hero: '.resume-hero',
+    sections: [
+      '.resume-experience',
+      '.resume-skills',
+      '.resume-education',
+      '.resume-contact-cta',
+    ],
+    cta: '.resume-contact-cta',
+  },
+};
+
 function updateArtifact() {
   const page = host.value?.parentElement;
   if (!page) return;
+
+  const pattern = artifactPatterns[props.variant] ?? artifactPatterns.home;
 
   width.value = page.clientWidth;
   height.value = page.scrollHeight;
   const pageRect = page.getBoundingClientRect();
 
-  const sectionSelectors = [
-    '.section-about',
-    '.section-expertise',
-    '.section-workflow',
-    '.section-selected-work',
-    '.section-cta',
-  ];
   const pageTop = pageRect.top + window.scrollY;
-  const sectionNodes = sectionSelectors
+  const sectionNodes = pattern.sections
     .map((selector) => page.querySelector(selector))
     .filter(Boolean);
-  const hero = page.querySelector('.home-hero');
+  const hero = page.querySelector(pattern.hero);
   const heroRect = hero?.getBoundingClientRect();
   const heroJunction = heroRect
     ? {
-        // Align with the terminal point of the original branching Hero trace.
         x:
           heroRect.left -
           page.getBoundingClientRect().left +
-          (978 / 1200) * heroRect.width,
+          (props.variant === 'resume' ? 0.935 : 978 / 1200) * heroRect.width,
         y:
           heroRect.top +
           window.scrollY -
           pageTop +
-          (256 / 700) * heroRect.height,
+          (props.variant === 'resume' ? 0.7 : 256 / 700) * heroRect.height,
         side: 1,
       }
     : null;
@@ -105,7 +131,7 @@ function updateArtifact() {
     return `M ${anchor.x} ${anchor.y} L ${anchor.x} ${bendY} L ${endX} ${bendY}`;
   });
 
-  const ctaSection = page.querySelector('.section-cta');
+  const ctaSection = page.querySelector(pattern.cta);
   if (!ctaSection) {
     ctaTraces.value = [];
     ctaNodes.value = [];
@@ -147,10 +173,12 @@ onMounted(() => {
   const page = host.value?.parentElement;
   if (!page) return;
 
+  const pattern = artifactPatterns[props.variant] ?? artifactPatterns.home;
+
   resizeObserver = new ResizeObserver(scheduleUpdate);
   resizeObserver.observe(page);
   page
-    .querySelectorAll('.home-section, .home-hero')
+    .querySelectorAll(`${pattern.sections.join(', ')}, ${pattern.hero}`)
     .forEach((section) => resizeObserver.observe(section));
   window.addEventListener('resize', scheduleUpdate, { passive: true });
   window.addEventListener('load', scheduleUpdate, { once: true });

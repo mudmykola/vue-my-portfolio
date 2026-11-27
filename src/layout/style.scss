@@ -59,6 +59,12 @@
   padding: 0;
 }
 
+.app-content:has(.resume-page) {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
 .app-content:has(.blog-page) > .blog-page {
   width: 100%;
   max-width: none;

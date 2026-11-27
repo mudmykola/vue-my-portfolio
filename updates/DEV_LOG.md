@@ -3,6 +3,26 @@
 ## 2026-11-27
 
 - Type: Improvement
+- Date/time: 2026-11-27 14:12 Europe/Kyiv
+- Title: Condense Resume into an experience overview and sidebar
+- Summary: Reorganized `/resume` into a compact career header and two-column content area. The main column shows the two latest roles first with an accessible expand/collapse control; the sidebar groups technology tags and a compact education list. Removed scroll-gated reveals from experience and education so those sections never appear as empty gaps. Kept JSON-backed entries, dynamic years, CV downloads and the shared header width.
+- Affected module/route: Resume page, `/resume`
+- Issue reference: #171
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Cloudflare/Nitro production preview verified the role toggle by pointer and Enter, all 4 roles and 6 education entries, and no horizontal overflow at 1440, 1024, 768, 390 and 320px. Reduced-motion emulation kept content visible. PDF download was not triggered.
+
+## 2026-11-27
+
+- Type: Improvement
+- Date/time: 2026-11-27 13:45 Europe/Kyiv
+- Title: Rebuild Resume page around experience and skills timelines
+- Summary: Reworked `/resume` to follow the supplied reference: full shared-header width, career intro with experience and entry counts, resume download/contact actions, experience and education timelines, grouped core-stack lists, and a contact CTA. Existing JSON-backed resume content, PDF choices, and dynamic experience years remain in use.
+- Affected module/route: Resume page, `/resume`
+- Issue reference: #171
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser inspection confirmed 4 experience entries, 6 education entries, 33 technology/tool items, and education content appears when scrolled into view. Earlier responsive checks at 1440, 1024, 768, 390 and 320px found no horizontal overflow. Resume file download was not triggered.
+
+## 2026-11-27
+
+- Type: Improvement
 - Date/time: 2026-11-27 13:19 Europe/Kyiv
 - Title: Match Contact eyebrow and tighten direct contact spacing
 - Summary: Restyled the Contact `page-badge` to match the flat green section eyebrow used on Portfolio, removed the top and bottom borders from `contact-layout__direct`, and reduced the surrounding vertical spacing.
@@ -1281,3 +1301,30 @@
 - Module/routes: Blog article content, `/blog/:handle`
 - Issue reference: GitHub `#166`
 - Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview verified numbered headings, highlighted code samples, terminal styling on the Vite+ post, zero hydration errors on direct article load, and no horizontal overflow at 1440px or 390px.
+
+## 2026-11-27 14:28 EET — Match Resume atmosphere to Home
+
+- Type: Improvement
+- Title: Reuse Home circuit and meteor atmosphere on Resume
+- Summary: Extended the shared Home artifact field with Resume-specific anchors so circuit traces connect the Resume sections and CTA. Rebuilt the Resume contact CTA with the shared Home CTA structure and accent styling; removed the custom arc decoration.
+- Module/routes: Resume, `/resume`; shared artifact field remains active on Home and Portfolio
+- Issue reference: GitHub `#171`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed circuit nodes/traces, meteor animation in standard motion mode, meteors hidden with reduced motion, and no horizontal overflow at 1440/1024/768/390/320px. Direct reload had no console errors; Home retained its shared artifact field.
+
+## 2026-11-27 14:45 EET — Add technology icons to Resume skills
+
+- Type: Improvement
+- Title: Show technology icons beside Resume skill names
+- Summary: Extracted the existing Home expertise icon mapping into a shared helper and reused it in both Resume skill groups. Each skill now displays a compact brand or category icon beside its readable text, preserving brand colors and using a text mark for TypeScript.
+- Module/routes: Home expertise, `/`; Resume core stack, `/resume`
+- Issue reference: GitHub `#172`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview verified all 33 skill entries have an icon/mark, the Nuxt icon asset loads, decorative icons are hidden from assistive technology, Home retains its 21 existing expertise icons, no console errors, and no horizontal overflow at 1440/1024/768/390/320px.
+
+## 2026-11-27 14:54 EET — Keep Resume experience within the sidebar
+
+- Type: Improvement
+- Title: Expand Resume experience when it fits beside Education
+- Summary: Resume now measures the complete timeline against the adjacent skills and Education sidebar. It opens with all roles when they fit; otherwise it shows the latest two and the existing expand control. The measurement responds to content and viewport changes, while preserving a visitor's manual choice.
+- Module/routes: Resume, `/resume`
+- Issue reference: GitHub `#173`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview confirmed all four roles open by default at 1440px, and auto-collapse with a working expand/collapse control when overflow is introduced and at widths 1024/768/390/320px. Manual expansion persists through a viewport resize; zero browser console errors.
