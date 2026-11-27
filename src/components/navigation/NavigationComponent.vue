@@ -69,9 +69,9 @@ onMounted(() => {
     </nav>
 
     <div
-      v-if="socialLinks.length"
       class="header-nav__socials"
-      aria-label="Social links"
+      :aria-label="socialLinks.length ? 'Social links' : undefined"
+      :aria-hidden="socialLinks.length ? undefined : 'true'"
     >
       <a
         v-for="social in socialLinks"

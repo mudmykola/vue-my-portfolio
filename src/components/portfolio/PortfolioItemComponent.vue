@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import PortfolioProjectModal from './PortfolioProjectModal.vue';
+import AppPagination from '../shared/AppPagination.vue';
 
 const props = defineProps({
   projects: {
@@ -41,28 +42,6 @@ const filteredProjects = computed(() => {
 const totalPages = computed(() =>
   Math.ceil(filteredProjects.value.length / pageSize)
 );
-const pageItems = computed(() => {
-  const total = totalPages.value;
-  const current = currentPage.value;
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => ({
-      page: index + 1,
-      label: String(index + 1),
-    }));
-  }
-
-  const pages =
-    current <= 3
-      ? [1, 2, 3, 4, 'ellipsis', total]
-      : current >= total - 2
-        ? [1, 'ellipsis', total - 3, total - 2, total - 1, total]
-        : [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', total];
-
-  return pages.map((page, index) => ({
-    page: typeof page === 'number' ? page : null,
-    label: typeof page === 'number' ? String(page) : `ellipsis-${index}`,
-  }));
-});
 const pageProjects = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
   return filteredProjects.value.slice(start, start + pageSize);
@@ -71,11 +50,6 @@ const pageProjects = computed(() => {
 const selectFilter = (filter) => {
   activeFilter.value = filter;
   currentPage.value = 1;
-};
-
-const setPage = (page) => {
-  if (page < 1 || page > totalPages.value) return;
-  currentPage.value = page;
 };
 
 watch(totalPages, (pages) => {
@@ -299,53 +273,13 @@ const showModal = (project, event) => {
         </article>
       </div>
 
-      <nav
+      <AppPagination
         v-if="totalPages > 1"
-        class="portfolio-pagination"
-        aria-label="Portfolio pages"
-      >
-        <button
-          type="button"
-          class="portfolio-pagination__step app-btn app-btn--sm app-btn--ghost"
-          :disabled="currentPage === 1"
-          @click="setPage(currentPage - 1)"
-        >
-          Previous
-        </button>
-        <div class="portfolio-pagination__pages">
-          <template v-for="item in pageItems" :key="item.label">
-            <span
-              v-if="item.page === null"
-              class="portfolio-pagination__ellipsis"
-              aria-hidden="true"
-              >…</span
-            >
-            <button
-              v-else
-              type="button"
-              class="portfolio-pagination__page app-btn app-btn--sm"
-              :class="
-                currentPage === item.page
-                  ? 'app-btn--primary'
-                  : 'app-btn--ghost'
-              "
-              :aria-label="`Page ${item.page}`"
-              :aria-current="currentPage === item.page ? 'page' : undefined"
-              @click="setPage(item.page)"
-            >
-              {{ item.page }}
-            </button>
-          </template>
-        </div>
-        <button
-          type="button"
-          class="portfolio-pagination__step app-btn app-btn--sm app-btn--ghost"
-          :disabled="currentPage === totalPages"
-          @click="setPage(currentPage + 1)"
-        >
-          Next
-        </button>
-      </nav>
+        v-model:current-page="currentPage"
+        :total-pages="totalPages"
+        mode="numbered"
+        label="Portfolio pagination"
+      />
     </template>
 
     <PortfolioProjectModal ref="projectModal" :image-base="imageBase" />

@@ -638,26 +638,16 @@
   border-radius: 8px;
   font-size: 0.65rem;
 }
-.ds-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.3rem;
-  align-items: center;
+.ds-pagination-examples {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
 }
-.ds-pagination button {
-  width: 27px;
-  height: 27px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--color-text-secondary);
+.ds-pagination-examples p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-supporting);
 }
-.ds-pagination button.active {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-text-on-accent);
-}
-
 .ds-icons {
   justify-content: space-between;
   gap: 2rem;

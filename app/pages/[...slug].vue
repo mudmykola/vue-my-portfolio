@@ -14,6 +14,14 @@ import { usePortfolioSeo } from '../composables/usePortfolioSeo.js';
 import { routeSeo } from '../utils/routeSeo.js';
 
 const route = useRoute();
+const blogReturnPage = computed(() => {
+  const page = Number(route.query.fromPage);
+  return Number.isInteger(page) && page > 1 ? page : 1;
+});
+const blogReturnLink = computed(() => ({
+  path: '/blog',
+  query: blogReturnPage.value > 1 ? { page: String(blogReturnPage.value) } : {},
+}));
 const segments = computed(() => {
   const value = route.params.slug;
   return Array.isArray(value)
@@ -26,13 +34,27 @@ const articleHandle = computed(() =>
   segments.value[0] === 'blog' ? String(segments.value[1] || '') : ''
 );
 const isArticleRoute = computed(() => Boolean(articleHandle.value));
-
-const { data, error } = await useAsyncData(
-  `blog-catch-all-${route.path}`,
+const { data: cachedBlog } = useNuxtData('shopify-blog');
+const cachedArticle = computed(
   () =>
-    isArticleRoute.value
-      ? $fetch(`/api/blog/${encodeURIComponent(articleHandle.value)}`)
-      : Promise.resolve(null)
+    cachedBlog.value?.articles?.find(
+      ({ handle }) => handle === articleHandle.value
+    ) || null
+);
+
+const { data, error, status } = await useAsyncData(
+  () => `blog-catch-all-${route.path}`,
+  () => {
+    if (!isArticleRoute.value) return null;
+    if (cachedArticle.value) return { article: cachedArticle.value };
+
+    return $fetch(`/api/blog/${encodeURIComponent(articleHandle.value)}`);
+  },
+  {
+    lazy: true,
+    default: () =>
+      cachedArticle.value ? { article: cachedArticle.value } : null,
+  }
 );
 const article = computed(() => data.value?.article || null);
 
@@ -58,6 +80,59 @@ const decodeHeadingText = (value) =>
 
 const escapeAttribute = (value) =>
   value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+const decodeCodeText = (value) =>
+  value
+    .replace(/<br\s*\/?\s*>/gi, '\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&#(\d+);/g, (_, code) => {
+      const point = Number(code);
+      return point <= 0x10ffff ? String.fromCodePoint(point) : '';
+    })
+    .replace(/&#x([\da-f]+);/gi, (_, code) => {
+      const point = parseInt(code, 16);
+      return point <= 0x10ffff ? String.fromCodePoint(point) : '';
+    });
+
+const escapeCodeText = (value) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const highlightCodeSample = (value) => {
+  const tokenPattern =
+    /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b(?:async|await|const|let|var|return|new|class|function|throw|try|catch|if|else|for|while|import|from|export|default|extends|typeof|instanceof|Promise|true|false|null|undefined)\b|\b\d+(?:\.\d+)?\b|\b[A-Za-z_$][\w$]*(?=\s*\()|===|!==|=>|==|!=|<=|>=|&&|\|\||[=+*\/%<>!?:&|]/g;
+  let cursor = 0;
+  let highlighted = '';
+
+  for (const match of value.matchAll(tokenPattern)) {
+    const [token] = match;
+    const start = match.index || 0;
+    const previousText = value.slice(cursor, start);
+    highlighted += escapeCodeText(previousText);
+
+    let tokenClass = 'operator';
+    if (/^(?:\/\/|\/\*)/.test(token)) tokenClass = 'comment';
+    else if (/^["'`]/.test(token)) tokenClass = 'string';
+    else if (
+      /^(?:async|await|const|let|var|return|new|class|function|throw|try|catch|if|else|for|while|import|from|export|default|extends|typeof|instanceof|Promise|true|false|null|undefined)$/.test(
+        token
+      )
+    ) {
+      tokenClass = 'keyword';
+    } else if (/^\d/.test(token)) tokenClass = 'number';
+    else if (/^[A-Za-z_$]/.test(token)) tokenClass = 'function';
+
+    highlighted += `<span class="blog-code-token--${tokenClass}">${escapeCodeText(token)}</span>`;
+    cursor = start + token.length;
+  }
+
+  return highlighted + escapeCodeText(value.slice(cursor));
+};
 
 const articleReadingContent = computed(() => {
   const html = String(
@@ -104,16 +179,14 @@ const articleReadingContent = computed(() => {
   const contentHtml = headingsHtml.replace(
     /<pre\b([^>]*)>([\s\S]*?)<\/pre\s*>/gi,
     (pre, attributes, innerHtml) => {
-      const code = innerHtml.match(/<code\b[^>]*>([\s\S]*?)<\/code\s*>/i)?.[1];
-      if (!code) return pre;
+      const codeMatch = innerHtml.match(
+        /(<code\b[^>]*>)([\s\S]*?)(<\/code\s*>)/i
+      );
+      if (!codeMatch) return pre;
 
+      const [, openingTag, codeMarkup, closingTag] = codeMatch;
+      const code = decodeCodeText(codeMarkup);
       const lines = code
-        .replace(/<br\s*\/?>/gi, '\n')
-        .replace(/<[^>]*>/g, '')
-        .replace(/&nbsp;|&#160;/gi, ' ')
-        .replace(/&amp;/gi, '&')
-        .replace(/&lt;/gi, '<')
-        .replace(/&gt;/gi, '>')
         .replace(/\r/g, '')
         .trim()
         .split('\n')
@@ -121,9 +194,16 @@ const articleReadingContent = computed(() => {
         .filter(Boolean);
       const commandLine =
         /^(?:[$>]\s*)?(?:vp|npm|npx|pnpm|yarn|bun|git|cd|node|curl|shopify|wrangler|vite|vitest|eslint|prettier)\b/i;
-      if (!lines.length || !lines.every((line) => commandLine.test(line))) {
-        return pre;
-      }
+      const isTerminal =
+        lines.length > 0 && lines.every((line) => commandLine.test(line));
+      const codeMarkupOutput = isTerminal
+        ? codeMarkup
+        : highlightCodeSample(code);
+      const contentWithCode = innerHtml.replace(
+        codeMatch[0],
+        `${openingTag}${codeMarkupOutput}${closingTag}`
+      );
+      if (!isTerminal) return `<pre${attributes}>${contentWithCode}</pre>`;
 
       const terminalClasses = /^[$>]\s*/.test(lines[0])
         ? 'blog-terminal blog-terminal--prompted'
@@ -137,7 +217,7 @@ const articleReadingContent = computed(() => {
           )
         : `${attributes} class="${terminalClasses}"`;
 
-      return `<pre${terminalAttributes}>${innerHtml}</pre>`;
+      return `<pre${terminalAttributes}>${contentWithCode}</pre>`;
     }
   );
 
@@ -242,7 +322,11 @@ if (article.value) {
     <nav class="blog-breadcrumbs" aria-label="Breadcrumb">
       <ol>
         <li><router-link to="/" aria-label="Home">~</router-link></li>
-        <li><router-link to="/blog">blog</router-link></li>
+        <li>
+          <router-link :to="blogReturnLink">{{
+            blogReturnPage > 1 ? `blog / page ${blogReturnPage}` : 'blog'
+          }}</router-link>
+        </li>
         <li>
           <span aria-current="page">{{ article.title }}</span>
         </li>
@@ -313,6 +397,16 @@ if (article.value) {
       ></div>
     </div>
   </article>
+  <section
+    v-else-if="isArticleRoute && status === 'pending'"
+    class="blog-page blog-article-page container-centered"
+    aria-busy="true"
+    aria-label="Loading article"
+  >
+    <div class="blog-layout">
+      <div class="blog-surface blog-state" role="status">Loading article…</div>
+    </div>
+  </section>
   <section v-else-if="isArticleRoute" class="blog-page container-centered">
     <div class="blog-surface blog-state">
       {{ error ? 'Unable to load this article.' : 'Article not found.' }}
@@ -567,6 +661,10 @@ if (article.value) {
   min-width: 0;
 }
 
+.blog-prose {
+  counter-reset: blog-section;
+}
+
 .blog-prose :deep(p) {
   max-width: 78ch;
   margin: 1.1em 0;
@@ -574,8 +672,17 @@ if (article.value) {
 }
 
 .blog-prose :deep(p:first-child) {
-  margin-top: 0;
+  margin: 0 0 1.8em;
+  padding: 0.9em 1.1em 0.9em 1.2em;
+  border-left: 2px solid var(--color-accent);
+  border-radius: 0 8px 8px 0;
   color: var(--app-text);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-accent) 9%, var(--color-surface)),
+    color-mix(in srgb, var(--color-accent) 2%, transparent) 76%,
+    transparent
+  );
   font-size: var(--type-subheading);
   line-height: 1.65;
 }
@@ -597,16 +704,37 @@ if (article.value) {
 
 .blog-prose :deep(h2) {
   position: relative;
+  counter-increment: blog-section;
+  padding: 0 0 0.75em 3.4rem;
   font-size: var(--type-subheading);
-  padding-bottom: 0.65em;
   border-bottom: 1px solid
     color-mix(in srgb, var(--color-accent) 12%, var(--app-border));
+}
+
+.blog-prose :deep(h2)::before {
+  position: absolute;
+  top: 0.08em;
+  left: 0;
+  display: grid;
+  width: 2.35rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 32%, transparent);
+  border-radius: 4px;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  content: counter(blog-section, decimal-leading-zero);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.58em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
 
 .blog-prose :deep(h2)::after {
   position: absolute;
   bottom: -1px;
-  left: 0;
+  left: 3.4rem;
   width: 2.75rem;
   height: 2px;
   border-radius: 2px;
@@ -615,6 +743,9 @@ if (article.value) {
 }
 
 .blog-prose :deep(h3) {
+  padding-left: 0.85em;
+  border-left: 2px solid
+    color-mix(in srgb, var(--color-accent) 60%, transparent);
   font-size: var(--type-body);
 }
 
@@ -654,6 +785,61 @@ if (article.value) {
   box-decoration-break: clone;
 }
 
+.blog-prose :deep(strong) {
+  color: var(--app-text);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--color-accent) 48%,
+    transparent
+  );
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.blog-prose :deep(em) {
+  color: var(--color-accent-hover);
+  font-style: italic;
+}
+
+.blog-prose :deep(mark) {
+  padding: 0.08em 0.28em;
+  border-radius: 3px;
+  color: var(--app-text);
+  background: color-mix(in srgb, var(--color-accent) 22%, var(--color-surface));
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.blog-prose :deep(kbd) {
+  padding: 0.12em 0.42em;
+  border: 1px solid var(--app-border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: var(--app-text);
+  background: color-mix(in srgb, var(--color-surface) 78%, var(--color-bg));
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82em;
+  white-space: nowrap;
+}
+
+.blog-prose :deep(samp) {
+  color: #8dd9e7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.blog-prose :deep(abbr[title]) {
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--color-accent) 58%,
+    transparent
+  );
+  text-decoration-style: dotted;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
 .blog-prose :deep(ul),
 .blog-prose :deep(ol) {
   max-width: 78ch;
@@ -677,25 +863,39 @@ if (article.value) {
 }
 
 .blog-prose :deep(blockquote) {
+  position: relative;
   margin: 1.5em 0;
-  padding: 0.8em 1em;
-  border: 1px solid var(--app-border);
-  border-radius: 10px;
+  padding: 1em 1.2em 1em 1.35em;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent) 18%, var(--app-border));
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 8px 8px 0;
   color: var(--app-text);
-  background: rgba(24, 214, 160, 0.05);
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--color-accent) 8%, var(--color-surface)),
+    color-mix(in srgb, var(--color-surface) 30%, transparent)
+  );
   line-height: 1.65;
 }
 
 .blog-prose :deep(pre) {
+  position: relative;
   width: min(100%, 80ch);
   max-width: 100%;
   overflow-x: auto;
   margin-block: 1.4em 1.7em;
-  padding: 1.15rem 1.25rem;
-  border: 1px solid var(--app-border);
-  border-radius: 10px;
+  padding: 3.15rem 1.25rem 1.2rem;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent) 23%, var(--app-border));
+  border-radius: 9px;
   color: var(--app-text);
-  background: color-mix(in srgb, var(--color-bg) 72%, var(--color-surface));
+  background: radial-gradient(
+      ellipse at 96% 0%,
+      rgba(43, 181, 207, 0.08),
+      transparent 45%
+    ),
+    color-mix(in srgb, var(--color-bg) 78%, var(--color-surface));
   font-size: 0.9em;
   line-height: 1.75;
   tab-size: 2;
@@ -703,15 +903,72 @@ if (article.value) {
   scrollbar-color: var(--app-border) transparent;
 }
 
+.blog-prose :deep(pre:not(.blog-terminal))::before {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  height: 2.15rem;
+  align-items: center;
+  padding-inline: 4rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, #8dd9e7 18%, var(--app-border));
+  color: #8dd9e7;
+  background: color-mix(in srgb, #8dd9e7 5%, var(--color-surface));
+  content: 'CODE SAMPLE';
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.blog-prose :deep(pre:not(.blog-terminal))::after {
+  position: absolute;
+  top: 0.82rem;
+  left: 1rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #f07870;
+  box-shadow:
+    0.75rem 0 #e8bd65,
+    1.5rem 0 var(--color-accent);
+  content: '';
+}
+
 .blog-prose :deep(pre code) {
   padding: 0;
   border: 0;
   border-radius: 0;
-  color: inherit;
+  color: #d5e5e1;
   background: transparent;
   font-size: inherit;
   font-weight: 450;
   overflow-wrap: normal;
+}
+
+.blog-prose :deep(pre code .blog-code-token--keyword) {
+  color: var(--color-accent);
+  font-weight: 650;
+}
+
+.blog-prose :deep(pre code .blog-code-token--string) {
+  color: #e6bd73;
+}
+
+.blog-prose :deep(pre code .blog-code-token--number) {
+  color: #f29a75;
+}
+
+.blog-prose :deep(pre code .blog-code-token--function) {
+  color: #8dd9e7;
+}
+
+.blog-prose :deep(pre code .blog-code-token--comment) {
+  color: #8c9e9a;
+  font-style: italic;
+}
+
+.blog-prose :deep(pre code .blog-code-token--operator) {
+  color: #a9c8c1;
 }
 
 .blog-prose :deep(pre.blog-terminal) {
@@ -855,7 +1112,7 @@ if (article.value) {
 
   .blog-prose :deep(pre) {
     margin-inline: 0;
-    padding: 0.9rem;
+    padding: 2.9rem 0.85rem 0.9rem;
   }
 }
 

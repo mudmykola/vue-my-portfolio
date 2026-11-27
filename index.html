@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+      .mobile-navigation { display: none !important; }
+      @media (max-width: 640px) {
+        .header-nav__menu { display: none !important; }
+        .mobile-navigation { display: block !important; }
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta name="freelancehunt" content="bc4842d34e0ac23" />
     <link rel="stylesheet" href="/styles/critical-navigation.css" />
@@ -11,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=optional"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -53,7 +60,53 @@
     <title>Front-End Engineer Portfolio | Mykola Mud</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="app-boot-loader" role="status" aria-label="Loading page">
+        <span class="app-boot-loader__sr-only">Loading page…</span>
+        <header class="app-boot-loader__header" aria-hidden="true">
+          <span class="app-boot-loader__mark"></span>
+          <span class="app-boot-loader__brand">
+            <span></span>
+            <span></span>
+          </span>
+          <nav class="app-boot-loader__nav">
+            <span></span><span></span><span></span><span></span><span></span>
+          </nav>
+        </header>
+        <main class="app-boot-loader__main" aria-hidden="true">
+          <div class="app-boot-loader__intro">
+            <span class="app-boot-loader__bar app-boot-loader__eyebrow"></span>
+            <div class="app-boot-loader__title">
+              <span class="app-boot-loader__bar"></span>
+              <span
+                class="app-boot-loader__bar app-boot-loader__bar--short"
+              ></span>
+            </div>
+            <div class="app-boot-loader__description">
+              <span class="app-boot-loader__bar"></span>
+              <span
+                class="app-boot-loader__bar app-boot-loader__bar--medium"
+              ></span>
+            </div>
+          </div>
+          <div class="app-boot-loader__feature">
+            <span class="app-boot-loader__preview"></span>
+            <div class="app-boot-loader__feature-copy">
+              <span
+                class="app-boot-loader__bar app-boot-loader__bar--medium"
+              ></span>
+              <span class="app-boot-loader__bar"></span>
+              <span
+                class="app-boot-loader__bar app-boot-loader__bar--short"
+              ></span>
+            </div>
+          </div>
+          <div class="app-boot-loader__rows">
+            <span></span><span></span><span></span>
+          </div>
+        </main>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

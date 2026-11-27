@@ -4,6 +4,7 @@ import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 
 defineProps({
   initialPosts: { type: Array, default: null },
+  initialPage: { type: Number, default: null },
 });
 </script>
 
@@ -11,7 +12,10 @@ defineProps({
   <section class="blog-page">
     <div class="blog-layout tech-atmosphere-host">
       <SectionAtmosphere variant="right" />
-      <BlogItemComponent :initial-posts="initialPosts" />
+      <BlogItemComponent
+        :initial-posts="initialPosts"
+        :initial-page="initialPage"
+      />
     </div>
 
     <section class="blog-contact tech-atmosphere-host" data-scroll-scene>

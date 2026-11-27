@@ -20,8 +20,25 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      style: [
+        {
+          children:
+            '.mobile-navigation{display:none!important}@media(max-width:640px){.header-nav__menu{display:none!important}.mobile-navigation{display:block!important}}',
+        },
+      ],
       link: [
         { rel: 'stylesheet', href: '/styles/critical-navigation.css' },
+        { rel: 'stylesheet', href: '/styles/critical-blog.css' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossorigin: 'anonymous',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=optional',
+        },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         {
           rel: 'icon',
@@ -37,6 +54,7 @@ export default defineNuxtConfig({
     '@': resolve(projectRoot, 'src'),
   },
   css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
     '@/assets/tailwindCSS/main.css',
     '@/assets/style/global-style.scss',
     '@/assets/style/media.scss',

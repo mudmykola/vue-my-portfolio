@@ -1,4 +1,4 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
   faGithub,
@@ -13,6 +13,8 @@ import {
   faRss,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+
+config.autoAddCss = false;
 
 library.add(
   faGithub,

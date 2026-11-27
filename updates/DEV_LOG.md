@@ -1,5 +1,83 @@
 # Dev Log
 
+## 2026-11-27
+
+- Type: Improvement
+- Date/time: 2026-11-27 12:28 Europe/Kyiv
+- Title: Show three Blog topic filters inline
+- Summary: Increased the stable inline topic limit from two to three, keeping `All` as its own control and leaving the remaining topics in the searchable `+N` menu. The menu count updates to the remaining topics; existing wrapping keeps the toolbar usable on mobile.
+- Affected module/route: Blog topic filters, `/blog`
+- Issue reference: #67
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview showed All plus three tags and `+14`; at 320px the topic controls wrap without horizontal overflow. Selecting `AI Coding` returned 2 posts and displayed the reset control. At 390px and 1440px the toolbar stayed within the viewport.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 12:17 Europe/Kyiv
+- Title: Keep the Blog topic menu aligned on mobile
+- Summary: Constrain the searchable topic popover to the width of its `blog-categories` container instead of calculating against `100vw`, which includes the Firefox scrollbar and pushed the menu to the viewport edge. The menu now keeps the same horizontal gutters as the toolbar at narrow widths.
+- Affected module/route: Blog topic filters, `/blog`
+- Issue reference: #67
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Cloudflare/Nitro preview confirmed the 17-topic menu aligns to the 16px content gutters at 320px and 390px with no horizontal overflow. Selecting a topic closed the menu, updated the chip/filter result, and preserved the reset control. The server-rendered and hydrated `blog-categories` markup matched.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 12:05 Europe/Kyiv
+- Title: Cache Shopify Blog data and stabilize toolbar first paint
+- Summary: Cache `/api/blog` responses for five minutes with stale-while-revalidate up to one hour, avoiding a Shopify Storefront request on every hard reload while refreshing content in the background. Render a stable maximum of two topic chips in SSR and hydration instead of inserting them after a font/width measurement; the overflow menu retains all topics. Match critical and component CSS, including wrapping on narrow screens, and keep the custom sort control arrow consistent before hydration.
+- Affected module/route: `server/api/blog/index.get.js`, Blog toolbar styles and `BlogItemComponent.vue`, `/blog`
+- Issue reference: #67
+- Validation: `npm run build`, scoped Prettier and `git diff --check` passed. Cloudflare/Nitro preview returned `/api/blog` twice with HTTP 200 and `Cache-Control: s-maxage=300, stale-while-revalidate=3600`; direct `/blog?page=2` reload restored page 2 and its final article. Browser checks at 1440, 1024, 768, 390 and 320px found no horizontal overflow; the toolbar retained the same four controls (All, two topic chips, overflow) across reload. Console errors/warnings: 0. Firefox-specific verification and production deployment not performed.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 11:37 Europe/Kyiv
+- Title: Preserve Blog pagination and show the last article
+- Summary: Synced the selected Blog page with the `page` query parameter, passed the initial page through Nuxt SSR to prevent mismatched first paint, restored it on reload and browser history navigation, and clamped invalid page numbers. Later pages render all articles as rows with correct numbering, so a one-article final page stays visibly populated. Filter and search changes return to page one and clear the page query.
+- Affected module/route: Nuxt Blog route, Blog page components, `/blog`
+- Issue reference: #169
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production-like Wrangler preview verified direct page 2 and reload (article 7 rendered as row 07), invalid page clamping, and filter/search reset. Browser console had 0 errors and 0 warnings. No deployment performed.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 11:17 Europe/Kyiv
+- Title: Stabilize Blog layout on Firefox reload
+- Summary: Added blocking first-paint CSS for the SSR Blog route so content is styled before Nuxt client hydration; reserved the header social column before site content loads; pinned the topic overflow control while measured tags fill available space; waited for font metrics before measuring; changed webfont loading to `optional`; and included critical SVG atmosphere styles to prevent a first-frame artifact.
+- Affected module/route: Shared header, Blog toolbar and featured content, critical CSS, `/blog`
+- Issue reference: #67
+- Validation: Nuxt and Vite production builds passed. Scoped Prettier and `git diff --check` passed. Firefox forced reload verified at 1440, 1024, 768, 390 and 320px; header, toolbar, icons and Blog content remained styled and within the viewport. No deployment performed.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 11:02 Europe/Kyiv
+- Title: Prevent Font Awesome icon shifts during reload
+- Summary: Load Font Awesome SVG layout styles statically in both Vite and Nuxt and disable runtime style injection. This prevents icons in `blog-read-link` and `blog-toolbar` from changing dimensions after first render, which caused visible layout jumps on Firefox reload.
+- Affected module/route: Font Awesome setup, `/blog`, shared icon rendering
+- Issue reference: #67
+- Validation: Nuxt production build and Vite production build passed; scoped Prettier and `git diff --check` passed. Firefox hard reload at 402px showed the styled Blog page and toolbar/icons stable. No deployment performed.
+
+## 2026-11-27
+
+- Type: Fix
+- Date/time: 2026-11-27 08:46 Europe/Kyiv
+- Title: Keep the Vite app stable during hard reload
+- Summary: Added a pre-styled boot skeleton to the Vite HTML shell and delayed app mounting until Vue Router's initial lazy route is ready. On Blog reload, the header-only/empty content interval is now replaced by the loader; the route mounts after its styles are available. Nuxt SSR behavior is unchanged.
+- Affected module/route: `index.html`, `src/main.js`, `public/styles/critical-navigation.css`, `/blog`, `/portfolio`
+- Issue reference: #67
+- Validation: `npm run build:vite`, `npm run build`, scoped Prettier and `git diff --check` passed. Browser reproduced the pre-fix delay, then verified the loader-to-route transition on Vite `/blog` and `/portfolio`; the 320px boot state initially exposed 32px overflow, which was fixed. Checked boot-shell widths 1440/1024/768/390/320 with no overflow, plus the fully rendered Vite and Nuxt Blog routes at 320px. Browser console had no errors. No deployment performed.
+
+- Type: Improvement
+- Date/time: 2026-11-27 08:27 Europe/Kyiv
+- Title: Unify pagination across routes
+- Summary: Added the shared `AppPagination` component with compact and numbered modes, moved Blog and Portfolio pagination onto it, replaced the design-system mock with the real component, and documented the shared pagination rule.
+- Affected module/route: `src/components/shared/AppPagination.vue`, Blog, Portfolio, Design System, `/blog`, `/portfolio`, `/design-system`
+- Issue reference: #168
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser verified both shared modes and paging interactions; Portfolio changed to page 2 and showed the correct active/disabled states. Checked 1440, 1024, 768, 390 and 320px with no horizontal overflow; Blog currently has six posts, so its single page correctly hides pagination. Design System previews compact and numbered modes; reduced-motion preference and browser console were clear. No deployment performed.
+
 ## 2026-11-26
 
 - Type: Improvement
@@ -1165,3 +1243,21 @@
 - Module/routes: Blog listing, `/blog`
 - Issue reference: GitHub `#167`
 - Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright verified 117 topics (100 temporary QA topics added in-browser) at 1440/1024/768/390/320px: exact hidden counts, no row/page overflow, all topics searchable, menu stays in viewport, selection filters posts, and keyboard/outside/empty-search states work. Reduced-motion and browser console checked; errors: 0.
+
+## 2026-11-27 12:38 EET — Prevent Blog article navigation flash
+
+- Type: Fix
+- Title: Reuse loaded Blog data when opening an article
+- Summary: Article navigation now immediately reuses the full post from the cached Blog payload and does not wait for a duplicate API request. Uncached client navigation shows an article loading state; direct article loads continue to render through SSR. The page-query breadcrumb remains intact.
+- Module/routes: Blog article page, `/blog?page=2` → `/blog/:handle`
+- Issue reference: GitHub `#169`
+- Validation: Production build, scoped Prettier and `git diff --check` passed. Production preview confirmed an immediate article view from page 2, the `blog / page 2` breadcrumb, and return to page 2.
+
+## 2026-11-27 12:49 EET — Refine technical Blog article styling
+
+- Type: Improvement
+- Title: Give Shopify article content a consistent technical reading style
+- Summary: Added numbered H2 markers, an accented lead paragraph, clearer H3s, semantic emphasis styles for strong/em/mark/kbd/samp/abbr, richer quote surfaces, and a window header for every code sample. JavaScript-like code receives safely escaped token colors; recognized shell commands retain the distinct terminal label and palette. The same article template applies to every post.
+- Module/routes: Blog article content, `/blog/:handle`
+- Issue reference: GitHub `#166`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Production preview verified numbered headings, highlighted code samples, terminal styling on the Vite+ post, zero hydration errors on direct article load, and no horizontal overflow at 1440px or 390px.

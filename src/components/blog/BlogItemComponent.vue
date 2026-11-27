@@ -7,8 +7,8 @@ import {
   ref,
   watch,
 } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
-  faArrowLeft,
   faArrowRight,
   faCalendarDays,
   faChevronDown,
@@ -18,10 +18,15 @@ import {
   faTags,
 } from '@fortawesome/free-solid-svg-icons';
 import { usePosts } from './usePosts.js';
+import AppPagination from '../shared/AppPagination.vue';
 
 const props = defineProps({
   initialPosts: { type: Array, default: null },
+  initialPage: { type: Number, default: null },
 });
+
+const route = useRoute();
+const router = useRouter();
 
 const {
   posts: allPosts,
@@ -39,8 +44,6 @@ const {
   totalPages,
   filteredCount,
   paginatedPosts,
-  prevPage,
-  nextPage,
   categories,
   topicCounts,
 } = usePosts({
@@ -48,22 +51,64 @@ const {
   initialLoading: !Array.isArray(props.initialPosts),
 });
 
+const pageFromQuery = (value) => {
+  const parsed = Number(Array.isArray(value) ? value[0] : value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : 1;
+};
+
+currentPage.value = Math.min(
+  pageFromQuery(props.initialPage ?? route.query.page),
+  totalPages.value
+);
+
+watch(currentPage, (page) => {
+  const nextPage = Math.min(Math.max(page, 1), totalPages.value);
+  if (nextPage !== page) {
+    currentPage.value = nextPage;
+    return;
+  }
+
+  const queryPage = page > 1 ? String(page) : undefined;
+  if (route.query.page === queryPage) return;
+
+  router.push({
+    query: { ...route.query, page: queryPage },
+  });
+});
+
+watch(
+  () => route.query.page,
+  (queryPage) => {
+    const nextPage = Math.min(pageFromQuery(queryPage), totalPages.value);
+    if (currentPage.value !== nextPage) currentPage.value = nextPage;
+  }
+);
+
+onMounted(() => {
+  const normalizedPage =
+    currentPage.value > 1 ? String(currentPage.value) : undefined;
+  if (route.query.page === normalizedPage) return;
+
+  router.replace({
+    query: { ...route.query, page: normalizedPage },
+  });
+});
+
 const posts = computed(() => paginatedPosts.value ?? []);
-const featuredPost = computed(() => posts.value[0] ?? null);
-const remainingPosts = computed(() => posts.value.slice(1));
+const featuredPost = computed(() =>
+  currentPage.value === 1 ? (posts.value[0] ?? null) : null
+);
+const remainingPosts = computed(() =>
+  currentPage.value === 1 ? posts.value.slice(1) : posts.value
+);
 const pageOffset = computed(() => (currentPage.value - 1) * 6);
 const totalPostCount = computed(() => allPosts.value.length);
 const topicCount = computed(() => categories.value.length);
-const visibleTopicCount = ref(0);
 const topicFilterRow = ref(null);
-const topicMeasureRow = ref(null);
-const topicOverflowMeasure = ref(null);
 const topicOverflowButton = ref(null);
-const topicResetButton = ref(null);
 const topicSearchInput = ref(null);
 const isTopicMenuOpen = ref(false);
 const topicSearchQuery = ref('');
-let topicResizeObserver;
 
 const orderedCategories = computed(() => {
   if (!selectedCategory.value) return categories.value;
@@ -75,6 +120,10 @@ const orderedCategories = computed(() => {
     ),
   ];
 });
+// Keep the same number of topic chips in SSR and after hydration.
+const visibleTopicCount = computed(() =>
+  Math.min(3, orderedCategories.value.length)
+);
 const visibleCategories = computed(() =>
   orderedCategories.value.slice(0, visibleTopicCount.value)
 );
@@ -95,61 +144,6 @@ const normalizedTopic = (topic) =>
     .toLocaleLowerCase();
 const topicPostCount = (topic) =>
   topicCounts.value.get(normalizedTopic(topic)) || 0;
-
-const updateVisibleTopicCount = async () => {
-  await nextTick();
-
-  const row = topicFilterRow.value;
-  const measureRow = topicMeasureRow.value;
-  const overflowMeasure = topicOverflowMeasure.value;
-  if (!row || !measureRow || !overflowMeasure) return;
-
-  const measuredAll = measureRow.querySelector('[data-topic-all]');
-  const measuredTopics = new Map(
-    [...measureRow.querySelectorAll('[data-topic-key]')].map((button) => [
-      button.dataset.topicKey,
-      button.getBoundingClientRect().width,
-    ])
-  );
-  if (!measuredAll) return;
-
-  const availableWidth = row.clientWidth;
-  const gap = Number.parseFloat(getComputedStyle(row).columnGap) || 0;
-  const allWidth = measuredAll.getBoundingClientRect().width;
-  const resetWidth = topicResetButton.value?.getBoundingClientRect().width || 0;
-  const total = orderedCategories.value.length;
-  let fittedCount = 0;
-  let usedWidth = allWidth;
-
-  for (let index = 0; index <= total; index += 1) {
-    const hiddenCount = total - index;
-    const overflowCount = overflowMeasure.querySelector(
-      '[data-topic-overflow-count]'
-    );
-    if (overflowCount) overflowCount.textContent = `+${hiddenCount}`;
-    const overflowWidth = overflowMeasure.getBoundingClientRect().width;
-    const requiredWidth =
-      usedWidth +
-      (hiddenCount > 0 ? gap + overflowWidth : 0) +
-      (resetWidth > 0 ? gap + resetWidth : 0);
-
-    if (requiredWidth <= availableWidth) {
-      fittedCount = index;
-      if (index < total) {
-        usedWidth +=
-          gap +
-          (measuredTopics.get(
-            normalizedTopic(orderedCategories.value[index])
-          ) || 0);
-      }
-      continue;
-    }
-
-    break;
-  }
-
-  visibleTopicCount.value = fittedCount;
-};
 
 const openTopicMenu = async () => {
   isTopicMenuOpen.value = true;
@@ -177,27 +171,12 @@ const handleTopicMenuKeydown = (event) => {
   }
 };
 
-watch([categories, selectedCategory, searchQuery], updateVisibleTopicCount, {
-  flush: 'post',
-});
-
 onMounted(() => {
   document.addEventListener('pointerdown', handleTopicOutsidePointer);
-
-  if ('ResizeObserver' in window && topicFilterRow.value) {
-    topicResizeObserver = new ResizeObserver(updateVisibleTopicCount);
-    topicResizeObserver.observe(topicFilterRow.value);
-  } else {
-    window.addEventListener('resize', updateVisibleTopicCount);
-  }
-
-  updateVisibleTopicCount();
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('pointerdown', handleTopicOutsidePointer);
-  topicResizeObserver?.disconnect();
-  window.removeEventListener('resize', updateVisibleTopicCount);
 });
 
 const primaryTopic = (post) =>
@@ -269,7 +248,10 @@ const getArticleHref = (post) => {
       .trim()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
-  return `/blog/${handle}`;
+  return {
+    path: `/blog/${handle}`,
+    query: currentPage.value > 1 ? { fromPage: String(currentPage.value) } : {},
+  };
 };
 
 const postNumber = (index) =>
@@ -485,49 +467,8 @@ const postNumber = (index) =>
           </div>
         </section>
 
-        <div
-          ref="topicMeasureRow"
-          class="blog-categories__measure"
-          aria-hidden="true"
-          inert
-        >
-          <button
-            type="button"
-            class="blog-category"
-            data-topic-all
-            tabindex="-1"
-          >
-            <span class="blog-category__label">All</span>
-          </button>
-          <button
-            v-for="category in categories"
-            :key="category"
-            type="button"
-            class="blog-category"
-            :data-topic-key="normalizedTopic(category)"
-            tabindex="-1"
-          >
-            <span class="blog-category__label">{{ category }}</span>
-          </button>
-          <button
-            ref="topicOverflowMeasure"
-            type="button"
-            class="blog-category blog-category--overflow"
-            tabindex="-1"
-          >
-            <font-awesome-icon :icon="faTags" aria-hidden="true" />
-            <span data-topic-overflow-count>+{{ categories.length }}</span>
-            <font-awesome-icon
-              class="blog-category__chevron"
-              :icon="faChevronDown"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-
         <button
           v-if="selectedCategory || searchQuery"
-          ref="topicResetButton"
           type="button"
           class="blog-category blog-category--reset"
           @click="resetFilters"
@@ -564,7 +505,7 @@ const postNumber = (index) =>
     </section>
 
     <template v-else-if="!error">
-      <p v-if="!featuredPost" class="blog-state">
+      <p v-if="!posts.length" class="blog-state">
         No posts found for selected filters.
       </p>
 
@@ -577,7 +518,7 @@ const postNumber = (index) =>
           :aria-label="`Read article: ${post.title}`"
         >
           <span class="blog-row__number" aria-hidden="true">{{
-            postNumber(index + 1)
+            postNumber(index + (currentPage === 1 ? 1 : 0))
           }}</span>
 
           <div class="blog-row__content">
@@ -601,33 +542,15 @@ const postNumber = (index) =>
         </router-link>
       </div>
 
-      <footer
+      <AppPagination
         v-if="totalPages > 1"
-        class="blog-pagination"
-        aria-label="Blog pagination"
-      >
-        <button
-          type="button"
-          class="blog-pagination__button"
-          :disabled="currentPage === 1"
-          @click="prevPage"
-        >
-          <font-awesome-icon :icon="faArrowLeft" aria-hidden="true" />
-          {{ btnPrev }}
-        </button>
-
-        <span>Page {{ currentPage }} / {{ totalPages }}</span>
-
-        <button
-          type="button"
-          class="blog-pagination__button blog-pagination__button--next"
-          :disabled="currentPage === totalPages"
-          @click="nextPage"
-        >
-          {{ btnNext }}
-          <font-awesome-icon :icon="faArrowRight" aria-hidden="true" />
-        </button>
-      </footer>
+        v-model:current-page="currentPage"
+        :total-pages="totalPages"
+        mode="compact"
+        label="Blog pagination"
+        :previous-label="btnPrev"
+        :next-label="btnNext"
+      />
     </template>
   </section>
 </template>

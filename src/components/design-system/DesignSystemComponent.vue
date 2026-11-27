@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import AppPagination from '../shared/AppPagination.vue';
 import {
   faArrowRight,
   faCheck,
@@ -19,6 +20,8 @@ import {
 const loading = ref(false);
 const activeFilter = ref('Frontend');
 const showToast = ref(false);
+const compactPaginationPage = ref(2);
+const paginationPage = ref(3);
 
 const colors = [
   ['Background', '#080F0E', 'var(--color-bg)'],
@@ -391,9 +394,25 @@ const triggerLoading = () => {
           </button>
         </div>
         <div class="ds-tooltip">This is a helpful tip.</div>
-        <div class="ds-pagination">
-          <button>‹</button><button class="active">1</button><button>2</button
-          ><button>3</button><span>…</span><button>10</button><button>›</button>
+        <div class="ds-pagination-examples">
+          <div>
+            <p>Compact · Blog</p>
+            <AppPagination
+              v-model:current-page="compactPaginationPage"
+              :total-pages="5"
+              mode="compact"
+              label="Compact pagination preview"
+            />
+          </div>
+          <div>
+            <p>Numbered · Portfolio</p>
+            <AppPagination
+              v-model:current-page="paginationPage"
+              :total-pages="10"
+              mode="numbered"
+              label="Numbered pagination preview"
+            />
+          </div>
         </div>
       </section>
 

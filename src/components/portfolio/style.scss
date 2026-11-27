@@ -662,43 +662,6 @@
   color: var(--color-accent);
 }
 
-.portfolio-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-}
-
-.portfolio-pagination__pages {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.portfolio-pagination__step,
-.portfolio-pagination__page {
-  min-width: 42px;
-  min-height: 42px;
-}
-
-.portfolio-pagination__ellipsis {
-  display: grid;
-  min-width: 18px;
-  min-height: 42px;
-  place-items: center;
-  color: var(--color-text-muted);
-}
-
-.portfolio-pagination__step:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
-.portfolio-pagination__page[aria-current='page'] {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 34%, transparent);
-}
-
 .portfolio-modal {
   position: fixed;
   z-index: 2000;
