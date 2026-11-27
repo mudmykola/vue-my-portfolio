@@ -3,6 +3,26 @@
 ## 2026-11-27
 
 - Type: Improvement
+- Date/time: 2026-11-27 13:19 Europe/Kyiv
+- Title: Match Contact eyebrow and tighten direct contact spacing
+- Summary: Restyled the Contact `page-badge` to match the flat green section eyebrow used on Portfolio, removed the top and bottom borders from `contact-layout__direct`, and reduced the surrounding vertical spacing.
+- Affected module/route: Contact page, `/contact`
+- Issue reference: #170
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser inspection confirmed the shared eyebrow styling, no direct-contact borders, and no horizontal overflow at desktop width.
+
+## 2026-11-27
+
+- Type: Improvement
+- Date/time: 2026-11-27 13:14 Europe/Kyiv
+- Title: Rebuild Contact page around the project request form
+- Summary: Matched `/contact` to the supplied reference with a full-width shared-header container, project intro, split contact/social details and request form, direct email/phone strip, and accessible success/error dialogs with focus trapping and restoration. Contact details stay sourced from `site-content.json`; the existing message delivery path is unchanged.
+- Affected module/route: Contact page and shared route container, `/contact`
+- Issue reference: #170
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser layout checks at 1440, 1024, 768, 390 and 320px found no horizontal overflow and confirmed the form stacks below the contact details on narrower screens. The message submission and resulting dialog were not triggered to avoid sending a test message.
+
+## 2026-11-27
+
+- Type: Improvement
 - Date/time: 2026-11-27 12:28 Europe/Kyiv
 - Title: Show three Blog topic filters inline
 - Summary: Increased the stable inline topic limit from two to three, keeping `All` as its own control and leaving the remaining topics in the searchable `+N` menu. The menu count updates to the remaining topics; existing wrapping keeps the toolbar usable on mobile.

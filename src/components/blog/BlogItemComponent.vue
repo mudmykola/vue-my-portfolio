@@ -263,9 +263,9 @@ const postNumber = (index) =>
     <header class="blog-intro">
       <div class="blog-intro__copy">
         <p class="blog-eyebrow">Insights</p>
-        <h1 id="blog-title">Front-End Engineering Notes and Articles</h1>
+        <h1 id="blog-title">What’s New in Technology</h1>
         <p class="blog-intro__subtitle">
-          Structured notes, case studies, and practical front-end updates.
+          A roundup of news, updates, and practical insights.
         </p>
       </div>
 
