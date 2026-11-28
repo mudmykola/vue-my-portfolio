@@ -19,6 +19,10 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   app: {
+    pageTransition: {
+      name: 'route-content',
+      mode: 'out-in',
+    },
     head: {
       style: [
         {

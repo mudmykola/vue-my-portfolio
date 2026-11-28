@@ -148,6 +148,25 @@ h6 {
   line-height: 1.55;
 }
 
+.route-content-enter-active {
+  transition:
+    opacity var(--motion-ui) var(--ease-enter),
+    transform var(--motion-ui) var(--ease-enter);
+}
+
+.route-content-leave-active {
+  transition: opacity 120ms var(--ease-exit);
+}
+
+.route-content-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.route-content-leave-to {
+  opacity: 0;
+}
+
 .section-eyebrow {
   margin-bottom: 1rem;
   color: var(--color-accent);
@@ -393,5 +412,19 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .route-content-enter-active,
+  .route-content-leave-active {
+    transition: none;
+  }
+
+  .route-content-enter-from {
+    opacity: 1;
+    transform: none;
+  }
+
+  .route-content-leave-to {
+    opacity: 1;
   }
 }

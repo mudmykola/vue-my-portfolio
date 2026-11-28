@@ -1,5 +1,15 @@
 # Dev Log
 
+## 2026-11-28
+
+- Type: Improvement
+- Date/time: 2026-11-28
+- Title: Replace Blog row arrows with title emphasis
+- Summary: Removed trailing arrows from Blog article rows and the matching loading skeleton space. Blog titles now receive the shared accent color and reveal a short turquoise underline on hover or keyboard focus.
+- Affected module/route: Blog list, `/blog`
+- Issue reference: #177
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed five rendered rows with no arrow elements, the two-column row layout at 1440px, and accent title/underline on hover; at 320px the title and content grid stayed intact. No horizontal overflow at 1440px. Reduced-motion styling disables underline scaling. No commit, push or deploy.
+
 ## 2026-11-27
 
 - Type: Improvement
@@ -1454,3 +1464,75 @@
 - Module/routes: Home About preview and About profile, `/`, `/about`
 - Issue reference: GitHub `#174`
 - Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser confirmed `/` loads `/images/avatar-logo.webp` successfully for `about-preview__image` (natural width 1254px).
+
+## 2026-11-28 — Replace the remotely loaded navigation click sound
+
+- Type: Improvement
+- Title: Generate a soft digital navigation click locally
+- Summary: Replaced the GitHub-hosted MP3 and fetch-on-mount flow with a short, low-volume two-tone Web Audio cue. Removed the obsolete remote endpoint and unused sound JSON data; sound failure remains non-blocking for navigation.
+- Module/routes: Shared navigation, all routes
+- Issue reference: GitHub `#175`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser navigation click created both Web Audio oscillators, transitioned to `/portfolio`, made no request for the old remote MP3, and produced no console errors or warnings.
+
+## 2026-11-28 — Add subtle transitions between routes
+
+- Type: Improvement
+- Title: Fade route content while keeping shared chrome stable
+- Summary: Added a 200ms opacity and 8px upward enter transition to Nuxt page content with a short fade-out. The shared layout, header and footer stay mounted; the Nuxt page key uses only the path so query-only changes such as blog pagination do not remount the page. Reduced-motion users receive no transition or movement.
+- Module/routes: App shell and route content, all routes
+- Issue reference: GitHub `#176`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser confirmed route enter/leave classes apply to page content while header/footer stay mounted; `/blog?page=2` updates without a transition or page remount, Back restores `?page=2`, and reduced-motion navigation has no transition movement.
+
+## 2026-11-28 — Add grouped suggestions to blog search
+
+- Type: Improvement
+- Title: Suggest matching blog topics and articles while searching
+- Summary: Added a compact search popover with popular topics on focus, topic matches with post counts, relevant article previews, and a full-text search action. Added arrow-key navigation, Enter selection, Escape dismissal, accessible combobox/listbox state, and mobile sizing while reusing the already loaded blog data.
+- Module/routes: Blog search toolbar, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier and `git diff --check` passed; Nuxt production build passed. Browser confirmed topic/article/full-search suggestions, ArrowDown + Enter topic selection, Escape dismissal, mobile popover placement at 390px without horizontal overflow, and no `/api/blog` request while searching.
+
+## 2026-11-28 — Clarify access to all blog topics
+
+- Type: Improvement
+- Title: Show the full topic list count in the blog filter
+- Summary: Replaced the ambiguous `+N` topic overflow control with `All topics · N`, where N is the total topic count. The existing searchable menu continues to show every topic with its article count.
+- Module/routes: Blog search toolbar, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier and `git diff --check` passed; Nuxt production build passed. Browser at 390px confirmed `All topics · 21` fits without horizontal overflow, the menu lists all 21 topics with post counts, and searching `AI` returns the three matching topics.
+
+## 2026-11-28 — Prioritize popular blog topics
+
+- Type: Improvement
+- Title: Show the most used blog topics first
+- Summary: On desktop, dynamically fit as many topic chips as available space allows, ordered by matching article count and pinning the selected topic. Keep the mobile row compact with the top three. Sort the searchable All topics list by the same count, with alphabetical ties, so the full set stays available and ordered by relevance.
+- Module/routes: Blog search toolbar, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier and `git diff --check` passed; Nuxt production build passed. Browser confirmed six top topics fit at 1440px, two at 1024px, five at 768px, and three at 390px and 320px. The menu contains all 21 topics in descending article-count order, with alphabetical ties; the page has no horizontal overflow at the checked widths.
+
+## 2026-11-28 — Show filtered blog matches as rows
+
+- Type: Fix
+- Title: Render every filtered blog result in the article list
+- Summary: Keep the lead story featured only on the unfiltered first page. When a topic or search filter is active, render every matching article as a `blog-row` so a single-result filter has a visible result.
+- Module/routes: Blog results, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser reproduced the one-result `Cloudflare` filter; afterward it showed `1 post found`, no featured block, and the matching article as exactly one `blog-row`.
+
+## 2026-11-28 — Fix scrolling in the full topic menu
+
+- Type: Fix
+- Title: Keep all blog topics reachable inside the menu
+- Summary: Constrain the topic menu grid's list row to the available height so the topic list scrolls internally instead of extending past and being clipped by the menu.
+- Module/routes: Blog topic filter, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser at 320px confirmed the menu contains 21 topic options, constrains the list to the menu height, and reaches the final option by internal scrolling.
+
+## 2026-11-28 — Remove repeated blog search headings
+
+- Type: Fix
+- Title: Avoid duplicating the blog suggestion group heading
+- Summary: Keep the popover header consistently labeled “Suggestions” and leave “Popular topics” to its group label when the search is empty.
+- Module/routes: Blog search suggestions, `/blog`
+- Issue reference: GitHub `#177`
+- Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser confirmed an empty search shows `Suggestions` above the `Popular topics` group, while `AI` shows `Suggestions` above distinct `Topics`, `Articles` and `Full-text search` groups.

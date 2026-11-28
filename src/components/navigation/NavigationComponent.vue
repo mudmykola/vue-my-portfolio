@@ -31,7 +31,6 @@ const playNavSound = () => {
 };
 
 onMounted(() => {
-  audioStore.fetchSound();
   load();
 });
 </script>
