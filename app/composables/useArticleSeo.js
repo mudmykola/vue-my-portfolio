@@ -1,5 +1,6 @@
 import { buildIdentityNodes } from '@/config/structuredData.js';
 import { buildCanonicalUrl } from '../utils/routeSeo.js';
+import { buildStructuredDataScript } from '../utils/structuredDataScript.js';
 
 export function useArticleSeo(article) {
   const config = useRuntimeConfig();
@@ -85,17 +86,7 @@ export function useArticleSeo(article) {
   });
   useHead({
     link: [{ rel: 'canonical', href: canonicalUrl }],
-    script: [
-      {
-        key: 'app-structured-data',
-        id: 'app-structured-data',
-        type: 'application/ld+json',
-        textContent: {
-          '@context': 'https://schema.org',
-          '@graph': graph,
-        },
-      },
-    ],
+    script: [buildStructuredDataScript(graph)],
   });
   return { canonicalUrl, graph };
 }

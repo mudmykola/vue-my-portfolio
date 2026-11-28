@@ -1,5 +1,6 @@
 import { buildIdentityNodes } from '@/config/structuredData.js';
 import { buildCanonicalUrl } from '../utils/routeSeo.js';
+import { buildStructuredDataScript } from '../utils/structuredDataScript.js';
 
 const DEFAULT_OG_IMAGE = '/images/avatar-logo.webp';
 
@@ -80,17 +81,7 @@ export function usePortfolioSeo(seo) {
 
   useHead({
     link: [{ rel: 'canonical', href: canonicalUrl }],
-    script: [
-      {
-        key: 'app-structured-data',
-        id: 'app-structured-data',
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@graph': graph,
-        }),
-      },
-    ],
+    script: [buildStructuredDataScript(graph)],
   });
 
   return { canonicalUrl, graph };

@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { buildIdentityNodes } from '../src/config/structuredData.js';
+import { buildStructuredDataScript } from '../app/utils/structuredDataScript.js';
 
 const origin = 'https://mykolamud.pp.ua';
 
@@ -20,6 +21,18 @@ test('shared structured data defines stable website and profile identities', () 
   assert.equal(person['@type'], 'Person');
   assert.equal(person['@id'], `${origin}#person`);
   assert.equal(person.image, `${origin}/images/avatar-logo.webp`);
+});
+
+test('Nuxt writes JSON-LD into the structured data script body', () => {
+  const graph = buildIdentityNodes(origin, `${origin}/images/avatar-logo.webp`);
+  const script = buildStructuredDataScript(graph);
+
+  assert.equal(script.type, 'application/ld+json');
+  assert.deepEqual(JSON.parse(script.textContent), {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  });
+  assert.equal('children' in script, false);
 });
 
 test('Nuxt sitemap and robots assets use the configured public origin', async () => {

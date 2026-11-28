@@ -1614,3 +1614,12 @@
 - Module/routes: Nuxt runtime, SEO, contact integration and build tooling
 - Issue reference: GitHub `#151`
 - Validation: `npm run verify` passed all 29 tests and built the Nuxt Cloudflare Worker artifact. Nuxt sitemap/robots generation tests and the route SEO contract passed; scoped Prettier and `git diff --check` passed. The Nuxt preview wrapper could not start because Wrangler is not installed locally and network access was unavailable; direct Worker preview remains part of #139. No duplicate assets were removed. No commit, push or deploy.
+
+## 2026-11-28 — Verify Nuxt route and article SEO
+
+- Type: Fix
+- Title: Preserve SEO metadata and HTTP statuses across Nuxt routes
+- Summary: Fixed route JSON-LD serialization so schema is emitted in the script body, shared the serializer between page and article metadata, and verified the Shopify article SEO contract. Catch-all routes return HTTP 404 for unknown URLs/articles and preserve API 4xx/5xx responses for article load failures; missing/error pages retain noindex and the requested article canonical.
+- Module/routes: Nuxt SEO and blog article routes, `/`, `/about`, `/resume`, `/portfolio`, `/blog`, `/contact`, `/game`, not-found and `/blog/:handle`
+- Issue reference: GitHub `#73`
+- Validation: `NUXT_PUBLIC_SITE_URL=https://mykolamud.pp.ua npm run verify` passed all 30 tests and built the Cloudflare Worker artifact. Local Wrangler preview returned 200 for public pages and a real Shopify article; title, description, canonical, robots, Open Graph/Twitter and valid WebSite/Person JSON-LD were present on all public route pages, with valid Article JSON-LD on the article. Missing routes/articles returned 404; a controlled local Shopify failure returned 502 with noindex, article canonical and valid fallback identity JSON-LD. Sitemap/robots used the production domain, excluded `/game` from the sitemap and disallowed it in robots.txt; no `example.com` fallback. Scoped Prettier and `git diff --check` passed. Local preview only; no production deploy.

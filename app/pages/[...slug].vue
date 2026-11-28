@@ -295,6 +295,19 @@ const articleDateLabel = computed(() => {
   }).format(date);
 });
 
+if (import.meta.server) {
+  if (!isArticleRoute.value) {
+    setResponseStatus(404);
+  } else if (error.value) {
+    const statusCode = Number(
+      error.value.statusCode || error.value.status || 500
+    );
+    setResponseStatus(
+      statusCode >= 400 && statusCode <= 599 ? statusCode : 500
+    );
+  }
+}
+
 definePageMeta({ title: routeSeo.notFound.title });
 if (article.value) {
   useArticleSeo(article.value);
