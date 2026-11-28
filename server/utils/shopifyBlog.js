@@ -43,6 +43,68 @@ const stripHtml = (value) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+const decodeHtmlEntities = (value) =>
+  String(value || '')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&#(\d+);/g, (_, code) => {
+      const point = Number(code);
+      return point <= 0x10ffff ? String.fromCodePoint(point) : '';
+    })
+    .replace(/&#x([\da-f]+);/gi, (_, code) => {
+      const point = parseInt(code, 16);
+      return point <= 0x10ffff ? String.fromCodePoint(point) : '';
+    });
+
+const cleanSeoText = (value) =>
+  decodeHtmlEntities(stripHtml(value)).replace(/\s+/g, ' ').trim();
+
+const truncateSeoDescription = (value, maxLength = 160) => {
+  const text = cleanSeoText(value);
+  if (text.length <= maxLength) return text;
+
+  const candidate = text.slice(0, maxLength - 1);
+  const wordBoundary = candidate.lastIndexOf(' ');
+  const truncated = candidate.slice(
+    0,
+    wordBoundary > 100 ? wordBoundary : maxLength - 1
+  );
+
+  return `${truncated.trimEnd()}…`;
+};
+
+const getFirstArticleParagraph = (contentHtml) => {
+  const paragraphs = String(contentHtml || '').matchAll(
+    /<p\b[^>]*>([\s\S]*?)<\/p>/gi
+  );
+  const candidates = [...paragraphs].map(([, paragraph]) =>
+    cleanSeoText(paragraph)
+  );
+
+  return (
+    candidates.find((paragraph) => paragraph.length >= 70) ||
+    candidates[0] ||
+    ''
+  );
+};
+
+const buildSeoDescription = (article, excerpt, contentHtml) => {
+  const explicitDescription = cleanSeoText(article.seo?.description);
+  if (explicitDescription) return explicitDescription;
+
+  const excerptText = cleanSeoText(excerpt);
+  const fallbackText =
+    excerptText ||
+    getFirstArticleParagraph(contentHtml) ||
+    cleanSeoText(article.content || contentHtml);
+
+  return truncateSeoDescription(fallbackText);
+};
+
 export const slugify = (value) =>
   String(value || '')
     .normalize('NFKD')
@@ -79,8 +141,8 @@ export const normalizeShopifyArticle = (article, blog = {}) => {
     date: article.publishedAt || '',
     category: tags[0] || blog.title || 'Shopify',
     tags,
-    seoTitle: article.seo?.title || title,
-    seoDescription: article.seo?.description || excerpt,
+    seoTitle: cleanSeoText(article.seo?.title) || title,
+    seoDescription: buildSeoDescription(article, article.excerpt, contentHtml),
     source: 'shopify',
   };
 };

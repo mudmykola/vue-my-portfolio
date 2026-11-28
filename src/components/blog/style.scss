@@ -73,6 +73,7 @@
 .blog-intro h1 {
   max-width: 24ch;
   margin: 0;
+  font-family: 'Sora', 'Manrope', sans-serif;
   color: var(--app-text);
   font-size: var(--type-section);
   font-weight: 800;
@@ -773,6 +774,7 @@
 .blog-featured__title {
   max-width: 48ch;
   margin: 0;
+  font-family: 'Sora', 'Manrope', sans-serif;
   color: var(--app-text);
   font-size: clamp(1.65rem, 2.5vw, 2.25rem);
   font-weight: 800;

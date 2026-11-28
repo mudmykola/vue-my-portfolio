@@ -1,5 +1,25 @@
 # Dev Log
 
+## 2026-11-28 — Stabilize Blog heading layout on reload
+
+- Type: Fix
+- Date/time: 2026-11-28 18:39 Europe/Kyiv
+- Title: Keep Blog headings consistent during first paint
+- Summary: Added the article kicker, title and metadata typography to the first-paint stylesheet, matching the route styles. Made the display font explicit for Blog page and featured headings so critical and component CSS use the same typography before and after hydration.
+- Affected module/route: Blog listing and article heading styles, `/blog` and `/blog/:handle`
+- Issue reference: #139
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Firefox hard reload retained the styled article kicker and title. Three hard reloads in Playwright at 1728px kept the Blog intro and featured title at one line; responsive checks at 1440/1024/768/390/320px found no horizontal overflow on `/blog` or an article route. Line counts adapt to viewport width as expected. No commit, push or deploy.
+
+## 2026-11-28 — Improve SEO fallbacks across Shopify articles
+
+- Type: Fix
+- Date/time: 2026-11-28 18:17 Europe/Kyiv
+- Title: Generate concise metadata when Shopify SEO fields are missing
+- Summary: Audited all 13 published articles in the paginated Shopify feed. One article has custom SEO title and description; the other 12 rely on fallback metadata. When no custom description or excerpt exists, the server now builds a plain-text description from the first meaningful paragraph and caps it at 160 characters. Explicit Shopify descriptions remain intact. Article JSON-LD no longer treats the generic site image as an article image, and Open Graph alt text uses the configured site-image description when the article has no image. All 13 posts currently lack excerpts, featured images, and image alt text; social cards therefore continue using the configured generic image until article images are added in Shopify.
+- Affected module/route: Shopify article normalization and SEO, `/blog/:handle`
+- Issue reference: #139
+- Validation: Read-only Storefront audit covered all 13 published posts and confirmed generated descriptions are non-empty and 130–159 characters. Nuxt Cloudflare Worker production build passed. Production route preview was not available: the public domain serves the legacy HTML shell, and Wrangler is not installed for local Cloudflare preview. No production deployment.
+
 ## 2026-11-28
 
 - Type: Improvement

@@ -41,6 +41,13 @@ export default defineNuxtConfig({
           crossorigin: 'anonymous',
         },
         {
+          rel: 'preload',
+          href: 'https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwV6-xo6eeIw.woff2',
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: 'anonymous',
+        },
+        {
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=optional',
         },

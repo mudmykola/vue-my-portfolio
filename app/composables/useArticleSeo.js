@@ -26,7 +26,7 @@ export function useArticleSeo(article) {
       headline: article.title,
       description,
       datePublished: article.date,
-      image: imageUrl,
+      ...(article.image ? { image: imageUrl } : {}),
       author: { '@id': `${siteUrl}#person` },
       publisher: { '@id': `${siteUrl}#person` },
       isPartOf: { '@id': `${siteUrl}#website` },
@@ -78,7 +78,9 @@ export function useArticleSeo(article) {
     ogType: 'article',
     ogUrl: canonicalUrl,
     ogImage: imageUrl,
-    ogImageAlt: article.imageAlt || article.title,
+    ogImageAlt: article.image
+      ? article.imageAlt || article.title
+      : config.public.defaultOgImageAlt || article.title,
     twitterCard: 'summary_large_image',
     twitterTitle: title,
     twitterDescription: description,

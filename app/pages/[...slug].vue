@@ -619,6 +619,7 @@ if (article.value) {
 .blog-article__header h1 {
   max-width: 48ch;
   margin: 0;
+  font-family: 'Sora', 'Manrope', sans-serif;
   color: var(--app-text);
   font-size: var(--type-section);
   font-weight: 800;
