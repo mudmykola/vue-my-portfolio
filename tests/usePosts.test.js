@@ -83,15 +83,14 @@ test('usePosts resets page when filters change', async () => {
   assert.equal(state.currentPage.value, 1);
 });
 
-test('usePosts modal controls open and close selected post', () => {
+test('usePosts derives topic options and post counts', () => {
   const state = usePosts();
-  const post = createPosts()[0];
+  state.posts.value = createPosts();
 
-  state.openModal(post);
-  assert.equal(state.selectedPost.value.id, 1);
-
-  state.closeModal();
-  assert.equal(state.selectedPost.value, null);
+  assert.deepEqual(state.categories.value, ['Vue', 'CSS', 'Backend']);
+  assert.equal(state.topicCounts.value.get('vue'), 1);
+  assert.equal(state.topicCounts.value.get('css'), 1);
+  assert.equal(state.topicCounts.value.get('backend'), 1);
 });
 
 process.on('exit', () => {

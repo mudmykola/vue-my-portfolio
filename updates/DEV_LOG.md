@@ -4,6 +4,30 @@
 
 - Type: Improvement
 - Date/time: 2026-11-28
+- Title: Apply topic colors to Blog row title keywords
+- Summary: Blog list titles now keep matching topic words highlighted in the same color as their topic badge. The row underline still appears only on hover or keyboard focus and follows the topic color.
+- Affected module/route: Blog article rows, `/blog`
+- Issue reference: #177
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed topic-colored matching words in all 5 visible rows, the topic-colored underline appearing on hover only, and no horizontal overflow at 320px or 1440px. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-28
+- Title: Keep the featured Blog title visibly topic-accented
+- Summary: The featured title now always highlights words matching its topic family and displays a short static underline in that topic color. Unmatched title text stays light, the highlight does not depend on hover, and keyboard focus retains a visible ring.
+- Affected module/route: Blog featured article, `/blog`
+- Issue reference: #177
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed the CSS keyword and underline stay turquoise while hovered and the remaining title text stays light; no horizontal overflow at 320px or 1440px. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-28
+- Title: Add topic-family color accents to Blog badges
+- Summary: Introduced a restrained topic palette for Shopify, AI, Vue/Nuxt and web topics. Applied matching tints to topic filters, the all-topics list and article category badges, with the existing green as the fallback.
+- Affected module/route: Blog topic filters and article list, `/blog`
+- Issue reference: #177
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Playwright confirmed distinct, matching topic colors in badges and the 21-item menu at 1440px; at 320px there was no horizontal overflow. No browser console errors. No commit, push or deploy.
+
+- Type: Improvement
+- Date/time: 2026-11-28
 - Title: Replace Blog row arrows with title emphasis
 - Summary: Removed trailing arrows from Blog article rows and the matching loading skeleton space. Blog titles now receive the shared accent color and reveal a short turquoise underline on hover or keyboard focus.
 - Affected module/route: Blog list, `/blog`
@@ -1536,3 +1560,57 @@
 - Module/routes: Blog search suggestions, `/blog`
 - Issue reference: GitHub `#177`
 - Validation: Scoped Prettier, `git diff --check` and Nuxt production build passed. Browser confirmed an empty search shows `Suggestions` above the `Popular topics` group, while `AI` shows `Suggestions` above distinct `Topics`, `Articles` and `Full-text search` groups.
+
+## 2026-11-28 — Map the full technology stack around the About portrait
+
+- Type: Improvement
+- Title: Build a grouped technology orbit from the resume stack
+- Summary: Replaced the three static portrait tags with a responsive orbital map of all 33 resume technologies. The nodes use the shared technology icon mapping and are grouped as Frontend (16), Shopify (8), Edge & data (6), and Workflow (3); hover titles and accessible labels retain each technology name. Preserved the portrait asset and lower fog fade.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser confirmed all 33 nodes and category counts at 1440, 1024, 768, 390 and 320px, no horizontal overflow or clipped nodes, the portrait loads, and reduced-motion mode has no orbit animation. Browser console had no errors or warnings.
+
+## 2026-11-28 — Connect the About stack as a technology tree
+
+- Type: Improvement
+- Title: Replace the circular technology orbit with a connected stack tree
+- Summary: Replaced the orbit around the About portrait with four branches rooted at the portrait: Frontend (16), Shopify (8), Edge & data (6), and Workflow (3). Hover and keyboard focus send a short signal through the selected connector and pulse that branch's technology icons in sequence. Narrow layouts use a compact vertical tree; reduced-motion preferences disable the signal and node animation.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser confirmed 33 technology nodes and four groups without horizontal overflow at 1440, 1024, 768, 390 and 320px; keyboard focus activates a branch; reduced-motion mode disables the animation. No commit, push or deploy.
+
+## 2026-11-28 — Refine the About portrait and tree signals
+
+- Type: Improvement
+- Title: Crop hands and loop the technology tree signal
+- Summary: Cropped the desktop portrait above the hands while preserving the existing fog fade, replaced SVG-scaled circles with fixed-size round HTML markers, and added a slow repeating signal along the tree branches. Reduced-motion preferences hide the traveling signal and disable node pulses.
+- Module/routes: About profile portrait and stack tree, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser confirmed no hands in the desktop portrait, round 7–9px markers, a 5.4-second repeating signal cycle, 33 technologies and no horizontal overflow at 1440, 1024, 768, 390 and 320px. Emulated reduced-motion mode disabled the signal and node animation. No commit, push or deploy.
+
+## 2026-11-28 — Preserve the About portrait shoulders
+
+- Type: Improvement
+- Title: Fade the lower portrait without zooming the image
+- Summary: Removed the portrait zoom that clipped the shoulders. The lower mask now fades out before the hands enter the frame, preserving the shoulders and upper torso. Hidden connector markers on narrow layouts where the SVG tree is hidden.
+- Module/routes: About profile portrait, `/about`
+- Issue reference: GitHub `#174`
+- Validation: Nuxt production build, scoped Prettier and `git diff --check` passed. Browser review confirmed the unscaled portrait at 1440px retains the shoulders and fades before the hands; mobile has no detached tree markers. No horizontal overflow at 1440, 1024, 768, 390 or 320px; no browser console errors. No commit, push or deploy.
+
+## 2026-11-28 — Move remaining runtime configuration to Nuxt
+
+- Type: Improvement
+- Title: Use Nuxt runtime variables for weather and SEO assets
+- Summary: Routed the optional weather API key through Nuxt public runtime config, removed the obsolete Vite key from GitHub Actions, and aligned README and release instructions with the Nuxt/Cloudflare Worker runtime. Nuxt SEO asset generation and runtime config now use `NUXT_PUBLIC_*` variables without Vite fallbacks.
+- Module/routes: Nuxt runtime configuration, Weather widget, CI and release docs
+- Issue reference: GitHub `#150`
+- Validation: `npm run verify` passed all 29 tests and built the Nuxt Cloudflare Worker artifact. Scoped Prettier and `git diff --check` passed. Replaced an obsolete Blog modal test assertion with coverage for the current topic options/counts API. No commit, push or deploy.
+
+## 2026-11-28 — Retire the standalone Vite application shell
+
+- Type: Refactor
+- Title: Remove legacy Vite bootstrap and static hosting pipeline
+- Summary: Removed the standalone Vue Router entry, legacy HTML shell, Vite config/scripts, snapshot prerender generator, and obsolete Firebase rewrite. Nuxt retains the SEO asset generator and shared structured data; the verification meta tag is now in Nuxt head. Removed Vite-only direct dependencies and kept assets and Vue Router imports still used by the Nuxt app.
+- Module/routes: Nuxt runtime, SEO, contact integration and build tooling
+- Issue reference: GitHub `#151`
+- Validation: `npm run verify` passed all 29 tests and built the Nuxt Cloudflare Worker artifact. Nuxt sitemap/robots generation tests and the route SEO contract passed; scoped Prettier and `git diff --check` passed. The Nuxt preview wrapper could not start because Wrangler is not installed locally and network access was unavailable; direct Worker preview remains part of #139. No duplicate assets were removed. No commit, push or deploy.

@@ -47,10 +47,10 @@ NUXT_SHOPIFY_BLOG_HANDLE=blog-post
 NUXT_SHOPIFY_PORTFOLIO_COLLECTION_HANDLE=portfolio
 
 # Optional: weather widget
-VITE_OPENWEATHER_API_KEY=
+NUXT_PUBLIC_OPEN_WEATHER_API_KEY=
 ```
 
-Use `NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE=private` for a private Storefront token. Keep Shopify tokens server-side; never use a `VITE_` variable for credentials. Local `.env` files are ignored by Git.
+Use `NUXT_SHOPIFY_STOREFRONT_TOKEN_TYPE=private` for a private Storefront token. Keep Shopify credentials server-side and use Cloudflare Worker secrets for private values. Local `.env` files are ignored by Git.
 
 ## Validate and build
 
@@ -99,4 +99,4 @@ tests/     Node.js test suite
 docs/      design system and project documentation
 ```
 
-The legacy Vite scripts remain available for compatibility, but Nuxt on Cloudflare Workers is the production application and deployment path.
+Nuxt on Cloudflare Workers is the canonical application, build, preview and deployment runtime.

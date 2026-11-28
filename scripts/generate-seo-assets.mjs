@@ -21,38 +21,9 @@ const trimTrailingSlash = (value = '') => String(value).replace(/\/+$/, '');
 const ensureLeadingSlash = (value = '') =>
   String(value).startsWith('/') ? String(value) : `/${value}`;
 
-const deriveOriginFromContactApiUrl = (value = '') => {
-  try {
-    if (!value) return '';
-    const parsed = new URL(value);
-    return trimTrailingSlash(parsed.origin);
-  } catch {
-    return '';
-  }
-};
-
-const siteUrl = trimTrailingSlash(
-  process.env.NUXT_PUBLIC_SITE_URL ||
-    import.meta.env?.VITE_SITE_URL ||
-    process.env.VITE_SITE_URL ||
-    'https://mykolamud.pp.ua'
+const origin = trimTrailingSlash(
+  process.env.NUXT_PUBLIC_SITE_URL || 'https://mykolamud.pp.ua'
 );
-const contactApiOrigin = deriveOriginFromContactApiUrl(
-  import.meta.env?.VITE_CONTACT_API_URL ||
-    process.env.VITE_CONTACT_API_URL ||
-    ''
-);
-const origin = siteUrl || contactApiOrigin || 'https://example.com';
-
-if (!siteUrl && !contactApiOrigin) {
-  console.warn(
-    '[seo-assets] VITE_SITE_URL is not set and VITE_CONTACT_API_URL is not absolute. Using https://example.com fallback for sitemap/robots generation.'
-  );
-} else if (!siteUrl && contactApiOrigin) {
-  console.warn(
-    `[seo-assets] VITE_SITE_URL is not set. Using ${contactApiOrigin} derived from VITE_CONTACT_API_URL for sitemap/robots generation.`
-  );
-}
 
 const now = new Date().toISOString();
 

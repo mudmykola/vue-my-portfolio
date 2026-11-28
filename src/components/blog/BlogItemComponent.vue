@@ -483,6 +483,126 @@ const primaryTopic = (post) =>
   post?.category ||
   'Article';
 
+const topicToneClass = (topic) => {
+  const normalized = String(topic || '').toLocaleLowerCase();
+
+  if (/shopify|liquid|e-?commerce|commerce/.test(normalized)) {
+    return 'blog-topic-tone--shopify';
+  }
+  if (/cloudflare/.test(normalized)) {
+    return 'blog-topic-tone--platform';
+  }
+  if (
+    /\b(ai|llm|agent|gpt|claude|openai|gemini)\b|artificial intelligence/.test(
+      normalized
+    )
+  ) {
+    return 'blog-topic-tone--ai';
+  }
+  if (
+    /\b(vue|nuxt|javascript|typescript|react|angular|svelte|bun|rust|ruby)\b/.test(
+      normalized
+    )
+  ) {
+    return 'blog-topic-tone--framework';
+  }
+  if (/\b(vite|devops|gitlab|extensions?)\b|developer tools/.test(normalized)) {
+    return 'blog-topic-tone--tools';
+  }
+  if (
+    /\b(css|html|frontend|front-end|web|performance|seo)\b/.test(normalized)
+  ) {
+    return 'blog-topic-tone--web';
+  }
+
+  return 'blog-topic-tone--default';
+};
+
+const featuredTitleTerms = {
+  shopify: ['Shopify', 'Liquid', 'e-commerce', 'commerce', 'store'],
+  platform: ['Cloudflare', 'Netlify', 'Firebase', 'Workers'],
+  ai: [
+    'artificial intelligence',
+    'AI',
+    'LLM',
+    'agent',
+    'GPT',
+    'Claude',
+    'OpenAI',
+    'Gemini',
+  ],
+  framework: [
+    'JavaScript',
+    'TypeScript',
+    'Vue',
+    'Nuxt',
+    'React',
+    'Angular',
+    'Svelte',
+    'Bun',
+    'Rust',
+    'Ruby',
+    'framework',
+    'runtime',
+  ],
+  tools: ['Vite', 'DevOps', 'GitLab', 'extension', 'developer tools'],
+  web: [
+    'CSS',
+    'HTML',
+    'frontend',
+    'front-end',
+    'web',
+    'performance',
+    'SEO',
+    'JavaScript',
+    'TypeScript',
+    'React',
+    'Vue',
+    'Nuxt',
+    'Angular',
+    'Svelte',
+  ],
+};
+
+const featuredTitleParts = (post) => {
+  const title = String(post?.title || '');
+  const tone = topicToneClass(primaryTopic(post)).replace(
+    'blog-topic-tone--',
+    ''
+  );
+  const terms = featuredTitleTerms[tone] || [];
+  if (!terms.length) return [{ text: title, highlighted: false }];
+
+  const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const expression = new RegExp(
+    `\\b(${[...terms]
+      .sort((a, b) => b.length - a.length)
+      .map(escapeRegExp)
+      .join('|')})\\b`,
+    'gi'
+  );
+  const parts = [];
+  let lastIndex = 0;
+
+  for (const match of title.matchAll(expression)) {
+    if (match.index > lastIndex) {
+      parts.push({
+        text: title.slice(lastIndex, match.index),
+        highlighted: false,
+      });
+    }
+    parts.push({ text: match[0], highlighted: true });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (!parts.length) return [{ text: title, highlighted: false }];
+  if (lastIndex < title.length) {
+    parts.push({ text: title.slice(lastIndex), highlighted: false });
+  }
+
+  return parts;
+};
+
 const setCategory = (category, restoreFocus = false) => {
   selectedCategory.value = category;
   closeTopicMenu(restoreFocus);
@@ -592,9 +712,11 @@ const postNumber = (index) =>
 
       <div class="blog-featured__content">
         <div class="blog-story-meta">
-          <span class="blog-story-meta__category">{{
-            primaryTopic(featuredPost)
-          }}</span>
+          <span
+            class="blog-story-meta__category"
+            :class="topicToneClass(primaryTopic(featuredPost))"
+            >{{ primaryTopic(featuredPost) }}</span
+          >
           <span class="blog-story-meta__separator" aria-hidden="true"></span>
           <template v-if="featuredPost.author">
             <span class="blog-story-meta__author">{{
@@ -609,9 +731,17 @@ const postNumber = (index) =>
           <span>{{ readTime(featuredPost) }} min read</span>
         </div>
 
-        <h2 class="blog-featured__title">
+        <h2
+          class="blog-featured__title"
+          :class="topicToneClass(primaryTopic(featuredPost))"
+        >
           <router-link :to="getArticleHref(featuredPost)">
-            {{ featuredPost.title }}
+            <span
+              v-for="(part, index) in featuredTitleParts(featuredPost)"
+              :key="index"
+              :class="{ 'blog-featured__title-accent': part.highlighted }"
+              >{{ part.text }}</span
+            >
           </router-link>
         </h2>
         <p class="blog-featured__excerpt">{{ getExcerpt(featuredPost) }}</p>
@@ -787,7 +917,10 @@ const postNumber = (index) =>
           :key="category"
           type="button"
           class="blog-category"
-          :class="{ 'blog-category--active': selectedCategory === category }"
+          :class="[
+            topicToneClass(category),
+            { 'blog-category--active': selectedCategory === category },
+          ]"
           :aria-pressed="selectedCategory === category"
           :title="category"
           @click="setCategory(category)"
@@ -803,6 +936,7 @@ const postNumber = (index) =>
             v-for="category in orderedCategories"
             :key="category"
             class="blog-category blog-topic-measure__item"
+            :class="topicToneClass(category)"
           >
             <span class="blog-category__label">{{ category }}</span>
           </span>
@@ -859,6 +993,7 @@ const postNumber = (index) =>
               type="button"
               class="blog-topic-option"
               :class="{
+                [topicToneClass(category)]: true,
                 'blog-topic-option--active': selectedCategory === category,
               }"
               :aria-pressed="selectedCategory === category"
@@ -934,16 +1069,25 @@ const postNumber = (index) =>
 
           <div class="blog-row__content">
             <div class="blog-row__meta">
-              <span class="blog-story-meta__category">{{
-                primaryTopic(post)
-              }}</span>
+              <span
+                class="blog-story-meta__category"
+                :class="topicToneClass(primaryTopic(post))"
+                >{{ primaryTopic(post) }}</span
+              >
               <span v-if="post.author">{{ post.author }}</span>
               <time :datetime="post.date">{{
                 formatEditorialDate(post.date)
               }}</time>
               <span>{{ readTime(post) }} min read</span>
             </div>
-            <h3>{{ post.title }}</h3>
+            <h3 :class="topicToneClass(primaryTopic(post))">
+              <span
+                v-for="(part, partIndex) in featuredTitleParts(post)"
+                :key="partIndex"
+                :class="{ 'blog-row__title-accent': part.highlighted }"
+                >{{ part.text }}</span
+              >
+            </h3>
             <p>{{ getExcerpt(post, 190) }}</p>
           </div>
         </router-link>

@@ -11,12 +11,16 @@ import {
 import { ref, onMounted } from 'vue';
 
 const loading = ref(true);
+const runtimeConfig = useRuntimeConfig();
+const weatherApiKey = runtimeConfig.public.openWeatherApiKey;
 
 onMounted(() => {
-  fetchWeatherData().then(() => {
+  fetchWeatherData(city.value, weatherApiKey).then(() => {
     loading.value = false;
   });
 });
+
+const onChooseLocation = () => chooseLocation(weatherApiKey);
 </script>
 
 <template>
@@ -37,7 +41,7 @@ onMounted(() => {
     <button
       class="weather-pill__action"
       type="button"
-      @click="chooseLocation"
+      @click="onChooseLocation"
       aria-label="Choose city"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">

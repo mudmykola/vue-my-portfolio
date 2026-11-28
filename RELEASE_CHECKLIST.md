@@ -1,82 +1,46 @@
-# Release Checklist
+# Nuxt Release Checklist
 
-Use this checklist before every production release.
+Use this checklist before releasing the Nuxt application to Cloudflare Workers.
 
-## 1) Pre-Flight (Local)
+## 1. Pre-flight
 
-- Confirm target branch is up to date (`master`).
-- Confirm clean working tree (`git status`).
-- Install deps and validate lockfile sync:
-  - `npm ci`
-- Run tests:
-  - `npm test`
-- Build production bundle:
-  - `npm run build`
+- Confirm the target branch is reviewed and up to date.
+- Run `npm ci`.
+- Run `npm run verify` (Node tests and Nuxt production build).
+- Confirm the build output exists in `.output/`.
 
-## 2) Secrets and Environment
+## 2. Runtime configuration
 
-GitHub Actions secrets required:
+Configure these values as Cloudflare Worker variables/secrets, not GitHub Actions
+build secrets:
 
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `VITE_OPENWEATHER_API_KEY`
-- `VITE_SITE_URL` (required for canonical, prerender snapshots, sitemap, robots)
-  - Production value: `https://mykolamud.pp.ua`
-- Optional: `VITE_CONTACT_API_URL` (defaults to `/contact`)
+- `NUXT_PUBLIC_SITE_URL=https://mykolamud.pp.ua` (public canonical origin; also
+  declared in `wrangler.jsonc`).
+- `NUXT_SHOPIFY_STORE_DOMAIN`, `NUXT_SHOPIFY_STOREFRONT_TOKEN`, and any required
+  Shopify blog/portfolio settings. Keep private Storefront tokens secret.
+- `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` for the contact Worker.
+- Optional `NUXT_PUBLIC_OPEN_WEATHER_API_KEY` for the client-side weather widget.
 
-Cloudflare Worker secrets required:
+GitHub Actions requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` only
+for the manually triggered deploy job. The verification job builds without
+production credentials.
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+## 3. Deploy
 
-Verify Cloudflare account before setting secrets:
+- Review the GitHub Actions verification run.
+- Deploy only after explicit release approval. Use the manual workflow or run
+  `npm run deploy:worker` after authenticating Wrangler.
 
-- `npx wrangler whoami --config worker/wrangler.toml`
+## 4. Post-deploy checks
 
-Set Worker secrets:
+- Open `https://mykolamud.pp.ua/` and directly load `/about`, `/resume`,
+  `/portfolio`, `/blog`, `/contact`, and a blog article URL.
+- Confirm canonical, Open Graph and JSON-LD URLs use `https://mykolamud.pp.ua`.
+- Confirm `/sitemap.xml`, `/robots.txt`, `/health`, Shopify-backed pages,
+  and contact form behavior.
+- Check desktop and mobile navigation and page transitions.
 
-- `npx wrangler secret put TELEGRAM_BOT_TOKEN --config worker/wrangler.toml`
-- `npx wrangler secret put TELEGRAM_CHAT_ID --config worker/wrangler.toml`
+## 5. Rollback
 
-## 3) Deploy
-
-- Merge feature branch into `master`.
-- Confirm GitHub Actions run `Deploy Cloudflare Worker` is green.
-
-Manual deploy fallback:
-
-- `npm run build`
-- `npx wrangler deploy --config worker/wrangler.toml`
-
-## 4) Post-Deploy Validation
-
-- Open site:
-  - `https://vue-my-portfolio-contact.freelance-mud.workers.dev/`
-- SEO source sanity check (View Source on `/` and `/about`):
-  - No `https://example.com` in `canonical`, `og:url`, `og:image`, or JSON-LD
-- Health endpoint:
-  - `GET /health` should return `success: true`
-- Crawl assets:
-  - `GET /sitemap.xml` returns production domain (not `example.com`)
-  - `GET /robots.txt` contains correct `Sitemap:` URL
-- Contact API smoke test:
-  - `curl -i -X POST 'https://vue-my-portfolio-contact.freelance-mud.workers.dev/contact' -H 'Content-Type: application/json' --data '{"fullName":"Test User","email":"test@example.com","message":"Ping"}'`
-  - Expect `HTTP 200` and `{"success":true}`
-- UI sanity checks (desktop + mobile):
-  - Navigation and page transitions
-  - Contact form submit popup
-  - Weather widget data loaded
-
-## 5) Rollback Procedure
-
-If release is broken:
-
-- Revert the merge commit on `master`.
-- Push revert commit.
-- Confirm `Deploy Cloudflare Worker` runs successfully after revert.
-- Re-run post-deploy validation checklist.
-
-## 6) Release Tracking
-
-- Linear: set task `In Progress` before work and `Done` after verification.
-- GitHub Project: keep Status/Workflow and priority labels in sync.
+- Revert the release commit through the normal reviewed repository workflow.
+- Re-run `npm run verify`, then deploy the reviewed rollback build after approval.

@@ -1,19 +1,16 @@
-const env = import.meta?.env ?? {};
-
 const trimTrailingSlash = (value) => String(value || '').replace(/\/+$/, '');
 
 const OPENWEATHER_API_BASE = trimTrailingSlash(
-  env.VITE_OPENWEATHER_API_BASE_URL || 'https://api.openweathermap.org/data/2.5'
+  'https://api.openweathermap.org/data/2.5'
 );
 
 const OPENWEATHER_ICON_BASE = trimTrailingSlash(
-  env.VITE_OPENWEATHER_ICON_BASE_URL || 'https://openweathermap.org/img/wn'
+  'https://openweathermap.org/img/wn'
 );
 
 export const remoteEndpoints = {
-  blogPostsUrl: env.VITE_BLOG_POSTS_URL || '/data/blog-posts.json',
-  portfolioProjectsUrl:
-    env.VITE_PORTFOLIO_PROJECTS_URL || '/data/portfolio.json',
+  blogPostsUrl: '/data/blog-posts.json',
+  portfolioProjectsUrl: '/data/portfolio.json',
   buildOpenWeatherCurrentUrl({ city, apiKey, units = 'metric' }) {
     const params = new URLSearchParams({
       q: city,

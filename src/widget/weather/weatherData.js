@@ -11,9 +11,10 @@ const storedCity =
 export const city = ref(storedCity || 'Kyiv');
 export const weatherError = ref('');
 
-const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
-
-export const fetchWeatherData = async (selectedCity = city.value) => {
+export const fetchWeatherData = async (
+  selectedCity = city.value,
+  apiKey = ''
+) => {
   weatherError.value = '';
 
   if (!apiKey) {
@@ -56,11 +57,11 @@ export const fetchWeatherData = async (selectedCity = city.value) => {
   }
 };
 
-export const chooseLocation = () => {
+export const chooseLocation = (apiKey = '') => {
   if (typeof window === 'undefined') return;
 
   const selectedCity = prompt('Please enter a city:');
   if (selectedCity) {
-    fetchWeatherData(selectedCity);
+    fetchWeatherData(selectedCity, apiKey);
   }
 };

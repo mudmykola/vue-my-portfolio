@@ -29,8 +29,6 @@ jobs:
         run: npm ci
 
       - name: Verify Nuxt application
-        env:
-          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: npm run verify
 
   deploy:
@@ -53,8 +51,6 @@ jobs:
         run: npm ci
 
       - name: Build Nuxt Worker
-        env:
-          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
         run: npm run build
 
       - name: Deploy Nuxt Worker with Wrangler CLI

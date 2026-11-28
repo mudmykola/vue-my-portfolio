@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import {
   faUser,
   faCode,
@@ -18,8 +18,19 @@ import HomeCtaSection from '@/components/home-content/HomeCtaSection.vue';
 import HomeArtifactField from '@/components/home-content/HomeArtifactField.vue';
 import SectionAtmosphere from '@/components/shared/SectionAtmosphere.vue';
 import { useSiteContent } from '@/composables/useSiteContent.js';
+import { getTechnologyIcon } from '@/utils/technologyIcons.js';
 
 const { data, loading, error, load } = useSiteContent();
+const activeStackBranch = ref(null);
+
+const activateStackBranch = (id) => {
+  activeStackBranch.value = id;
+};
+
+const clearStackBranch = (id, event) => {
+  if (event.currentTarget.contains(event.relatedTarget)) return;
+  if (activeStackBranch.value === id) activeStackBranch.value = null;
+};
 
 const page = computed(() => data.value?.aboutPage ?? null);
 const avatar = computed(() => data.value?.aboutAvatar?.[0] ?? null);
@@ -29,7 +40,43 @@ const profileSubtitle = computed(() =>
     : page.value?.subtitle || ''
 );
 const contactCta = computed(() => data.value?.homePage?.cta ?? null);
+const stackGroups = computed(() => {
+  const resume = data.value?.resumePage ?? {};
+  const frontend = resume.frontendTechnologies ?? [];
+  const tools = resume.toolsTechnologies ?? [];
+  const getName = (item) => (typeof item === 'string' ? item : item.name);
+  const selectTools = (pattern) =>
+    tools.filter((item) => pattern.test(getName(item)));
 
+  return [
+    { id: 'frontend', label: 'Frontend', items: frontend },
+    {
+      id: 'shopify',
+      label: 'Shopify',
+      items: selectTools(
+        /shopify|storefront api|admin api|checkout|metafields|theme app|recharge/i
+      ),
+    },
+    {
+      id: 'data',
+      label: 'Edge & data',
+      items: selectTools(
+        /cloudflare|amplitude|meta pixel|firebase|python|google apps script/i
+      ),
+    },
+    {
+      id: 'workflow',
+      label: 'Workflow',
+      items: selectTools(/git \/ github|vite \/ webpack|figma/i),
+    },
+  ].map((group) => ({
+    ...group,
+    items: group.items.map((item) => {
+      const name = getName(item);
+      return { name, ...getTechnologyIcon(name) };
+    }),
+  }));
+});
 onMounted(load);
 </script>
 
@@ -74,43 +121,115 @@ onMounted(load);
             :social-links="page.socialLinks"
           />
         </div>
-        <div v-if="avatar" class="about-profile__portrait">
-          <div class="about-profile__schematic" aria-hidden="true">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path
-                d="M12 22h12v-8h12m52 8H76v-8H64M7 55h11v8h11m64-8H82v8H71M17 83h14v-8h9m43 8H70v-8h-9"
-              />
-              <circle cx="12" cy="22" r="1.1" />
-              <circle cx="88" cy="22" r="1.1" />
-              <circle cx="7" cy="55" r="1.1" />
-              <circle cx="93" cy="55" r="1.1" />
-              <circle cx="17" cy="83" r="1.1" />
-              <circle cx="83" cy="83" r="1.1" />
-            </svg>
-          </div>
-          <span
-            class="about-profile__tech about-profile__tech--vue"
+        <div v-if="avatar" class="about-profile__visual">
+          <svg
+            class="about-profile__tree"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
             aria-hidden="true"
-            >Vue</span
           >
+            <path
+              class="about-profile__tree-root"
+              d="M42 50H43.5V12.5M43.5 50V87.5"
+            />
+            <path
+              v-for="(group, index) in stackGroups"
+              :key="group.id"
+              class="about-profile__tree-branch"
+              :class="{ 'is-active': activeStackBranch === group.id }"
+              :d="`M43.5 ${12.5 + index * 25}H45`"
+            />
+          </svg>
+          <span class="about-profile__tree-dot about-profile__tree-dot--root" />
           <span
-            class="about-profile__tech about-profile__tech--nuxt"
-            aria-hidden="true"
-            >Nuxt</span
-          >
-          <span
-            class="about-profile__tech about-profile__tech--shopify"
-            aria-hidden="true"
-            >Shopify</span
-          >
-          <img
-            width="420"
-            height="420"
-            :src="avatar.image"
-            :alt="avatar.alt"
-            fetchpriority="high"
-            decoding="async"
+            v-for="(group, index) in stackGroups"
+            :key="`${group.id}-dot`"
+            class="about-profile__tree-dot about-profile__tree-dot--branch"
+            :class="{ 'is-active': activeStackBranch === group.id }"
+            :style="{ left: '45%', top: `${12.5 + index * 25}%` }"
           />
+          <span
+            v-for="(group, index) in stackGroups"
+            :key="`${group.id}-signal`"
+            class="about-profile__tree-signal"
+            :class="{ 'is-active': activeStackBranch === group.id }"
+            :style="{
+              left: '43.5%',
+              top: `${12.5 + index * 25}%`,
+              '--branch-order': index,
+            }"
+          />
+          <div class="about-profile__portrait">
+            <img
+              width="420"
+              height="420"
+              :src="avatar.image"
+              :alt="avatar.alt"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+          <div
+            class="about-profile__branches"
+            role="group"
+            aria-label="Technology stack"
+          >
+            <section
+              v-for="group in stackGroups"
+              :key="group.id"
+              class="about-profile__branch"
+              :class="[
+                `about-profile__branch--${group.id}`,
+                { 'is-active': activeStackBranch === group.id },
+              ]"
+              tabindex="0"
+              role="group"
+              :aria-label="`${group.label}: ${group.items.length} technologies`"
+              @pointerenter="activateStackBranch(group.id)"
+              @pointerleave="clearStackBranch(group.id, $event)"
+              @focusin="activateStackBranch(group.id)"
+              @focusout="clearStackBranch(group.id, $event)"
+            >
+              <span class="about-profile__branch-heading">
+                <span>{{ group.label }}</span>
+                <b>{{ group.items.length.toString().padStart(2, '0') }}</b>
+              </span>
+              <span class="about-profile__branch-technologies">
+                <span
+                  v-for="(technology, index) in group.items"
+                  :key="technology.name"
+                  class="about-profile__technology-node"
+                  :style="{ '--ping-index': index }"
+                  :title="technology.name"
+                  :aria-label="technology.name"
+                >
+                  <span
+                    v-if="technology.mark"
+                    class="about-profile__technology-mark"
+                    aria-hidden="true"
+                    >{{ technology.mark }}</span
+                  >
+                  <img
+                    v-else-if="technology.asset"
+                    :src="technology.asset"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <font-awesome-icon
+                    v-else
+                    :icon="technology.icon"
+                    :style="{
+                      color: technology.color || 'var(--color-accent)',
+                    }"
+                    aria-hidden="true"
+                  />
+                  <span class="about-profile__technology-name">{{
+                    technology.name
+                  }}</span>
+                </span>
+              </span>
+            </section>
+          </div>
         </div>
       </section>
 

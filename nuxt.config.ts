@@ -24,6 +24,7 @@ export default defineNuxtConfig({
       mode: 'out-in',
     },
     head: {
+      meta: [{ name: 'freelancehunt', content: 'bc4842d34e0ac23' }],
       style: [
         {
           children:
@@ -73,27 +74,19 @@ export default defineNuxtConfig({
     shopifyBlogHandle: 'blog-post',
     shopifyPortfolioCollectionHandle: 'portfolio',
     public: {
-      siteUrl:
-        process.env.NUXT_PUBLIC_SITE_URL ||
-        process.env.VITE_SITE_URL ||
-        'https://mykolamud.pp.ua',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://mykolamud.pp.ua',
+      openWeatherApiKey: '',
       defaultOgImagePath:
         process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_PATH ||
-        process.env.VITE_DEFAULT_OG_IMAGE_PATH ||
         '/images/avatar-logo.webp',
       defaultOgImageAlt:
         process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_ALT ||
-        process.env.VITE_DEFAULT_OG_IMAGE_ALT ||
         'Mykola Mud front-end engineer portfolio social preview image',
       defaultOgImageWidth: Number(
-        process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_WIDTH ||
-          process.env.VITE_DEFAULT_OG_IMAGE_WIDTH ||
-          1200
+        process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_WIDTH || 1200
       ),
       defaultOgImageHeight: Number(
-        process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_HEIGHT ||
-          process.env.VITE_DEFAULT_OG_IMAGE_HEIGHT ||
-          630
+        process.env.NUXT_PUBLIC_DEFAULT_OG_IMAGE_HEIGHT || 630
       ),
     },
   },

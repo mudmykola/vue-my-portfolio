@@ -38,9 +38,6 @@ jsconfig.json
 postcss.config.js
 /.firebase/
 !/.vscode/
-!/.firebaserc
-!/firebase.json
-!/vite.config.js
 !/tailwind.config.js
 !/package-lock.json
 .env
